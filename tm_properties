@@ -1,0 +1,18 @@
+fontName = "Monaco"
+fontSize = 12
+encoding = "UTF-8"
+
+[ text ]
+showInvisibles = true
+softWrap = true
+
+[ text.git-commit ]
+spellChecking = true
+spellingLanguage = 'en'
+
+[ source.ruby ]
+softTabs = true
+tabSize = 2
+
+[ "{README,INSTALL,LICENSE,TODO}" ]
+fileType = "text.plain"

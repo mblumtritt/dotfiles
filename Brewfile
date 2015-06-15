@@ -1,0 +1,15 @@
+tap thoughtbot/formulae
+install git
+install git-extras
+install gnupg
+install htop-osx
+install libpqxx
+install libyaml
+install nmap
+install osxfuse
+install postgresql
+install pwgen
+install rbenv-gem-rehash
+install rcm
+install ruby-build
+install watch

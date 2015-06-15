@@ -1,0 +1,29 @@
+alias ll='ls -al'
+alias ll='ls -Al'
+alias lm='ls -al |more'
+alias lr='ls -lR'
+alias du='du -kh'
+alias path='echo -e ${PATH//:/\\n}'
+alias ...='cd ..'
+alias src='source'
+
+alias fucking='sudo'
+alias please='sudo'
+
+alias g='git'
+alias e='$EDITOR'
+
+alias rake='noglob rake'
+alias rk='noglob rake'
+alias be='bundle exec'
+alias ber='bundle exec rake'
+
+alias qlf='qlmanage -p "$@" >& /dev/null'
+
+alias iwfm='~/prj/injixo/iwfm-ruby/bin/iwfm'
+alias hkn='~/prj/hkn/bin/hkn'
+
+h () { history 0 | grep $1 }
+wo () { curl http://find/clients.txt 2>/dev/null | awk '{print $1, "\t" $3}' | grep -i "$@" | expand -t30}
+
+[[ -f ~/.aliases.local ]] && source ~/.aliases.local
