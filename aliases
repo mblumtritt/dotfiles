@@ -1,3 +1,14 @@
+# disable globbing
+alias rake='noglob rake'
+alias fc='noglob fc'
+alias find='noglob find'
+alias ftp='noglob ftp'
+alias history='noglob history'
+alias locate='noglob locate'
+alias rsync='noglob rsync'
+alias sftp='noglob sftp'
+alias git='noglob git'
+
 alias ll='ls -al'
 alias ll='ls -Al'
 alias lm='ls -al |more'
@@ -6,6 +17,8 @@ alias du='du -kh'
 alias path='echo -e ${PATH//:/\\n}'
 alias ...='cd ..'
 alias src='source'
+alias ar='soure ~/.aliases'
+alias d='dirs -v'
 
 alias fucking='sudo'
 alias please='sudo'
@@ -13,8 +26,7 @@ alias please='sudo'
 alias g='git'
 alias e='$EDITOR'
 
-alias rake='noglob rake'
-alias rk='noglob rake'
+alias rk='rake'
 alias be='bundle exec'
 alias ber='bundle exec rake'
 
@@ -24,6 +36,8 @@ alias iwfm='~/prj/injixo/iwfm-ruby/bin/iwfm'
 alias hkn='~/prj/hkn/bin/hkn'
 
 h () { history 0 | grep $1 }
-wo () { curl http://find/clients.txt 2>/dev/null | awk '{print $1, "\t" $3}' | grep -i "$@" | expand -t30}
+fn() { ls **/*$1* }
+wo() { curl http://find/clients.txt 2>/dev/null | awk '{print $1, "\t" $3}' | grep -i "$@" | expand -t30}
+theme() { source ~/.zsh/themes/$1.zsh-theme }
 
 [[ -f ~/.aliases.local ]] && source ~/.aliases.local

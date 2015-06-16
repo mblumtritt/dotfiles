@@ -33,6 +33,16 @@ setopt hist_verify
 setopt inc_append_history
 setopt share_history # share command history data
 
+# directories
+setopt auto_cd # Auto changes to a directory without typing cd.
+setopt auto_pushd # Push the old directory onto the stack on cd.
+setopt pushd_ignore_dups # Do not store duplicates in the stack.
+#setopt pushd_silent         # Do not print the directory stack after pushd or popd.
+setopt extended_glob        # Use extended globbing syntax.
+
+# jobs
+setopt notify # Report status of background jobs immediately.
+
 # env
 export PS1='%~$ '
 export GZIP=-9
@@ -46,5 +56,6 @@ export PATH="$HOME/bin:$HOME/.rbenv/bin:$PATH"
 export AWS_ACCESS_KEY_ID=`ruby -ryaml -e 'puts YAML.load_file(File.expand_path("~/.aws/config.yaml"))[:AWS_ACCESS_KEY_ID]'`
 export AWS_SECRET_ACCESS_KEY=`ruby -ryaml -e 'puts YAML.load_file(File.expand_path("~/.aws/config.yaml"))[:AWS_SECRET_ACCESS_KEY]'`
 
-PROMPT='%~ %% '
+source ~/.zsh/lib/git.zsh
+theme wezm+
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
