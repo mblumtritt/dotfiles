@@ -49,13 +49,18 @@ export GZIP=-9
 export EDITOR=mate
 export PATH="$HOME/bin:$HOME/.rbenv/bin:$PATH"
 
-# aliases
-[[ -f ~/.aliases ]] && source ~/.aliases
-
 # aws
 export AWS_ACCESS_KEY_ID=`ruby -ryaml -e 'puts YAML.load_file(File.expand_path("~/.aws/config.yaml"))[:AWS_ACCESS_KEY_ID]'`
 export AWS_SECRET_ACCESS_KEY=`ruby -ryaml -e 'puts YAML.load_file(File.expand_path("~/.aws/config.yaml"))[:AWS_SECRET_ACCESS_KEY]'`
 
+# extensions
+source ~/.aliases
+source ~/.zsh/lib/fn.zsh
 source ~/.zsh/lib/git.zsh
+source ~/.zsh/lib/h.zsh
+source ~/.zsh/lib/take.zsh
+source ~/.zsh/lib/theme.zsh
+source ~/.zsh/lib/wo.zsh
+
 theme wezm+
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi

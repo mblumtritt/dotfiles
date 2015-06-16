@@ -35,10 +35,4 @@ alias qlf='qlmanage -p "$@" >& /dev/null'
 alias iwfm='~/prj/injixo/iwfm-ruby/bin/iwfm'
 alias hkn='~/prj/hkn/bin/hkn'
 
-h () { history 0 | grep $1 }
-fn() { ls **/*$1* }
-wo() { curl http://find/clients.txt 2>/dev/null | awk '{print $1, "\t" $3}' | grep -i "$@" | expand -t30}
-theme() { source ~/.zsh/themes/$1.zsh-theme }
-take() { mkdir -p $1 && cd $1 }
-
 [[ -f ~/.aliases.local ]] && source ~/.aliases.local
