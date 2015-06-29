@@ -32,7 +32,7 @@ alias ber='noglob bundle exec rake'
 
 alias qlf='qlmanage -p "$@" >& /dev/null'
 alias cpv='rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress --'
-alias todo='mate ~/todo.md'
+alias todo='e ~/todo.md'
 
 alias iwfm='~/prj/injixo/iwfm-ruby/bin/iwfm'
 alias hkn='~/prj/hkn/bin/hkn'
