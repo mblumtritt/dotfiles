@@ -48,10 +48,8 @@ export PS1='%~$ '
 export GZIP=-9
 export EDITOR=mate
 export PATH="$HOME/bin:$HOME/.rbenv/bin:$PATH"
-
-# aws
-export AWS_ACCESS_KEY_ID=`ruby -ryaml -e 'puts YAML.load_file(File.expand_path("~/.aws/config.yaml"))[:AWS_ACCESS_KEY_ID]'`
-export AWS_SECRET_ACCESS_KEY=`ruby -ryaml -e 'puts YAML.load_file(File.expand_path("~/.aws/config.yaml"))[:AWS_SECRET_ACCESS_KEY]'`
+export AWS_ACCESS_KEY_ID=`~/.aws/key`
+export AWS_SECRET_ACCESS_KEY=`~/.aws/secret`
 
 # extensions
 source ~/.aliases
