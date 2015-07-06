@@ -30,6 +30,8 @@ alias rk='rake'
 alias be='noglob bundle exec'
 alias ber='noglob bundle exec rake'
 
+alias brewup='brew update; brew upgrade --all; brew cleanup'
+
 alias qlf='qlmanage -p "$@" >& /dev/null'
 alias cpv='rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress --'
 alias todo='e ~/todo.md'
