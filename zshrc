@@ -54,12 +54,8 @@ export BUNDLE_GEMS__INJIXO__COM=`~/.credentials injixo_gems_auth`
 
 # extensions
 source ~/.aliases
-source ~/.zsh/lib/fn.zsh
+source ~/.zsh/lib/functions.zsh
 source ~/.zsh/lib/git.zsh
-source ~/.zsh/lib/h.zsh
-source ~/.zsh/lib/take.zsh
-source ~/.zsh/lib/theme.zsh
-source ~/.zsh/lib/wo.zsh
 
 theme wezm+
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
