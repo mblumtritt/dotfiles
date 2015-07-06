@@ -18,6 +18,7 @@ alias path='echo -e ${PATH//:/\\n}'
 alias ...='cd ..'
 alias src='source'
 alias ar='source ~/.aliases'
+alias reload!='. ~/.zshrc'
 alias d='dirs -v'
 
 alias fucking='sudo'
@@ -25,6 +26,7 @@ alias please='sudo'
 
 alias g='git'
 alias e='$EDITOR'
+alias o='open'
 
 alias rk='rake'
 alias be='noglob bundle exec'
