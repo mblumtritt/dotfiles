@@ -31,6 +31,8 @@ alias be='noglob bundle exec'
 alias ber='noglob bundle exec rake'
 
 alias brewup='brew update; brew upgrade --all; brew cleanup'
+alias ip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias localip='ipconfig getifaddr en0'
 
 alias qlf='qlmanage -p "$@" >& /dev/null'
 alias cpv='rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress --'
