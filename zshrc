@@ -48,8 +48,9 @@ export PS1='%~$ '
 export GZIP=-9
 export EDITOR=mate
 export PATH="$HOME/bin:$HOME/.rbenv/bin:$PATH"
-export AWS_ACCESS_KEY_ID=`~/.aws/key`
-export AWS_SECRET_ACCESS_KEY=`~/.aws/secret`
+export AWS_ACCESS_KEY_ID=`~/.credentials aws_key`
+export AWS_SECRET_ACCESS_KEY=`~/.credentials aws_secret`
+export BUNDLE_GEMS__INJIXO__COM=`~/.credentials injixo_gems_auth`
 
 # extensions
 source ~/.aliases
