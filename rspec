@@ -1,1 +1,3 @@
---color --order rand --warnings
+--warnings
+--order rand
+--color
