@@ -47,15 +47,14 @@ setopt notify # Report status of background jobs immediately.
 export PS1='%~$ '
 export GZIP=-9
 export EDITOR=mate
-export PATH="$HOME/bin:$HOME/.rbenv/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.rbenv/bin:/usr/local/bin:$PATH"
 export AWS_ACCESS_KEY_ID=`~/.credentials aws_key`
 export AWS_SECRET_ACCESS_KEY=`~/.credentials aws_secret`
-export BUNDLE_GEMS__INJIXO__COM=`~/.credentials injixo_gems_auth`
 
 # extensions
 source ~/.aliases
 source ~/.zsh/lib/functions.zsh
 source ~/.zsh/lib/git.zsh
 
-theme wezm+
+theme wezm-me
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
