@@ -44,6 +44,7 @@
 	smudge = git lfs smudge %f
 	required = true
 [alias]
+	d = diff
 	st = status -sb
 	co = checkout
 	ci = commit
