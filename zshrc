@@ -43,6 +43,11 @@ setopt extended_glob        # Use extended globbing syntax.
 # jobs
 setopt notify # Report status of background jobs immediately.
 
+# get help
+unalias run-help
+autoload run-help
+HELPDIR=/usr/local/share/zsh/help
+
 # env
 export PS1='%~$ '
 export GZIP=-9
