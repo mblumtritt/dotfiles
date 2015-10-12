@@ -1,7 +1,7 @@
 [core]
 	editor = mate -w
 	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
-	excludesfile = ~/.gitignore
+	excludesfile = /Users/mike/.gitignore_global
 	autocrlf = input
 [credential]
 	helper = osxkeychain
@@ -53,6 +53,7 @@
 	ps = push
 	aa = add --all
 	br = !sh -c 'git branch -v $1 && git checkout $1' -
+  bl = branch -a
 	lg = log -30 --graph --decorate --pretty=format:'%h %ad %s (%an)' --date=short
 	lga = log -30 --graph --decorate --all --pretty=format:'%h %ad %s (%an)' --date=short
 	undo = reset --soft HEAD^
