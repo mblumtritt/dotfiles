@@ -44,7 +44,7 @@ alias qlf='qlmanage -p "$@" >& /dev/null'
 alias cpv='rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress --'
 alias todo='e ~/todo.md'
 
-alias iwfm='~/prj/injixo/iwfm-ruby/bin/iwfm'
+alias iwfm='~/prj/ivx/iwfm-ruby/bin/iwfm'
 alias hkn='~/prj/hkn/bin/hkn'
 
 [[ -f ~/.aliases.local ]] && source ~/.aliases.local
