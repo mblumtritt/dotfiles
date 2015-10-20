@@ -3,6 +3,12 @@
 # Save to disk (not to iCloud) by default
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 
+# don't save Metadata (.DS_Store) files on network volumes
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+
+# don't save Metadata (.DS_Store) files on USB volume
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
 defaults write com.apple.screencapture type -string "png"
 
@@ -20,4 +26,3 @@ defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
 
 # Don’t display the annoying prompt when quitting iTerm
 defaults write com.googlecode.iterm2 PromptOnQuit -bool false
-
