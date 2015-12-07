@@ -35,6 +35,7 @@ brew 'watch'
 brew 'zsh'
 brew 'thoughtbot/formulae/rcm'
 brew 'tree'
+brew 'tag'
 cask 'iterm2'
 # cask 'virtualbox'
 # cask 'vagrant'
@@ -44,3 +45,5 @@ cask 'google-chrome'
 cask 'google-drive'
 cask 'gimp'
 cask 'keka'
+
+# don't forget to `sudo dscl . change /users/$USER UserShell /bin/bash $(which zsh)`
