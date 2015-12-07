@@ -54,6 +54,7 @@
 	aa = add --all
 	br = !sh -c 'git branch -v $1 && git checkout $1' -
   bl = branch -a
+  bdel = branch -D
 	lg = log -30 --graph --decorate --pretty=format:'%h %ad %s (%an)' --date=short
 	lga = log -30 --graph --decorate --all --pretty=format:'%h %ad %s (%an)' --date=short
 	undo = reset --soft HEAD^
