@@ -17,6 +17,7 @@ alias du='du -kh'
 alias path='echo -e ${PATH//:/\\n}'
 alias ...='cd ..'
 alias src='source'
+alias ae='e ~/.aliases'
 alias ar='source ~/.aliases'
 alias reload!='. ~/.zshrc'
 alias d='dirs -v'
@@ -31,6 +32,7 @@ alias o='open'
 alias rk='rake'
 alias be='noglob bundle exec'
 alias ber='noglob bundle exec rake'
+alias bert='noglob bundle exec rake -T'
 
 alias brewup='brew update; brew upgrade --all; brew cleanup'
 
@@ -43,8 +45,7 @@ alias afk='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resource
 alias qlf='qlmanage -p "$@" >& /dev/null'
 alias cpv='rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress --'
 alias todo='e ~/todo.md'
-
-alias iwfm='~/prj/ivx/iwfm-ruby/bin/iwfm'
-alias hkn='~/prj/hkn/bin/hkn'
+alias sensors='san run sensor/ip sensor/usb sensor/airport sensor/volumes'
+alias eyes='san run logger && san run notify'
 
 [[ -f ~/.aliases.local ]] && source ~/.aliases.local
