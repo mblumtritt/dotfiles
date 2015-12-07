@@ -37,8 +37,8 @@ setopt share_history # share command history data
 setopt auto_cd # Auto changes to a directory without typing cd.
 setopt auto_pushd # Push the old directory onto the stack on cd.
 setopt pushd_ignore_dups # Do not store duplicates in the stack.
-#setopt pushd_silent         # Do not print the directory stack after pushd or popd.
-setopt extended_glob        # Use extended globbing syntax.
+setopt pushd_silent # Do not print the directory stack after pushd or popd.
+setopt extended_glob # Use extended globbing syntax.
 
 # jobs
 setopt notify # Report status of background jobs immediately.
@@ -52,9 +52,8 @@ HELPDIR=/usr/local/share/zsh/help
 export PS1='%~$ '
 export GZIP=-9
 export EDITOR=mate
-export PATH="$HOME/bin:$HOME/.rbenv/bin:/usr/local/bin:$PATH"
-export AWS_ACCESS_KEY_ID=`~/.credentials aws_key`
-export AWS_SECRET_ACCESS_KEY=`~/.credentials aws_secret`
+export PATH="/usr/local/bin:$PATH"
+export LC_ALL=$LANG
 
 # extensions
 source ~/.aliases
@@ -63,3 +62,5 @@ source ~/.zsh/lib/git.zsh
 
 theme wezm-me
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+export PATH="$HOME/bin:$PATH"
