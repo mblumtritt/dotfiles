@@ -52,7 +52,7 @@ HELPDIR=/usr/local/share/zsh/help
 export PS1='%~$ '
 export GZIP=-9
 export EDITOR=mate
-export PATH="/usr/local/bin:$PATH"
+export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 export LC_ALL=$LANG
 
 # extensions
