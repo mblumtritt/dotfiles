@@ -47,5 +47,6 @@ alias cpv='rsync -poghb --backup-dir=/tmp/rsync -e /dev/null --progress --'
 alias todo='e ~/todo.md'
 alias sensors='san run sensor/ip sensor/usb sensor/airport sensor/volumes'
 alias eyes='san run logger && san run notify'
+alias rmq='rabbitmqadmin'
 
 [[ -f ~/.aliases.local ]] && source ~/.aliases.local
