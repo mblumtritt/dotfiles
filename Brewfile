@@ -1,5 +1,6 @@
 tap 'homebrew/bundle'
 tap 'homebrew/dupes'
+tap 'homebrew/services'
 tap 'thoughtbot/formulae'
 brew 'homebrew/dupes/grep'
 brew 'homebrew/dupes/openssh'
