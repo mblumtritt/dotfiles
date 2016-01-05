@@ -54,6 +54,7 @@ export GZIP=-9
 export EDITOR=mate
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 export LC_ALL=$LANG
+export IWFM_3PTY=~/prj/ivx/3rd_party
 
 # extensions
 source ~/.aliases
