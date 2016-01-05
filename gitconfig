@@ -58,10 +58,6 @@
   amd = commit --amend
 	lg = log -30 --graph --decorate --pretty=format:'%h %ad %s (%an)' --date=short
 	lga = log -30 --graph --decorate --all --pretty=format:'%h %ad %s (%an)' --date=short
-	undo = reset --soft HEAD^
 	up = !sh -c 'git fetch origin && git rebase origin/master' -
-	create-branch = !sh -c 'git push origin HEAD:refs/heads/$1 && git fetch origin && git branch --track $1 origin/$1 && cd . && git checkout $1' -
-	delete-branch = !sh -c 'git push origin :refs/heads/$1 && git branch -D $1' -
-	merge-branch = !sh -c 'git checkout master && git merge @{-1}' -
 [include]
   path = ~/.gitconfig.local
