@@ -1,2 +1,2 @@
-EXCLUDES="README.md LICENSE Brewfile osx rbnew"
+EXCLUDES="README.md LICENSE osx rbnew"
 DOTFILES_DIRS="$HOME/dotfiles"
