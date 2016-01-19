@@ -38,6 +38,7 @@ alias brewup='brew update; brew upgrade --all; brew cleanup'
 
 alias ip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias localip='ipconfig getifaddr en0'
+alias ports='lsof -i -P | grep LISTEN'
 
 alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
