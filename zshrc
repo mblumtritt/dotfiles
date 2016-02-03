@@ -65,3 +65,5 @@ theme wezm-me
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 export PATH="$HOME/bin:$PATH"
+
+test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
