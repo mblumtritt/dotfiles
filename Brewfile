@@ -27,6 +27,7 @@ brew 'openssl'
 brew 'packer'
 brew 'pkg-config'
 brew 'postgresql'
+brew 'pgcli'
 brew 'pwgen'
 brew 'rbenv', args: ['HEAD']
 brew 'readline'
