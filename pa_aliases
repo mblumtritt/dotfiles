@@ -1,0 +1,14 @@
+--help = help
+? = help
+afk = lock
+ali = aliases
+e = prj-edit
+go = www google
+h = help
+img = www google-images
+ip = net-ip
+jb = build-trigger
+rd = ruby-doc
+tr = www --terminal dict.cc
+vid = www youtube
+wiki = www wikipedia
