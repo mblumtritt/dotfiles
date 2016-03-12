@@ -4,7 +4,6 @@
 autoload -U colors
 colors
 export LSCOLORS=dxfxcxdxbxegedabagacad
-# export LSCOLORS=Gxfxcxdxbxegedabagacad
 export CLICOLOR=1
 
 # prompt
@@ -64,6 +63,7 @@ source ~/.zsh/lib/git.zsh
 theme wezm-me
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
+# I may overwrite some things...
 export PATH="$HOME/bin:$PATH"
 
 test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
