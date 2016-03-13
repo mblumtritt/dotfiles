@@ -58,9 +58,9 @@ export IWFM_3PTY=~/prj/ivx/3rd_party
 # extensions
 source ~/.aliases
 source ~/.zsh/lib/functions.zsh
-source ~/.zsh/lib/git.zsh
+source ~/.zsh/lib/prompt.zsh
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
   # I may overwrite some things...
 export PATH="$HOME/bin:$PATH"
 test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
-theme wezm-me
+
