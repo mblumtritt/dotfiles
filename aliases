@@ -35,5 +35,3 @@ alias berta='bert -A'
 alias rcop='rubocop -D -E -S'
 alias rmq='rabbitmqadmin'
 alias todo='e ~/todo.md'
-
-[[ -f ~/.aliases.local ]] && source ~/.aliases.local
