@@ -63,4 +63,4 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
   # I may overwrite some things...
 export PATH="$HOME/bin:$PATH"
 [[ -f ~/.iterm2_shell_integration.zsh ]] && source ~/.iterm2_shell_integration.zsh
-[[ -f ~/.init.sh ]] && source ~/.init.sh
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
