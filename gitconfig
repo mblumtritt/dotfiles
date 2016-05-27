@@ -59,6 +59,7 @@
   bprune = remote update origin --prune
 	lg = log -30 --graph --decorate --pretty=format:'%h %ad %s (%an)' --date=short
 	lga = log -30 --graph --decorate --all --pretty=format:'%h %ad %s (%an)' --date=short
+  ld = log -p -1
 	up = !sh -c 'git fetch origin && git rebase origin/master' -
 [include]
   path = ~/.gitconfig.local
