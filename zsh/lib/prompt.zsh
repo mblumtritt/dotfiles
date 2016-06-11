@@ -1,7 +1,7 @@
 PROMPT='$(git_prompt_info) %(?,,%{${fg_bold[white]}%}[%?]%{$reset_color%} )%{$fg[yellow]%}λ%{$reset_color%} '
 RPROMPT='%{$fg[green]%}%~%{$reset_color%}'
 
-MY_PROMPT_PREFIX=" %{$fg[blue]%}"
+MY_PROMPT_PREFIX="$fg[blue]%} "
 MY_PROMPT_SUFFIX="%{$reset_color%}"
 MY_PROMPT_UNTRACKED="%{$fg[red]%} ☡ "
 MY_PROMPT_MODIFIED="%{$fg[red]%} ⌘ "
