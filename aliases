@@ -1,5 +1,4 @@
 # disable globbing
-alias rake='noglob rake'
 alias fc='noglob fc'
 alias find='noglob find'
 alias ftp='noglob ftp'
@@ -27,7 +26,8 @@ alias g='git'
 alias e='$EDITOR'
 alias o='open'
 
-alias rk='rake'
+alias rk='noglob rake'
+alias gr='noglob rake -g'
 alias be='noglob bundle exec'
 alias ber='be rake'
 alias bert='ber -T'
