@@ -8,6 +8,7 @@ rule '.gemspec' do |r|
   content = <<-EOF
     require File.expand_path('../lib/#{basename}/version', __FILE__)
 
+    FILES = %x(git ls-files).split($/)
     GemSpec = Gem::Specification.new do |spec|
       spec.required_rubygems_version = Gem::Requirement.new('>= 1.3.6')
       spec.platform = Gem::Platform::RUBY
@@ -25,8 +26,8 @@ rule '.gemspec' do |r|
         'issue_tracker' => 'https://github.com/mblumtritt/#{basename}/issues'
       }
       spec.require_paths = %w(lib)
-      spec.files = %x(git ls-files).split($/).delete_if{ |f| %r{^(spec|test)/} =~ f }
-      spec.test_files = %x(git ls-files).split($/).grep(%r{^(spec|test)/})
+      spec.test_files = FILES.grep(%r{^(spec|test)/})
+      spec.files = FILES - spec.test_files
       spec.has_rdoc = false
       spec.extra_rdoc_files = %w(README.md CHANGELOG.md)
       spec.add_development_dependency 'bundler', '~> 1.11'
