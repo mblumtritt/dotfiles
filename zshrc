@@ -21,26 +21,26 @@ zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} l:|=* r:|=*'
 
 # history
 HISTFILE=~/.history
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=444
+SAVEHIST=111
 setopt append_history
 setopt extended_history
 setopt hist_expire_dups_first
-setopt hist_ignore_dups # ignore duplication command history list
+setopt hist_ignore_dups
 setopt hist_ignore_space
 setopt hist_verify
 setopt inc_append_history
-setopt share_history # share command history data
+setopt share_history
 
-# directories
-setopt auto_cd # Auto changes to a directory without typing cd.
-setopt auto_pushd # Push the old directory onto the stack on cd.
-setopt pushd_ignore_dups # Do not store duplicates in the stack.
-setopt pushd_silent # Do not print the directory stack after pushd or popd.
-setopt extended_glob # Use extended globbing syntax.
+# cd & Co.
+setopt auto_cd
+setopt auto_pushd
+setopt pushd_ignore_dups
+setopt pushd_silent
+# setopt extended_glob
 
 # jobs
-setopt notify # Report status of background jobs immediately.
+setopt notify
 
 # get help
 unalias run-help
@@ -60,7 +60,7 @@ source ~/.aliases
 source ~/.zsh/lib/functions.zsh
 source ~/.zsh/lib/prompt.zsh
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-  # I may overwrite some things...
+  # I want overwrite some things...
 export PATH="$HOME/bin:$PATH"
 [[ -f ~/.iterm2_shell_integration.zsh ]] && source ~/.iterm2_shell_integration.zsh
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
