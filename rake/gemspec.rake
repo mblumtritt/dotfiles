@@ -30,8 +30,8 @@ rule '.gemspec' do |r|
       spec.files = FILES - spec.test_files
       spec.has_rdoc = false
       spec.extra_rdoc_files = %w(README.md CHANGELOG.md)
-      spec.add_development_dependency 'bundler', '~> 1.11'
-      spec.add_development_dependency 'rake', '~> 10.1', '>= 10.1.1'
+      spec.add_development_dependency 'bundler', '~> 1.12'
+      spec.add_development_dependency 'rake', '~> 11.2'
     end
   EOF
   write r.name, content
