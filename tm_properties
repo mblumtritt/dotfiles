@@ -1,6 +1,11 @@
 fontName = "Roboto Mono"
 fontSize = 12
 encoding = "UTF-8"
+searchResultsFontName = "Roboto Mono"
+searchResultsFontSize = 12
+excludeInFolderSearch = "{$excludeInFolderSearch,pkg/*,tmp/*,log/*}"
+excludeInFileChooser = "{$excludeInFileChooser,pkg/*,tmp/*,log/*}"
+include = "{$include,.tm_properties,.htaccess,.configuration,.gitignore,.ruby*,.rubocop.yml}"
 
 [ text ]
 showInvisibles = true
@@ -11,6 +16,7 @@ spellChecking = true
 spellingLanguage = 'en'
 
 [ source.ruby ]
+softWrap = false
 softTabs = true
 tabSize = 2
 
