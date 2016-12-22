@@ -8,9 +8,7 @@ alias rsync='noglob rsync'
 alias sftp='noglob sftp'
 alias git='noglob git'
 
-alias ll='ls -al'
 alias ll='ls -Al'
-alias lm='ls -al |more'
 alias lr='ls -lR'
 alias du='du -kh'
 alias path='echo -e ${PATH//:/\\n}'
@@ -32,7 +30,6 @@ alias ber='be rake'
 alias bert='ber -T'
 alias berta='bert -A'
 alias rcop='rubocop -D -E -S'
-alias rmq='rabbitmqadmin'
 alias todo='e ~/todo.md'
 
 alias dco=docker-compose
