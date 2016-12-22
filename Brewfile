@@ -40,6 +40,7 @@ brew 'rbenv', args: ['HEAD']
 brew 'readline'
 brew 'ruby-build'
 brew 'ruby-install'
+brew 'scons'
 brew 'spark'
 brew 'tag'
 brew 'terminal-notifier'
