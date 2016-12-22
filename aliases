@@ -15,7 +15,6 @@ alias lr='ls -lR'
 alias du='du -kh'
 alias path='echo -e ${PATH//:/\\n}'
 alias ...='cd ..'
-alias ae='e ~/.aliases'
 alias ar='source ~/.aliases'
 alias reload!='. ~/.zshrc'
 
@@ -35,3 +34,5 @@ alias berta='bert -A'
 alias rcop='rubocop -D -E -S'
 alias rmq='rabbitmqadmin'
 alias todo='e ~/todo.md'
+
+alias dco=docker-compose
