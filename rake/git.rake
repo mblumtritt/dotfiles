@@ -12,6 +12,6 @@ module Git
   end
 
   def self.check_repo(name)
-    fail "nu such repo - #{name}" unless repo?(name)
+    fail "no such repo - #{name}" unless repo?(name)
   end
 end
