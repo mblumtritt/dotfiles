@@ -43,7 +43,6 @@ setopt pushd_silent
 setopt notify
 
 # get help
-unalias run-help
 autoload run-help
 HELPDIR=/usr/local/share/zsh/help
 
@@ -59,6 +58,7 @@ source ~/.aliases
 [[ -f ~/.aliases.local ]] && source ~/.aliases.local
 source ~/.zsh/lib/functions.zsh
 source ~/.zsh/lib/prompt.zsh
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
   # I want overwrite some things...
 export PATH="$HOME/bin:$PATH"
