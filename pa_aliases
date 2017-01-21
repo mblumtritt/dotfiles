@@ -7,3 +7,4 @@ go = web-find google
 img = web-find google-images
 vid = web-find youtube
 wiki = web-find wikipedia
+alpha = web-find alpha
