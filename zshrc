@@ -53,6 +53,10 @@ export PS1='%~$ '
 export EDITOR=mate
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH:/usr/local/opt/go/libexec/bin"
 
+# key bindings
+bindkey "^[[A" history-beginning-search-backward
+bindkey "^[[B" history-beginning-search-forward
+
 # extensions
 source ~/.aliases
 [[ -f ~/.aliases.local ]] && source ~/.aliases.local
