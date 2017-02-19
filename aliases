@@ -13,7 +13,6 @@ alias e='$EDITOR'
 alias o='open'
 alias g='git'
 
-alias -s rb=e
 alias -s log="less -MN"
 
 alias rk='noglob rake'
