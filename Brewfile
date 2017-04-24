@@ -41,6 +41,7 @@ brew 'rbenv', args: ['HEAD']
 brew 'readline'
 brew 'ruby-build'
 brew 'ruby-install'
+brew 'ripgrep'
 brew 'scons'
 brew 'spark'
 brew 'tag'
