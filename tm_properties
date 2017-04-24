@@ -9,7 +9,7 @@ include = "{$include,.tm_properties,.htaccess,.configuration,.gitignore,.ruby*,.
 
 [ text ]
 showInvisibles = true
-softWrap = true
+softWrap = false
 
 [ text.git-commit ]
 spellChecking = true
