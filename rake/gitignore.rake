@@ -6,6 +6,5 @@ rule '.gitignore' do |r|
     tmp/
     local/
     pkg/
-    coverage/
   EOF
 end

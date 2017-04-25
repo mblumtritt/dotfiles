@@ -5,8 +5,8 @@ rule %r(Gemfile$) do |r|
   content = if Dir['*.gemspec'].empty?
     <<-EOF
       source 'https://rubygems.org' do
-        gem 'bundler', '>= 1.12.5'
-        gem 'rake', '>= 11.2.2'
+        gem 'bundler'
+        gem 'rake'
       end
     EOF
   else
