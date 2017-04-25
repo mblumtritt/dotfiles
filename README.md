@@ -21,12 +21,10 @@ Install [rcm](https://github.com/thoughtbot/rcm):
 
 Install:
 
-    rcup -d dotfiles -x README.md -x LICENSE
+    ln -s dotfiles/rcrc ~/.rcrc
+    rcup -d dotfiles
 
-This will create symlinks for config files in your home directory. The
-`-x` options, which exclude the `README.md` and `LICENSE` files, are
-needed during installation but can be skipped once the `.rcrc`
-configuration file is symlinked in.
+This will create a symlink for the 'rcrc' file first - which contains the default configuration. The second command creates then symlinks for config files in your home directory. The `-x` option, which exclude the `README.md` file, are needed during installation but can be skipped once the `.rcrc` configuration file is symlinked in.
 
 You can safely run `rcup` multiple times to update:
 
@@ -38,7 +36,5 @@ Make your own customizations
 Put your customizations in dotfiles appended with `.local`:
 
 * `~/.aliases.local`
-* `~/.gitconfig.local`
-* `~/.vimrc.local`
-* `~/.vimrc.bundles.local`
 * `~/.zshrc.local`
+* `~/.gitconfig.local`
