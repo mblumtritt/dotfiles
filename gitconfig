@@ -63,3 +63,6 @@
 	up = !sh -c 'git fetch origin && git rebase origin/master' -
 [include]
   path = ~/.gitconfig.local
+[user]
+	name = Mike Blumtritt
+	email = mblumtritt@users.noreply.github.com
