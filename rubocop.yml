@@ -30,11 +30,9 @@ Style/ClassCheck:
   EnforcedStyle: is_a?
 Style/CommandLiteral:
   EnforcedStyle: percent_x
-Style/AlignParameters:
-  EnforcedStyle: with_fixed_indentation
-Style/SpaceInsideHashLiteralBraces:
+Layout/SpaceInsideHashLiteralBraces:
   EnforcedStyle: no_space
-Style/SpaceBeforeBlockBraces:
+Layout/SpaceBeforeBlockBraces:
   EnforcedStyle: no_space
 Style/CaseEquality:
   Enabled: false
