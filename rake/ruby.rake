@@ -17,16 +17,16 @@ module Ruby
   def self.file_content(file_name)
     content(find_module_name(file_name), find_class_name(file_name))
   end
-  
+
   def self.content(module_name, class_name)
     return class_file(class_name) unless module_name
     return module_file(module_name) if class_name == module_name
     return version_file(module_name) if class_name == 'Version'.freeze
     mod_class_file(module_name, class_name)
   end
-  
+
   def self.version_file(module_name)
-    <<-EOF
+    <<~EOF
       module #{module_name}
         VERSION = '0.0.1'.freeze
       end
@@ -34,7 +34,7 @@ module Ruby
   end
 
   def self.class_file(class_name)
-    <<-EOF
+    <<~EOF
       class #{class_name}
         # TODO class body
       end
@@ -42,7 +42,7 @@ module Ruby
   end
 
   def self.module_file(module_name)
-    <<-EOF
+    <<~EOF
       module #{module_name}
         # TODO module body
       end
@@ -50,7 +50,7 @@ module Ruby
   end
 
   def self.mod_class_file(module_name, class_name)
-    <<-EOF
+    <<~EOF
       module #{module_name}
         class #{class_name}
           # TODO class body

@@ -5,7 +5,7 @@ rule '.gemspec' do |r|
   basename  = File.basename(r.name, '.gemspec')
   gemname = basename.split(%r([-_])).map!(&:capitalize).join
   File.file?("./lib/#{basename}/version.rb") or fail 'file not found - version.rb'
-  content = <<-EOF
+  content = <<~EOF
     require File.expand_path('../lib/#{basename}/version', __FILE__)
 
     GemSpec = Gem::Specification.new do |spec|

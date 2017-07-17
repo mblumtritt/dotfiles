@@ -3,14 +3,14 @@ task gemfile: './Gemfile'
 
 rule %r(Gemfile$) do |r|
   content = if Dir['*.gemspec'].empty?
-    <<-EOF
+    <<~EOF
       source 'https://rubygems.org' do
         gem 'bundler'
         gem 'rake'
       end
     EOF
   else
-    <<-EOF
+    <<~EOF
       source 'https://rubygems.org' do
         gemspec
       end

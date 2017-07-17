@@ -1,8 +1,12 @@
 desc 'create default Rakefile'
-task rakefile: './Rakefile'
+task rakefile: './rakefile'
 
-rule %r(Rakefile$) do |r|
-  write r.name, <<-EOF
+rule %r(rakefile$) do |r|
+  write r.name, <<~EOF
     STDOUT.sync = STDERR.sync = true
+
+    task :default do
+      exec('rake -T')
+    end
   EOF
 end
