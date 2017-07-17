@@ -62,6 +62,7 @@ bindkey "\e[A" history-beginning-search-backward-end
 bindkey "\e[B" history-beginning-search-forward-end
 
 # extensions
+[[ -f ~/.iterm2_shell_integration.zsh ]] && source ~/.iterm2_shell_integration.zsh
 source ~/.aliases
 [[ -f ~/.aliases.local ]] && source ~/.aliases.local
 source ~/.zsh/lib/functions.zsh
@@ -70,5 +71,4 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
   # I want overwrite some things...
 export PATH="$HOME/bin:$PATH"
-[[ -f ~/.iterm2_shell_integration.zsh ]] && source ~/.iterm2_shell_integration.zsh
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
