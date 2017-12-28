@@ -35,3 +35,6 @@ defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 
 echo "Google: allow updates only every 14 days"
 defaults write com.google.Keystone.Agent checkInterval 1209600
+
+echo "Enable TAB to select all controls in dialogs"
+defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
