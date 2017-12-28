@@ -9,7 +9,7 @@ rule '.gemspec' do |r|
     require File.expand_path('../lib/#{basename}/version', __FILE__)
 
     GemSpec = Gem::Specification.new do |spec|
-      all_files = %x(git ls-files).split($/)
+      all_files = %x(git ls-files -z).split("\x0")
       spec.required_rubygems_version = Gem::Requirement.new('>= 1.3.6')
       spec.platform = Gem::Platform::RUBY
       spec.required_ruby_version = '>= 2.0.0'
