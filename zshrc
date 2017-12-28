@@ -8,16 +8,11 @@ export CLICOLOR=1
 
 # prompt
 setopt prompt_subst
-setopt prompt_percent
-autoload -U promptinit
-promptinit
+autoload -U promptinit && promptinit
 
 # completion
-autoload -U compinit
+autoload -U compinit && compinit
 autoload -U complist
-compinit
-zstyle ':completion:*' completer _complete _ignored
-zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} l:|=* r:|=*'
 
 # history
 HISTFILE=~/.history
@@ -37,7 +32,6 @@ setopt auto_cd
 setopt auto_pushd
 setopt pushd_ignore_dups
 setopt pushd_silent
-# setopt extended_glob
 
 # jobs
 setopt notify
@@ -47,11 +41,15 @@ autoload run-help
 HELPDIR=/usr/local/share/zsh/help
 
 # env
-export LC_ALL=$LANG
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 export GZIP=-9
 export PS1='%~$ '
 export EDITOR=mate
-export GOPATH=$HOME/prj/go
+export GOPATH="$HOME/prj/go"
+# export IWFM_3PTY="$HOME/prj/ivx/3rd_party"
+export IWFM_3PTY='Z:\Users\mike\prj\ivx\3rd_party'
+export VSINSTALLDIR='Z:\Users\mike\prj\ivx\3rd_party\msvs8'
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH:/usr/local/opt/go/libexec/bin"
 
 # allow to search trough history
