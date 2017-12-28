@@ -18,6 +18,7 @@ alias -s log="less -MN"
 alias rk='noglob rake'
 alias gr='noglob rake -g'
 alias be='noglob bundle exec'
+alias bu='bundle update'
 alias ber='be rake'
 alias bert='ber -T'
 alias berta='bert -A'
