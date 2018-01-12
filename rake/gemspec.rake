@@ -6,28 +6,39 @@ rule '.gemspec' do |r|
   gemname = basename.split(%r([-_])).map!(&:capitalize).join
   File.file?("./lib/#{basename}/version.rb") or fail 'file not found - version.rb'
   content = <<~EOF
+    # frozen_string_literal: true
+
     require File.expand_path('../lib/#{basename}/version', __FILE__)
 
     GemSpec = Gem::Specification.new do |spec|
-      all_files = %x(git ls-files -z).split("\x0")
-      spec.required_rubygems_version = Gem::Requirement.new('>= 1.3.6')
-      spec.platform = Gem::Platform::RUBY
-      spec.required_ruby_version = '>= 2.0.0'
-      spec.name = spec.rubyforge_project = '#{basename}'
+      spec.name = '#{basename}'
       spec.version = #{gemname}::VERSION
       spec.summary = 'The new gem #{gemname}.'
-      spec.description = 'This gem has no description yet.'
+      spec.description = spec.summary
       spec.author = 'Mike Blumtritt'
       spec.email = 'mike.blumtritt@invision.de'
       spec.homepage = 'https://github.com/mblumtritt/#{basename}'
       spec.metadata = {'issue_tracker' => 'https://github.com/mblumtritt/#{basename}/issues'}
-      spec.require_paths = %w[lib]
-      spec.test_files = all_files.grep(%r{^(spec|test)/})
-      spec.files = all_files - spec.test_files
-      spec.has_rdoc = false
-      spec.extra_rdoc_files = %w[README.md]
+      spec.rubyforge_project = spec.name
+
+      # spec.add_runtime_dependency 'todo'
       spec.add_development_dependency 'bundler'
       spec.add_development_dependency 'rake'
+
+      spec.platform = Gem::Platform::RUBY
+      spec.required_rubygems_version = Gem::Requirement.new('>= 1.3.6')
+      spec.required_ruby_version = '>= 2.0.0'
+
+      spec.require_paths = %w[lib]
+      # spec.bindir = 'bin'
+      # spec.executables = %w[#{basename}]
+
+      all_files = %x(git ls-files -z).split("\x0")
+      spec.test_files = all_files.grep(%r{^(spec|test)/})
+      spec.files = all_files - spec.test_files
+
+      spec.has_rdoc = false
+      spec.extra_rdoc_files = %w[README.md]
     end
   EOF
   write r.name, content

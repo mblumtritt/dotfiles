@@ -4,6 +4,8 @@ task gemfile: './Gemfile'
 rule %r(Gemfile$) do |r|
   content = if Dir['*.gemspec'].empty?
     <<~EOF
+      # frozen_string_literal: true
+
       source 'https://rubygems.org' do
         gem 'bundler'
         gem 'rake'
@@ -11,6 +13,8 @@ rule %r(Gemfile$) do |r|
     EOF
   else
     <<~EOF
+      # frozen_string_literal: true
+
       source 'https://rubygems.org' do
         gemspec
       end
