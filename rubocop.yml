@@ -38,7 +38,7 @@ Style/CaseEquality:
   Enabled: false
 Style/ParallelAssignment:
   Enabled: false
-Style/FileName:
+Naming/FileName:
   Enabled: false
 Style/SignalException:
   EnforcedStyle: only_raise
