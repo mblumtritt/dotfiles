@@ -1,4 +1,4 @@
 .DS_Store
-local/
-pkg/
 .bundle/
+pkg/
+_local/
