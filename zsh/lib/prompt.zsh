@@ -1,17 +1,16 @@
-PROMPT='$(git_prompt_info) %(?,,%{${fg_bold[white]}%}[%?]%{$reset_color%} )%{$fg[yellow]%}λ%{$reset_color%} '
-RPROMPT='%{$fg[green]%}%~%{$reset_color%}'
-
-GIT_PROMPT_PREFIX="$fg[blue]%} "
-GIT_PROMPT_SUFFIX="%{$reset_color%}"
-GIT_PROMPT_UNTRACKED="%{$fg[red]%} ☡ "
-GIT_PROMPT_MODIFIED="%{$fg[red]%} ⌘ "
-GIT_PROMPT_RENAMED="%{$fg[red]%} ❢ "
-GIT_PROMPT_DELETED="%{$fg[red]%} ⏏ "
-GIT_PROMPT_STASHED="%{$fg[yellow]%} ♲ "
-GIT_PROMPT_UNMERGED="%{$fg[red]%} ✗ "
-GIT_PROMPT_AHEAD="%{$fg_bold[red]%} → "
-GIT_PROMPT_BEHIND="%{$fg_bold[red]%} ← "
-GIT_PROMPT_DIVERGED="%{$fg_bold[red]%} ↔︎ "
+PROMPT='%K{black}%F{white} %~%f %F{yellow}$(git_prompt_info)%f$ERROR_PROMPT%k%F{black}⮀%f'
+ERROR_PROMPT="%(?,, ⎮%B%F{white}%?%f%b⎮ )"
+GIT_PROMPT_PREFIX=""
+GIT_PROMPT_SUFFIX="" # "%{$reset_color%}"
+GIT_PROMPT_UNTRACKED=" ☡ "
+GIT_PROMPT_MODIFIED=" ⌘ "
+GIT_PROMPT_RENAMED=" ❢ "
+GIT_PROMPT_DELETED=" ⏏ "
+GIT_PROMPT_STASHED=" ♲ "
+GIT_PROMPT_UNMERGED=" ✗ "
+GIT_PROMPT_AHEAD=" → "
+GIT_PROMPT_BEHIND=" ← "
+GIT_PROMPT_DIVERGED=" ↔︎ "
 
 function git_prompt_info() {
 	local REF=$(command git symbolic-ref HEAD 2> /dev/null) || \
@@ -22,7 +21,7 @@ function git_prompt_info() {
 
 function git_prompt_status() {
 	local INDEX=$(command git status --porcelain -b 2> /dev/null)
-	local STATUS=""
+	local STATUS=" "
 	if $(echo "$INDEX" | command grep -E '^\?\? ' &> /dev/null)
 	then
 	  STATUS="$GIT_PROMPT_UNTRACKED$STATUS"
