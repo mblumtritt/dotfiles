@@ -3,8 +3,9 @@ task gitignore: '.gitignore'
 
 rule '.gitignore' do |r|
   write r.name, <<~EOF
+    _local/
     tmp/
-    local/
     pkg/
+    gems.locked
   EOF
 end

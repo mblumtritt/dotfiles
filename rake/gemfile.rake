@@ -1,7 +1,7 @@
 desc 'create default Gemfile'
-task gemfile: './Gemfile'
+task gemfile: './gems.rb'
 
-rule %r(Gemfile$) do |r|
+rule %r(gems.rb$) do |r|
   content = if Dir['*.gemspec'].empty?
     <<~EOF
       # frozen_string_literal: true

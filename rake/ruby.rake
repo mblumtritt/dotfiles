@@ -5,7 +5,7 @@ task :ruby, [:name] do |t, args|
   want :git, name
   want "#{name}/lib/#{basename}.rb"
   want "#{name}/lib/#{basename}/version.rb"
-  want "#{name}/Gemfile"
+  want "#{name}/gems.rb"
 end
 
 rule '.rb' do |r|
