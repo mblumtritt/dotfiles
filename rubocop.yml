@@ -2,7 +2,7 @@ AllCops:
   DisplayCopNames: true
   DisplayStyleGuide: true
   Exclude:
-    - 'local/**/*'
+    - '_local/**/*'
     - 'pkg/**/*'
     - 'tmp/**/*'
     - 'spec/**/*'
