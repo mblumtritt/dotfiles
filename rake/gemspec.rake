@@ -27,13 +27,13 @@ rule '.gemspec' do |r|
 
       spec.platform = Gem::Platform::RUBY
       spec.required_rubygems_version = Gem::Requirement.new('>= 1.3.6')
-      spec.required_ruby_version = '>= 2.0.0'
+      spec.required_ruby_version = '>= 2.5.0'
 
       spec.require_paths = %w[lib]
       # spec.bindir = 'bin'
       # spec.executables = %w[#{basename}]
 
-      all_files = %x(git ls-files -z).split("\x0")
+      all_files = %x(git ls-files -z).split(0.chr)
       spec.test_files = all_files.grep(%r{^(spec|test)/})
       spec.files = all_files - spec.test_files
 
