@@ -9,7 +9,7 @@ include = "{$include,.tm_properties,.htaccess,.configuration,.gitignore,.ruby*,.
 
 [ text ]
 showInvisibles = true
-softWrap = false
+softWrap = true
 
 [ text.git-commit ]
 spellChecking = true
@@ -17,6 +17,7 @@ spellingLanguage = 'en'
 
 [ source.ruby ]
 softWrap = false
+showInvisibles = true
 softTabs = true
 tabSize = 2
 
