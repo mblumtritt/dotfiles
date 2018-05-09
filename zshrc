@@ -54,6 +54,7 @@ export EDITOR=atom
 export EDITOR=mate
 export GOPATH=$HOME/prj/go
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH:/usr/local/opt/go/libexec/bin"
+export RACK_ENV=development
 
 # allow to search trough history
 autoload -U history-search-end
