@@ -50,7 +50,6 @@ HELPDIR=/usr/local/share/zsh/help
 export LC_ALL=$LANG
 export GZIP=-9
 export PS1='%~$ '
-export EDITOR=atom
 export EDITOR=mate
 export GOPATH=$HOME/prj/go
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH:/usr/local/opt/go/libexec/bin"
@@ -73,5 +72,5 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 if which exenv > /dev/null; then eval "$(exenv init -)"; fi
   # I want overwrite some things...
 export PATH="$HOME/bin:$PATH"
-[[ -f ~/.iterm2_shell_integration.zsh ]] && source ~/.iterm2_shell_integration.zsh<
+[[ -f ~/.iterm2_shell_integration.zsh ]] && source ~/.iterm2_shell_integration.zsh
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
