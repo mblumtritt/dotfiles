@@ -51,6 +51,7 @@ export LC_ALL=$LANG
 export GZIP=-9
 export PS1='%~$ '
 export EDITOR=atom
+export EDITOR=mate
 export GOPATH=$HOME/prj/go
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH:/usr/local/opt/go/libexec/bin"
 
