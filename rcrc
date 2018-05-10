@@ -1,2 +1,0 @@
-EXCLUDES="README.md Brewfile init-macos init-ruby"
-DOTFILES_DIRS="$HOME/dotfiles"
