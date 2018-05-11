@@ -1,10 +1,20 @@
 #! /bin/sh
 
-set -ex
+set -e
+
 readonly DOTFILE_DIR="$HOME/.usr/dotfiles"
+
 mkdir -p "$DOTFILE_DIR"
 mkdir -p "$DOTFILE_DIR/../bin"
+
 git clone "https://github.com/mblumtritt/dotfiles" "$DOTFILE_DIR"
-pushd "$DOTFILE_DIR"
-./link.sh
-popd
+
+"$DOTFILE_DIR/link.sh"
+
+if test "$(uname -s)" = "Darwin"
+then
+	"$DOTFILE_DIR/init-homwbrew.sh"
+	"$DOTFILE_DIR/init-macos.sh"
+fi
+
+"$DOTFILE_DIR/init-ruby.sh"
