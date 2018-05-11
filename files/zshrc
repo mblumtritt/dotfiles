@@ -63,7 +63,7 @@ setopt notify
 setopt long_list_jobs
 
 # define some behaviour
-export PATH="$HOME/.bin:$PATH:/usr/local/opt/go/libexec/bin"
+export PATH="$HOME/.usr/bin:$PATH:/usr/local/opt/go/libexec/bin"
 export EDITOR="mate -w"
 export GZIP=-9
 export GOPATH=$HOME/prj/go
