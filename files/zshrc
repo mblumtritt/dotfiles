@@ -74,4 +74,5 @@ source ~/.aliases
 source_if_exists ~/.aliases.local
 source_if_exists ~/.iterm2_shell_integration.zsh
 command -v exenv >/dev/null 2>&1 && { eval "$(exenv init -)"; }
+command -v rbenv >/dev/null 2>&1 && { eval "$(rbenv init -)"; }
 source_if_exists ~/.zshrc.local
