@@ -1,0 +1,14 @@
+#! /bin/bash
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "usage: ${0##*/} <url>
+
+Display a file from given <url>.
+"
+elif [ $# = 0 ]; then
+	(>&2 echo "${0##*/}: <address> missing")
+	exit 1
+else
+	curl -s -L -N "$@"
+fi
