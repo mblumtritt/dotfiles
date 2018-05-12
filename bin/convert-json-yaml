@@ -1,0 +1,7 @@
+#! /usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'yaml'
+require 'json'
+
+YAML.dump(JSON.parse($stdin.read), $stdout)
