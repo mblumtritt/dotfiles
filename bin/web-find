@@ -1,0 +1,43 @@
+#! /bin/sh
+
+set -e
+
+case "$1" in
+-h|--help)
+	echo "usage: ${0##*/} [<engine>] <phrase>
+
+Use a web serach <engine> to find a <phrase>.
+
+Valid engines are:
+  -a | --alpha       Wolfram Alpha
+  -d | --dict        Leo dictionary GE/EN
+  -g | --google      Google search
+  -i | --image       Google image search
+	-v | --video       YouTube video search
+	-w | --wikipedia   Wikipedia article search
+"
+	exit 0
+  ;;
+-a|--alpha)
+   printf 'https://www.wolframalpha.com/input/?i=%s' "$2"
+  ;;
+-d|--dict)
+   printf 'https://pocket.dict.cc/?s=%s' "$2"
+  ;;
+-g|--google)
+  printf 'https://www.google.de/search?hl=de&as_q=%s&&as_qdr=all&as_occt=any&num=100' "$2"
+  ;;
+-i|--image)
+  printf 'https://www.google.de/search?q=%s&source=lnms&tbm=isch&sa=X&ei=qWBvVcrKMYWAUa3BgZAF&ved=0CAgQ_AUoAg&biw=1075&bih=728' "$2"
+  ;;
+-v|--video)
+  printf 'https://www.youtube.com/results?search_query=%s' "$2"
+  ;;
+-w|--wikipedia)
+  printf 'https://de.wikipedia.org/w/index.php?fulltext=1&search=%s' "$2"
+  ;;
+*)
+	(>&2 echo "${0##*/}: no such engine - $1")
+	exit 1
+  ;;
+esac
