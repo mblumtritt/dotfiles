@@ -8,7 +8,7 @@ def mkdir_for(file_name)
 end
 
 def write(file_name, content)
-  mkdir_for(file_name)
   puts "write #{file_name}"
+  mkdir_for(file_name)
   IO.write(file_name, content)
 end

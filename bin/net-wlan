@@ -1,0 +1,22 @@
+#! /bin/sh
+
+set -e
+
+case "$1" in
+on|1)
+  networksetup -setairportpower en0 on
+  ;;
+off|0)
+  networksetup -setairportpower en0 off
+  ;;
+reconnect|re)
+  networksetup -setairportpower en0 off
+  networksetup -setairportpower en0 on
+  ;;
+*)
+  echo "usage: ${0##*/} on|off|re
+
+Switch WLAN on, off or reconnect.
+"
+  ;;
+esac

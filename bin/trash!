@@ -1,0 +1,15 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "usage: ${0##*/}
+
+Empty trash bin and cleanup all other trash too. (May require password.)
+"
+else
+  sudo rm -rfv /Volumes/*/.Trashes
+  sudo rm -rfv ~/.Trash
+  sudo rm -rfv /private/var/log/asl/*.asl
+  brew cleanup
+  gem cleanup
+fi

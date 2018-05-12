@@ -1,13 +1,24 @@
-#!/usr/bin/env bash
+#! /bin/sh
 
-echo "General: save to disk (not to iCloud) by default"
-defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+set -e
+
+if [ "$SHELL" != "$(which zsh)" ]
+then
+	echo "Shell: use zsh"
+	chsh -s "$(which zsh)"
+fi
+
+echo "General: enable TAB to select all controls in dialogs"
+defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
 echo "General: don't save Metadata (.DS_Store) files on network volumes"
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 
 echo "General: don't save Metadata (.DS_Store) files on USB volume"
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
+echo "General: save to disk (not to iCloud) by default"
+defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 
 echo "General: save screenshots in PNG format"
 defaults write com.apple.screencapture type -string "png"
@@ -35,6 +46,3 @@ defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 
 echo "Google: allow updates only every 14 days"
 defaults write com.google.Keystone.Agent checkInterval 1209600
-
-echo "Enable TAB to select all controls in dialogs"
-defaults write NSGlobalDomain AppleKeyboardUIMode -int 3

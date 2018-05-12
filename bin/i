@@ -1,0 +1,92 @@
+#! /usr/bin/env ruby
+# frozen_string_literal: true
+
+BIN_DIR = File.expand_path('~/.usr/bin')
+
+def help
+  puts('usage: i <command> [options]', nil, 'valid commands:')
+  Dir.glob(File.join(BIN_DIR, '*')).sort!.each{ |cmd| puts('  ' + File.basename(cmd)) }
+  exit 0
+end
+
+def help?(str)
+  str == 'help' || str == 'h' || str == '-h' || str == '--help'
+end
+
+help if ARGV.empty?
+command = ARGV.shift
+help if ARGV.empty? && help?(command)
+
+def matrix_for(str)
+  [
+    [str[0], str[1], str[2], str[3]],
+    [str[0, 2], str[2], str[3]],
+    [str[0], str[1, 2], str[3]],
+    [str[0], str[1], str[2, 2]],
+    [str[0, 2], str[2, 2]],
+    [str[0, 3], str[3]],
+    [str[0], str[1, 3]],
+    [str[0, 4]]
+  ].each do |ary|
+    ary.delete_if{ |s| s.nil? || s.empty? }
+  end.uniq.sort_by(&:size)
+end
+
+def best_matching_command(str)
+  guess = File.join(BIN_DIR, str)
+  return guess if File.file?(guess)
+  maybe = []
+  matrix_for(str).each do |ary|
+    guess = Dir.glob(File.join(BIN_DIR, ary.join('*-') + '*')).delete_if{ |s| s.count('-') > ary.size }
+    return guess[0] if guess.size == 1
+    maybe += guess
+  end
+  maybe.uniq!
+  return nil if maybe.empty?
+  1.upto(3) do |i|
+    shortest = maybe.select{ |name| File.basename(name).count('-') == i }
+    return shortest[0] if shortest.size == 1
+  end
+  maybe.sort!
+end
+
+def which?(str)
+  str == 'which' || str == 'w' || str == '-w' || str == '--which'
+end
+
+def which(str)
+  found = best_matching_command(str)
+  if found.nil?
+    puts("#{str} not found")
+    exit 1
+  end
+  if Array === found
+    puts("#{str} is not bijective", 'did you mean:')
+    found.each{ |cmd| puts('  ' + File.basename(cmd)) }
+    exit 1
+  end
+  puts(found)
+  exit 0
+end
+
+def command(str)
+  found = best_matching_command(str)
+  if found.nil?
+    $stderr.puts("no such command - #{str}")
+    exit 1
+  end
+  if Array === found
+    $stderr.puts("non-bijective command - #{str}")
+    puts('did you mean:')
+    found.each{ |cmd| puts('  ' + File.basename(cmd)) }
+    exit 1
+  end
+  found
+end
+
+if ARGV.size == 1
+  which(ARGV[0]) if which?(command)
+  exec(command(ARGV[0]), '--help') if help?(command)
+end
+
+exec(command(command), *ARGV)

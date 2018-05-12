@@ -1,0 +1,15 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "usage: ${0##*/}
+
+Execute given command for each installed ruby version.
+"
+else
+	trap "exit 1" INT
+	for ruby in $(rbenv versions --bare)
+	do
+		RBENV_VERSION="$ruby" rbenv-exec "$@"
+	done
+fi

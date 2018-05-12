@@ -1,0 +1,11 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "usage: ${0##*/}
+
+Watch StarWars in ASCII from blinkenlights.nl
+"
+else
+  ncat towel.blinkenlights.nl 23
+fi

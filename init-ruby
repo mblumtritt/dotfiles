@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-gem install bundler
-rbenv rehash
-gem install rake pry terminal-notifier

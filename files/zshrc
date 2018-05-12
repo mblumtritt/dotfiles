@@ -1,0 +1,78 @@
+source ~/.zsh/lib/functions.zsh # load helper functions
+
+# setup language
+export LANG=en_GB.utf-8
+export LC_ALL=en_GB.utf-8
+
+[[ -o interactive ]] && {
+	# setup history
+	export HISTFILE=~/.histfile
+	export HISTSIZE=10000
+	export SAVEHIST=10000
+	setopt hist_ignore_dups      # no duplicated history entries
+	setopt hist_ignore_space     # ignore commands starting with space
+	setopt append_history
+	setopt extended_history      # history contains timestamps
+	setopt no_inc_append_history # history is only updated after closing zsh
+	setopt share_history         # history is shared between zsh processes
+	# history search:
+	autoload -U history-search-end
+	zle -N history-beginning-search-backward-end history-search-end
+	zle -N history-beginning-search-forward-end history-search-end
+	bindkey "\e[A" history-beginning-search-backward-end
+	bindkey "\e[B" history-beginning-search-forward-end
+
+	# setup completion
+	autoload -U compinit
+	autoload -U complist
+	compinit
+	zstyle ':completion:*' completer _complete _ignored
+	zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} l:|=* r:|=*'
+	setopt no_list_ambiguous # show completion list when completion is inserted
+	setopt no_cdablevars # do not expand cdable variables
+
+	# setup edit
+	autoload -z edit-command-line
+	zle -N edit-command-line
+	bindkey '^X^E' edit-command-line
+
+	# setup cd & Co.
+	setopt auto_cd
+	setopt auto_pushd
+	setopt pushd_ignore_dups
+	setopt pushd_silent
+
+	# setup prompt
+	setopt prompt_subst
+	setopt prompt_percent
+	autoload -U promptinit
+	promptinit
+	export PS1='%~$ '
+	source ~/.zsh/lib/prompt.zsh
+}
+
+# setup colors
+autoload -U colors
+colors
+export LSCOLORS=dxfxcxdxbxegedabagacad
+export CLICOLOR=1
+[[ -o interactive ]] && source_if_exists /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# setup jobs
+setopt notify
+setopt long_list_jobs
+
+# define some behaviour
+export PATH="$HOME/.usr/bin:$PATH:/usr/local/opt/go/libexec/bin"
+export EDITOR="mate -w"
+export GZIP=-9
+export GOPATH=$HOME/prj/go
+export RACK_ENV=development
+
+# init helpers
+source ~/.aliases
+source_if_exists ~/.aliases.local
+source_if_exists ~/.iterm2_shell_integration.zsh
+command -v exenv >/dev/null 2>&1 && { eval "$(exenv init -)"; }
+command -v rbenv >/dev/null 2>&1 && { eval "$(rbenv init -)"; }
+source_if_exists ~/.zshrc.local

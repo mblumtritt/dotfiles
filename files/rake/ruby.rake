@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 desc 'create a new Ruby repository'
 task :ruby, [:name] do |t, args|
   name = args[:name] or fail 'name expected'
@@ -21,7 +23,7 @@ module Ruby
   def self.content(module_name, class_name)
     return class_file(class_name) unless module_name
     return module_file(module_name) if class_name == module_name
-    return version_file(module_name) if class_name == 'Version'.freeze
+    return version_file(module_name) if class_name == 'Version'
     mod_class_file(module_name, class_name)
   end
 

@@ -1,0 +1,24 @@
+#! /bin/bash
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "usage: ${0##*/} <uri> [<uri> ...]
+
+Download YouTube videos to $HOME/Movies folder.
+"
+elif [ $# = 0 ]; then
+	(>&2 echo "${0##*/}: <uri> missing")
+	exit 1
+else
+	if [ "$(which youtube-dl)" = '' ]; then
+		(>&2 echo "${0##*/}: 'youtube-dl' not installed")
+		exit 2
+	fi
+	pushd "$HOME/Movies" >/dev/null
+	trap 'exit 1' EXIT INT HUP TERM
+	for uri in "$@"
+	do
+		youtube-dl -f mp4 "$uri"
+	done
+	popd >/dev/null
+fi
