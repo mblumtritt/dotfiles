@@ -22,7 +22,6 @@ alias bu='bundle update'
 alias ber='be rake'
 alias bert='ber -T'
 alias berta='bert -A'
-
 alias rcop='rubocop -D -E -S'
-alias todo='e ~/todo.md'
+
 alias dco=docker-compose
