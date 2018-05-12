@@ -1,0 +1,17 @@
+#! /bin/bash
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "usage: ${0##*/} <address>
+
+Downloads a file from given IP <address>.
+"
+elif [ $# = 0 ]; then
+	(>&2 echo "${0##*/}: <address> missing")
+	exit 1
+else
+	pushd "$HOME/Downloads" >/dev/null
+	trap 'exit 1' EXIT INT HUP TERM
+	curl -O "$@"
+	popd >/dev/null
+fi

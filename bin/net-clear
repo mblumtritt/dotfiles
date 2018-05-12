@@ -1,0 +1,11 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "usage: ${0##*/}
+
+Clear the DNS cache. (May require password.)
+"
+else
+  sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder
+fi

@@ -1,0 +1,16 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "usage: ${0##*/}
+
+Display external or local IP address.
+
+options:
+   -l, --local  show local address
+"
+elif [ "$1" =  '-l' ] || [ "$1" =  '--local' ]; then
+  ipconfig getifaddr en0
+else
+  dig +short myip.opendns.com @resolver1.opendns.com
+fi

@@ -1,0 +1,11 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "usage: ${0##*/}
+
+Generate a nice password.
+"
+else
+  pwgen -AB01 48
+fi

@@ -1,0 +1,11 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "usage: ${0##*/}
+
+Displays downloaded apps from AppStore.
+"
+else
+	mdfind kMDItemAppStoreHasReceipt=1
+fi

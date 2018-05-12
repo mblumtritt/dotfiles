@@ -1,0 +1,11 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "usage: ${0##*/}
+
+Print information about current WLAN connection.
+"
+else
+	/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport -I
+fi

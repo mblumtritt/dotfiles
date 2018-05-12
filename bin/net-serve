@@ -1,0 +1,16 @@
+#! /bin/bash
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "usage: ${0##*/} <file_name> [<port>]
+
+Serve <file_name> via HTTP.
+"
+elif [ $# = 0 ]; then
+	(>&2 echo "${0##*/}: <file_name> missing")
+	exit 1
+else
+	while true; do
+		{ echo -e 'HTTP/1.1 200 OK\r\n'; cat "$1"; } | nc -l  "${2:-8080}"
+	done
+fi

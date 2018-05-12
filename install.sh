@@ -7,7 +7,7 @@ readonly DOTFILE_DIR="$HOME/.usr/dotfiles"
 mkdir -p "$DOTFILE_DIR"
 git clone "https://github.com/mblumtritt/dotfiles" "$DOTFILE_DIR"
 
-"$DOTFILE_DIR/link.sh"
+"$DOTFILE_DIR/link-dot-files.sh"
 
 if test "$(uname -s)" = "Darwin"
 then
@@ -16,3 +16,4 @@ then
 fi
 
 "$DOTFILE_DIR/init-ruby.sh"
+"$DOTFILE_DIR/link-bin-files.sh"
