@@ -1,0 +1,11 @@
+#! /usr/bin/env ruby
+# frozen_string_literal: true
+
+begin
+  require 'html_to_plain_text'
+rescue LoadError
+  $stderr.puts("gem not installed - use `gem html_to_plain_text` to fix this")
+  exit 1
+end
+
+puts HtmlToPlainText.plain_text($stdin.read)
