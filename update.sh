@@ -4,10 +4,6 @@ set -e
 
 readonly DOTFILE_DIR="$HOME/.usr/dotfiles"
 
-"$DOTFILE_DIR/link.sh"
-brew update
-brew bundle --global
-brew upgrade
-gem update
-brew cleanup
-gem cleanup
+"$DOTFILE_DIR/link-dot-files.sh"
+"$DOTFILE_DIR/link-bin-files.sh"
+update-all
