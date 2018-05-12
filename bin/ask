@@ -1,0 +1,7 @@
+#! /bin/sh
+
+set -euo pipefail
+
+readonly MESSAGE="${1-"Something happend"}"
+readonly TITLE="${2-Notification}"
+osascript -e "tell app \"System Events\" to display dialog \"$MESSAGE\" with title \"$TITLE\"" > /dev/null 2>&1
