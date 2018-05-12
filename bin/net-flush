@@ -10,5 +10,6 @@ elif [ $# = 0 ]; then
   (>&2 echo "${0##*/}: name of <interface> missing")
   exit 1
 else
-  sudo ifconfig "$1" down && sudo route flush && sudo ifconfig "$1" up
+  # sudo ifconfig "$1" down && sudo route flush && sudo ifconfig "$1" up
+	sudo discoveryutil udnsflushcaches
 fi
