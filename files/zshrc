@@ -14,7 +14,7 @@ export LC_ALL=en_GB.utf-8
 	setopt append_history
 	setopt extended_history      # history contains timestamps
 	setopt no_inc_append_history # history is only updated after closing zsh
-	setopt no_share_history      # history is not shared between zsh processes
+	setopt share_history         # history is shared between zsh processes
 	# history search:
 	autoload -U history-search-end
 	zle -N history-beginning-search-backward-end history-search-end
