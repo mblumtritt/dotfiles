@@ -1,6 +1,9 @@
+# Brewfile
+
 tap 'homebrew/bundle'
 tap 'homebrew/services'
 tap 'thoughtbot/formulae'
+tap 'caskroom/cask'
 
 brew 'autoconf'
 brew 'automake'
@@ -45,3 +48,14 @@ brew 'wget'
 brew 'xz'
 brew 'zsh'
 brew 'zsh-syntax-highlighting'
+
+cask 'tunnelblick'
+cask 'textmate'
+cask 'iterm2'
+cask 'fork'
+cask 'gpg-suite'
+cask 'imageoptim'
+cask 'google-chrome'
+cask 'firefox'
+cask 'gimp'
+cask 'docker'

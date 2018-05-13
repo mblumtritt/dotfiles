@@ -13,8 +13,10 @@ else
 	brew update
 	brew bundle --global
 	brew upgrade
+	brew cask upgrade
 	gem update --system
 	gem update
 	brew cleanup
+	brew cask cleanup
 	gem cleanup
 fi
