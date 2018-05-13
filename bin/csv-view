@@ -1,0 +1,14 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "usage: ${0##*/} <csv_file>
+
+Display given <csv_file>.
+"
+elif [ $# = 0 ]; then
+	(>&2 echo "${0##*/}: <csv_file> missing")
+	exit 1
+else
+	sed 's/,,/, ,/g;s/,,/, ,/g' "$@" | column -s, -t | less -#2 -N -S
+fi
