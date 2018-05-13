@@ -41,6 +41,9 @@ setopt long_list_jobs
 	zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} l:|=* r:|=*'
 	setopt no_list_ambiguous # show completion list when completion is inserted
 	setopt no_cdablevars # do not expand cdable variables
+	setopt beep
+	setopt no_list_beep
+	setopt no_hist_beep
 
 	# setup edit
 	autoload -z edit-command-line
