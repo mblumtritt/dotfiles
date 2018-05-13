@@ -4,6 +4,17 @@ source ~/.zsh/lib/functions.zsh # load helper functions
 export LANG=en_GB.utf-8
 export LC_ALL=en_GB.utf-8
 
+# setup colors
+autoload -U colors
+colors
+export LSCOLORS=dxfxcxdxbxegedabagacad
+export CLICOLOR=1
+[[ -o interactive ]] && source_if_exists /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# setup jobs
+setopt notify
+setopt long_list_jobs
+
 [[ -o interactive ]] && {
 	# setup history
 	export HISTFILE=~/.histfile
@@ -51,20 +62,9 @@ export LC_ALL=en_GB.utf-8
 	source ~/.zsh/lib/prompt.zsh
 }
 
-# setup colors
-autoload -U colors
-colors
-export LSCOLORS=dxfxcxdxbxegedabagacad
-export CLICOLOR=1
-[[ -o interactive ]] && source_if_exists /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# setup jobs
-setopt notify
-setopt long_list_jobs
-
 # define some behaviour
 export PATH="$HOME/.usr/bin:$PATH:/usr/local/opt/go/libexec/bin"
-export EDITOR=vim
+export EDITOR=nano
 export GZIP=-9
 export GOPATH=$HOME/prj/go
 export RACK_ENV=development

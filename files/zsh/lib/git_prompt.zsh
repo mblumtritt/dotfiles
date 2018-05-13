@@ -1,14 +1,14 @@
 GIT_PROMPT_PREFIX="%{$bg[black]%}%{$fg[yellow]%} "
 GIT_PROMPT_SUFFIX="%{$reset_color%}"
-GIT_PROMPT_UNTRACKED=" ☡"
-GIT_PROMPT_MODIFIED=" ⌘"
-GIT_PROMPT_RENAMED=" ❢"
-GIT_PROMPT_DELETED=" ⏏"
-GIT_PROMPT_STASHED=" ♲"
+GIT_PROMPT_UNTRACKED=" ♾"
+GIT_PROMPT_MODIFIED=" ✎"
+GIT_PROMPT_RENAMED=" ♻︎"
+GIT_PROMPT_DELETED=" ☠︎"
+GIT_PROMPT_STASHED=" Ⓢ"
 GIT_PROMPT_UNMERGED=" ✗"
-GIT_PROMPT_AHEAD=" →"
-GIT_PROMPT_BEHIND=" ←"
-GIT_PROMPT_DIVERGED=" ↔︎"
+GIT_PROMPT_AHEAD=" ⇡"
+GIT_PROMPT_BEHIND=" ⇣"
+GIT_PROMPT_DIVERGED=" ⎌"
 
 function git_prompt_info() {
 	local REF=$(command git symbolic-ref HEAD 2> /dev/null) || $(command git rev-parse --short HEAD 2> /dev/null)
