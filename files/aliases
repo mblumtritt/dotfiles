@@ -25,3 +25,18 @@ alias berta='bert -A'
 alias rcop='rubocop -D -E -S'
 
 alias dco=docker-compose
+
+alias @g='googler'
+alias @a='googler -w amazon.com'
+alias @gh='googler -w github.com'
+alias @imdb='googler -w imdb.com'
+alias @li='googler -w linkedin.com'
+alias @r='googler -w reddit.com'
+alias @rfc='googler -w rfc-editor.org'
+alias @slang='googler -w onlineslangdictionary.com'
+alias @so='googler -w stackoverflow.com'
+alias @tw='googler -w twitter.com'
+alias @w='googler -w en.wikipedia.org'
+alias @w.de='googler -w de.wikipedia.org'
+alias @yt='googler -w youtube.com'
+

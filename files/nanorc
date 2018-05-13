@@ -1,0 +1,23 @@
+set autoindent
+set boldtext
+set brackets ""')>]}"
+set constantshow
+set cutfromcursor
+set historylog
+set linenumbers
+set matchbrackets "(<[{)>]}"
+set mouse
+set multibuffer
+# set nohelp
+set nowrap
+set positionlog
+# set quickblank
+# set quotestr "> "
+set showcursor
+set smarthome
+set smooth
+## Use this tab size instead of the default; it must be greater than 0.
+set tabsize 4
+set tabstospaces
+set trimblanks
+include "/usr/local/Cellar/nano/2.9.6/share/nano/*.nanorc"
