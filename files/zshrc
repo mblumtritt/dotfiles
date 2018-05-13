@@ -64,7 +64,7 @@ setopt long_list_jobs
 
 # define some behaviour
 export PATH="$HOME/.usr/bin:$PATH:/usr/local/opt/go/libexec/bin"
-export EDITOR=mate
+export EDITOR=vim
 export GZIP=-9
 export GOPATH=$HOME/prj/go
 export RACK_ENV=development
