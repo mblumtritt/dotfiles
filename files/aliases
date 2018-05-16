@@ -3,6 +3,7 @@ alias lr='ls -lR'
 alias du='du -kh'
 alias path='echo -e ${PATH//:/\\n}'
 alias ...='cd ..'
+alias tree='tree -AC'
 
 alias ar='source ~/.aliases'
 alias reload!='. ~/.zshrc'
