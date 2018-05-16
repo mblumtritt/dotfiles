@@ -66,7 +66,7 @@ setopt long_list_jobs
 }
 
 # define some behaviour
-export PATH="$HOME/.usr/bin:$PATH:/usr/local/sbin:/usr/local/opt/go/libexec/bin"
+export PATH="$HOME/.usr/bin:/usr/local/opt/curl/bin:$PATH:/usr/local/sbin:/usr/local/opt/go/libexec/bin"
 export EDITOR=nano
 export GZIP=-9
 export GOPATH=$HOME/prj/go
