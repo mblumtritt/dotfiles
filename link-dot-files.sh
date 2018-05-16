@@ -18,8 +18,8 @@ do
 	valid_file "$src_file" || continue
 	dst_filename=".$(basename "$src_file")"
 	dst_file="$HOME/$dst_filename"
-	[[ "$(readlink "$dst_file")" == "$src_file" ]] && continue
-	test -e "$dst_file" && backup "$dst_file"
+	[[ "$(readlink "$dst_file")" = "$src_file" ]] && continue
+	[[ -e "$dst_file" ]] && backup "$dst_file"
 	echo "create link $dst_filename"
 	ln -sf "$src_file" "$dst_file"
 done
