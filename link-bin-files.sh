@@ -2,6 +2,7 @@
 
 readonly SOURCE_DIR="$HOME/.usr/dotfiles/bin"
 readonly BACKUP_DIR="$HOME/_backup/$(date +%s)"
+readonly BIN_DIR="$HOME/.usr/bin"
 
 function backup() {
 	echo "backup $1 to $BACKUP_DIR"
@@ -13,13 +14,20 @@ function valid_file() {
 	basename "$1" | grep -v '^.DS_Store$' > /dev/null 2>&1
 }
 
-mkdir -p "$HOME/.usr/bin"
+mkdir -p "$BIN_DIR"
+
+if [ "$1" = "--relink" ]; then
+	for src_file in "$BIN_DIR"/*
+	do
+		[ -L "$src_file" ] && rm "$src_file"
+	done
+fi
 
 for src_file in "$SOURCE_DIR"/*
 do
 	valid_file "$src_file" || continue
 	dst_filename="$(basename "$src_file")"
-	dst_file="$HOME/.usr/bin/$dst_filename"
+	dst_file="$BIN_DIR/$dst_filename"
 	[[ "$(readlink "$dst_file")" = "$src_file" ]] && continue
 	[[ -e "$dst_file" ]] && backup "$dst_file"
 	echo "create link $dst_filename"
