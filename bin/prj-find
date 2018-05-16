@@ -1,0 +1,85 @@
+#! /usr/bin/env ruby
+# frozen_string_literal: true
+
+def help
+  puts <<~ø
+    usage: #{File.basename(__FILE__)} [options] <project_name>
+
+    valid options:
+      -t, --top   display first matching project
+
+      Display all projects matching <project_name> shortcut.
+  ø
+  exit 0
+end
+
+def help?(str)
+  str == 'help' || str == 'h' || str == '-h' || str == '--help'
+end
+
+def top_only?(str)
+  str == '-t' || str == '--top'
+end
+
+help if ARGV.empty?
+help if help?(ARGV[0])
+top_ponly = top_only?(ARGV[0])
+ARGV.shift if top_ponly
+exit 2 if ARGV.empty?
+
+class ProjectsFinder
+  def self.default
+    new(%w(~/prj ~/prj/ivx))
+  end
+
+  def initialize(roots)
+    @roots, @map = roots, nil
+  end
+
+  def map
+    @map ||= create_map
+  end
+
+  def related_dirs(name)
+    dirs_for(related_keys(name))
+  end
+
+  private
+
+  def normalized(str)
+    str.downcase.tr('-._', '')
+  end
+
+  def related_keys(name)
+    name = normalized(name)
+    map
+      .keys
+      .find_all{ |key| key.index(name) }
+      .sort_by!{ |key| key.size - name.size }
+  end
+
+  def dirs_for(keys)
+    ret = []
+    keys.each{ |key| ret << map[key] }
+    ret.flatten!
+    ret.uniq!
+    ret
+  end
+
+  def create_map
+    ret = Hash.new{ |h, k| h[k] = [] }
+    @roots.each do |root|
+      glob = File.expand_path(root) + '/*'
+      Dir.glob(glob) do |file_name|
+        next unless File.directory?(file_name)
+        name = normalized(File.basename(file_name))
+        ret[name] << file_name
+      end
+    end
+    ret
+  end
+end
+
+found = ProjectsFinder.default.related_dirs(ARGV[0])
+exit 1 if found.empty?
+top_ponly ? puts(found[0]) : found.each{ |f| puts f }
