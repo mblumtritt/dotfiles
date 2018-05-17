@@ -25,7 +25,7 @@ help if ARGV.empty?
 help if help?(ARGV[0])
 top_ponly = top_only?(ARGV[0])
 ARGV.shift if top_ponly
-exit 2 if ARGV.empty?
+exit 2 if ARGV.empty? || ARGV[0].empty?
 
 class ProjectsFinder
   def self.default

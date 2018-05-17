@@ -10,7 +10,6 @@ alias reload!='. ~/.zshrc'
 
 alias fucking='sudo'
 alias please='sudo'
-alias e='mate'
 alias o='open'
 alias g='git'
 
@@ -40,4 +39,3 @@ alias @tw='googler -w twitter.com'
 alias @w='googler -w en.wikipedia.org'
 alias @w.de='googler -w de.wikipedia.org'
 alias @yt='googler -w youtube.com'
-

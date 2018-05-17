@@ -1,12 +1,45 @@
-function h () { history 0 | grep $1 } # find in history
-function mkcd() { mkdir -p "$@" && cd "$_"; } # create dir and step into
-function f() { find . -iname "*$1*" ${@:2} } # find file
-function r() { grep "$1" ${@:2} -R . } # find file containing
-function cdp() { cd $(prj-find --top "$@") }
-function source_if_exists() { [[ -f "$1" ]] && source "$1"; } # source only if file exists
-function tr() { web-view "$(web-find --dict "$1")" | convert-html-txt | less } # lookup in GE/EN dictionary
-function google() { open "$(web-find --google "$1")" } # Google search
-function img() { open "$(web-find --image "$1")" } # Google image search
-function vid() { open "$(web-find --video "$1")" } # YouTube image search
-function wiki() { open "$(web-find --wikipedia "$1")" } # Wikipedia article search
-function command_not_found_handler() { i "$@" }
+function h () # find in history
+{ history 0 | grep $1 }
+
+function mkcd() # create directory and step into
+{ mkdir -p "$@" && cd "$_"; }
+
+function f() # find file
+{ find . -iname "*$1*" ${@:2} }
+
+function r() # find file containing
+{ grep "$1" ${@:2} -R . }
+
+function cdp() # cd to best matching project directory
+{ cd $(prj-find --top "$@") }
+
+function source_if_exists() # source file only if file exists
+{ [[ -f "$1" ]] && source "$1"; }
+
+function tr() # lookup in GE/EN dictionary
+{ web-view "$(web-find --dict "$1")" | convert-html-txt | less }
+
+function google() # Google search
+{ open "$(web-find --google "$1")" }
+
+function img() # Google image search
+{ open "$(web-find --image "$1")" }
+
+function vid() # YouTube image search
+{ open "$(web-find --video "$1")" }
+
+function wiki() # Wikipedia article search
+{ open "$(web-find --wikipedia "$1")" }
+
+function e() # edit given file or best matching project
+{
+	if [ -e "$1" ]
+	then
+		mate "$1"
+	else
+		mate "$(prj-find --top "$1")"
+	fi
+}
+
+function command_not_found_handler() # handler for invalid commands
+{ i "$@" }
