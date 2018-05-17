@@ -1,0 +1,11 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "usage: ${0##*/} <ip>
+
+Display location information for given IP.
+"
+else
+  curl -s -L -N https://ip.cn/"$1" | convert-html-txt
+fi
