@@ -16,7 +16,8 @@ function valid_file() {
 
 mkdir -p "$BIN_DIR"
 
-if [ "$1" = "--relink" ]; then
+if [ "$1" = "--relink" ]
+then
 	for src_file in "$BIN_DIR"/*
 	do
 		[ -L "$src_file" ] && rm "$src_file"

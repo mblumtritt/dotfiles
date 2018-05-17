@@ -9,7 +9,8 @@ git clone "https://github.com/mblumtritt/dotfiles" "$DOTFILE_DIR"
 
 "$DOTFILE_DIR/link-dot-files.sh"
 
-if [ "$(uname -s)" = "Darwin" ]; then
+if [ "$(uname -s)" = "Darwin" ]
+then
 	"$DOTFILE_DIR/init-homwbrew.sh"
 	"$DOTFILE_DIR/init-macos.sh"
 fi
