@@ -2,23 +2,40 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "usage: ${0##*/} <uri> [<uri> ...]
+if [ "$1" = '--help' ]; then echo "usage: ${0##*/} [options] <uri>
 
-Download YouTube videos to $HOME/Movies folder.
+Download a (YouTube) video.
+
+valid options:
+ -v | --video   download video to $HOME/Movies (default)
+ -a | --audio   download audio to $HOME/Music
 "
-elif [ $# = 0 ]; then
+	exit 0
+fi
+
+if [ $# = 0 ]; then
 	(>&2 echo "${0##*/}: <uri> missing")
 	exit 1
-else
-	if [ "$(which youtube-dl)" = '' ]; then
-		(>&2 echo "${0##*/}: 'youtube-dl' not installed")
-		exit 2
-	fi
-	pushd "$HOME/Movies" >/dev/null
-	trap 'exit 1' EXIT INT HUP TERM
-	for uri in "$@"
-	do
-		youtube-dl -f mp4 "$uri"
-	done
-	popd >/dev/null
 fi
+
+if [ "$(which youtube-dl)" = '' ]; then
+	(>&2 echo "${0##*/}: 'youtube-dl' not installed")
+	exit 2
+fi
+
+path=$HOME/Movies
+options="--format mp4"
+
+if [ "$1" = '-v' ] || [ "$1" = '--video' ]
+then
+	shift
+elif [ "$1" = '-a' ] || [ "$1" = '--audio' ]
+then
+	path=$HOME/Music
+	options="--extract-audio --audio-format mp3 --audio-quality 0 --embed-thumbnail --add-metadata"
+	shift
+fi
+
+pushd "$path" >/dev/null
+youtube-dl $options "$1"
+popd >/dev/null
