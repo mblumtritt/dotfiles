@@ -1,0 +1,57 @@
+#! /usr/bin/env ruby
+# frozen_string_literal: true
+
+def help
+  puts("usage: #{File.basename(__FILE__)} [--stdlib <lib_name>] | [<class> | <method_name>]", nil)
+  puts('Opens ruby documentation with given Ruby class or method name or the Ruby stdlib documentation.')
+  exit 0
+end
+
+BASE_URL = 'http://[::]:8080/ruby'.freeze
+
+exec("open #{BASE_URL}") if ARGV.empty?
+
+def help?(str)
+  str == 'help' || str == 'h' || str == '-h' || str == '--help'
+end
+
+def stdlib?(str)
+  str == '-s' || str == '--stdlib'
+end
+
+help if help?(ARGV[0])
+
+module RubyDocs
+  class << self
+    def stdlib_path(arg)
+      return '/stdlib' unless arg
+      return '/stdlib' if arg.empty?
+      "/stdlib/libdoc/#{arg}/rdoc/index.html"
+    end
+
+    def parameters_for(arg)
+      {
+        'method-i' => %w(. #),
+        'method-c' => %w(:: :)
+      }.each do |method_type, seperators|
+        seperators.each do |seperator|
+          type, method_name = arg.split(seperator, 2)
+          return type, "#{method_type}-#{encoded(method_name)}" if method_name
+        end
+      end
+      return arg, 'method-list-section'
+    end
+
+    private
+
+    def encoded(method_name)
+      method_name.gsub(%r{\+|\-|\||\?|&|\[|\]|<|=|>|!}) do |c|
+        '-' + c.ord.to_s(16).upcase
+      end
+    end
+  end
+end
+
+exec(%(open "#{BASE_URL + RubyDocs.stdlib_path(ARGV[1])}")) if stdlib?(ARGV[0])
+page_name, page_id = RubyDocs.parameters_for(ARGV.join)
+exec(%(open "#{BASE_URL}/#{page_name}.html##{page_id}"))
