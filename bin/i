@@ -58,12 +58,12 @@ def which(str)
   found = best_matching_command(str)
   if found.nil?
     puts("#{str} not found")
-    exit 1
+    exit!
   end
   if Array === found
     puts("#{str} is not bijective", 'did you mean:')
     found.each{ |cmd| puts('  ' + File.basename(cmd)) }
-    exit 1
+    exit!
   end
   puts(found)
   exit 0
@@ -73,13 +73,13 @@ def command(str)
   found = best_matching_command(str)
   if found.nil?
     $stderr.puts("no such command - #{str}")
-    exit 1
+    exit!
   end
   if Array === found
     $stderr.puts("non-bijective command - #{str}")
     puts('did you mean:')
     found.each{ |cmd| puts('  ' + File.basename(cmd)) }
-    exit 1
+    exit!
   end
   found
 end
