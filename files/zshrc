@@ -66,7 +66,6 @@ setopt long_list_jobs
 }
 
 # define some behaviour
-export PATH="$HOME/.usr/bin:/usr/local/opt/curl/bin:$PATH:/usr/local/sbin:/usr/local/opt/go/libexec/bin"
 export EDITOR=nano
 export GZIP=-9
 export GOPATH=$HOME/prj/go
@@ -77,4 +76,9 @@ source_if_exists ~/.aliases.local
 source_if_exists ~/.iterm2_shell_integration.zsh
 command -v exenv >/dev/null 2>&1 && { eval "$(exenv init -)"; }
 command -v rbenv >/dev/null 2>&1 && { eval "$(rbenv init -)"; }
+
+# i need this sequence
+export PATH="$HOME/.usr/bin:/usr/local/opt/curl/bin:$PATH:/usr/local/sbin:/usr/local/opt/go/libexec/bin"
+
+# include the locals
 source_if_exists ~/.zshrc.local
