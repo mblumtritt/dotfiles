@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def want(what, *args)
   Rake::Task[what].invoke(*args)
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 desc 'create default .gitignore file'
 task gitignore: '.gitignore'
 

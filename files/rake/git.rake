@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 desc 'create a new Git repository'
 task :git, [:name] do |t, args|
   name = args[:name] or fail 'name expected'

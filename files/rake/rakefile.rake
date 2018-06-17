@@ -1,12 +1,16 @@
+# frozen_string_literal: true
+
 desc 'create default Rakefile'
 task rakefile: './rakefile.rb'
 
 rule %r(rakefile.rb$) do |r|
   write r.name, <<~EOF
+    # frozen_string_literal: true
+
     STDOUT.sync = STDERR.sync = true
 
     task :default do
-      exec('rake --tasks')
+      exec 'rake --tasks'
     end
   EOF
 end

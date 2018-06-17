@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 desc 'create default gemspec file'
 task gemspec: "#{File.basename(File.expand_path('./'))}.gemspec"
 
@@ -37,8 +39,7 @@ rule '.gemspec' do |r|
       spec.test_files = all_files.grep(%r{^(spec|test)/})
       spec.files = all_files - spec.test_files
 
-      spec.has_rdoc = false
-      spec.extra_rdoc_files = %w[README.md]
+      # spec.extra_rdoc_files = %w[README.md]
     end
   EOF
   write r.name, content

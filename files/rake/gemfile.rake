@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 desc 'create default Gemfile'
 task gemfile: './gems.rb'
 
