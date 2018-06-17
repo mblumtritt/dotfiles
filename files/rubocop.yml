@@ -3,6 +3,7 @@ AllCops:
   DisplayStyleGuide: true
   Exclude:
     - '_local/**/*'
+    - 'idea/**/*'
     - 'pkg/**/*'
     - 'tmp/**/*'
     - 'spec/**/*'
