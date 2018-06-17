@@ -5,7 +5,9 @@ BIN_DIR = File.expand_path('~/.usr/bin')
 
 def help
   puts("usage: #{File.basename(__FILE__)} <command> [options]", nil, 'valid commands:')
-  Dir.glob(File.join(BIN_DIR, '*')).sort!.each{ |cmd| puts('  ' + File.basename(cmd)) }
+  Dir.glob(File.join(BIN_DIR, '*')).sort!.each do |cmd|
+    puts('  ' + File.basename(cmd)) if File.executable_real?(cmd)
+  end
   exit 0
 end
 
