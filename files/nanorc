@@ -20,4 +20,4 @@ set smooth
 set tabsize 4
 set tabstospaces
 set trimblanks
-include "/usr/local/Cellar/nano/2.9.7/share/nano/*.nanorc"
+include "/usr/local/Cellar/nano/2.9.8/share/nano/*.nanorc"
