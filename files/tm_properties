@@ -1,7 +1,7 @@
-fontName = "Roboto Mono"
+fontName = "Hack"
 fontSize = 12
 encoding = "UTF-8"
-searchResultsFontName = "Roboto Mono"
+searchResultsFontName = "Hack"
 searchResultsFontSize = 12
 excludeInFolderSearch = "{$excludeInFolderSearch,pkg/*,tmp/*,log/*}"
 excludeInFileChooser = "{$excludeInFileChooser,pkg/*,tmp/*,log/*}"
