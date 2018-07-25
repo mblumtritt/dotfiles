@@ -7,7 +7,7 @@ export LC_ALL=en_GB.utf-8
 # setup colors
 autoload -U colors
 colors
-export LSCOLORS=dxfxcxdxbxegedabagacad
+export LSCOLORS=exfxcxdxbxehfhbhbhhchd
 export CLICOLOR=1
 [[ -o interactive ]] && source_if_exists /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
@@ -82,3 +82,4 @@ export PATH="$HOME/.usr/bin:/usr/local/opt/curl/bin:$PATH:/usr/local/sbin:/usr/l
 
 # include the locals
 source_if_exists ~/.zshrc.local
+
