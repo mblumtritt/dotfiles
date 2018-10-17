@@ -24,7 +24,7 @@ if [ "$(which youtube-dl)" = '' ]; then
 fi
 
 path=$HOME/Movies
-options="--format mp4"
+options="--format mp4 --geo-bypass"
 
 if [ "$1" = '-v' ] || [ "$1" = '--video' ]
 then
@@ -32,7 +32,7 @@ then
 elif [ "$1" = '-a' ] || [ "$1" = '--audio' ]
 then
 	path=$HOME/Music
-	options="--extract-audio --audio-format mp3 --audio-quality 0 --embed-thumbnail --add-metadata"
+	options="--extract-audio --audio-format mp3 --audio-quality 0 --embed-thumbnail --add-metadata --geo-bypass"
 	shift
 fi
 

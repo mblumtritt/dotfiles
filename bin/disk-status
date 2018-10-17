@@ -4,8 +4,8 @@ set -e
 
 if [ "$1" = '--help' ]; then echo "usage: ${0##*/}
 
-Displays Fefes blog.
+Display information about all disks.
 "
 else
-	web-view https://blog.fefe.de | html-convert-txt | less
+  diskutil list
 fi

@@ -17,6 +17,5 @@ else
 	gem update --system
 	gem update
 	brew cleanup
-	brew cask cleanup
 	gem cleanup
 fi

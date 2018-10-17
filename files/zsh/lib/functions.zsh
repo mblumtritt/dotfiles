@@ -11,13 +11,13 @@ function r() # find file containing
 { grep "$1" ${@:2} -R . }
 
 function cdp() # cd to best matching project directory
-{ cd $(prj-find --top "$@") }
+{ cd $(project-find --top "$@") }
 
 function source_if_exists() # source file only if file exists
 { [[ -f "$1" ]] && source "$1"; }
 
 function tr() # lookup in GE/EN dictionary
-{ web-view "$(web-find --dict "$1")" | convert-html-txt | less }
+{ web-view "$(web-find --dict "$1")" | html-convert-txt | less }
 
 function google() # Google search
 { open "$(web-find --google "$1")" }
@@ -37,7 +37,7 @@ function e() # edit given file or best matching project
 	then
 		mate "$1"
 	else
-		mate "$(prj-find --top "$1")"
+		mate "$(project-find --top "$1")"
 	fi
 }
 

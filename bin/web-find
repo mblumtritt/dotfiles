@@ -1,43 +1,86 @@
-#! /bin/sh
+#!/usr/bin/env ruby
+# encoding: UTF-8
+# frozen_string_literal: true
 
-set -e
+Catalog = [
+  [
+    'Google Search (*default)',
+    '--google',
+    '-g',
+    'https://www.google.de/search?hl=de&as_q=%s&&as_qdr=all&as_occt=any&num=100'
+  ],
+  [
+    'Google image search',
+    '--image',
+    '-i',
+    'https://www.google.de/search?q=%s&source=lnms&tbm=isch&sa=X&ei=qWBvVcrKMYWAUa3BgZAF&ved=0CAgQ_AUoAg&biw=1075&bih=728'
+  ],
+  [
+    'Wolfram Alpha',
+    '--alpha',
+    '-a',
+    'https://www.wolframalpha.com/input/?i=%s'
+  ],
+  [
+    'YouTube video search',
+    '--video',
+    '-v',
+    'https://www.youtube.com/results?search_query=%s'
+  ],
+  [
+    'Wikipedia/DE article search',
+    '--wikipedia',
+    '-w',
+    'https://de.wikipedia.org/w/index.php?fulltext=1&search=%s'
+  ],
+  [
+    'Leo dictionary GE/EN',
+    '--dict',
+    '-d',
+    'https://pocket.dict.cc/?s=%s'
+  ],
+]
 
-case "$1" in
--h|--help)
-	echo "usage: ${0##*/} [<engine>] <phrase>
+def usage
+  puts <<~ø
+    usage: #{me} [<engine>] <phrase>
 
-Use a web serach <engine> to find a <phrase>.
+    Return URL of web search <engine> to search for <phrase>.
 
-Valid engines are:
-  -a | --alpha       Wolfram Alpha
-  -d | --dict        Leo dictionary GE/EN
-  -g | --google      Google search
-  -i | --image       Google image search
-	-v | --video       YouTube video search
-	-w | --wikipedia   Wikipedia article search
-"
-	exit 0
-  ;;
--a|--alpha)
-   printf 'https://www.wolframalpha.com/input/?i=%s' "$2"
-  ;;
--d|--dict)
-   printf 'https://pocket.dict.cc/?s=%s' "$2"
-  ;;
--g|--google)
-  printf 'https://www.google.de/search?hl=de&as_q=%s&&as_qdr=all&as_occt=any&num=100' "$2"
-  ;;
--i|--image)
-  printf 'https://www.google.de/search?q=%s&source=lnms&tbm=isch&sa=X&ei=qWBvVcrKMYWAUa3BgZAF&ved=0CAgQ_AUoAg&biw=1075&bih=728' "$2"
-  ;;
--v|--video)
-  printf 'https://www.youtube.com/results?search_query=%s' "$2"
-  ;;
--w|--wikipedia)
-  printf 'https://de.wikipedia.org/w/index.php?fulltext=1&search=%s' "$2"
-  ;;
-*)
-	(>&2 echo "${0##*/}: no such engine - $1")
-	exit 1
-  ;;
-esac
+    valid engines:
+  ø
+  Catalog.each do |(name, long, short, _)|
+    str = "   #{short} | #{long}"
+    str += ' ' * (23 - str.size)
+    puts(str + name)
+  end
+  exit
+end
+
+def me
+  File.basename(__FILE__, '.*')
+end
+
+def error(str, code = 1)
+  $stderr.puts("#{me}: #{str}")
+  exit(code)
+end
+
+def encoded(str)
+  require('uri')
+  URI.encode(str)
+end
+
+def find_url(str)
+  Catalog.each do |(_, long, short, url)|
+    return url if str == long || str == short
+  end
+  nil
+end
+
+error('<engine> name expected') if ARGV.empty?
+engine, phrase = ARGV[0,2]
+usage if engine == '--help' || engine == '-h'
+engine, phrase = '--google', engine if phrase.nil?
+url = find_url(engine) or error("unknown engine - #{engine}", 2)
+puts format(url, encoded(phrase))

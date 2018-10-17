@@ -1,0 +1,12 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "usage: ${0##*/} IP
+
+Connects to a iWFM host at given IP.
+"
+else
+	cd "$HOME/prj/ivx/iwfm-helper-scripts"
+	iwfm "iwfms://$IWFM_CRED@$1:80?logon_type=module&resolve_error_text=0&connect_timeout=10&request_timeout=20"
+fi
