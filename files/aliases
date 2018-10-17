@@ -1,24 +1,23 @@
-alias ll='ls -Al'
-alias lr='ls -lR'
+alias ll='ls -Alp'
+alias lr='ls -Rlp'
 alias du='du -kh'
 alias path='echo -e ${PATH//:/\\n}'
 alias ...='cd ..'
 alias tree='tree -AC'
 
 alias ar='source ~/.aliases'
-alias reload!='. ~/.zshrc'
 
 alias fucking='sudo'
 alias please='sudo'
 alias o='open'
 alias g='git'
+alias e•='EDITOR="mate -w"'
 
-alias -s log="less -MN"
+alias -s log='less -MN'
 
 alias rk='noglob rake'
 alias gr='noglob rake -g'
 alias be='noglob bundle exec'
-alias bu='bundle update'
 alias ber='be rake'
 alias bert='ber -T'
 alias berta='bert -A'
@@ -27,7 +26,7 @@ alias rcop='rubocop -D -E -S'
 alias dco=docker-compose
 
 alias @g='googler'
-alias @a='googler -w amazon.com'
+alias @a='googler -w amazon.de'
 alias @gh='googler -w github.com'
 alias @imdb='googler -w imdb.com'
 alias @li='googler -w linkedin.com'
