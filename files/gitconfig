@@ -40,9 +40,10 @@
 	smudge = git hawser smudge %f
 	required = true
 [filter "lfs"]
-	clean = git lfs clean %f
-	smudge = git lfs smudge %f
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
 	required = true
+	process = git-lfs filter-process
 [alias]
 	d = diff
 	st = status -sb
@@ -57,7 +58,7 @@
   bl = branch -a
   bdel = branch -D
   bprune = remote update origin --prune
-  lg = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(black)%s%C(reset) %C(dim black)- %an%C(reset)%C(yellow)%d%C(reset)' --all
+  lg = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(yellow)%d%C(reset)' --all
 	lgs = log -30 --graph --decorate --pretty=format:'%h %ad %s (%an)' --date=short
 	lga = log -30 --graph --decorate --all --pretty=format:'%h %ad %s (%an)' --date=short
   ld = log -p -1
