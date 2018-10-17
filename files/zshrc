@@ -69,6 +69,7 @@ setopt long_list_jobs
 export EDITOR=nano
 export GZIP=-9
 export GOPATH=$HOME/prj/go
+export BAT_THEME='1337'
 
 # init helpers
 source ~/.aliases
