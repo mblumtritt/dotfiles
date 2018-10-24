@@ -10,10 +10,10 @@ rule '.gemspec' do |r|
   content = <<~EOF
     # frozen_string_literal: true
 
-    require File.expand_path('../lib/#{basename}/version', __FILE__)
+    require_relative './lib/#{basename}/version'
 
     GemSpec = Gem::Specification.new do |spec|
-      spec.name = '#{basename}'
+      spec.name = spec.rubyforge_project = '#{basename}'
       spec.version = #{gemname}::VERSION
       spec.summary = 'The new gem #{gemname}.'
       spec.description = spec.summary
@@ -21,7 +21,6 @@ rule '.gemspec' do |r|
       spec.email = 'mike.blumtritt@invision.de'
       spec.homepage = 'https://github.com/mblumtritt/#{basename}'
       spec.metadata = {'issue_tracker' => 'https://github.com/mblumtritt/#{basename}/issues'}
-      spec.rubyforge_project = spec.name
 
       # spec.add_runtime_dependency 'todo'
       spec.add_development_dependency 'bundler'

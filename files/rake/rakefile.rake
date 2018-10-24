@@ -10,7 +10,7 @@ rule %r(rakefile.rb$) do |r|
     STDOUT.sync = STDERR.sync = true
 
     task :default do
-      exec 'rake --tasks'
+      exec '#{$0} --tasks'
     end
   EOF
 end
