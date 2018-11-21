@@ -20,7 +20,9 @@ rule '.gemspec' do |r|
       spec.author = 'Mike Blumtritt'
       spec.email = 'mike.blumtritt@invision.de'
       spec.homepage = 'https://github.com/mblumtritt/#{basename}'
-      spec.metadata = {'issue_tracker' => 'https://github.com/mblumtritt/#{basename}/issues'}
+      spec.metadata = {
+        'issue_tracker' => 'https://github.com/mblumtritt/#{basename}/issues'
+      }
 
       # spec.add_runtime_dependency 'todo'
       spec.add_development_dependency 'bundler'

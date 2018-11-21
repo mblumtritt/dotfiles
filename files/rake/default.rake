@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 task :default do
-  exec '#{$0} --tasks'
+  exec "#{$PROGRAM_NAME} --tasks"
 end
