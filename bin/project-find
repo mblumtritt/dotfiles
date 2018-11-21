@@ -29,7 +29,7 @@ exit 2 if ARGV.empty? || ARGV[0].empty?
 
 class ProjectsFinder
   def self.default
-    new(%w(~/prj ~/prj/ivx))
+    new(%w(~/prj/my ~/prj/ivx))
   end
 
   def initialize(roots)
