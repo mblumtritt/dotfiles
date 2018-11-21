@@ -7,4 +7,4 @@ update_sources: true
 verbose: true
 sources:
 - https://rubygems.org/
-- https://gems-eu.injixo.com/
+- https://gems.ivx.cloud/
