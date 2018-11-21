@@ -7,7 +7,7 @@ function mkcd() # create directory and step into
 function f() # find file
 { find . -iname "*$1*" ${@:2} }
 
-function r() # find file containing
+function ff() # find file containing
 { grep "$1" ${@:2} -R . }
 
 function cdp() # cd to best matching project directory
