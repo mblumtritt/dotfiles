@@ -11,7 +11,8 @@ alias fucking='sudo'
 alias please='sudo'
 alias o='open'
 alias g='git'
-alias e•='EDITOR="mate -w"'
+alias ƒ='i'
+alias ƒe='EDITOR="mate -w"'
 
 alias -s log='less -MN'
 
