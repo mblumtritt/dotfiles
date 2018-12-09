@@ -1,0 +1,38 @@
+#! /usr/bin/env ruby
+# frozen_string_literal: true
+
+def help
+  puts("usage: #{File.basename(__FILE__)} NAME", nil)
+  puts('Displays UUID of given volume NAME.')
+  exit 0
+end
+
+def help?(str)
+  str.nil? || '--help' == str || '-h' == str
+end
+
+def find_uuid(name)
+  result = %x[diskutil info #{name}]
+  idx = result.index('Disk / Partition UUID:') or return nil
+  eol_idx = result.index("\n", idx) or return nil
+  result[idx..eol_idx].split(': ', 2).last.strip
+end
+
+def process(name)
+  uuid = find_uuid(name) or return 1
+  puts(uuid)
+  0
+end
+
+def process_all(ary)
+  ret = 0
+  ary.each do |arg|
+    print(arg, ': ')
+    puts(uuid = find_uuid(arg))
+    ret = 1 unless uuid
+  end
+  ret
+end
+
+help if help?(ARGV.first)
+exit(ARGV.size == 1 ? process(ARGV.first) : process_all(ARGV.uniq))
