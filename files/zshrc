@@ -18,8 +18,8 @@ setopt long_list_jobs
 [[ -o interactive ]] && {
 	# setup history
 	export HISTFILE=~/.histfile
-	export HISTSIZE=10000
-	export SAVEHIST=10000
+	export HISTSIZE=100000
+	export SAVEHIST=100000
 	setopt hist_ignore_dups      # no duplicated history entries
 	setopt hist_ignore_space     # ignore commands starting with space
 	setopt append_history
