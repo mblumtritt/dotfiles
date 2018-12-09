@@ -1,0 +1,16 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "usage: ${0##*/} NAME
+
+Checks if disk NAME is the correct one.
+"
+else
+   if [ "$(pass "$1")" = "$(disk-uuid "$1")" ]; then
+      if [ -f "/Volumes/$1/.fseventsd/fseventsd-uuid" ]; then
+         exit 0
+      fi
+   fi
+   exit 1
+fi
