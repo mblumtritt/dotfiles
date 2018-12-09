@@ -7,7 +7,7 @@ rule '.gemspec' do |r|
   basename  = File.basename(r.name, '.gemspec')
   gemname = basename.split(%r([-_])).map!(&:capitalize).join
   File.file?("./lib/#{basename}/version.rb") or fail 'file not found - version.rb'
-  content = <<~EOF
+  write r.name, <<~GEMSPEC
     # frozen_string_literal: true
 
     require_relative './lib/#{basename}/version'
@@ -40,8 +40,7 @@ rule '.gemspec' do |r|
       spec.test_files = all_files.grep(%r{^(spec|test)/})
       spec.files = all_files - spec.test_files
 
-      # spec.extra_rdoc_files = %w[README.md]
+      # spec.extra_rdoc_files = %w[README.MD]
     end
-  EOF
-  write r.name, content
+  GEMSPEC
 end
