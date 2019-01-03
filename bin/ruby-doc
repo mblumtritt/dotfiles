@@ -7,7 +7,7 @@ def help
   exit 0
 end
 
-BASE_URL = 'http://[::]:8080/ruby'.freeze
+BASE_URL = 'http://[::]:8080/ruby'
 
 exec("open #{BASE_URL}") if ARGV.empty?
 

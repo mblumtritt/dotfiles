@@ -9,7 +9,7 @@ else
    sudo -v
    while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
-   echo 'Empty the Trash on all mounted volumes and the main HDD...'
+   echo 'Empty Trashes on all mounted volumes...'
    sudo rm -rfv /Volumes/*/.Trashes/* >/dev/null 2>&1
    sudo rm -rfv ~/.Trash/* >/dev/null 2>&1
 

@@ -3,21 +3,32 @@
 
 BIN_DIR = File.expand_path('~/.usr/bin')
 
+def valid_command?(fname)
+  File.file?(fname) && File.executable_real?(fname)
+end
+
 def help
-  puts("usage: #{File.basename(__FILE__)} <command> [options]", nil, 'valid commands:')
+  puts(
+    "usage: #{File.basename(__FILE__)} <command> [options]",
+    nil,
+    'valid commands:'
+  )
   Dir.glob(File.join(BIN_DIR, '*')).sort!.each do |cmd|
-    puts('  ' + File.basename(cmd)) if File.executable_real?(cmd)
+    puts('  ' + File.basename(cmd)) if valid_command?(cmd)
   end
-  exit 0
+  exit
 end
 
 def help?(str)
   str == 'help' || str == 'h' || str == '-h' || str == '--help'
 end
 
-help if ARGV.empty?
+def which?(str)
+  str == 'which' || str == 'w' || str == '-w' || str == '--which'
+end
+
 command = ARGV.shift
-help if ARGV.empty? && help?(command)
+help if command.nil? || (ARGV.empty? && help?(command))
 
 def matrix_for(str)
   [
@@ -28,18 +39,20 @@ def matrix_for(str)
     [str[0, 2], str[2], str[3]],
     [str[0], str[1, 2], str[3]],
     [str[0], str[1], str[2], str[3]],
-    [str[0], str[1], str[2, 2]],
+    [str[0], str[1], str[2, 2]]
   ].each do |ary|
-    ary.delete_if{ |s| s.nil? || s.empty? }
+    ary.delete_if{ |e| e.nil? || e.empty? }
   end.uniq
 end
 
 def best_matching_command(str)
   guess = File.join(BIN_DIR, str)
-  return guess if File.file?(guess)
+  return guess if valid_command?(guess)
   maybe = []
   matrix_for(str).each do |ary|
-    guess = Dir.glob(File.join(BIN_DIR, ary.join('*-') + '*')).delete_if{ |s| s.count('-') > ary.size }
+    guess = Dir.glob(File.join(BIN_DIR, ary.join('*-') + '*'))
+    guess.delete_if{ |s| s.count('-') > ary.size || !valid_command?(s) }
+    next if guess.empty?
     return guess[0] if guess.size == 1
     maybe += guess
   end
@@ -52,38 +65,28 @@ def best_matching_command(str)
   maybe.sort!
 end
 
-def which?(str)
-  str == 'which' || str == 'w' || str == '-w' || str == '--which'
+def no_such_command(cmd)
+  $stderr.puts("no such command - #{cmd}")
+  exit!
+end
+
+def non_bijective_command(cmd, alternatives, out)
+  $stderr.puts("non-bijective command - #{cmd}")
+  out.puts('did you mean:')
+  alternatives.each{ |cmd| out.puts('  ' + File.basename(cmd)) }
+  exit!
+end
+
+def find_command(str, out = $stdout)
+  found = best_matching_command(str)
+  no_such_command(str) if found.nil?
+  non_bijective_command(str, found, out) if Array === found
+  found
 end
 
 def which(str)
-  found = best_matching_command(str)
-  if found.nil?
-    puts("#{str} not found")
-    exit!
-  end
-  if Array === found
-    puts("#{str} is not bijective", 'did you mean:')
-    found.each{ |cmd| puts('  ' + File.basename(cmd)) }
-    exit!
-  end
-  puts(found)
-  exit 0
-end
-
-def command(str)
-  found = best_matching_command(str)
-  if found.nil?
-    $stderr.puts("no such command - #{str}")
-    exit!
-  end
-  if Array === found
-    $stderr.puts("non-bijective command - #{str}")
-    puts('did you mean:')
-    found.each{ |cmd| puts('  ' + File.basename(cmd)) }
-    exit!
-  end
-  found
+  puts(find_command(str, $stderr))
+  exit
 end
 
 if ARGV.size == 1
@@ -91,4 +94,4 @@ if ARGV.size == 1
   exec(command(ARGV[0]), '--help') if help?(command)
 end
 
-exec(command(command), *ARGV)
+exec(find_command(command), *ARGV)
