@@ -79,7 +79,7 @@ command -v exenv >/dev/null 2>&1 && { eval "$(exenv init -)"; }
 command -v rbenv >/dev/null 2>&1 && { eval "$(rbenv init -)"; }
 
 # i need this sequence
-export PATH="$HOME/.usr/bin:/usr/local/opt/curl/bin:$PATH:/usr/local/sbin:/usr/local/opt/go/libexec/bin"
+export PATH="$HOME/.usr/bin:/usr/local/opt/curl/bin:$HOME/.cargo/bin:$PATH:/usr/local/sbin:/usr/local/opt/go/libexec/bin"
 
 # include the locals
 source_if_exists ~/.zshrc.local
