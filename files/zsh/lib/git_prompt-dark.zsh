@@ -1,4 +1,4 @@
-GIT_PROMPT_PREFIX="%{$bg[white]%}%{$fg[red]%} "
+GIT_PROMPT_PREFIX="%{$bg[black]%}%{$fg[yellow]%} "
 GIT_PROMPT_SUFFIX="%{$reset_color%}"
 GIT_PROMPT_UNTRACKED=" ♾"
 GIT_PROMPT_MODIFIED=" ✎"
