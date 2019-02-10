@@ -39,6 +39,9 @@ echo "General: request password asap"
 defaults write com.apple.screensaver askForPassword -int 1
 defaults write com.apple.screensaver askForPasswordDelay -int 0
 
+echo "Finder: show all files"
+defaults write com.apple.finder AppleShowAllFiles YES
+
 echo "Finder: automatically hide and show the Dock"
 defaults write com.apple.dock autohide -bool true
 
