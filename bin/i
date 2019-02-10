@@ -91,7 +91,7 @@ end
 
 if ARGV.size == 1
   which(ARGV[0]) if which?(command)
-  exec(command(ARGV[0]), '--help') if help?(command)
+  exec(find_command(ARGV[0]), '--help') if help?(command)
 end
 
 exec(find_command(command), *ARGV)
