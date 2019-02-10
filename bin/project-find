@@ -1,37 +1,45 @@
 #! /usr/bin/env ruby
 # frozen_string_literal: true
 
+NAME = File.basename(__FILE__)
+
 def help
-  puts <<~ø
-    usage: #{File.basename(__FILE__)} [options] <project_name>
+  puts <<~HELP
+    usage: #{NAME} [options] <project_name>
 
     valid options:
       -t, --top   display first matching project
 
       Display all projects matching <project_name> shortcut.
-  ø
+  HELP
   exit 0
 end
 
 def help?(str)
-  str == 'help' || str == 'h' || str == '-h' || str == '--help'
+  str.nil? || str == 'help' || str == 'h' || str == '-h' || str == '--help'
 end
 
 def top_only?(str)
   str == '-t' || str == '--top'
 end
 
-help if ARGV.empty?
-help if help?(ARGV[0])
-top_ponly = top_only?(ARGV[0])
-ARGV.shift if top_ponly
-exit 2 if ARGV.empty? || ARGV[0].empty?
+def read_roots(file_name = '~/.' + NAME)
+  IO
+    .readlines(File.expand_path(file_name))
+    .map!(&:strip)
+    .delete_if do |name|
+      name.nil? || name.empty? || name.start_with?('#')
+    end
+rescue SystemCallError
+  $stderr.puts "#{NAME}: configuration not found - #{file_name}"
+  exit 3
+end
+
+help if help?(option = ARGV.shift)
+top_ponly = top_only?(option) && option = ARGV.shift
+exit 2 if option.nil?
 
 class ProjectsFinder
-  def self.default
-    new(%w(~/prj/my ~/prj/ivx))
-  end
-
   def initialize(roots)
     @roots, @map = roots, nil
   end
@@ -69,8 +77,9 @@ class ProjectsFinder
   def create_map
     ret = Hash.new{ |h, k| h[k] = [] }
     @roots.each do |root|
-      glob = File.expand_path(root) + '/*'
-      Dir.glob(glob) do |file_name|
+      root = File.expand_path(root)
+      next unless File.directory?(root)
+      Dir.glob(root + '/*') do |file_name|
         next unless File.directory?(file_name)
         name = normalized(File.basename(file_name))
         ret[name] << file_name
@@ -80,6 +89,6 @@ class ProjectsFinder
   end
 end
 
-found = ProjectsFinder.default.related_dirs(ARGV[0])
+found = ProjectsFinder.new(read_roots).related_dirs(option)
 exit 1 if found.empty?
 top_ponly ? puts(found[0]) : found.each{ |f| puts f }
