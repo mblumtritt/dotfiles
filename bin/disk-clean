@@ -40,21 +40,11 @@ else
        gem cleanup >/dev/null 2>&1
    fi
 
-   if type "docker" >/dev/null 2>&1; then
-       echo 'Cleanup Docker'
-       docker container prune -f
-       docker image prune -f
-       docker volume prune -f
-       docker network prune -f
-   fi
-
-   if type "npm" >/dev/null 2>&1; then
-       echo 'Cleanup npm cache...'
-       npm cache clean --force
-   fi
-
-   if type "yarn" >/dev/null 2>&1; then
-       echo 'Cleanup Yarn Cache...'
-       yarn cache clean --force
-   fi
+   # if type "docker" >/dev/null 2>&1; then
+   #     echo 'Cleanup Docker'
+   #     docker container prune -f
+   #     docker image prune -f
+   #     docker volume prune -f
+   #     docker network prune -f
+   # fi
 fi
