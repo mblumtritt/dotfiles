@@ -3,68 +3,69 @@ hs.loadSpoon("ReloadConfiguration")
 spoon.ReloadConfiguration:start()
 
 hs.window.animationDuration = 0 -- disable animation
-local hyper = {"cmd", "alt", "ctrl"}
 
--- Move current window centered
-hs.hotkey.bind(hyper, "-", function()
+function pos_focusedWindow(fn)
 	local win = hs.window.focusedWindow()
 	local max = win:screen():frame()
 	local f = win:frame()
+	f.x = max.x
+	f.y = max.y
+	f.w = max.w
+	f.h = max.h
+	fn(f, max)
+	win:setFrame(f)
+end
+
+function pos_center_big(f, max)
 	local space = (max.w / 8)
 	f.x = max.x + space
-	f.y = max.y
 	f.w = max.w -  2 * space
-	f.h = max.h
-	win:setFrame(f)
-end)
+end
 
--- Move current window to left side
-hs.hotkey.bind(hyper, "Left", function()
-	local win = hs.window.focusedWindow()
-	local max = win:screen():frame()
-	local f = win:frame()
-	f.x = max.x
-	f.y = max.y
+function pos_center_small(f, max)
+	local space = (max.w / 5)
+	f.x = max.x + space
+	f.w = max.w - 2 * space
+end
+
+function pos_left(f, max)
 	f.w = max.w / 2
-	f.h = max.h
-	win:setFrame(f)
-end)
+end
 
--- Mobe current windiw to right side
-hs.hotkey.bind(hyper, "Right", function()
-	local win = hs.window.focusedWindow()
-	local max = win:screen():frame()
-	local f = win:frame()
-	  f.x = max.x + (max.w / 2)
-	  f.y = max.y
-	  f.w = max.w / 2
-	  f.h = max.h
-	  win:setFrame(f)
-end)
+function pos_right(f, max)
+	f.w = max.w / 2
+	f.x = max.x + f.w
+end
 
--- Move current window to top half
-hs.hotkey.bind(hyper, "Up", function()
-	local win = hs.window.focusedWindow()
-	local max = win:screen():frame()
-	local f = win:frame()
-	f.x = max.x
-	f.y = max.y
-	f.w = max.w
+function pos_up(f, max)
 	f.h = max.h / 2
-	win:setFrame(f)
-end)
+end
 
--- Mobe current windiw to right side
-hs.hotkey.bind(hyper, "Down", function()
-	local win = hs.window.focusedWindow()
-	local max = win:screen():frame()
-	local f = win:frame()
-	f.x = max.x
-	f.y = max.y + (max.h / 2)
-	f.w = max.w
+function pos_down(f, max)
 	f.h = max.h / 2
-	win:setFrame(f)
-end)
+	f.y = max.y + f.h
+end
+
+local hyper = {"cmd", "alt", "ctrl"}
+
+hs.hotkey.bind(hyper, "-", function() pos_focusedWindow(pos_center_big) end)
+hs.hotkey.bind(hyper, ".", function() pos_focusedWindow(pos_center_small) end)
+hs.hotkey.bind(hyper, "Left", function() pos_focusedWindow(pos_left) end)
+hs.hotkey.bind(hyper, "Right", function() pos_focusedWindow(pos_right) end)
+hs.hotkey.bind(hyper, "Up", function() pos_focusedWindow(pos_up) end)
+hs.hotkey.bind(hyper, "Down", function() pos_focusedWindow(pos_down) end)
+
+function handleWifi(watcher, message, interface)
+	local net = hs.wifi.currentNetwork()
+	if net == nil then
+		hs.notify.show("WIFI", "", "Disconnected from network", "")
+	else
+		hs.notify.show("WIFI", net, "Connected to network", "")
+	end
+end
+
+wifiwatcher = hs.wifi.watcher.new(handleWifi)
+wifiwatcher:start()
 
 -- Hide Hommerspoon's Dock icon
 hs.dockicon.hide()
