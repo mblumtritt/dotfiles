@@ -1,4 +1,4 @@
-function handleWifi(watcher, message, interface)
+function handleWifi(_watcher, _message, _interface)
 	local net = hs.wifi.currentNetwork()
 	if net == nil then
 		hs.notify.show("WIFI", "", "Disconnected from network", "")
@@ -7,5 +7,5 @@ function handleWifi(watcher, message, interface)
 	end
 end
 
-wifiwatcher = hs.wifi.watcher.new(handleWifi)
-wifiwatcher:start()
+local wifiWatcher = hs.wifi.watcher.new(handleWifi)
+wifiWatcher:start()
