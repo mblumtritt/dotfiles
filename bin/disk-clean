@@ -27,8 +27,6 @@ else
    if type "brew" >/dev/null 2>&1; then
        echo 'Update Homebrew Recipes...'
        brew update
-       echo 'Upgrade and remove outdated formulae'
-       brew upgrade --cleanup
        echo 'Cleanup Homebrew Cache...'
        brew cleanup -s >/dev/null 2>&1
        rm -rfv "$(brew --cache)" >/dev/null 2>&1
