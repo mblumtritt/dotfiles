@@ -1,0 +1,70 @@
+#! /usr/bin/env ruby
+# frozen_string_literal: true
+
+NAME = File.basename(__FILE__)
+
+def help
+  puts <<~HELP
+    usage: #{NAME} [OPTIONS] [EXPR]
+
+    Display USB devices matching given regular expression.
+
+    Options:
+    -s, --serial   show serial numbers only
+  HELP
+  exit
+end
+
+def error(message, code = 128)
+  $stderr.puts("#{NAME}-error: #{message}")
+  exit(code)
+end
+
+def help?
+  ARGV[0] == '--help' || ARGV[0] == '-h'
+end
+
+help if help?
+
+def short?
+  (ARGV[0] == '--serial' || ARGV[0] == '-s') && ARGV.shift
+end
+
+show =
+  if short?
+    proc{ |serial, _| puts(serial) }
+  else
+    proc{ |serial, name| puts("#{name}: #{serial}") }
+  end
+
+expression = begin
+  ARGV.empty? ? nil : Regexp.new(ARGV.join(' '))
+rescue RegexpError => e
+  error(e)
+end
+
+module USBHelper
+  def self.fetch
+    require 'open3' unless defined?(Open3)
+    Open3.capture2e('system_profiler SPUSBDataType').join
+  end
+
+  def self.all
+    found, name = {}, nil
+    fetch.scan(%r(\s+(.+):$|Serial Number: (.+)$)) do |match|
+      name = match[0] unless match[0].nil?
+      serial = match[1] and found[serial] = name.tr(' \/|-', '_')
+    end
+    found
+  end
+end
+
+list = USBHelper.all
+
+if expression
+  list.keep_if do |serial, name|
+    expression.match?(name) || expression.match?(serial)
+  end
+end
+
+list.empty? ? exit(1) : list.each_pair(&show)
