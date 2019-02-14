@@ -8,9 +8,13 @@ Display external or local IP address.
 
 options:
    -l, --local  show local address
+   -6, --ipv6   show IPv6 address
+   -4, --ipv4   show IPv4 address (default)
 "
 elif [ "$1" =  '-l' ] || [ "$1" =  '--local' ]; then
   ipconfig getifaddr en0
-else
-  dig +short myip.opendns.com @resolver1.opendns.com
+elif [ "$1" =  '-4' ] || [ "$1" =  '--ipv4' ] || [ "$1" =  '' ]; then
+  dig @resolver1.opendns.com ANY myip.opendns.com +short -4
+elif [ "$1" =  '-6' ] || [ "$1" =  '--ipv6' ]; then
+  dig @resolver1.opendns.com ANY myip.opendns.com +short
 fi
