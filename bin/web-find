@@ -42,13 +42,13 @@ Catalog = [
 ]
 
 def usage
-  puts <<~ø
+  puts <<~USAGE
     usage: #{me} [<engine>] <phrase>
 
     Return URL of web search <engine> to search for <phrase>.
 
     valid engines:
-  ø
+  USAGE
   Catalog.each do |(name, long, short, _)|
     str = "   #{short} | #{long}"
     str += ' ' * (23 - str.size)

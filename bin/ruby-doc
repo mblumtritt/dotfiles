@@ -2,8 +2,11 @@
 # frozen_string_literal: true
 
 def help
-  puts("usage: #{File.basename(__FILE__)} [--stdlib <lib_name>] | [<class> | <method_name>]", nil)
-  puts('Opens ruby documentation with given Ruby class or method name or the Ruby stdlib documentation.')
+  puts <<~HELP
+    usage: #{File.basename(__FILE__)} [--stdlib <lib_name>] | [<class> | <method_name>]
+
+    Opens ruby documentation with given Ruby class or method name or the Ruby stdlib documentation.
+  HELP
   exit 0
 end
 
