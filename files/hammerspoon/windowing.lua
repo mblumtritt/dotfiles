@@ -28,6 +28,10 @@ function pos_left(f, max)
 	f.w = max.w / 2
 end
 
+function pos_left_min(f, max)
+	f.w = max.w / 6
+end
+
 function pos_right(f, max)
 	f.w = max.w / 2
 	f.x = max.x + f.w
@@ -46,6 +50,7 @@ local hyper = {"cmd", "alt", "ctrl"}
 
 hs.hotkey.bind(hyper, "-", function() pos_focusedWindow(pos_center_big) end)
 hs.hotkey.bind(hyper, ".", function() pos_focusedWindow(pos_center_small) end)
+hs.hotkey.bind(hyper, "m", function() pos_focusedWindow(pos_left_min) end)
 hs.hotkey.bind(hyper, "Left", function() pos_focusedWindow(pos_left) end)
 hs.hotkey.bind(hyper, "Right", function() pos_focusedWindow(pos_right) end)
 hs.hotkey.bind(hyper, "Up", function() pos_focusedWindow(pos_up) end)

@@ -1,5 +1,6 @@
 require('windowing')
-require('wifi')
+require('watch-wifi')
 require('watch-cfg')
+require('watch-usb')
 
 hs.dockicon.hide()
