@@ -40,6 +40,3 @@ function e() # edit given file or best matching project
 		mate "$(project-find --top "$1")"
 	fi
 }
-
-function command_not_found_handler() # handler for invalid commands
-{ i "$@" }
