@@ -12,24 +12,25 @@ function pos_focusedWindow(fn)
 	win:setFrame(f)
 end
 
-function pos_center_big(f, max)
-	local space = (max.w / 8)
-	f.x = max.x + space
-	f.w = max.w -  2 * space
-end
-
-function pos_center_small(f, max)
-	local space = (max.w / 5)
+function pos_center(f, max, space)
 	f.x = max.x + space
 	f.w = max.w - 2 * space
 end
 
-function pos_left(f, max)
-	f.w = max.w / 2
+function pos_center_big(f, max)
+	pos_center(f, max, max.w / 8)
 end
 
-function pos_left_min(f, max)
-	f.w = max.w / 6
+function pos_center_small(f, max)
+	pos_center(f, max, max.w / 5)
+end
+
+function pos_center_min(f, max)
+	pos_center(f, max, max.w / 3)
+end
+
+function pos_left(f, max)
+	f.w = max.w / 2
 end
 
 function pos_right(f, max)
@@ -50,7 +51,7 @@ local hyper = {"cmd", "alt", "ctrl"}
 
 hs.hotkey.bind(hyper, "-", function() pos_focusedWindow(pos_center_big) end)
 hs.hotkey.bind(hyper, ".", function() pos_focusedWindow(pos_center_small) end)
-hs.hotkey.bind(hyper, "m", function() pos_focusedWindow(pos_left_min) end)
+hs.hotkey.bind(hyper, "m", function() pos_focusedWindow(pos_center_min) end)
 hs.hotkey.bind(hyper, "Left", function() pos_focusedWindow(pos_left) end)
 hs.hotkey.bind(hyper, "Right", function() pos_focusedWindow(pos_right) end)
 hs.hotkey.bind(hyper, "Up", function() pos_focusedWindow(pos_up) end)
