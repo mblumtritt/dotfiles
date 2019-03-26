@@ -1,6 +1,6 @@
 hs.window.animationDuration = 0 -- disable animation
 
-function pos_focusedWindow(fn)
+local pos_focusedWindow = function (fn)
 	local win = hs.window.focusedWindow()
 	local max = win:screen():frame()
 	local f = win:frame()
@@ -12,37 +12,49 @@ function pos_focusedWindow(fn)
 	win:setFrame(f)
 end
 
-function pos_center(f, max, space)
+local pos_hor_center = function(f, max, part)
+	local space = max.w / part
 	f.x = max.x + space
 	f.w = max.w - 2 * space
 end
 
-function pos_center_big(f, max)
-	pos_center(f, max, max.w / 8)
+local pos_vert_center = function(f, max, part)
+	local space = max.h / part
+	f.y = max.y + space
+	f.h = max.h - 2 * space
 end
 
-function pos_center_small(f, max)
-	pos_center(f, max, max.w / 5)
+local pos_center_mid = function(f, max)
+	pos_hor_center(f, max, 10)
+	pos_vert_center(f, max, 10)
 end
 
-function pos_center_min(f, max)
-	pos_center(f, max, max.w / 3)
+local pos_center_big = function(f, max)
+	pos_hor_center(f, max, 8)
 end
 
-function pos_left(f, max)
+local pos_center_small = function(f, max)
+	pos_hor_center(f, max, 5)
+end
+
+local pos_center_min = function(f, max)
+	pos_hor_center(f, max, 3)
+end
+
+local pos_left = function(f, max)
 	f.w = max.w / 2
 end
 
-function pos_right(f, max)
+local pos_right = function(f, max)
 	f.w = max.w / 2
 	f.x = max.x + f.w
 end
 
-function pos_up(f, max)
+local pos_up = function(f, max)
 	f.h = max.h / 2
 end
 
-function pos_down(f, max)
+local pos_down = function(f, max)
 	f.h = max.h / 2
 	f.y = max.y + f.h
 end
@@ -52,6 +64,7 @@ local hyper = {"cmd", "alt", "ctrl"}
 hs.hotkey.bind(hyper, "-", function() pos_focusedWindow(pos_center_big) end)
 hs.hotkey.bind(hyper, ".", function() pos_focusedWindow(pos_center_small) end)
 hs.hotkey.bind(hyper, "m", function() pos_focusedWindow(pos_center_min) end)
+hs.hotkey.bind(hyper, ",", function() pos_focusedWindow(pos_center_mid) end)
 hs.hotkey.bind(hyper, "Left", function() pos_focusedWindow(pos_left) end)
 hs.hotkey.bind(hyper, "Right", function() pos_focusedWindow(pos_right) end)
 hs.hotkey.bind(hyper, "Up", function() pos_focusedWindow(pos_up) end)

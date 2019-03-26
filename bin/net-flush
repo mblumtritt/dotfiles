@@ -2,12 +2,12 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "usage: ${0##*/} <interface>
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} INTERFACE
 
-Flush routes for your <interface> (like en0, en1, ...). (May require password.)
+Flush routes for your INTERFACE (like en0, en1, ...). (May require password.)
 "
 elif [ $# = 0 ]; then
-  (>&2 echo "${0##*/}: name of <interface> missing")
+  (>&2 echo "${0##*/}: name of INTERFACE missing")
   exit 1
 else
   sudo ifconfig "$1" down && sudo route flush && sudo ifconfig "$1" up

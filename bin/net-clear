@@ -2,7 +2,7 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "usage: ${0##*/}
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
 
 Clear the DNS cache. (May require password.)
 "

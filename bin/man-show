@@ -2,12 +2,12 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "usage: ${0##*/} <page>
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} PAGE
 
-Open man pages in Preview.app
+Open man pages with PAGE in Preview.app
 "
 elif [ $# = 0 ]; then
-	(>&2 echo "${0##*/}: <page> missing")
+	(>&2 echo "${0##*/}: PAGE missing")
 	exit 1
 else
 	for page in "$@"

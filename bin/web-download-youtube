@@ -2,11 +2,11 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "usage: ${0##*/} [options] <uri>
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} [OPTIONS] URL
 
 Download a (YouTube) video.
 
-valid options:
+Options:
  -v | --video   download video to $HOME/Movies (default)
  -a | --audio   download audio to $HOME/Music
 "
@@ -14,7 +14,7 @@ valid options:
 fi
 
 if [ $# = 0 ]; then
-	(>&2 echo "${0##*/}: <uri> missing")
+	(>&2 echo "${0##*/}: URL missing")
 	exit 1
 fi
 

@@ -2,10 +2,11 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "usage: ${0##*/} <ip>
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} IP
 
 Display location information for given IP.
 "
 else
+	trap 'exit 1' EXIT INT HUP TERM
   curl -s -L -N https://ip.cn/"$1" | html-convert-txt
 fi

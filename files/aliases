@@ -12,7 +12,7 @@ alias please='sudo'
 alias o='open'
 alias g='git'
 alias ƒ='i'
-alias ƒe='EDITOR="mate -w"'
+alias ƒe='EDITOR=nano'
 
 alias -s log='less -MN'
 

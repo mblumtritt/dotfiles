@@ -2,6 +2,12 @@
 # frozen_string_literal: true
 
 require 'yaml'
-require 'json'
+require 'oj'
 
-YAML.dump(JSON.parse($stdin.read), $stdout)
+begin
+  YAML.dump(Oj.load($stdin.read), $stdout)
+rescue Oj::ParseError => e
+  warn(e) or exit!
+rescue Interrupt
+  exit(130)
+end

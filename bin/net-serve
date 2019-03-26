@@ -2,12 +2,12 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "usage: ${0##*/} <file_name> [<port>]
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} FILE_NAME [PORT]
 
-Serve <file_name> via HTTP.
+Serve FILE_NAME via HTTP.
 "
 elif [ $# = 0 ]; then
-	(>&2 echo "${0##*/}: <file_name> missing")
+	(>&2 echo "${0##*/}: FILE_NAME missing")
 	exit 1
 else
 	while true; do

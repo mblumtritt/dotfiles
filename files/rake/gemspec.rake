@@ -21,7 +21,8 @@ rule '.gemspec' do |r|
       spec.email = 'mike.blumtritt@invision.de'
       spec.homepage = 'https://github.com/mblumtritt/#{basename}'
       spec.metadata = {
-        'issue_tracker' => 'https://github.com/mblumtritt/#{basename}/issues'
+        'source_code_uri => 'https://github.com/mblumtritt/#{basename}'
+        'bug_tracker_uri' => 'https://github.com/mblumtritt/#{basename}/issues'
       }
 
       # spec.add_runtime_dependency 'todo'

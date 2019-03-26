@@ -14,7 +14,7 @@ reconnect|re)
   networksetup -setairportpower en0 on
   ;;
 *)
-  echo "usage: ${0##*/} on|off|re
+  echo "Usage: ${0##*/} on|off|re
 
 Switch WLAN on, off or reconnect.
 "

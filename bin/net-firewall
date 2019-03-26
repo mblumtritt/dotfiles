@@ -2,7 +2,7 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "usage: ${0##*/} [on|off|status]
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} [on|off|status]
 
 Enable/disable firewall or show status. (May require password.)
 "

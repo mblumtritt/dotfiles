@@ -2,7 +2,7 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "usage: ${0##*/} [--no-system]
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} [--no-system]
 
 Update System, Homebrew, Homebrew bundles and Ruby gems.
 "

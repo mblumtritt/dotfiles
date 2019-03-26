@@ -7,15 +7,29 @@ def valid_command?(fname)
   File.file?(fname) && File.executable_real?(fname)
 end
 
+def all_commands
+  Dir
+    .glob(File.join(BIN_DIR, '*'))
+    .keep_if{ |cmd| valid_command?(cmd) }
+    .map!{ |cmd| File.basename(cmd) }
+    .sort!
+end
+
+def my_name
+  File.basename(__FILE__)
+end
+
 def help
-  puts(
-    "usage: #{File.basename(__FILE__)} <command> [options]",
-    nil,
-    'valid commands:'
-  )
-  Dir.glob(File.join(BIN_DIR, '*')).sort!.each do |cmd|
-    puts('  ' + File.basename(cmd)) if valid_command?(cmd)
-  end
+  puts <<~USAGE
+    Usage: #{my_name} COMMAND [OPTIONS]
+
+    Build-in commands:
+      -h, --help    show COMMAND specific help or this screen
+      -w, --which   show file name for given COMMAND
+
+    Commands found:
+  USAGE
+  all_commands.each{ |cmd| puts "  #{cmd}"}
   exit
 end
 
@@ -65,21 +79,21 @@ def best_matching_command(str)
   maybe.sort!
 end
 
-def no_such_command(cmd)
-  $stderr.puts("no such command - #{cmd}")
-  exit!
+def error(msg, subject)
+  $stderr.puts("#{my_name}: #{msg} - #{subject}")
+  block_given? and yield
+  exit(127)
 end
 
 def non_bijective_command(cmd, alternatives, out)
-  $stderr.puts("non-bijective command - #{cmd}")
-  out.puts('did you mean:')
-  alternatives.each{ |cmd| out.puts('  ' + File.basename(cmd)) }
-  exit!
+  error('non-bijective command', cmd) do
+    out.puts('Did you mean:')
+    alternatives.each{ |cmd| out.puts('  ' + File.basename(cmd)) }
+  end
 end
 
 def find_command(str, out = $stdout)
-  found = best_matching_command(str)
-  no_such_command(str) if found.nil?
+  found = best_matching_command(str) or error('no such command', str)
   non_bijective_command(str, found, out) if Array === found
   found
 end
