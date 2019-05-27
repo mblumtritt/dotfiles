@@ -11,8 +11,8 @@ alias fucking='sudo'
 alias please='sudo'
 alias o='open'
 alias g='git'
-alias ƒ='i'
 alias ƒe='EDITOR=nano'
+alias sc='shellcheck'
 
 alias -s log='less -MN'
 
