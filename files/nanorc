@@ -16,8 +16,7 @@ set positionlog
 set showcursor
 set smarthome
 set smooth
-## Use this tab size instead of the default; it must be greater than 0.
-set tabsize 4
+set tabsize 2
 set tabstospaces
 set trimblanks
 include "/usr/local/Cellar/nano/3.2/share/nano/*.nanorc"
