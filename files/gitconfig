@@ -1,7 +1,7 @@
 [core]
 	editor = "mate -w"
 	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
-	excludesfile = /Users/mike/.gitignore_global
+	excludesfile = ~/.gitignore_global
 	autocrlf = input
 [credential]
 	helper = osxkeychain
@@ -55,17 +55,17 @@
 	ps = push
 	aa = add --all
 	br = !sh -c 'git branch -v $1 && git checkout $1' -
-   bl = branch -a
-   bdel = branch -D
-   bprune = remote update origin --prune
-   # lg = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(yellow)%d%C(reset)' --all
+	bl = branch -a
+  bdel = branch -D
+  bprune = remote update origin --prune
+  # lg = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(yellow)%d%C(reset)' --all
 	lg = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(black)%s%C(reset) %C(dim black)- %an%C(reset)%C(yellow)%d%C(reset)' --all
-   lgs = log -30 --graph --decorate --pretty=format:'%h %ad %s (%an)' --date=short
+  lgs = log -30 --graph --decorate --pretty=format:'%h %ad %s (%an)' --date=short
 	lga = log -30 --graph --decorate --all --pretty=format:'%h %ad %s (%an)' --date=short
-   ld = log -p -1
+  ld = log -p -1
 	up = !sh -c 'git fetch origin && git rebase origin/master' -
-[include]
-  path = ~/.gitconfig.local
+# [include]
+#   path = ~/.gitconfig.local
 [user]
 	name = Mike Blumtritt
 	email = mblumtritt@users.noreply.github.com
