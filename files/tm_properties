@@ -5,7 +5,7 @@ searchResultsFontName = "Roboto Mono"
 searchResultsFontSize = 13
 excludeInFolderSearch = "{$excludeInFolderSearch,pkg/*,tmp/*,log/*}"
 excludeInFileChooser = "{$excludeInFileChooser,pkg/*,tmp/*,log/*}"
-include = "{$include,.tm_properties,.htaccess,.configuration,.gitignore,.ruby*,.rubocop.yml}"
+include = "{$include,.tm_properties,.htaccess,.configuration,.gitignore,.ruby*,.rubocop*}"
 scopeAttributes = attr.keep-whitespace
 
 [*.csv]
@@ -20,6 +20,18 @@ spellChecking = true
 spellingLanguage = 'en'
 
 [ source.ruby ]
+softWrap = false
+showInvisibles = true
+softTabs = true
+tabSize = 2
+
+[ source.c ]
+softWrap = false
+showInvisibles = true
+softTabs = true
+tabSize = 2
+
+[ source.cpp ]
 softWrap = false
 showInvisibles = true
 softTabs = true
