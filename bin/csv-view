@@ -2,7 +2,7 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "Isage: ${0##*/} CSV_FILE
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} CSV_FILE
 
 Display given CSV_FILE.
 "

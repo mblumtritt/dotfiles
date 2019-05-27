@@ -86,14 +86,14 @@ def error(msg, subject)
 end
 
 def non_bijective_command(cmd, alternatives, out)
-  error('non-bijective command', cmd) do
+  error('command non-bijective', cmd) do
     out.puts('Did you mean:')
     alternatives.each{ |cmd| out.puts('  ' + File.basename(cmd)) }
   end
 end
 
 def find_command(str, out = $stdout)
-  found = best_matching_command(str) or error('no such command', str)
+  found = best_matching_command(str) or error('command not found', str)
   non_bijective_command(str, found, out) if Array === found
   found
 end

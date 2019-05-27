@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 desc 'create a new Ruby repository'
-task :ruby, [:name] do |t, args|
+task :ruby, [:name] do |_, args|
   name = args[:name] or fail 'name expected'
   basename = File.basename(name, '.*')
   want :git, name
@@ -28,37 +28,45 @@ module Ruby
   end
 
   def self.version_file(module_name)
-    <<~EOF
+    <<~VERSION_FILE
+      # frozen_string_literal: true
+
       module #{module_name}
-        VERSION = '0.0.1'.freeze
+        VERSION = '0.0.1'
       end
-    EOF
+    VERSION_FILE
   end
 
   def self.class_file(class_name)
-    <<~EOF
+    <<~CLASS_FILE
+      # frozen_string_literal: true
+
       class #{class_name}
         # TODO class body
       end
-    EOF
+    CLASS_FILE
   end
 
   def self.module_file(module_name)
-    <<~EOF
+    <<~MODULE_FILE
+      # frozen_string_literal: true
+
       module #{module_name}
         # TODO module body
       end
-    EOF
+    MODULE_FILE
   end
 
   def self.mod_class_file(module_name, class_name)
-    <<~EOF
+    <<~MOD_CLASS_FILE
+      # frozen_string_literal: true
+
       module #{module_name}
         class #{class_name}
           # TODO class body
         end
       end
-    EOF
+    MOD_CLASS_FILE
   end
 
   def self.find_class_name(file_name)
@@ -67,8 +75,8 @@ module Ruby
 
   def self.find_module_name(file_name)
     re = %r((\w+)/lib/(.*/)?#{Regexp.escape(File.basename(file_name))})
-    match = file_name.match(re)
-    match ? const_name(match[1]) : nil
+    match = file_name.match(re) or return nil
+    const_name(match[1])
   end
 
   def self.const_name(str)
