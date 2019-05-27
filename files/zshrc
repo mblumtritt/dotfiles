@@ -1,4 +1,4 @@
-source ~/.zsh/lib/functions.zsh # load helper functions
+source ~/.zsh/functions.zsh # load helper functions
 
 # setup language
 export LANG=en_GB.utf-8
@@ -7,9 +7,8 @@ export LC_ALL=en_GB.utf-8
 # setup colors
 autoload -U colors
 colors
-export LSCOLORS=exfxcxdxbxehfhbhbhhchd
 export CLICOLOR=1
-[[ -o interactive ]] && source_if_exists /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+export LSCOLORS=cxfxdxdxbxahehbhbhchcH
 
 # setup jobs
 setopt notify
@@ -36,11 +35,14 @@ setopt long_list_jobs
 	# setup completion
 	autoload -U compinit
 	autoload -U complist
-	compinit
+	compinit -C
 	zstyle ':completion:*' completer _complete _ignored
-	zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} l:|=* r:|=*'
+	# zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} l:|=* r:|=*'
+	zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+	zstyle ':completion:*' list-colors ${(s.:.)LSCOLORS}
 	setopt no_list_ambiguous # show completion list when completion is inserted
 	setopt no_cdablevars # do not expand cdable variables
+
 	setopt beep
 	setopt no_list_beep
 	setopt no_hist_beep
@@ -53,8 +55,8 @@ setopt long_list_jobs
 	# setup cd & Co.
 	setopt auto_cd
 	setopt auto_pushd
-	setopt pushd_ignore_dups
 	setopt pushd_silent
+	setopt pushd_ignore_dups
 
 	# setup prompt
 	setopt prompt_subst
@@ -62,7 +64,9 @@ setopt long_list_jobs
 	autoload -U promptinit
 	promptinit
 	export PS1='%~$ '
-	source ~/.zsh/lib/prompt.zsh
+	PROMPT='%(?,,%K{red}%F{white}%B %? %b%k)'
+	source_if_exists /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+	ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=blue'
 }
 
 # define some behaviour
@@ -73,10 +77,10 @@ export BAT_THEME='GitHub'
 
 # init helpers
 source ~/.aliases
+source ~/.zsh/iterm2_shell_integration.zsh
 source_if_exists ~/.aliases.local
-source_if_exists ~/.iterm2_shell_integration.zsh
-command -v exenv >/dev/null 2>&1 && { eval "$(exenv init -)"; }
-command -v rbenv >/dev/null 2>&1 && { eval "$(rbenv init -)"; }
+command_exists exenv && { eval "$(exenv init -)"; }
+command_exists rbenv && { eval "$(rbenv init -)"; }
 
 # i need this sequence
 export PATH="$HOME/.usr/bin:/usr/local/opt/curl/bin:$HOME/.cargo/bin:$PATH:/usr/local/sbin:/usr/local/opt/go/libexec/bin"
