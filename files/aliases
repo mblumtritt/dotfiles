@@ -1,5 +1,6 @@
 alias ll='ls -Alp'
 alias lr='ls -Rlp'
+alias rd='rm -rf'
 alias du='du -kh'
 alias path='echo -e ${PATH//:/\\n}'
 alias ...='cd ..'
