@@ -5,7 +5,7 @@ searchResultsFontName = "Roboto Mono"
 searchResultsFontSize = 13
 excludeInFolderSearch = "{$excludeInFolderSearch,pkg/*,tmp/*,log/*}"
 excludeInFileChooser = "{$excludeInFileChooser,pkg/*,tmp/*,log/*}"
-include = "{$include,.tm_properties,.htaccess,.configuration,.gitignore,.ruby*,.rubocop*}"
+include = "{$include,.tm_properties,.htaccess,.configuration,.gitignore,.dockerignore,.ruby*,.rubocop*}"
 scopeAttributes = attr.keep-whitespace
 
 [*.csv]
