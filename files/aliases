@@ -14,8 +14,6 @@ alias g='git'
 alias ƒe='EDITOR=nano'
 alias sc='shellcheck'
 
-alias -s log='less -MN'
-
 alias rk='noglob rake'
 alias gr='noglob rake -g'
 alias be='noglob bundle exec'
