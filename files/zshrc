@@ -37,8 +37,8 @@ setopt long_list_jobs
 	autoload -U complist
 	compinit -C
 	zstyle ':completion:*' completer _complete _ignored
-	# zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} l:|=* r:|=*'
-	zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+	zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} l:|=* r:|=*'
+	# zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 	zstyle ':completion:*' list-colors ${(s.:.)LSCOLORS}
 	setopt no_list_ambiguous # show completion list when completion is inserted
 	setopt no_cdablevars # do not expand cdable variables
