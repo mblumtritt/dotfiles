@@ -61,7 +61,4 @@ else
 	echo 'Empty Trashes on all mounted volumes...'
 	sudo rm -rfv /Volumes/*/.Trashes/* >/dev/null 2>&1
 	sudo rm -rfv ~/.Trash/* >/dev/null 2>&1
-
-	echo 'Purge inactive memory...'
-	sudo purge
 fi
