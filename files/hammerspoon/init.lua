@@ -12,6 +12,7 @@ clippy:bindHotkeys(
 	}
 )
 clippy.show_in_menubar = false
+clippy.hist_size = 25
 clippy.paste_on_select = true
 clippy:start()
 
