@@ -11,6 +11,8 @@ def help?(str)
   str.nil? || '--help' == str || '-h' == str
 end
 
+help if help?(ARGV.first)
+
 def find_uuid(name)
   result = %x[diskutil info #{name}]
   idx = result.index('Disk / Partition UUID:') or return nil
@@ -34,5 +36,4 @@ def process_all(ary)
   ret
 end
 
-help if help?(ARGV.first)
 exit(ARGV.size == 1 ? process(ARGV.first) : process_all(ARGV.uniq))

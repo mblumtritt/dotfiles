@@ -21,7 +21,7 @@ rule '.gemspec' do |r|
       spec.email = 'mike.blumtritt@invision.de'
       spec.homepage = 'https://github.com/mblumtritt/#{basename}'
       spec.metadata = {
-        'source_code_uri => 'https://github.com/mblumtritt/#{basename}'
+        'source_code_uri' => 'https://github.com/mblumtritt/#{basename}',
         'bug_tracker_uri' => 'https://github.com/mblumtritt/#{basename}/issues'
       }
 

@@ -13,7 +13,7 @@ scopeAttributes = attr.keep-whitespace
 
 [ text ]
 showInvisibles = true
-softWrap = true
+softWrap = false
 
 [ text.git-commit ]
 spellChecking = true
