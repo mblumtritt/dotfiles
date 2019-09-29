@@ -35,7 +35,7 @@ function command_exists() # check if a command is avail
 
 function tr() # lookup in GE/EN dictionary
 {
-	web-view "$(web-find --dict "$1")" | html-convert-txt | less
+	web-view "$(web-find --dict "$1")" | convert html text | less
 }
 
 function google() # Google search
