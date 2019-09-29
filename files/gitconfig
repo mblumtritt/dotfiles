@@ -64,6 +64,7 @@
 	lga = log -30 --graph --decorate --all --pretty=format:'%h %ad %s (%an)' --date=short
   ld = log -p -1
 	up = !sh -c 'git fetch origin && git rebase origin/master' -
+	remaster = !sh -c 'git branch -m master old-master && git checkout --orphan master && git reset old-master -- .' -
 # [include]
 #   path = ~/.gitconfig.local
 [user]
