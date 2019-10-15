@@ -19,6 +19,14 @@ def my_name
   File.basename(__FILE__)
 end
 
+def columns_print(ary)
+  require 'io/console'
+  width = ary.max_by(&:size).size + 3
+  ary
+    .map{ |str| str.ljust(width) }
+    .each_slice(STDOUT.winsize.last / width){ |line| puts(line.join) }
+end
+
 def help
   puts <<~USAGE
     Usage: #{my_name} COMMAND [OPTIONS]
@@ -29,7 +37,7 @@ def help
 
     Commands found:
   USAGE
-  all_commands.each{ |cmd| puts "  #{cmd}"}
+  columns_print(all_commands)
   exit
 end
 
