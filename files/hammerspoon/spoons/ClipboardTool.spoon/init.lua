@@ -162,7 +162,6 @@ function obj:clearAll()
    clipboard_history = {}
    _persistHistory()
    last_change = pasteboard.changeCount()
-	 hs.alert.show("Clipboard history cleared.")
 end
 
 --- ClipboardTool:clearLastItem()
@@ -172,7 +171,6 @@ function obj:clearLastItem()
    table.remove(clipboard_history, 1)
    _persistHistory()
    last_change = pasteboard.changeCount()
-	 hs.alert.show("Last Clipboard entry removed.")
 end
 
 -- Internal method: deduplicate the given list, and restrict it to the history size limit
@@ -434,7 +432,6 @@ function obj:bindHotkeys(mapping)
    local def = {
       show_clipboard = hs.fnutils.partial(self.showClipboard, self),
       toggle_clipboard = hs.fnutils.partial(self.toggleClipboard, self),
-      clear_last_item = hs.fnutils.partial(self.clearLastItem, self),
    }
    hs.spoons.bindHotkeysToSpec(def, mapping)
    obj.mapping = mapping
