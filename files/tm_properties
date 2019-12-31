@@ -7,35 +7,14 @@ excludeInFolderSearch = "{$excludeInFolderSearch,pkg/*,tmp/*,log/*}"
 excludeInFileChooser = "{$excludeInFileChooser,pkg/*,tmp/*,log/*}"
 include = "{$include,.tm_properties,.htaccess,.configuration,.gitignore,.dockerignore,.ruby*,.rubocop*}"
 scopeAttributes = attr.keep-whitespace
+softTabs = true
+tabSize = 2
+softWrap = false
+showInvisibles = false
+spellingLanguage = 'en'
 
 [*.csv]
 scopeAttributes = attr.keep-whitespace
-
-[ text ]
-showInvisibles = true
-softWrap = false
-
-[ text.git-commit ]
-spellChecking = true
-spellingLanguage = 'en'
-
-[ source.ruby ]
-softWrap = false
-showInvisibles = true
-softTabs = true
-tabSize = 2
-
-[ source.c ]
-softWrap = false
-showInvisibles = true
-softTabs = true
-tabSize = 2
-
-[ source.cpp ]
-softWrap = false
-showInvisibles = true
-softTabs = true
-tabSize = 2
 
 [ "{README,INSTALL,LICENSE,TODO}" ]
 fileType = "text.plain"
