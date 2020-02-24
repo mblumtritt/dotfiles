@@ -1,3 +1,5 @@
 # frozen_string_literal: true
 
-task(:default){ exec "#{$PROGRAM_NAME} --tasks" }
+task :default do
+  exec "#{$PROGRAM_NAME} --tasks"
+end

@@ -4,7 +4,7 @@ desc 'create default Gemfile'
 task gemfile: './gems.rb'
 
 rule %r(gems.rb$) do |r|
-  if Dir['*.gemspec'].empty?
+  if Dir[File.join(File.dirname(r.name, '*.gemspec'))].empty?
     write r.name, <<~GEMS_RB
       # frozen_string_literal: true
 
@@ -15,11 +15,7 @@ rule %r(gems.rb$) do |r|
     GEMS_RB
   else
     write r.name, <<~GEMS_RB
-      # frozen_string_literal: true
-
-      source 'https://rubygems.org' do
-        gemspec
-      end
+      gemspec
     GEMS_RB
   end
 end
