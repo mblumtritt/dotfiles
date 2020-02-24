@@ -68,3 +68,5 @@ defaults write com.googlecode.iterm2 PromptOnQuit -bool false
 
 echo "Google: allow updates only every 14 days"
 defaults write com.google.Keystone.Agent checkInterval 1209600
+
+ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport "$HOME/.usr/dotfiles/bin/airport"
