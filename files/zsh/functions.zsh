@@ -33,7 +33,7 @@ function command_exists() # check if a command is avail
 	command -v "$1" >/dev/null 2>&1
 }
 
-function tr() # lookup in GE/EN dictionary
+function @tr() # lookup in GE/EN dictionary
 {
 	web-view "$(web-find --dict "$1")" | convert html text | less
 }
