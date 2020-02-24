@@ -1,29 +1,41 @@
 #! /usr/bin/env ruby
 # frozen_string_literal: true
 
-def help
-  puts <<~HELP
-    usage: #{File.basename(__FILE__)} INFMT OUTFMT
+require 'mini-cli'
+include MiniCLI
+
+help <<~HELP, %w[INFMT OUTFMT]
 
     Prints INFMT from STDIN to STDOUT as OUTFMT.
 
     Valid format combinations:
-    INFMT   OUTFMT
-    html    text    HTML as plain text
-    htnl    md      HTML as Markdown
-    md      html    Markdown as HTML
-    md      text    Markdown as plain text
-    json    yaml    JSON as YAML
-    yaml    json    YAML as JSON
-  HELP
-  exit 0
-end
+      INFMT   OUTFMT
+      html    text    HTML as plain text
+      htnl    md      HTML as Markdown
+      md      html    Markdown as HTML
+      md      text    Markdown as plain text
+      json    yaml    JSON as YAML
+      yaml    json    YAML as JSON
+HELP
 
-def help?(str)
-  '--help' == str || '-h' == str || '-?' == str
+main do |args|
+  case (args['INFMT'] + args['OUTFMT']).downcase
+  when 'htmlmd', 'hm'
+    pandoc(:html, :gfm)
+  when 'htmltext', 'ht', 'htmltxt'
+    pandoc(:html, :plain)
+  when 'mdhtml', 'mh'
+    pandoc(:gfm, :html)
+  when 'mdtext', 'mt', 'mdtxt'
+    pandoc(:gfm, :plain)
+  when 'jsonyaml', 'jy'
+    jsonop{ Psych.dump(Oj.load($stdin.read), $stdout) }
+  when 'yamljson', 'yj'
+    jsonop{ $stdout.puts(Oj.dump(Psych.load($stdin.read))) }
+  else
+    error(2, "unknonw conversion - #{args['INFMT']} => #{args['OUTFMT']}")
+  end
 end
-
-help if help?(ARGV.first)
 
 def pandoc(inf, outf)
   exec("pandoc -f #{inf} -t #{outf}", in: $stdin, out: $stdout, err: $stderr)
@@ -34,26 +46,5 @@ def jsonop
   require 'psych'
   yield
 rescue Oj::ParseError, Psych::SyntaxError => e
-  warn(e) or exit!
-end
-
-begin
-  case ARGV.join.downcase
-  when 'htmlmd', 'hm'
-    pandoc(:html, :gfm)
-  when 'htmltext', 'ht'
-    pandoc(:html, :plain)
-  when 'mdhtml', 'mh'
-    pandoc(:gfm, :html)
-  when 'mdtext', 'mt'
-    pandoc(:gfm, :plain)
-  when 'jsonyaml', 'jy'
-    jsonop{ Psych.dump(Oj.load($stdin.read), $stdout) }
-  when 'yamljson', 'yj'
-    jsonop{ $stdout.puts(Oj.dump(Psych.load($stdin.read))) }
-  else
-    warn("unknonw conversion - #{ARGV.join(' => ')}") or exit!
-  end
-rescue Interrupt
-  exit(130)
+  error(2, e)
 end

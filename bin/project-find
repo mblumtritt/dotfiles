@@ -1,43 +1,29 @@
 #! /usr/bin/env ruby
 # frozen_string_literal: true
 
-NAME = File.basename(__FILE__)
+require 'mini-cli'
+include MiniCLI
 
-def help
-  puts <<~HELP
-    usage: #{NAME} [options] <project_name>
+help <<-HELP, 'NAME'
+  -t, --top   display first matching project only
 
-    valid options:
-      -t, --top   display first matching project
+Display all projects matching NAME shortcut.
+HELP
 
-      Display all projects matching <project_name> shortcut.
-  HELP
-  exit 0
+main do |args|
+  found = ProjectsFinder.new(read_roots).related_dirs(args['NAME'])
+  exit(1) if found.empty?
+  args.key?('top') ? puts(found[0]) : found.each{ |f| puts f }
 end
 
-def help?(str)
-  str.nil? || str == 'help' || str == 'h' || str == '-h' || str == '--help'
-end
-
-def top_only?(str)
-  str == '-t' || str == '--top'
-end
-
-def read_roots(file_name = '~/.' + NAME)
+def read_roots(file_name = '~/.' + name)
   IO
     .readlines(File.expand_path(file_name))
     .map!(&:strip)
-    .delete_if do |name|
-      name.nil? || name.empty? || name.start_with?('#')
-    end
+    .delete_if{ |name| name.nil? || name.empty? || name.start_with?('#') }
 rescue SystemCallError
-  $stderr.puts "#{NAME}: configuration not found - #{file_name}"
-  exit 3
+  error(3, "#{NAME}: configuration not found - #{file_name}")
 end
-
-help if help?(option = ARGV.shift)
-top_ponly = top_only?(option) && option = ARGV.shift
-exit 2 if option.nil?
 
 class ProjectsFinder
   def initialize(roots)
@@ -88,7 +74,3 @@ class ProjectsFinder
     ret
   end
 end
-
-found = ProjectsFinder.new(read_roots).related_dirs(option)
-exit 1 if found.empty?
-top_ponly ? puts(found[0]) : found.each{ |f| puts f }

@@ -1,70 +1,45 @@
 #! /usr/bin/env ruby
 # frozen_string_literal: true
 
-NAME = File.basename(__FILE__)
+require 'mini-cli'
+include MiniCLI
 
-def help
-  puts <<~HELP
-    usage: #{NAME} [OPTIONS] [EXPR]
+help <<~HELP, '[EXPR]'
+  -s, --serial   show serial numbers only
 
-    Display USB devices matching given regular expression.
+Display USB devices matching given regular expression.
+HELP
 
-    Options:
-    -s, --serial   show serial numbers only
-  HELP
-  exit
-end
-
-def error(message, code = 128)
-  $stderr.puts("#{NAME}-error: #{message}")
-  exit(code)
-end
-
-def help?
-  ARGV[0] == '--help' || ARGV[0] == '-h'
-end
-
-help if help?
-
-def short?
-  (ARGV[0] == '--serial' || ARGV[0] == '-s') && ARGV.shift
-end
-
-show =
-  if short?
-    proc{ |serial, _| puts(serial) }
-  else
-    proc{ |serial, name| puts("#{name}: #{serial}") }
+main do |cfg|
+  list = find_all
+  if cfg.regexp
+    list.keep_if do |serial, name|
+      cfg.regexp.match?(name) || cfg.regexp.match?(serial)
+    end
   end
-
-expression = begin
-  ARGV.empty? ? nil : Regexp.new(ARGV.join(' '))
-rescue RegexpError => e
-  error(e)
+  list.empty? ? exit(1) : list.each_pair(&cfg.show)
 end
 
-module USBHelper
-  def self.fetch
-    require 'open3' unless defined?(Open3)
-    Open3.capture2e('system_profiler SPUSBDataType').join
-  end
-
-  def self.all
-    found, name = {}, nil
-    fetch.scan(%r(\s+(.+):$|Serial Number: (.+)$)) do |match|
+def find_all
+  found, name = {}, nil
+  run('system_profiler SPUSBDataType')
+    .scan(%r(\s+(.+):$|Serial Number: (.+)$)) do |match|
       name = match[0] unless match[0].nil?
       serial = match[1] and found[serial] = name.tr(' \/|-', '_')
     end
-    found
-  end
+  found
 end
 
-list = USBHelper.all
-
-if expression
-  list.keep_if do |serial, name|
-    expression.match?(name) || expression.match?(serial)
+parse_argv do |args|
+  Struct.new(:show, :regexp).new.tap do |cfg|
+    cfg.regexp = Regexp.new(args['EXPR']) if args.key?('EXPR')
+    cfg.show =
+      if args.key?('serial')
+        proc{ |serial, _| puts(serial) }
+      else
+        proc{ |serial, name| puts("#{name}: #{serial}") }
+      end
   end
+rescue RegexpError => e
+  error(3, e)
 end
-
-list.empty? ? exit(1) : list.each_pair(&show)

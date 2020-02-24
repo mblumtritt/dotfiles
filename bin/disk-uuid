@@ -1,39 +1,34 @@
 #! /usr/bin/env ruby
 # frozen_string_literal: true
 
-def help
-  puts("usage: #{File.basename(__FILE__)} NAME", nil)
-  puts('Displays UUID of given volume NAME.')
-  exit 0
+require 'mini-cli'
+include MiniCLI
+
+help <<~HELP, 'NAME'
+
+  Displays UUID of given volume NAME.
+HELP
+
+main do |names|
+  if names.size == 1
+    uuid = find_uuid(name) or exit(1)
+    puts(uuid)
+  else
+    names.each do |name|
+      print(name, ': ')
+      puts(uuid = find_uuid(name))
+      exit(1) unless uuid
+    end
+  end
 end
 
-def help?(str)
-  str.nil? || '--help' == str || '-h' == str
+parse_argv do |args|
+  args['FILES'].unshift(args['NAME']).uniq
 end
-
-help if help?(ARGV.first)
 
 def find_uuid(name)
-  result = %x[diskutil info #{name}]
+  result = run("diskutil info #{name}]")
   idx = result.index('Disk / Partition UUID:') or return nil
   eol_idx = result.index("\n", idx) or return nil
   result[idx..eol_idx].split(': ', 2).last.strip
 end
-
-def process(name)
-  uuid = find_uuid(name) or return 1
-  puts(uuid)
-  0
-end
-
-def process_all(ary)
-  ret = 0
-  ary.each do |arg|
-    print(arg, ': ')
-    puts(uuid = find_uuid(arg))
-    ret = 1 unless uuid
-  end
-  ret
-end
-
-exit(ARGV.size == 1 ? process(ARGV.first) : process_all(ARGV.uniq))

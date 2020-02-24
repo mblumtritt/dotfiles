@@ -2,7 +2,7 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} NAME
+if [ "$1" = '--help' ] || [ "$1" = '' ]; then echo "Usage: ${0##*/} NAME
 
 Checks if disk NAME is the correct one.
 "
