@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require 'mini-cli'
-include MiniCLI
+include MiniCli
 
 help <<~HELP, '[NAME]'
   -s, --stdlib   open standard library for NAME
