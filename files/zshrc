@@ -71,6 +71,7 @@ setopt long_list_jobs
   PROMPT='%(?,,%K{red}%F{white}%B %? %b%f%k)'
   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=blue'
   source_if_exists /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  [[ "$TERM_PROGRAM" = 'vscode' ]] && export PS1='%~$ '
 
   export BAT_THEME='base16'
   export PASSWORD_STORE_ENABLE_EXTENSIONS=true
