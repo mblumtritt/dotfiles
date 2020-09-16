@@ -1,6 +1,5 @@
 alias ll='ls -Alp'
 alias lr='ls -Rlp'
-alias rd='rm -rf'
 alias du='du -kh'
 alias path='echo -e ${PATH//:/\\n}'
 alias ...='cd ..'
@@ -22,8 +21,10 @@ alias ber='be rake'
 alias bert='ber -T'
 alias berta='bert -A'
 alias rcop='rubocop -D -E -S'
-
+alias pretty!='rbprettier --write **/*.{rb,rake}'
 alias dco=docker-compose
+alias fk='fork commit'
+
 
 alias @g='googler -n 50'
 alias @a='googler -n 50 -w amazon.de'
