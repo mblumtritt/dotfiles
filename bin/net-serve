@@ -11,6 +11,6 @@ elif [ $# = 0 ]; then
 	exit 1
 else
 	while true; do
-		{ echo -e 'HTTP/1.1 200 OK\r\n'; cat "$1"; } | nc -l  "${2:-8080}"
+		{ echo -e 'HTTP/1.1 200 OK\r\n'; cat "$1"; } | nc -l "${2:-8080}"
 	done
 fi
