@@ -90,5 +90,8 @@ command_exists rbenv && { eval "$(rbenv init -)"; }
 # i need this sequence
 export PATH="$HOME/.usr/bin:/usr/local/opt/curl/bin:$HOME/.cargo/bin:$PATH:/usr/local/sbin:/usr/local/opt/go/libexec/bin"
 
+# some AWS stuff
+source_if_exists ~/.awsrc
+
 # include the locals
 source_if_exists ~/.zshrc.local
