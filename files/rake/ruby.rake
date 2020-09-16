@@ -1,13 +1,22 @@
 # frozen_string_literal: true
 
-desc 'create a new Ruby repository'
-task :ruby, [:name] do |_, args|
-  name = args[:name] or fail 'name expected'
+task 'ruby:base', [:name] => :git do |_, args|
+  name = args[:name]
   basename = File.basename(name, '.*')
-  want :git, name
   want "#{name}/lib/#{basename}.rb"
   want "#{name}/lib/#{basename}/version.rb"
-  want "#{name}/gems.rb"
+end
+
+desc 'create a new Ruby app repository'
+task :ruby, [:name] => 'ruby:base' do |_, args|
+  want "#{args[:name]}/gems.rb"
+end
+
+desc 'create a new Ruby gem repository'
+task 'ruby:gem', [:name] => 'ruby:base' do |_, args|
+  name = args[:name]
+  want "#{name}/#{name}.gemspec"
+  ordered "#{name}/gems.rb", "#{name}/rakefile.rb"
 end
 
 rule '.rb' do |r|
@@ -32,7 +41,7 @@ module Ruby
       # frozen_string_literal: true
 
       module #{module_name}
-        VERSION = '0.0.1'
+        VERSION = '0.1.0'
       end
     VERSION_FILE
   end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 desc 'create a new Git repository'
-task :git, [:name] do |t, args|
+task :git, [:name] do |_, args|
   name = args[:name] or fail 'name expected'
   fail "repo already exists - #{name}" if Git.repo?(name)
   sh "git init #{name}"

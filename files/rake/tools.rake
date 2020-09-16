@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
-def want(what, *args)
-  Rake::Task[what].invoke(*args)
+def want(task, *args)
+  Rake::Task[task].invoke(*args)
+end
+
+def ordered(*tasks)
+  tasks.flatten.each{ |task| want(task) }
 end
 
 def mkdir_for(file_name)
@@ -10,7 +14,7 @@ def mkdir_for(file_name)
 end
 
 def write(file_name, content)
-  puts "write #{file_name}"
   mkdir_for(file_name)
+  puts "write #{file_name}"
   IO.write(file_name, content)
 end

@@ -6,6 +6,7 @@ task gitignore: '.gitignore'
 rule '.gitignore' do |r|
   write r.name, <<~GITIGNORE
     idea/
+    local/
     tmp/
     pkg/
     gems.locked
