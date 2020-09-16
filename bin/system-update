@@ -10,10 +10,12 @@ else
 	if ! [ "$1" = '-s' ] && ! [ "$1" = '--no-system' ]; then
 		sudo softwareupdate -i -a
 	fi
+	echo -- update Brew stuff
 	brew update
 	brew bundle --global
 	brew upgrade
 	brew upgrade --cask
+	echo -- update Ruby stuff
 	gem update --system
 	gem update
 fi
