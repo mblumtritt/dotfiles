@@ -1,0 +1,31 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} [--encrypt] DIR [NAME]
+
+Create disk image from DIR named NAME, optionally encrypted with PASSWD.
+"
+elif [ $# = 0 ]; then
+	(>&2 echo "${0##*/}: DIR missing")
+	exit 1
+else
+  OPTIONS="-nospotlight -noanyowners"
+  TYPE=volume
+  if [ "$1" = "--encrypt" ] || [ "$1" = "-e" ]; then
+    TYPE="encrypted volume"
+    OPTIONS="-encryption AES-256 -stdinpass $OPTIONS"
+    shift
+  fi
+  readonly DIR=$(cd "$1";pwd)
+  readonly BASENAME="${DIR##*/}"
+  OPTIONS="-srcfolder \"$DIR\" -ov \"./$BASENAME.dmg\" $OPTIONS"
+  shift
+  if [ $# = 0 ]; then
+    echo "create $TYPE of $DIR"
+  else
+    echo "create $TYPE \"$1\" of $DIR"
+    OPTIONS="$OPTIONS -volname \"$1\""
+  fi
+  eval "hdiutil create $OPTIONS"
+fi
