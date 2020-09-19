@@ -2,13 +2,11 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/} [on|off|status]
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} [on|off|status]
 
 Enable/disable firewall or show status. (May require password.)
 "
-elif [ "$1" = 'on' ] || [ "$1" = 'off' ]
-then
+elif [ "$1" = 'on' ] || [ "$1" = 'off' ]; then
 	sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate "$1"
 else
 	sudo /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate
