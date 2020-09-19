@@ -38,18 +38,25 @@ setopt long_list_jobs
 	bindkey "\e[B" history-beginning-search-forward-end
 
 	# setup completion
-	autoload -U compinit
-	autoload -U complist
-	compinit -C
-	zstyle ':completion:*' completer _complete _ignored
-	zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} l:|=* r:|=*'
-	zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+  # fpath=($HOME/.zsh/completions $fpath)
+
+  zstyle ':completion:*' completer _complete _ignored _approximate
+  zstyle ':completion:*' max-errors 2
+  zstyle ':completion:*' menu select=1
+  zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} l:|=* r:|=*'
+  zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+  autoload -Uz compinit
+  autoload -U complist
+  compinit
+
   setopt auto_list
   setopt complete_aliases
   setopt list_ambiguous
-	setopt no_list_beep
+  setopt no_list_beep
   setopt list_packed
 
+  # misc
 	setopt beep
 
 	# setup edit
