@@ -5,7 +5,8 @@ alias path='echo -e ${PATH//:/\\n}'
 alias ...='cd ..'
 alias tree='tree -AC'
 
-alias ar='source ~/.aliases'
+alias sali='source ~/.aliases'
+alias saws='source ~/.awsrc'
 
 alias fucking='sudo'
 alias please='sudo'
@@ -24,7 +25,6 @@ alias rcop='rubocop -D -E -S'
 alias pretty!='rbprettier --write **/*.{rb,rake}'
 alias dco=docker-compose
 alias fk='fork commit'
-
 
 alias @g='googler -n 50'
 alias @a='googler -n 50 -w amazon.de'

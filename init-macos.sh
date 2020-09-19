@@ -2,11 +2,10 @@
 
 set -e
 
-if [ "$SHELL" != "$(which zsh)" ]
-then
-	echo "Shell: use zsh"
-	chsh -s "$(which zsh)"
-fi
+# if [ "$SHELL" != "$(which zsh)" ]; then
+#   echo "Shell: use zsh"
+#   chsh -s "$(which zsh)"
+# fi
 
 echo "General: xpand save panel by default"
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true

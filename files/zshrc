@@ -82,6 +82,9 @@ setopt long_list_jobs
 
   export BAT_THEME='base16'
   export PASSWORD_STORE_ENABLE_EXTENSIONS=true
+
+  source ~/.zsh/iterm2_shell_integration.zsh
+  source ~/.zsh/fzf.zsh
 }
 
 export EDITOR='mate -w'
@@ -89,13 +92,11 @@ export GZIP=-9
 export GOPATH=$HOME/prj/go
 
 source ~/.aliases
-source ~/.zsh/iterm2_shell_integration.zsh
-source ~/.zsh/fzf.zsh
 source_if_exists ~/.aliases.local
 command_exists rbenv && { eval "$(rbenv init -)"; }
 
 # i need this sequence
-export PATH="$HOME/.usr/bin:/usr/local/opt/curl/bin:$HOME/.cargo/bin:$PATH:/usr/local/sbin:/usr/local/opt/go/libexec/bin"
+export PATH="$HOME/bin:/usr/local/opt/curl/bin:$HOME/.cargo/bin:$PATH:/usr/local/sbin:/usr/local/opt/go/libexec/bin"
 
 # some AWS stuff
 source_if_exists ~/.awsrc
