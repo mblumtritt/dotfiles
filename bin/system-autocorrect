@@ -1,0 +1,16 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} [on|off|status]
+
+Enable/disable text auto correction or show status.
+"
+elif [ "$1" = 'on' ]; then
+  defaults write -g NSAutomaticSpellingCorrectionEnabled -bool true
+elif [ "$1" = 'off' ]; then
+  defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
+else
+  readonly state=$(defaults read -g NSAutomaticSpellingCorrectionEnabled)
+	echo "State = $state"
+fi
