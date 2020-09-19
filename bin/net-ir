@@ -1,0 +1,16 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} [on|off|status]
+
+Enable/disable infrared receiver or show status.
+"
+elif [ "$1" = 'on' ]; then
+  defaults write /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled -int 1
+elif [ "$1" = 'off' ]; then
+  defaults write /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled -int 0
+else
+  readonly state=$(defaults read /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled)
+  echo "State = $state"
+fi
