@@ -2,7 +2,7 @@
 
 readonly SOURCE_DIR="$HOME/.usr/dotfiles/bin"
 readonly BACKUP_DIR="$HOME/_backup/$(date +%s)"
-readonly BIN_DIR="$HOME/.usr/bin"
+readonly BIN_DIR="$HOME/bin"
 
 function backup() {
 	echo "backup $1 to $BACKUP_DIR"

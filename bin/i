@@ -1,7 +1,7 @@
 #! /usr/bin/env ruby
 # frozen_string_literal: true
 
-BIN_DIR = File.expand_path('~/.usr/bin')
+BIN_DIR = File.expand_path('~/bin')
 
 def valid_command?(fname)
   File.file?(fname) && File.executable_real?(fname)
