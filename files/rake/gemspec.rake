@@ -30,33 +30,34 @@ module Gemspec
 
       require_relative './lib/#{basename}/version'
 
-      GemSpec =
-        Gem::Specification.new do |gem|
-          gem.name = '#{basename}'
-          gem.version = #{gemname}::VERSION
-          gem.summary = 'The new gem #{gemname}.'
-          gem.description = gem.summary
-          gem.author = 'Mike Blumtritt'
-          gem.homepage = 'https://github.com/mblumtritt/#{basename}'
-          gem.metadata = {
-            'source_code_uri' => 'https://github.com/mblumtritt/#{basename}',
-            'bug_tracker_uri' => 'https://github.com/mblumtritt/#{basename}/issues'
-          }
+      Gem::Specification.new do |spec|
+        spec.name = '#{basename}'
+        spec.version = #{gemname}::VERSION
+        spec.author = 'Mike Blumtritt'
 
-          gem.required_ruby_version = '>= 2.7.0'
+        spec.required_ruby_version = '>= 2.7.0'
 
-          # gem.add_runtime_dependency 'TODO'
+        spec.summary = 'The new gem #{gemname}.'
+        spec.description = spec.summary
+        spec.homepage = 'https://github.com/mblumtritt/#{basename}'
 
-          gem.add_development_dependency 'bundler'
-          gem.add_development_dependency 'rake'
-          gem.add_development_dependency 'minitest'
+        spec.metadata['source_code_uri'] =
+          'https://github.com/mblumtritt/#{basename}'
+        spec.metadata['bug_tracker_uri'] =
+          'https://github.com/mblumtritt/#{basename}/issues'
 
-          all_files = %x(git ls-files -z).split(0.chr)
-          gem.test_files = all_files.grep(%r{^(spec|test)/})
-          gem.files = all_files - gem.test_files
-          # gem.executables = all_files.grep(%r{^bin/}){ |n| File.basename(n) }
-          # gem.extra_rdoc_files = %w[README.MD]
-        end
+        # spec.add_runtime_dependency 'TODO'
+
+        spec.add_development_dependency 'bundler'
+        spec.add_development_dependency 'rake'
+        spec.add_development_dependency 'minitest'
+
+        all_files = Dir.chdir(__dir__) { `git ls-files -z`.split(0.chr) }
+        spec.test_files = all_files.grep(%r{^(spec|test)/})
+        spec.files = all_files - spec.test_files
+        # spec.executables = all_files.grep(%r{^bin/}){ |n| File.basename(n) }
+        # spec.extra_rdoc_files = %w[README.md]
+      end
     CONTENT
   end
 end
