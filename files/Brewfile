@@ -41,7 +41,6 @@ brew 'pandoc'
 brew 'pass'
 brew 'pgcli'
 brew 'pkg-config'
-brew 'postgresql'
 brew 'rbenv', args: ['HEAD']
 brew 'readline'
 brew 'ruby-build'
