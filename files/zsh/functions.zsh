@@ -20,7 +20,7 @@ function ff() # find file containing
 
 function cdp() # cd to best matching project directory
 {
-	cd $(project-find --top "$@")
+	cd $(list-projects --top "$@")
 }
 
 function source_if_exists() # source file only if file exists
@@ -35,35 +35,5 @@ function command_exists() # check if a command is avail
 
 function @tr() # lookup in GE/EN dictionary
 {
-	web-view "$(web-find --dict "$1")" | convert html text | less
-}
-
-function google() # Google search
-{
-	open "$(web-find --google "$1")"
-}
-
-function img() # Google image search
-{
-	open "$(web-find --image "$1")"
-}
-
-function vid() # YouTube image search
-{
-	open "$(web-find --video "$1")"
-}
-
-function wiki() # Wikipedia article search
-{
-	open "$(web-find --wikipedia "$1")"
-}
-
-function e() # edit given file or best matching project
-{
-	if [ -e "$1" ]
-	then
-		mate "$1"
-	else
-		mate "$(project-find --top "$1")"
-	fi
+  fetch-web "$(print-search-url --dict $1)" | convert-html-text | less
 }
