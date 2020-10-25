@@ -1,0 +1,11 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} TERM
+
+Open Wolfram Alpha Search.
+"
+else
+	open "$(print-search-url --alpha "$1")"
+fi

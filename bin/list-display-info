@@ -1,0 +1,11 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+
+List informatin about the display.
+"
+else
+  system_profiler SPDisplaysDataType
+fi

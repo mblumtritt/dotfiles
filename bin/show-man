@@ -1,0 +1,17 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} PAGE
+
+Show man pages with PAGE in Preview.app
+"
+elif [ $# = 0 ]; then
+	(>&2 echo "${0##*/}: PAGE missing")
+	exit 1
+else
+	for page in "$@"
+	do
+		man -t "$page" | open -f -a Preview
+	done
+fi

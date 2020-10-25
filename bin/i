@@ -53,12 +53,13 @@ module CLI
   end
 
   private_class_method def self.display_cols(ary)
-    require 'io/console'
     return ary.each { |str| puts("   #{str}") } unless STDOUT.tty?
+    require 'io/console'
     width = ary.max_by(&:size).size + 3
-    ary.map { |str| str.ljust(width) }.each_slice(
-      STDOUT.winsize.last / width
-    ) { |line| puts(line.join) }
+    slice = STDOUT.winsize.last / width
+    ary
+      .map! { |str| str.ljust(width) }
+      .each_slice(slice) { |line| puts(line.join) }
   end
 end
 

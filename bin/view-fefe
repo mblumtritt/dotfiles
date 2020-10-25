@@ -1,0 +1,11 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+
+Displays Fefes blog.
+"
+else
+	fetch-web https://blog.fefe.de | convert-html-text | less
+fi

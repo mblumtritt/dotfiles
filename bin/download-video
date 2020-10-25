@@ -1,0 +1,20 @@
+#! /bin/sh
+
+set -e
+readonly TDIR="$HOME/Downloads/new_videos"
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} URL
+
+Download a video or video playlist from given URL to '$TDIR'.
+"
+  exit 0
+elif [ $# = 0 ]; then
+	(>&2 echo "${0##*/}: URL missing")
+	exit 1
+else
+  trap 'exit 130' INT HUP TERM
+  mkdir -p "$TDIR"
+  cd "$TDIR"
+  # youtube-dl --format mp4 --geo-bypass "$*"
+  youtube-dl --geo-bypass "$*"
+fi

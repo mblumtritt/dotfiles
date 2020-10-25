@@ -1,0 +1,11 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+
+Convert MARKDOWN from stdin into HTML to stdout.
+"
+else
+	pandoc --from=gfm --to=html5 "$@"
+fi

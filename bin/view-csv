@@ -1,0 +1,14 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} CSV_FILE
+
+View given CSV_FILE.
+"
+elif [ $# = 0 ]; then
+	(>&2 echo "${0##*/}: CSV_FILE missing")
+	exit 1
+else
+	sed 's/,,/, ,/g;s/,,/, ,/g' "$@" | column -s, -t | less -#2 -N -S
+fi

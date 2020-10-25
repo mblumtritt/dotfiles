@@ -1,0 +1,11 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+
+Convert TEXT from stdin into URI (WWW form component) to stdout.
+"
+else
+	ruby -ruri -e'puts(URI.encode_www_form_component(STDIN.readlines(chomp:true).to_a.join))'
+fi

@@ -1,0 +1,62 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} TERM
+
+Print search URL.
+
+options:
+   -g, --google    print Google search URL (default)
+   -y, --youtube   print YouTube search URL
+   -w, --wiki      print Wikipedia search URL
+   -a, --alpha     print Wolfram Alpha search URL
+   -l, --leo       print LeoDictionary search URL
+   -h, --github    print GitHub search URL
+   -i, --image     print image search URL (Google)
+   -v, --video     print vide search URL (YouTube)
+   -d, --dict      print vide search URL (Leo)
+"
+elif [ $# = 0 ]; then
+	(>&2 echo "${0##*/}: TERM missing")
+	exit 1
+else
+  term=''
+  url='https://www.google.de/search?hl=de&as_qdr=all&as_occt=any&num=100&as_q='
+
+	for arg in "$@"
+	do
+    case "$arg" in
+    -g|--google)
+      url='https://www.google.de/search?hl=de&as_qdr=all&as_occt=any&num=100&as_q='
+      ;;
+    -i|--image)
+      url='https://www.google.de/search?source=lnms&tbm=isch&sa=X&ei=qWBvVcrKMYWAUa3BgZAF&ved=0CAgQ_AUoAg&biw=1075&bih=728&q='
+      ;;
+    -v|--video|-y|--youtube)
+      url='https://www.youtube.com/results?search_query='
+      ;;
+    -w|--wiki|--wikipedia)
+      url='https://de.wikipedia.org/w/index.php?fulltext=1&search='
+      ;;
+    -a|--alpha)
+      url='https://www.wolframalpha.com/input/?i='
+      ;;
+    -d|--dict|-l|--leo)
+      url='https://pocket.dict.cc/?s='
+      ;;
+    -h|--github)
+      url='https://github.com/search?q='
+      ;;
+    *)
+      if [ "$term" = "" ]; then
+        term="$arg"
+      else
+        term="$term $arg"
+      fi
+      ;;
+    esac
+	done
+
+  echo "$url$(echo "$term" | convert-text-uri)"
+fi

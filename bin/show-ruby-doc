@@ -1,0 +1,91 @@
+#! /usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'mini-cli'
+include MiniCli
+
+help <<~HELP, '[NAME]'
+
+Show Ruby documentation with given class and method NAME.
+HELP
+
+main do |path, name|
+  exec(%(open "http://[::]:8080/#{path}")) if path
+  error(1, "not found - #{name}")
+end
+
+parse_argv do |args|
+  RubyDoc.find('~/www', args['NAME']) || [nil, args['NAME']]
+end
+
+class RubyDoc
+  INDEX = 'ruby-doc/index.html'
+  STDLIB = 'ruby-stdlib/packages.html'
+
+  def self.find(root, str)
+    new(root).find(str)
+  end
+
+  def initialize(root)
+    @root = File.expand_path(root)
+  end
+
+  def find(str)
+    return INDEX if INDEX_REQUEST.index(str)
+    return STDLIB if STDLIB_REQUEST.index(str)
+    klazz, method, type = split(str)
+    path = find_klass(klazz) or return find_doc(str)
+    type ? "#{path}##{type}-#{escape(method)}" : path
+  end
+
+  private
+
+  INDEX_REQUEST = [nil, '', 'main', '/'].freeze
+  STDLIB_REQUEST = %w[std stdlib]
+
+  def find_klass(str)
+    name = index_name(str)
+    return name if file?(name)
+    name = stdlib_name(str)
+    file?(name) ? name : nil
+  end
+
+  def find_doc(str)
+    name = doc_name(str)
+    file?(name) ? name : nil
+  end
+
+  def index_name(str)
+    "ruby-doc/#{str.split('::').join('/')}.html"
+  end
+
+  def stdlib_name(str)
+    parts = str.split('::')
+    main = parts.first.downcase
+    "ruby-stdlib/libdoc/#{main}/rdoc/#{parts.join('/')}.html"
+  end
+
+  def doc_name(str)
+    "ruby-doc/doc/#{str}_rdoc.html"
+  end
+
+  def file?(index_name)
+    File.readable?(File.join(@root, index_name))
+  end
+
+  def escape(method_name)
+    method_name.gsub(/\+|\-|\||\?|&|\[|\]|<|=|>|!/) do |c|
+      '-' + c.ord.to_s(16).upcase
+    end
+  end
+
+  def split(str)
+    klazz, method = str.split('#', 2)
+    return klazz, method, 'method-i' if method
+    klazz, method = str.split('_', 2)
+    return klazz, method, 'method-i' if method
+    klazz, method = str.split('.', 2)
+    return klazz, method, 'method-c' if method
+    str
+  end
+end

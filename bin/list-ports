@@ -1,0 +1,11 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+
+List all opened ports and related processes.
+"
+else
+  lsof -i -P | grep LISTEN
+fi

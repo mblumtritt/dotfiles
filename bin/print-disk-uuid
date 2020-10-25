@@ -1,0 +1,34 @@
+#! /usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'mini-cli'
+include MiniCli
+
+help <<~HELP, 'NAME'
+
+  Print UUID of given volume NAME.
+HELP
+
+parse_argv do |args|
+  args['FILES'].unshift(args['NAME']).uniq
+end
+
+main do |names|
+  if names.size == 1
+    uuid = find_uuid(name) or exit(1)
+    puts(uuid)
+  else
+    names.each do |name|
+      print(name, ': ')
+      puts(uuid = find_uuid(name))
+      exit(1) unless uuid
+    end
+  end
+end
+
+def find_uuid(name)
+  result = run("diskutil info #{name}]")
+  idx = result.index('Disk / Partition UUID:') or return nil
+  eol_idx = result.index("\n", idx) or return nil
+  result[idx..eol_idx].split(': ', 2).last.strip
+end

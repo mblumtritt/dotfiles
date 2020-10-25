@@ -1,0 +1,18 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} NAME
+
+Set system NAME. (May require password.)
+"
+elif [ $# = 0 ]; then
+	(>&2 echo "${0##*/}: NAME missing")
+	exit 1
+else
+	readonly NAME="$*"
+	sudo scutil --set ComputerName "$NAME"
+	sudo scutil --set HostName "$NAME"
+	sudo scutil --set LocalHostName "$NAME"
+	sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$NAME"
+fi

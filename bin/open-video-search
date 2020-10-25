@@ -1,0 +1,11 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} TERM
+
+Open Video Search.
+"
+else
+	open "$(print-search-url --video "$1")"
+fi

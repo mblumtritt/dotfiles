@@ -1,0 +1,11 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+
+Convert JSON from stdin into YAML to stdout.
+"
+else
+	ruby -rpsych -roj -e'Psych.dump(Oj.load(STDIN),STDOUT)'
+fi
