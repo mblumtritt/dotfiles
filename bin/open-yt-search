@@ -4,8 +4,8 @@ set -e
 
 if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} TERM
 
-Open Goole Search.
+Open YouTube Search.
 "
 else
-	open "$(print-search-url --google "$1")"
+	open "$(print-search-url --youtube "$1")"
 fi
