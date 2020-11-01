@@ -31,6 +31,8 @@ do
 	dst_file="$BIN_DIR/$dst_filename"
 	[[ "$(readlink "$dst_file")" = "$src_file" ]] && continue
 	[[ -e "$dst_file" ]] && backup "$dst_file"
-	echo "create link $dst_filename"
-	ln -sf "$src_file" "$dst_file"
+  echo "create link $dst_filename"
+  ln -sf "$src_file" "$dst_file"
 done
+echo "create link #"
+ln -sf "$SOURCE_DIR/exec-command" "$BIN_DIR/#"
