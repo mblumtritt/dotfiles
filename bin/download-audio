@@ -1,7 +1,7 @@
 #! /bin/sh
 
 set -e
-readonly TDIR="$HOME/Downloads/new_musics"
+readonly TDIR="$HOME/Downloads"
 
 if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} URL
 
