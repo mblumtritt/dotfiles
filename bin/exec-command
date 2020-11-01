@@ -1,0 +1,153 @@
+#! /usr/bin/env ruby
+# frozen_string_literal: true
+
+module CLI
+  def self.help
+    puts <<~USAGE
+      Usage: #{my_name} COMMAND [OPTIONS]
+
+      Build-in commands:
+        h, help    show COMMAND specific help or this screen
+        w, which   show file name for given COMMAND
+
+      Commands:
+    USAGE
+    display_cols(Finder.all.map(&:to_s).sort!)
+    exit
+  end
+
+  def self.my_name
+    File.basename(__FILE__)
+  end
+
+  def self.help?(str)
+    HELP.index(str)
+  end
+
+  def self.which?(str)
+    WHICH.index(str)
+  end
+
+  def self.error(msg, subject)
+    $stderr.puts("#{my_name}: #{msg} - #{subject}")
+    block_given? and yield
+    exit(127)
+  end
+
+  def self.non_bijective_command(cmd, alternatives)
+    error('command non-bijective', cmd) do
+      $stderr.puts('Did you mean:')
+      alternatives.each { |cmd| $stderr.puts("  #{cmd}") }
+    end
+  end
+
+  def self.find_command(str)
+    found = Finder.find(str) or error('command not found', str)
+    non_bijective_command(str, found) if Array === found
+    found
+  end
+
+  def self.which(str)
+    puts(find_command(str).realname)
+    exit
+  end
+
+  private_class_method def self.display_cols(ary)
+    return ary.each { |str| puts("   #{str}") } unless $stdout.tty?
+    require 'io/console'
+    width = ary.max_by(&:size).size + 3
+    ary.each_slice(($stdout.winsize.last - 2) / width) do |slice|
+      print('  ')
+      slice.each { |str| print(str.ljust(width)) }
+      puts
+    end
+  end
+
+  HELP = %w[help --help h -h]
+  WHICH = %w[which --which w -w]
+end
+
+module Finder
+  class Command
+    attr_reader :to_s, :realname
+
+    def initialize(name)
+      @to_s, @realname = File.basename(name), name
+    end
+  end
+
+  class << self
+    def find(str)
+      cmds = all.to_a
+      found = cmds.find { |cmd| cmd.to_s == str } and return found
+      found = []
+      each_pat(str) do |pat|
+        guess = cmds.find_all { |cmd| pat.match?(cmd.to_s) }
+        found += guess unless guess.empty?
+      end
+      found.empty? ? nil : best_of(found)
+    end
+
+    def all(&block)
+      executables_of('~/bin', &block)
+    end
+
+    private
+
+    def best_of(found)
+      found.uniq!
+      grouped = found.group_by { |cmd| cmd.to_s.count('-') }
+      sizes = grouped.keys.sort!
+      min = grouped[sizes.first]
+      return min.first if min.size == 1
+      sizes.inject([]) { |ret, c| ret + grouped[c].sort_by!(&:to_s) }
+    end
+
+    def each_pat(str)
+      Abbr.weighted_matrix(str).each do |ary|
+        yield(
+          Regexp.new('^' + ary.map { |s| Regexp.escape(s) + '\w*' }.join('-'))
+        )
+      end
+    end
+
+    def executables_of(dirname)
+      return to_enum(__method__, dirname.dup) unless block_given?
+      Dir.glob(File.expand_path("#{dirname}/*")) do |filename|
+        yield(Command.new(filename)) if File.executable_real?(filename)
+      end
+    end
+  end
+end
+
+CMD = ARGV.shift
+CLI.help if CMD.nil? || (ARGV.empty? && CLI.help?(CMD))
+
+module Abbr
+  def self.weighted_matrix(str)
+    matrix(str).sort do |a, b|
+      next b.map(&:size) <=> a.map(&:size) if a.size == b.size
+      ret = b.max_by(&:size).size <=> a.max_by(&:size).size
+      ret.zero? ? a.size <=> b.size : ret
+    end.tap { |ret| ret.pop if ret.size > 1 }
+  end
+
+  private_class_method def self.matrix(str, ic = false)
+    return to_enum(__method__, str.dup) unless block_given?
+    return if str.empty?
+    yield([str])
+    return if str.size == 1
+    1.upto(str.size - 1) do |i|
+      left = str[0, i]
+      right = str[i, str.size - i]
+      matrix(right, true) { |ary| yield(ary.unshift(left)) }
+    end
+    yield(str.chars) unless ic
+  end
+end
+
+if ARGV.size == 1
+  CLI.which(ARGV[0]) if CLI.which?(CMD)
+  exec(CLI.find_command(ARGV[0]).realname, '--help') if CLI.help?(CMD)
+end
+exec(CLI.find_command(CMD).realname, *ARGV)
