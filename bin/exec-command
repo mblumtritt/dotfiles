@@ -82,8 +82,7 @@ module Finder
       found = cmds.find { |cmd| cmd.to_s == str } and return found
       found = []
       each_pat(str) do |pat|
-        guess = cmds.find_all { |cmd| pat.match?(cmd.to_s) }
-        found += guess unless guess.empty?
+        found += cmds.find_all { |cmd| pat.match?(cmd.to_s) }
       end
       found.empty? ? nil : best_of(found)
     end
