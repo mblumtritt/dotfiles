@@ -1,0 +1,11 @@
+#! /bin/sh
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} [--all]
+
+Clean up Ruby gems. Option '--all' removes all intalled gems,
+"
+elif [ "$1" = "--all" ]; then
+	gem uninstall -aIx
+else
+  gem cleanup
+fi

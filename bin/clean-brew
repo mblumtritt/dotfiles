@@ -1,0 +1,12 @@
+#! /bin/sh
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+
+Clean up Homebrew stuff.
+"
+else
+	brew upgrade
+	brew cleanup -s
+	rm -rfv "$(brew --cache)" >/dev/null 2>&1
+	brew tap --repair
+fi

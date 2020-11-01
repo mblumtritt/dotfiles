@@ -1,0 +1,9 @@
+#! /bin/sh
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+
+Clean up YARN cache.
+"
+else
+	yarn cache clean --force
+fi

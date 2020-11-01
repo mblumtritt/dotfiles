@@ -1,0 +1,13 @@
+#! /bin/sh
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+
+Clean up Docker stuff.
+"
+else
+  docker image prune -f
+  docker container prune -f
+  docker volume prune -f
+  docker network prune -f
+  docker system prune -f -a
+fi
