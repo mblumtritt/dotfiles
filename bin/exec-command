@@ -6,6 +6,8 @@ module CLI
     puts <<~USAGE
       Usage: #{my_name} COMMAND [OPTIONS]
 
+      Finds and starts commands by a given shortcut.
+
       Build-in commands:
         h, help    show COMMAND specific help or this screen
         w, which   show file name for given COMMAND

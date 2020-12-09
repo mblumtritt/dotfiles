@@ -8,15 +8,15 @@ Update System, Homebrew, Homebrew bundles and Ruby gems.
 "
 else
 	if ! [ "$1" = '-s' ] && ! [ "$1" = '--no-system' ]; then
-    echo -- update system stuff
+    echo → update system stuff
 		sudo softwareupdate -i -a
 	fi
-	echo -- update Brew stuff
+	echo → update Brew stuff
 	brew update
 	brew bundle --global
 	brew upgrade
 	brew upgrade --cask
-	echo -- update Ruby stuff
+	echo → update Ruby stuff
 	gem update --system
 	gem update
 fi
