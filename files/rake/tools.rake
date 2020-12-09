@@ -10,11 +10,11 @@ end
 
 def mkdir_for(file_name)
   dirname = File.dirname(file_name)
-  mkdir_p(dirname) unless File.exist?(dirname)
+  mkdir_p(dirname) unless File.directory?(dirname)
 end
 
-def write(file_name, content)
+def write(file_name, content = nil)
   mkdir_for(file_name)
-  puts "write #{file_name}"
-  IO.write(file_name, content)
+  puts "🖋  #{file_name}"
+  IO.write(file_name, content || yield)
 end

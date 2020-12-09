@@ -3,11 +3,13 @@
 desc 'create default Gemfile'
 task gemfile: './gems.rb'
 
-rule %r{gems.rb$} do |r|
-  if Gemspec.present?(File.dirname(r.name))
-    write r.name, GemFile.using_gemspec
-  else
-    write r.name, GemFile.default
+rule /gems.rb$/ do |r|
+  write r.name do
+    if Gemspec.present?(File.dirname(r.name))
+      GemFile.using_gemspec
+    else
+      GemFile.default
+    end
   end
 end
 

@@ -5,10 +5,10 @@ task gitignore: '.gitignore'
 
 rule '.gitignore' do |r|
   write r.name, <<~GITIGNORE
-    idea/
-    local/
     tmp/
+    log/
     pkg/
+    local/
     gems.locked
   GITIGNORE
 end
