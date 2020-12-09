@@ -1,19 +1,17 @@
 #! /bin/sh
 
 set -e
-readonly TDIR="$HOME/Downloads"
+readonly TDIR="~/Downloads"
 
 if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} URL
 
-Download a audio or playlist as MP3s from given URL to '$TDIR'.
+Download a audio or playlist as MP3 from given URL to '$TDIR'.
 "
   exit 0
 elif [ $# = 0 ]; then
 	(>&2 echo "${0##*/}: URL missing")
 	exit 1
 else
-  trap 'exit 130' INT HUP TERM
-  mkdir -p "$TDIR"
-  cd "$TDIR"
-  youtube-dl --extract-audio --audio-format mp3 --audio-quality 0 --embed-thumbnail --add-metadata --geo-bypass "$*"
+  youtube-dl --extract-audio --ignore-errors --audio-quality 0 --audio-format mp3 --embed-thumbnail --add-metadata --geo-bypass --output "$TDIR/%(playlist_title)s/%(playlist_index)s-%(title)s.%(ext)s" "$*"
 fi
+

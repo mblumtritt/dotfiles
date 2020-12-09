@@ -15,5 +15,5 @@ else
   trap 'exit 130' INT HUP TERM
   mkdir -p "$TDIR"
   cd "$TDIR"
-  fetch-web -O "$*"
+  curl -sLNO "$*"
 fi

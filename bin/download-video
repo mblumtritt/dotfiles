@@ -12,9 +12,6 @@ elif [ $# = 0 ]; then
 	(>&2 echo "${0##*/}: URL missing")
 	exit 1
 else
-  trap 'exit 130' INT HUP TERM
-  mkdir -p "$TDIR"
-  cd "$TDIR"
-  # youtube-dl --format mp4 --geo-bypass "$*"
-  youtube-dl --geo-bypass "$*"
+  # --format mp4
+  youtube-dl --ignore-errors --geo-bypass --output "$TDIR/%(title)s - %(id)s.%(ext)s" "$*"
 fi
