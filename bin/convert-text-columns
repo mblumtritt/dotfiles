@@ -1,22 +1,10 @@
 #! /usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'mini-cli'
-include MiniCli
-
 help <<~HELP, '[WIDTH]'
 
 Convert TEXT lines to sorted columns TEXT.
 HELP
-
-parse_argv do |args|
-  next args['WIDTH'].to_i if args.key?('WIDTH')
-  next 80 unless $stdout.tty?
-  require 'io/console'
-  $stdout.winsize.last
-rescue Errno::ENOTTY
-  80
-end
 
 main do |width|
   lines = $stdin.each_line(chomp: true).to_a
@@ -34,3 +22,14 @@ main do |width|
     puts
   end
 end
+
+parse_argv do |args|
+  next args['WIDTH'].to_i if args.key?('WIDTH')
+  next 80 unless $stdout.tty?
+  require 'io/console'
+  $stdout.winsize.last
+rescue Errno::ENOTTY
+  80
+end
+
+BEGIN { require 'mini-cli' and include MiniCli }

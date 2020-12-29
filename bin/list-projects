@@ -1,9 +1,6 @@
 #! /usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'mini-cli'
-include MiniCli
-
 help <<-HELP, 'NAME'
   -t, --top   print first matching project only
 
@@ -74,3 +71,5 @@ class ProjectsFinder
     ret
   end
 end
+
+BEGIN { require 'mini-cli' and include MiniCli }
