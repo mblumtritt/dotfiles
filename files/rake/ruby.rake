@@ -9,13 +9,13 @@ end
 
 desc 'create a new Ruby app repository'
 task :ruby, [:name] => 'ruby:base' do |_, args|
-  args.name or fail 'name expected'
+  args.name or fail '🚫 name expected'
   want "#{args.name}/gems.rb"
 end
 
 desc 'create a new Ruby gem repository'
 task 'ruby:gem', [:name] => 'ruby:base' do |_, args|
-  args.name or fail 'name expected'
+  args.name or fail '🚫 name expected'
   want "#{args.name}/#{args.name}.gemspec"
   ordered "#{args.name}/gems.rb", "#{args.name}/rakefile.rb"
 end
@@ -84,12 +84,12 @@ module Ruby
   end
 
   def self.find_module_name(file_name)
-    re = %r((\w+)/lib/(.*/)?#{Regexp.escape(File.basename(file_name))})
+    re = %r{(\w+)/lib/(.*/)?#{Regexp.escape(File.basename(file_name))}}
     match = file_name.match(re) or return nil
     const_name(match[1])
   end
 
   def self.const_name(str)
-    str.split(%r([-_])).map!(&:capitalize).join
+    str.split(/[-_]/).map!(&:capitalize).join
   end
 end
