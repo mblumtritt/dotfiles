@@ -7,7 +7,7 @@ if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
 List status of git projects.
 "
 elif [ $# = 0 ]; then
-  rake -g git:status
+  rake --system git:status
 else
-  rake -g git:status["$1"]
+  rake --system git:status["$1"]
 fi

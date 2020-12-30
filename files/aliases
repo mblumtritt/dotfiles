@@ -15,7 +15,7 @@ alias ƒe='EDITOR=nano'
 alias sc='shellcheck'
 
 alias rk='noglob rake'
-alias gr='noglob rake -g'
+alias gr='noglob rake --system'
 alias be='noglob bundle exec'
 alias ber='be rake'
 alias bert='ber -T'
