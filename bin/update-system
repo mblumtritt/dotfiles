@@ -4,19 +4,19 @@ set -e
 
 if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} [--no-system]
 
-Update System, Homebrew, Homebrew bundles and Ruby gems.
+Update System, Homebrew, Homebrew bundles and Ruby gems. (May require paassword.)
 "
 else
 	if ! [ "$1" = '-s' ] && ! [ "$1" = '--no-system' ]; then
     echo → update system stuff
 		sudo softwareupdate -i -a
 	fi
-	echo → update Brew stuff
+	echo '→ update Brew stuff'
 	brew update
 	brew bundle --global
 	brew upgrade
 	brew upgrade --cask
-	echo → update Ruby stuff
+	echo '→ update Ruby stuff'
 	gem update --system
 	gem update
 fi
