@@ -1,0 +1,9 @@
+#! /bin/sh
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+
+Clean all library caches.
+"
+else
+  rm -rf ~/Library/Caches/* >/dev/null 2>&1
+fi

@@ -2,40 +2,70 @@
 
 if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
 
-Clean up disks.
+Clean up disks. (May require paassword.)
 "
 else
-	# keep-alive sudo
+	echo '❗️ clean all stuff'
 	sudo -v
-	while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+	while true
+  do
+    sudo -n true
+    sleep 60
+    kill -0 "$$" || exit
+  done 2>/dev/null &
 
-	if type "brew" >/dev/null 2>&1; then clean-brew; fi
+	if type 'brew' >/dev/null 2>&1
+  then
+    echo '→ clean brew stuff...'
+    clean-brew
+  fi
 
-  if type "gem" >/dev/null 2>&1; then clean-gems; fi
+  if type 'gem' >/dev/null 2>&1
+  then
+    echo '→ clean gems...'
+    each-ruby
+    if type 'rbenv'
+    then
+      for ruby in $(rbenv versions --bare)
+      do
+        echo ":: Ruby $ruby"
+        RBENV_VERSION="$ruby" yes | rbenv exec gem cleanup >/dev/null 2>&1
+      done
+    else
+      yes | gem cleanup >/dev/null 2>&1
+    fi
+  fi
 
-  if type "docker" >/dev/null 2>&1; then clean-docker; fi
+  if type 'docker' >/dev/null 2>&1
+  then
+    echo '→ clean Docker...'
+    clean-docker
+  fi
 
-	if [ "$PYENV_VIRTUALENV_CACHE_PATH" ]; then
-	    echo 'Removing Pyenv-VirtualEnv Cache...'
-	    rm -rfv "$PYENV_VIRTUALENV_CACHE_PATH" >/dev/null 2>&1
+	if [ "$PYENV_VIRTUALENV_CACHE_PATH" ]
+  then
+    echo '→ removing Pyenv-VirtualEnv Cache...'
+    rm -rf "$PYENV_VIRTUALENV_CACHE_PATH" >/dev/null 2>&1
 	fi
 
-	if type "npm" >/dev/null 2>&1; then clean-npm; fi
+	if type 'npm' >/dev/null 2>&1
+  then
+    echo '→ clean NPM...'
+    clean-npm
+  fi
 
-	if type "yarn" >/dev/null 2>&1; then clean-yarn; fi
+	if type 'yarn' >/dev/null 2>&1
+  then
+    echo '→ clean Yarn...'
+    clean-yarn
+  fi
 
-	echo 'Clear System Log Files...'
-	sudo rm -rfv /private/var/log/asl/*.asl >/dev/null 2>&1
-	sudo rm -rfv /Library/Logs/DiagnosticReports/* >/dev/null 2>&1
-	sudo rm -rfv /Library/Logs/Adobe/* >/dev/null 2>&1
-	rm -rfv ~/Library/Containers/com.apple.mail/Data/Library/Logs/Mail/* >/dev/null 2>&1
-	rm -rfv ~/Library/Logs/CoreSimulator/* >/dev/null 2>&1
+	echo '→ remov system log files...'
+  clean-logs
 
-	echo 'Cleanup XCode Derived Data and Archives...'
-	rm -rfv ~/Library/Developer/Xcode/DerivedData/* >/dev/null 2>&1
-	rm -rfv ~/Library/Developer/Xcode/Archives/* >/dev/null 2>&1
+	echo '→ cleanup XCode derived data and archives...'
+	clean-xcode
 
-	echo 'Empty Trashes on all mounted volumes...'
-	sudo rm -rfv /Volumes/*/.Trashes/* >/dev/null 2>&1
-	sudo rm -rfv ~/.Trash/* >/dev/null 2>&1
+	echo '→ clean all library caches...'
+	clean-caches
 fi
