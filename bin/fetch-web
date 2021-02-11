@@ -10,6 +10,5 @@ elif [ $# = 0 ]; then
 	(>&2 echo "${0##*/}: URL missing")
 	exit 1
 else
-	trap 'exit 1' EXIT INT HUP TERM
 	curl -sLN "$*"
 fi
