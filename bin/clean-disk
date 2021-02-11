@@ -2,7 +2,7 @@
 
 if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
 
-Clean up disks. (May require paassword.)
+Clean up disks. (May require password.)
 "
 else
 	echo '❗️ clean all stuff'
@@ -23,7 +23,6 @@ else
   if type 'gem' >/dev/null 2>&1
   then
     echo '→ clean gems...'
-    each-ruby
     if type 'rbenv'
     then
       for ruby in $(rbenv versions --bare)

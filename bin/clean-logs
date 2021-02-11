@@ -2,7 +2,7 @@
 
 if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
 
-Clean system log files. (May require paassword.)
+Clean system log files. (May require password.)
 "
 else
 	sudo rm -rf /private/var/log/asl/*.asl >/dev/null 2>&1
