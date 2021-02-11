@@ -20,6 +20,7 @@ alias be='noglob bundle exec'
 alias ber='be rake'
 alias bert='ber -T'
 alias berta='bert -A'
+alias bdep='bundle list --paths | ruby --disable=gems,did_you_mean -n -e"puts(File.basename(\$_))"'
 alias rcop='rubocop -D -E -S'
 alias pretty!='rbprettier **/*.rb --ignore-path=".gitignore" --write'
 alias dco=docker-compose
