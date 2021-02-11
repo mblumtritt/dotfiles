@@ -4,10 +4,10 @@ set -e
 
 if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
 
-List status of git projects.
+List status of all projects.
 "
 elif [ $# = 0 ]; then
-  rake --system git:status
+  rake --system prj:status
 else
-  rake --system git:status["$1"]
+  rake --system prj:status["$1"]
 fi
