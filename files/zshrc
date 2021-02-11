@@ -93,7 +93,7 @@ export GOPATH=$HOME/prj/go
 
 source ~/.aliases
 source_if_exists ~/.aliases.local
-command_exists rbenv && { eval "$(rbenv init -)"; }
+# command_exists rbenv && { eval "$(rbenv init -)"; }
 
 # i need this sequence
 export PATH="$HOME/bin:/usr/local/opt/curl/bin:$HOME/.cargo/bin:$PATH:/usr/local/sbin:/usr/local/opt/go/libexec/bin"
@@ -101,3 +101,7 @@ export PATH="$HOME/bin:/usr/local/opt/curl/bin:$HOME/.cargo/bin:$PATH:/usr/local
 source_if_exists ~/.awsrc
 source_if_exists ~/.logclirc
 source_if_exists ~/.zshrc.local
+source_if_exists ~/.config/broot/launcher/bash/br
+source_if_exists /usr/local/opt/asdf/asdf.sh
+source_if_exists "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+source_if_exists "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"

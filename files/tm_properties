@@ -13,8 +13,8 @@ softWrap = false
 showInvisibles = false
 spellingLanguage = 'en'
 
-TM_RUBY = "$HOME/.rbenv/shims/ruby"
-PATH = "$HOME/.rbenv/bin:$PATH"
+TM_RUBY = "$HOME/.asdf/shims/ruby"
+PATH = "$HOME/.asdf/shims:$PATH"
 
 [*.csv]
 scopeAttributes = attr.keep-whitespace
