@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-task 'ruby:base', [:name] => :git do |_, args|
+task 'ruby:base', [:name] => 'git:create' do |_, args|
   name = args[:name]
   basename = File.basename(name, '.*')
   want "#{name}/lib/#{basename}.rb"
