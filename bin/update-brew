@@ -1,0 +1,14 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+
+Update Homebrew and Homebrew bundles.
+"
+else
+	brew update
+	brew bundle --global
+	brew upgrade
+	brew upgrade --cask
+fi

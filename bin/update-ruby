@@ -4,8 +4,9 @@ set -e
 
 if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
 
-Update System. (May require password.)
+Update Ruby gems.
 "
 else
-	sudo softwareupdate -i -a
+	gem update --system
+	gem update
 fi
