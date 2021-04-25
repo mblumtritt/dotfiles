@@ -8,14 +8,14 @@ HELP
 
 main do |names|
   if names.size == 1
-    uuid = find_uuid(name) or exit(1)
-    puts(uuid)
-  else
-    names.each do |name|
-      print(name, ': ')
-      puts(uuid = find_uuid(name))
-      exit(1) unless uuid
-    end
+    uuid = find_uuid(names.first) or exit(2)
+    next puts(uuid)
+  end
+  exit(2) unless names.all? do |name|
+    print(name, ': ')
+    uuid = find_uuid(name)
+    puts(uuid ? uuid : '-')
+    uuid
   end
 end
 
@@ -23,11 +23,12 @@ parse_argv do |args|
   args['FILES'].unshift(args['NAME']).uniq
 end
 
-def find_uuid(name)
-  result = run("diskutil info #{name}]")
-  idx = result.index('Disk / Partition UUID:') or return nil
-  eol_idx = result.index("\n", idx) or return nil
+def find_uuid(disk_name)
+  result = run("diskutil info #{disk_name}")
+  idx = result.index('Disk / Partition UUID:') or return
+  eol_idx = result.index("\n", idx) or return
   result[idx..eol_idx].split(': ', 2).last.strip
 end
 
-BEGIN { require 'mini-cli' and include MiniCli }
+BEGIN { require('mini-cli') and include MiniCli }
+before { require('mini-cli/run') }

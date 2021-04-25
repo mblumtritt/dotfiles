@@ -14,4 +14,3 @@ elif [ $# = 0 ]; then
 else
   youtube-dl --extract-audio --ignore-errors --audio-quality 0 --audio-format mp3 --embed-thumbnail --add-metadata --geo-bypass --output "$TDIR/%(playlist_title)s/%(playlist_index)s-%(title)s.%(ext)s" "$*"
 fi
-

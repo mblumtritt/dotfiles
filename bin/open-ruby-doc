@@ -7,7 +7,7 @@ Show Ruby documentation with given class and method NAME.
 HELP
 
 main do |path, name|
-  exec(%(open "http://[::]:8080/#{path}")) if path
+  exec(%(open "http://[::]/#{path}")) if path
   error(1, "not found - #{name}")
 end
 
@@ -28,8 +28,8 @@ class RubyDoc
   end
 
   def find(str)
-    return INDEX if INDEX_REQUEST.index(str)
-    return STDLIB if STDLIB_REQUEST.index(str)
+    return INDEX if INDEX_REQUEST.include?(str)
+    return STDLIB if STDLIB_REQUEST.include?(str)
     klazz, method, type = split(str)
     path = find_klass(klazz) or return find_doc(str)
     type ? "#{path}##{type}-#{escape(method)}" : path
@@ -71,9 +71,7 @@ class RubyDoc
   end
 
   def escape(method_name)
-    method_name.gsub(/\+|\-|\||\?|&|\[|\]|<|=|>|!/) do |c|
-      '-' + c.ord.to_s(16).upcase
-    end
+    method_name.gsub(/[\+\-\|\?&\[\]<=>!]/) { |c| '-' + c.ord.to_s(16).upcase }
   end
 
   def split(str)
