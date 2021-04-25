@@ -4,67 +4,52 @@ if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
 
 Clean up disks. (May require password.)
 "
-else
-	echo '❗️ clean all stuff'
-	sudo -v
-	while true
-  do
-    sudo -n true
-    sleep 60
-    kill -0 "$$" || exit
-  done 2>/dev/null &
-
-	if type 'brew' >/dev/null 2>&1
-  then
-    echo '→ clean brew stuff...'
-    clean-brew
-  fi
-
-  if type 'gem' >/dev/null 2>&1
-  then
-    echo '→ clean gems...'
-    if type 'rbenv'
-    then
-      for ruby in $(rbenv versions --bare)
-      do
-        echo ":: Ruby $ruby"
-        RBENV_VERSION="$ruby" yes | rbenv exec gem cleanup >/dev/null 2>&1
-      done
-    else
-      yes | gem cleanup >/dev/null 2>&1
-    fi
-  fi
-
-  if type 'docker' >/dev/null 2>&1
-  then
-    echo '→ clean Docker...'
-    clean-docker
-  fi
-
-	if [ "$PYENV_VIRTUALENV_CACHE_PATH" ]
-  then
-    echo '→ removing Pyenv-VirtualEnv Cache...'
-    rm -rf "$PYENV_VIRTUALENV_CACHE_PATH" >/dev/null 2>&1
-	fi
-
-	if type 'npm' >/dev/null 2>&1
-  then
-    echo '→ clean NPM...'
-    clean-npm
-  fi
-
-	if type 'yarn' >/dev/null 2>&1
-  then
-    echo '→ clean Yarn...'
-    clean-yarn
-  fi
-
-	echo '→ remov system log files...'
-  clean-logs
-
-	echo '→ cleanup XCode derived data and archives...'
-	clean-xcode
-
-	echo '→ clean all library caches...'
-	clean-caches
+  exit
 fi
+
+echo '❗️ clean all stuff'
+
+if type 'brew' >/dev/null 2>&1
+then
+  echo '→ clean brew stuff...'
+  clean-brew
+fi
+
+if type 'gem' >/dev/null 2>&1
+then
+  echo '→ clean gems...'
+  clean-gems
+fi
+
+if type 'docker' >/dev/null 2>&1
+then
+  echo '→ clean Docker...'
+  clean-docker
+fi
+
+if [ "$PYENV_VIRTUALENV_CACHE_PATH" ]
+then
+  echo '→ removing Pyenv-VirtualEnv Cache...'
+  rm -rf "$PYENV_VIRTUALENV_CACHE_PATH" >/dev/null 2>&1
+fi
+
+if type 'npm' >/dev/null 2>&1
+then
+  echo '→ clean NPM...'
+  clean-npm
+fi
+
+if type 'yarn' >/dev/null 2>&1
+then
+  echo '→ clean Yarn...'
+  clean-yarn
+fi
+
+echo '→ remove system log files...'
+clean-logs
+
+echo '→ cleanup XCode derived data and archives...'
+clean-xcode
+
+echo '→ clean all library caches...'
+clean-caches
