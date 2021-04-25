@@ -33,14 +33,13 @@ module Gemspec
       Gem::Specification.new do |spec|
         spec.name = '#{basename}'
         spec.version = #{gemname}::VERSION
-        spec.author = 'Mike Blumtritt'
-
         spec.required_ruby_version = '>= 2.7.0'
 
+        spec.author = 'Mike Blumtritt'
         spec.summary = 'The new gem #{gemname}.'
         spec.description = spec.summary
-        spec.homepage = 'https://github.com/mblumtritt/#{basename}'
 
+        spec.homepage = 'https://github.com/mblumtritt/#{basename}'
         spec.metadata['source_code_uri'] =
           'https://github.com/mblumtritt/#{basename}'
         spec.metadata['bug_tracker_uri'] =

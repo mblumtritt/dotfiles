@@ -18,11 +18,9 @@ module Rakefile
     <<~CONTENT
       # frozen_string_literal: true
 
-      STDOUT.sync = STDERR.sync = true
+      $stdout.sync = $stderr.sync = true
 
-      task :default do
-        exec 'rake --tasks'
-      end
+      task(:default) { exec('rake --tasks') }
     CONTENT
   end
 
@@ -30,15 +28,13 @@ module Rakefile
     <<~CONTENT
       # frozen_string_literal: true
 
-      STDOUT.sync = STDERR.sync = true
-
       require 'rake/clean'
       require 'bundler/gem_tasks'
       require 'rake/testtask'
 
-      task :default do
-        exec 'rake --tasks'
-      end
+      $stdout.sync = $stderr.sync = true
+
+      task(:default) { exec('rake --tasks') }
 
       Rake::TestTask.new(:test) do |task|
         task.ruby_opts = %w[-w]
