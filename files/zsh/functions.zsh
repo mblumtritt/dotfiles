@@ -23,6 +23,11 @@ function cdp() # cd to best matching project directory
 	cd $(list-projects --top "$@")
 }
 
+function cde() # cd to best matching project directory
+{
+	cd $(list-projects --top "$@") && edit-text .
+}
+
 function source_if_exists() # source file only if file exists
 {
 	[[ -f "$1" ]] && source "$1"
