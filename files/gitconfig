@@ -48,6 +48,7 @@
 	d = diff
 	st = status -sb
 	co = checkout
+	com = !sh -c 'git checkout master && git pull --all --prune --rebase' -
 	ci = commit
 	cia = commit --all
 	ciaa = commit --all --amend
