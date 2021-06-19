@@ -13,5 +13,5 @@ elif [ $# = 0 ]; then
 	exit 1
 else
   # --format mp4
-  youtube-dl --ignore-errors --geo-bypass --output "$TDIR/%(title)s - %(id)s.%(ext)s" "$*"
+  youtube-dl --ignore-errors --geo-bypass --output "$TDIR/%(title)s - %(id)s.%(ext)s" "$@"
 fi
