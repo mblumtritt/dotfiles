@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 # shareable_constant_value: literal
 
-if ARGV.include?('help') || ARGV.include?('-h')
+if ARGV.include?('--help') || ARGV.include?('-h')
   puts <<~HELP
     Usage: #{File.basename(__FILE__)} STATUS_CODE | --list | --help
 
@@ -11,18 +11,27 @@ if ARGV.include?('help') || ARGV.include?('-h')
   exit
 end
 
-if ARGV.include?('list') || ARGV.include?('-l')
+if ARGV.include?('--list') || ARGV.include?('-l')
   MAP.each_pair { |code, info| puts("#{code} - #{info[:symbol]}") }
   exit
 end
 
 def error(code, message)
-  $stderr.puts("#{File.basename(__FILE__)}-error: #{message}")
+  $stderr.puts("#{File.basename(__FILE__)}: #{message}")
   exit(code)
 end
 
 code = ARGV.first or error(1, 'no HTTP status code specified')
-info = MAP[code] or error(2, "invalid HTTP status code - #{code}")
+
+if match = /\A(1|2|3|4|5)xx\z/.match(code)
+  MAP.each_pair do |code, info|
+    puts("#{code} - #{info[:symbol]}") if code.start_with?(match[1])
+  end
+  exit
+end
+
+info = MAP[code] or error(2, "invalid HTTP status code - '#{code}'")
+
 puts("#{code} - #{info[:symbol]}", nil, info[:description])
 puts(nil, "Link: #{info[:link]}") if info[:link]
 
