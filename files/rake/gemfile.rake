@@ -20,7 +20,7 @@ module GemFile
 
       source 'https://rubygems.org' do
         gem 'bundler'
-        gem 'rake'
+        gem 'rake', group: %i[development test]
       end
     CONTENT
   end

@@ -28,18 +28,19 @@ module Rakefile
     <<~CONTENT
       # frozen_string_literal: true
 
+      $stdout.sync = $stderr.sync = true
+
       require 'rake/clean'
       require 'bundler/gem_tasks'
       require 'rake/testtask'
 
-      $stdout.sync = $stderr.sync = true
+      CLOBBER << 'pkg'
 
       task(:default) { exec('rake --tasks') }
 
       Rake::TestTask.new(:test) do |task|
-        task.ruby_opts = %w[-w]
-        task.verbose = true
-        task.test_files = FileList['test/**/*_test.rb']
+        task.pattern = 'test/**/*_test.rb'
+        task.warning = task.verbose = true
       end
     CONTENT
   end
