@@ -1,5 +1,5 @@
 [core]
-	editor = "mate --name 'Git Commit Message' -w -l 1"
+	editor = micro
 	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
 	excludesfile = ~/.gitignore_global
 	autocrlf = input
@@ -71,3 +71,6 @@
 [user]
 	name = Mike Blumtritt
 	email = mblumtritt@users.noreply.github.com
+[cola]
+	spellcheck = false
+	tabwidth = 4

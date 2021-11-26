@@ -87,7 +87,7 @@ setopt long_list_jobs
   source ~/.zsh/fzf.zsh
 }
 
-export EDITOR='mate -w'
+export EDITOR=micro
 export GZIP=-9
 export GOPATH=$HOME/prj/go
 
