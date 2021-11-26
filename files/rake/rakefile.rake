@@ -28,20 +28,17 @@ module Rakefile
     <<~CONTENT
       # frozen_string_literal: true
 
-      $stdout.sync = $stderr.sync = true
-
       require 'rake/clean'
       require 'bundler/gem_tasks'
-      require 'rake/testtask'
+      require 'rspec/core/rake_task'
 
-      CLOBBER << 'pkg'
+      $stdout.sync = $stderr.sync = true
+
+      CLOBBER << 'prj'
 
       task(:default) { exec('rake --tasks') }
 
-      Rake::TestTask.new(:test) do |task|
-        task.pattern = 'test/**/*_test.rb'
-        task.warning = task.verbose = true
-      end
+      RSpec::Core::RakeTask.new { |task| task.ruby_opts = %w[-w] }
     CONTENT
   end
 end
