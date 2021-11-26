@@ -7,6 +7,6 @@ Clean up Homebrew stuff.
 else
 	brew upgrade
 	brew cleanup -s
-	rm -rf "$(brew --cache)" >/dev/null 2>&1
+	rm -rfv "$(brew --cache)" >/dev/null
 	brew tap --repair
 fi

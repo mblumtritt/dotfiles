@@ -2,8 +2,15 @@
 
 if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
 
-Clean all library caches.
+Clean all library caches. (May require password.)
 "
 else
-  rm -rf ~/Library/Caches/* >/dev/null 2>&1
+  sudo rm -rfv /Library/Caches/* >/dev/null
+  sudo rm -rfv /System/Library/Caches/* >/dev/null
+  sudo rm -rfv /private/var/folders/bh/*/*/*/* >/dev/null
+  rm -rfv ~/Library/Caches/* >/dev/null
+  if [ "$PYENV_VIRTUALENV_CACHE_PATH" ]
+  then
+    rm -rfv "$PYENV_VIRTUALENV_CACHE_PATH" >/dev/null
+  fi
 fi

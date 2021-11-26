@@ -1,0 +1,11 @@
+#! /bin/sh
+
+if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+
+Clean all trashes. (May require password.)
+"
+else
+  sudo rm -rfv /Volumes/*/.Trashes/* >/dev/null
+  rm -rfv ~/.Trash/* >/dev/null
+fi
+
