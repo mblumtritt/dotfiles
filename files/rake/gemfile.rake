@@ -21,6 +21,7 @@ module GemFile
       source 'https://rubygems.org'
       gem 'bundler'
       gem 'rake', group: %i[development test]
+      gem 'rspec', group: %i[development test]
     CONTENT
   end
 

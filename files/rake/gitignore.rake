@@ -4,11 +4,12 @@ desc 'create default .gitignore file'
 task gitignore: '.gitignore'
 
 rule '.gitignore' do |r|
-  write r.name, <<~GITIGNORE
+  write r.name, <<~gitignore
     tmp/
-    log/
     pkg/
     local/
+    doc/
+    .yardoc/
     gems.locked
-  GITIGNORE
+  gitignore
 end

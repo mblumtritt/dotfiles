@@ -17,7 +17,7 @@ module Gemspec
   end
 
   def self.gemname(file_path)
-    basename(file_path).split(%r([-_])).map!(&:capitalize).join
+    basename(file_path).split(/[-_]/).map!(&:capitalize).join
   end
 
   def self.for(file_path)
@@ -37,13 +37,16 @@ module Gemspec
 
         spec.author = 'Mike Blumtritt'
         spec.summary = 'The new gem #{gemname}.'
-        spec.description = spec.summary
+        spec.description = <<~description
+          Todo: write a helpful and catchy description
+        description
 
         spec.homepage = 'https://github.com/mblumtritt/#{basename}'
-        spec.metadata['source_code_uri'] =
-          'https://github.com/mblumtritt/#{basename}'
-        spec.metadata['bug_tracker_uri'] =
-          'https://github.com/mblumtritt/#{basename}/issues'
+        # spec.license = 'BSD-3-Clause'
+        spec.metadata.merge!(
+          'source_code_uri' => 'https://github.com/mblumtritt/#{basename}',
+          'bug_tracker_uri' => 'https://github.com/mblumtritt/#{basename}/issues'
+        )
 
         # spec.add_runtime_dependency 'TODO'
 
@@ -55,7 +58,7 @@ module Gemspec
         spec.test_files = all_files.grep(%r{^spec/})
         spec.files = all_files - spec.test_files
         # spec.executables = all_files.grep(%r{^bin/}){ |n| File.basename(n) }
-        # spec.extra_rdoc_files = %w[README.md]
+        # spec.extra_rdoc_files = %w[README.md LICENSE]
       end
     CONTENT
   end

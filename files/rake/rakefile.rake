@@ -19,7 +19,6 @@ module Rakefile
       # frozen_string_literal: true
 
       $stdout.sync = $stderr.sync = true
-
       task(:default) { exec('rake --tasks') }
     CONTENT
   end
@@ -33,12 +32,13 @@ module Rakefile
       require 'rspec/core/rake_task'
 
       $stdout.sync = $stderr.sync = true
-
       CLOBBER << 'prj'
-
       task(:default) { exec('rake --tasks') }
-
       RSpec::Core::RakeTask.new { |task| task.ruby_opts = %w[-w] }
     CONTENT
   end
+end
+
+task :mike, %i[a b] do |_task, args|
+  pp args.to_h
 end
