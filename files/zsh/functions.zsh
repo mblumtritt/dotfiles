@@ -42,3 +42,18 @@ function @tr() # lookup in GE/EN dictionary
 {
   fetch-web "$(print-search-url --dict $1)" | convert-html-text | less
 }
+
+function big_term()
+{
+  [[ -o interactive ]] &&
+  [[ "$(tput lines)" -gt 40 ]] &&
+  [[ "$(tput cols)" -gt 50 ]]
+}
+
+function welcome()
+{
+  big_term &&
+  local files=(~/welcome/*.*) &&
+  cat "${files[RANDOM % ${#files[@]}]}" &&
+  echo
+}
