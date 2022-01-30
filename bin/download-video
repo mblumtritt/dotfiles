@@ -12,6 +12,5 @@ elif [ $# = 0 ]; then
 	(>&2 echo "${0##*/}: URL missing")
 	exit 1
 else
-  # --format mp4
-  youtube-dl --external-downloader=aria2c --ignore-errors --geo-bypass --output "$TDIR/%(title)s - %(id)s.%(ext)s" "$@"
+  yt-dlp --ignore-errors --geo-bypass --output "$TDIR/%(title)s - %(id)s.%(ext)s" "$@"
 fi
