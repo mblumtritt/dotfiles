@@ -87,7 +87,7 @@ setopt long_list_jobs
   source ~/.zsh/fzf.zsh
 }
 
-export EDITOR=micro
+export EDITOR='mate -w'
 export GEM_EDITOR=mate
 export GZIP=-9
 export GOPATH=$HOME/prj/go
@@ -100,7 +100,6 @@ source_if_exists ~/.aliases.local
 export PATH="$HOME/bin:/usr/local/opt/curl/bin:$PATH:/usr/local/sbin:/usr/local/opt/go/libexec/bin"
 
 source_if_exists ~/.awsrc
-source_if_exists ~/.logclirc
 source_if_exists ~/.zshrc.local
 source_if_exists ~/.config/broot/launcher/bash/br
 source_if_exists /usr/local/opt/asdf/asdf.sh

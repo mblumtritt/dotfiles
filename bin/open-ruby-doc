@@ -7,7 +7,7 @@ Show Ruby documentation with given class and method NAME.
 HELP
 
 main do |path, name|
-  exec(%(open "http://[::]/#{path}")) if path
+  exec(%(open "http://[::]:4040/#{path}")) if path
   error(1, "not found - #{name}")
 end
 
