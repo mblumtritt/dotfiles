@@ -7,9 +7,8 @@ if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
 Execute given command for each installed ruby version.
 "
 else
-	for ruby in $(asdf list ruby)
-	do
-    echo ":: Ruby $ruby"
+	for ruby in $(asdf list ruby); do
+    echo "• Ruby $ruby"
 		ASDF_RUBY_VERSION="$ruby" asdf exec "$@"
 	done
 fi
