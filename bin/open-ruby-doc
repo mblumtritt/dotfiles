@@ -1,18 +1,13 @@
-#! /usr/bin/env ruby
+#!/usr/bin/env ruby
 # frozen_string_literal: true
 
-help <<~HELP, '[NAME]'
+if ARGV.empty? || ARGV.include?('--help') || ARGV.include?('-h')
+  puts <<~HELP
+    Usage: open-ruby-doc <name>
 
-Show Ruby documentation with given class and method NAME.
-HELP
-
-main do |path, name|
-  exec(%(open "http://[::]:4040/#{path}")) if path
-  error(1, "not found - #{name}")
-end
-
-parse_argv do |args|
-  RubyDoc.find('~/www', args['NAME']) || [nil, args['NAME']]
+    Show Ruby documentation with given class and method <name>.
+    HELP
+  exit
 end
 
 class RubyDoc
@@ -85,4 +80,7 @@ class RubyDoc
   end
 end
 
-BEGIN { require 'mini-cli' and include MiniCli }
+path, name = RubyDoc.find('~/www', ARGV.first) || [nil, ARGV.first]
+exec("open \"http://[::]:4040/#{path}\"") if path
+puts("open-ruby-doc: not found - #{ARGV.first}")
+exit(1)

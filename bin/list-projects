@@ -1,25 +1,34 @@
-#! /usr/bin/env ruby
+#!/usr/bin/env ruby
 # frozen_string_literal: true
 
-help <<-HELP, 'NAME'
-  -t, --top   print first matching project only
+if ARGV.include?('-h') || ARGV.include?('--help')
+  puts <<~HELP
+    Usage: list-projects [<options>] <name>
 
-List all projects matching NAME shortcut.
-HELP
+    Options:
+      -h, --help  show this help
+      -t, --top   print first matching project only
 
-main do |args|
-  found = ProjectsFinder.new(read_roots).related_dirs(args['NAME'])
-  exit(1) if found.empty?
-  args.key?('top') ? puts(found[0]) : found.each{ |f| puts f }
+    List all projects matching NAME shortcut.
+  HELP
+  exit
 end
 
-def read_roots(file_name = '~/.' + name)
+def error(msg, code)
+  $stderr.puts("list-projects: #{msg}")
+  exit(code)
+end
+
+TOP = ARGV.delete('-t') || ARGV.delete('--top')
+NAME = ARGV.first or error('argument <name> missing', 2)
+
+def read_roots(file_name = '~/.list-projects')
   IO
     .readlines(File.expand_path(file_name))
     .map!(&:strip)
-    .delete_if{ |name| name.nil? || name.empty? || name.start_with?('#') }
+    .delete_if { |name| name.nil? || name.empty? || name.start_with?('#') }
 rescue SystemCallError
-  error(3, "#{NAME}: configuration not found - #{file_name}")
+  error("configuration not found - #{file_name}", 3)
 end
 
 class ProjectsFinder
@@ -45,20 +54,20 @@ class ProjectsFinder
     name = normalized(name)
     map
       .keys
-      .find_all{ |key| key.index(name) }
-      .sort_by!{ |key| key.size - name.size }
+      .find_all { |key| key.index(name) }
+      .sort_by! { |key| key.size - name.size }
   end
 
   def dirs_for(keys)
     ret = []
-    keys.each{ |key| ret << map[key] }
+    keys.each { |key| ret << map[key] }
     ret.flatten!
     ret.uniq!
     ret
   end
 
   def create_map
-    ret = Hash.new{ |h, k| h[k] = [] }
+    ret = Hash.new { |h, k| h[k] = [] }
     @roots.each do |root|
       root = File.expand_path(root)
       next unless File.directory?(root)
@@ -72,4 +81,6 @@ class ProjectsFinder
   end
 end
 
-BEGIN { require 'mini-cli' and include MiniCli }
+FOUND = ProjectsFinder.new(read_roots).related_dirs(NAME)
+exit(1) if FOUND.empty?
+TOP ? puts(FOUND.first) : FOUND.each { |f| puts f }
