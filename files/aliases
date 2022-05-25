@@ -24,4 +24,4 @@ alias bdep='bundle list --paths | ruby --disable=gems,did_you_mean -n -e"puts(Fi
 alias rcop='rubocop -D -E -S'
 alias pretty!='noglob ~/.asdf/shims/rbprettier --ignore-path=".gitignore" --single-quote --ruby-to-proc --no-error-on-unmatched-pattern --write "**/*.{ru,rb,yml,yaml,md,rake}"'
 alias fspec='be rspec --order defined --fail-fast --format d'
-alias dco='docker-compose'
+alias dco='docker compose'
