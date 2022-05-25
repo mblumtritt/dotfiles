@@ -41,8 +41,8 @@ module Gemspec
           Todo: write a helpful and catchy description
         description
 
-        spec.homepage = 'https://github.com/mblumtritt/#{basename}'
         # spec.license = 'BSD-3-Clause'
+        spec.homepage = 'https://github.com/mblumtritt/#{basename}'
         spec.metadata.merge!(
           'source_code_uri' => 'https://github.com/mblumtritt/#{basename}',
           'bug_tracker_uri' => 'https://github.com/mblumtritt/#{basename}/issues'
@@ -52,7 +52,7 @@ module Gemspec
 
         spec.add_development_dependency 'bundler'
         spec.add_development_dependency 'rake'
-        spec.add_development_dependency 'rspec'
+        # spec.add_development_dependency 'rspec'
 
         all_files = Dir.chdir(__dir__) { `git ls-files -z`.split(0.chr) }
         spec.test_files = all_files.grep(%r{^spec/})
