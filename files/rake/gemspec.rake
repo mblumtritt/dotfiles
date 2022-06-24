@@ -37,9 +37,9 @@ module Gemspec
 
         spec.author = 'Mike Blumtritt'
         spec.summary = 'The new gem #{gemname}.'
-        spec.description = <<~description
+        spec.description = <<~DESCRIPTION
           Todo: write a helpful and catchy description
-        description
+        DESCRIPTION
 
         # spec.license = 'BSD-3-Clause'
         spec.homepage = 'https://github.com/mblumtritt/#{basename}'
