@@ -34,6 +34,7 @@ module Rakefile
       $stdout.sync = $stderr.sync = true
       CLOBBER << 'prj'
       task(:default) { exec('rake --tasks') }
+      task(test: :spec)
       RSpec::Core::RakeTask.new { |task| task.ruby_opts = %w[-w] }
     CONTENT
   end
