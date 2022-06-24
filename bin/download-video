@@ -12,5 +12,5 @@ elif [ $# = 0 ]; then
 	(>&2 echo "${0##*/}: URL missing")
 	exit 1
 else
-  yt-dlp --ignore-errors --geo-bypass --output "$TDIR/%(title)s.%(ext)s" "$@"
+  yt-dlp --concurrent-fragments 4 --geo-bypass --output "$TDIR/%(title)s.%(ext)s" "$@"
 fi

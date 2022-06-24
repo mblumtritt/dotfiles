@@ -12,5 +12,5 @@ elif [ $# = 0 ]; then
 	(>&2 echo "${0##*/}: URL missing")
 	exit 1
 else
-  yt-dlp --extract-audio --audio-format mp3 --audio-quality 0 --embed-thumbnail --add-metadata --geo-bypass --ignore-errors --output "$TDIR/%(playlist_title)s/%(playlist_index)s-%(title)s.%(ext)s" "$@"
+  yt-dlp --extract-audio --audio-format mp3 --audio-quality 0 --embed-thumbnail --add-metadata --concurrent-fragments 4 --geo-bypass --output "$TDIR/%(playlist_title)s/%(playlist_index)s-%(title)s.%(ext)s" "$@"
 fi
