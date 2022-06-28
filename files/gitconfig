@@ -55,7 +55,7 @@
 	pl = pull --all --prune --rebase
 	ps = push
 	aa = add --all
-	br = ! git branch -v $1 && git checkout $1
+	br = !sh -c 'git branch -v $1 && git checkout $1' -
 	bl = branch -a
   bdel = branch -D
   bprune = remote update origin --prune
