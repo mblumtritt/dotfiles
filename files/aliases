@@ -1,6 +1,8 @@
-alias ll='ls -Alp'
-alias lr='ls -Rlp'
+# alias ls='lsd'
+alias ll='lsd -Al'
+alias lr='lsd -Rl'
 alias du='du -kh'
+alias top='btm'
 
 alias path='echo -e ${PATH//:/\\n}'
 alias ...='cd ..'
