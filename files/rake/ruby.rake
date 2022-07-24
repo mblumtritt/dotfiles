@@ -10,14 +10,14 @@ end
 desc 'create a new Ruby app repository'
 task :ruby, [:name] => 'ruby:base' do |_, args|
   args.name or fail '🚫 name expected'
-  want "#{args.name}/gems.rb"
+  want "#{args.name}/Gemfile"
 end
 
 desc 'create a new Ruby gem repository'
 task 'ruby:gem', [:name] => 'ruby:base' do |_, args|
   args.name or fail '🚫 name expected'
   want "#{args.name}/#{args.name}.gemspec"
-  ordered "#{args.name}/gems.rb", "#{args.name}/rakefile.rb"
+  ordered "#{args.name}/Gemfile", "#{args.name}/Rakefile"
 end
 
 rule '.rb' do |r|

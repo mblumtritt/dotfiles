@@ -33,31 +33,33 @@ module Gemspec
       Gem::Specification.new do |spec|
         spec.name = '#{basename}'
         spec.version = #{gemname}::VERSION
-        spec.required_ruby_version = '>= 2.7.0'
-
-        spec.author = 'Mike Blumtritt'
         spec.summary = 'The new gem #{gemname}.'
         spec.description = <<~DESCRIPTION
           Todo: write a helpful and catchy description
         DESCRIPTION
 
+        spec.author = 'Mike Blumtritt'
         # spec.license = 'BSD-3-Clause'
         spec.homepage = 'https://github.com/mblumtritt/#{basename}'
-        spec.metadata.merge!(
-          'source_code_uri' => 'https://github.com/mblumtritt/#{basename}',
-          'bug_tracker_uri' => 'https://github.com/mblumtritt/#{basename}/issues'
-        )
+        spec.metadata = {
+          'source_code_uri' => spec.homepage,
+          'bug_tracker_uri' => "#\{spec.homepage\}/issues",
+        }
 
+        spec.files = Dir['lib/**/*']
+        # spec.executables = Dir['bin/*']
+        spec.required_ruby_version = '>= 2.7.0'
         # spec.add_runtime_dependency 'TODO'
 
-        spec.add_development_dependency 'bundler'
-        spec.add_development_dependency 'rake'
-        # spec.add_development_dependency 'rspec'
-
-        all_files = Dir.chdir(__dir__) { `git ls-files -z`.split(0.chr) }
-        spec.test_files = all_files.grep(%r{^spec/})
-        spec.files = all_files - spec.test_files
-        # spec.executables = all_files.grep(%r{^bin/}){ |n| File.basename(n) }
+        # spec.rdoc_options += [
+        #   '--title',
+        #   '#{basename} Documentation',
+        #   '--main',
+        #   'README.md',
+        #   '--line-numbers',
+        #   '--inline-source',
+        #   '--quiet'
+        # ]
         # spec.extra_rdoc_files = %w[README.md LICENSE]
       end
     CONTENT

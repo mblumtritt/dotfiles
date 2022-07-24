@@ -10,6 +10,6 @@ rule '.gitignore' do |r|
     local/
     doc/
     .yardoc/
-    gems.locked
+    Gemfile.lock
   gitignore
 end

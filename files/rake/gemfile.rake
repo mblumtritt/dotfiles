@@ -1,35 +1,29 @@
 # frozen_string_literal: true
 
 desc 'create default Gemfile'
-task gemfile: './gems.rb'
+task gemfile: './Gemfile'
 
-rule /gems.rb$/ do |r|
-  write r.name do
-    if Gemspec.present?(File.dirname(r.name))
-      GemFile.using_gemspec
-    else
-      GemFile.default
-    end
-  end
+rule /Gemfile$/ do |r|
+  write r.name, GemFile.content
 end
 
 module GemFile
-  def self.default
+  def self.content
     <<~CONTENT
       # frozen_string_literal: true
 
       source 'https://rubygems.org'
-      gem 'bundler'
-      gem 'rake', group: %i[development test]
-      gem 'rspec', group: %i[development test]
-    CONTENT
-  end
 
-  def self.using_gemspec
-    <<~CONTENT
-      # frozen_string_literal: true
+      group :development, :test do
+        gem 'rake'
+        gem 'rspec'
+      end
 
-      source 'https://rubygems.org'
+      group :development do
+        gem 'bundler'
+        # gem 'yard'
+      end
+
       gemspec
     CONTENT
   end
