@@ -15,13 +15,16 @@ module GemFile
       source 'https://rubygems.org'
 
       group :development, :test do
+        gem 'bundler'
         gem 'rake'
-        gem 'rspec'
       end
 
-      group :development do
-        gem 'bundler'
-        # gem 'yard'
+      # group :development do
+      #   gem 'yard'
+      # end
+
+      group :test do
+        gem 'rspec'
       end
 
       gemspec
