@@ -69,11 +69,11 @@
     minus-style = syntax "#400000"
     plus-emph-style = syntax bold "#007800"
     plus-style = syntax "#004000"
-    syntax-theme = Vibrant Sunburst
     whitespace-error-style = "#280050" reverse
     zero-style = syntax
     blame-format = "{author:<18} ({commit:>7}) ┊{timestamp:^16}┊ "
     blame-palette = "#101010 #200020 #002800 #000028 #202000 #280000 #002020 #002800 #202020"
+    syntax-theme = zenburn
 [filter "media"]
 	required = true
 	clean = git media clean %f
