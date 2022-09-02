@@ -20,15 +20,18 @@ setopt long_list_jobs
 	export HISTFILE=~/.histfile
 	export HISTSIZE=100000
 	export SAVEHIST=100000
-	setopt append_history
 	setopt extended_history
-	setopt no_hist_beep
-  setopt hist_ignore_all_dups
-	setopt hist_ignore_dups
-	setopt hist_ignore_space
-  setopt hist_expire_dups_first
-	setopt inc_append_history
 	setopt share_history
+  setopt hist_expire_dups_first
+	setopt hist_ignore_dups
+  setopt hist_ignore_all_dups
+  setopt hist_find_no_dups
+	setopt hist_ignore_space
+  setopt hist_save_no_dups
+  setopt hist_verify
+  # setopt append_history
+  # setopt inc_append_history
+  # setopt no_hist_beep
 
 	# history search:
 	autoload -U history-search-end
@@ -39,13 +42,11 @@ setopt long_list_jobs
 
 	# setup completion
   # fpath=($HOME/.zsh/completions $fpath)
-
   zstyle ':completion:*' completer _complete _ignored _approximate
   zstyle ':completion:*' max-errors 2
   zstyle ':completion:*' menu select=1
   zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} l:|=* r:|=*'
   zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-
   autoload -Uz compinit
   autoload -U complist
   compinit
@@ -60,14 +61,15 @@ setopt long_list_jobs
 	setopt beep
 
 	# setup edit
-	autoload -z edit-command-line
+	autoload -Uz edit-command-line
 	zle -N edit-command-line
 	bindkey '^X^E' edit-command-line
 
-	# setup cd & Co.
+	# setup cd
 	setopt auto_pushd
 	setopt pushd_ignore_dups
 	setopt pushd_silent
+	setopt correct
 
 	# setup prompt
 	setopt prompt_subst
@@ -78,7 +80,7 @@ setopt long_list_jobs
   PROMPT='%(?,,%K{red}%F{white}%B %? %b%f%k)'
   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=blue'
   source_if_exists /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-  [[ "$TERM_PROGRAM" = 'vscode' ]] && export PS1='%~$ '
+  [[ "$TERM_PROGRAM" != 'iTerm.app' ]] && export PS1='%~$ '
 
   export BAT_THEME='base16'
   export PASSWORD_STORE_ENABLE_EXTENSIONS=true
@@ -94,7 +96,6 @@ export GOPATH=$HOME/prj/go
 
 source ~/.aliases
 source_if_exists ~/.aliases.local
-# command_exists rbenv && { eval "$(rbenv init -)"; }
 
 # i need this sequence
 export PATH="$HOME/bin:/usr/local/opt/curl/bin:$PATH:/usr/local/sbin:/usr/local/opt/go/libexec/bin"
