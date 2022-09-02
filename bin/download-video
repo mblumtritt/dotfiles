@@ -7,10 +7,13 @@ if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} URL
 
 Download a video or video playlist from given URL to '$TDIR'.
 "
-  exit 0
 elif [ $# = 0 ]; then
 	(>&2 echo "${0##*/}: URL missing")
 	exit 1
 else
-  yt-dlp --concurrent-fragments 4 --geo-bypass --output "$TDIR/%(title)s.%(ext)s" "$@"
+  yt-dlp \
+    --concurrent-fragments 8 \
+    --geo-bypass \
+    --output "$TDIR/%(title)s.%(ext)s" \
+    "$@"
 fi
