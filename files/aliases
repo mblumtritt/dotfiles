@@ -14,6 +14,7 @@ alias o='open'
 alias g='git'
 alias e='edit-text'
 alias sc='shellcheck'
+alias ∏='plutos'
 
 alias rk='noglob rake'
 alias gr='noglob rake --system'
