@@ -42,12 +42,12 @@ module Gemspec
         # spec.license = 'BSD-3-Clause'
         spec.homepage = 'https://github.com/mblumtritt/#{basename}'
         spec.metadata['source_code_uri'] = spec.homepage
-        spec.metadata['bug_tracker_uri'] = "#{spec.homepage}/issues"
+        spec.metadata['bug_tracker_uri'] = "\#{spec.homepage}/issues"
         spec.metadata['documentation_uri'] = "https://rubydoc.info/gems/#{basename}"
 
         spec.required_ruby_version = '>= 2.7.0'
         spec.files = Dir['lib/**/*']
-        # spec.executables = Dir['bin/*']
+        # spec.executables = %w[command]
         # spec.add_runtime_dependency 'TODO'
         # spec.extra_rdoc_files = %w[README.md LICENSE]
       end
