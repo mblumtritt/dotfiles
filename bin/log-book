@@ -1,0 +1,265 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+puts(<<~HELP) || exit if %w[help --help -h].include?(ARGV[0])
+  Usage: log-book add [-t|--topic <topic>] [<message>]
+    Add given <message> or standard input to log <topic>.
+
+  Usage: log-book ls [<pattern>]
+    Print all topics or the topics matching the given <pattern>.
+    The <pattern> can be a simple sub-string or a regular expression when
+    enclosed in slashes ('/').
+
+  Usage: log-book print [-t|--topic <topic>] [--time <time>]
+                        [--after <after>] [--before <before>]
+    Print the log <topic>, optionally only entries of a dedicated <time> or time range.
+    Valid time formats:
+      '2022/3/14'      14. March of year 2022
+      '2022'           all dates of year 2022
+      '2022/3'         March of year 2022
+      'may 06'         6. May this year
+      'may 06 14:30'   6. May this year, 14:30h
+      '4:20'           4:20h today
+
+  Usage: log-book find [-t|--topic <topic>] <pattern>
+    Find the <pattern> in the log <topic>.
+    The <pattern> can be a simple sub-string or a regular expression when
+    enclosed in slashes ('/').
+
+  Usage: log-book help
+    Print this help.
+
+  Usage: log-book version
+    Print version information.
+HELP
+
+puts('log-book v0.1.0') || exit if %w[version --version -v].include?(ARGV[0])
+
+def error(message, code = 1)
+  $stderr.puts("log-book: #{message}")
+  exit(code)
+end
+
+def aborted!
+  puts("\b\b  ") if $stdout.tty?
+  $stderr.puts('log-book: aborted')
+  exit(130)
+end
+
+def mkdir_p(path)
+  stack = []
+  until File.directory?(path)
+    stack << path
+    path = File.dirname(path)
+  end
+  stack.reverse_each do |name|
+    Dir.mkdir(name)
+  rescue SystemCallError
+    File.directory?(name) or error("unable to create path - #{name}", 3)
+  end
+  path
+end
+
+def root
+  @root ||= mkdir_p(File.expand_path(ENV['LB_DIR'] || '~/.log-book'))
+end
+
+def create_filters
+  ret =
+    ARGV.map do |str|
+      next ->(s) { s.index(str) } unless str.start_with?('/')
+      next ->(s) { s.index(str) } unless str.end_with?('/')
+      regexp =
+        Regexp.new(
+          str.delete_prefix('/').delete_suffix!('/'),
+          Regexp::IGNORECASE
+        )
+      ->(s) { regexp.match?(s) }
+    rescue RegexpError => e
+      error("invalid regular expression '#{str}' - #{e}", 2)
+    end
+  ret.empty? ? nil : ret
+end
+
+def list
+  filters = create_filters
+  topics =
+    Dir[File.join(root, '*.log')]
+      .filter_map do |fname|
+        stat = File.stat(fname)
+        stat = stat.file? && stat.readable? && stat.writable?
+        stat ? File.basename(fname, '.log') : nil
+      end
+      .sort!
+  topics.keep_if { |name| filters.any? { |f| f[name] } } if filters
+  return 1 if topics.empty?
+  topics.each { |n| puts(n) }
+  0
+rescue Interrupt
+  aborted!
+end
+
+exit(ARGV.shift && list) if ARGV[0] == 'ls'
+
+def find_args(**opts)
+  ret = {}
+  while !ARGV.empty? && !opts.empty?
+    name = opts[ARGV[0]] or break
+    opts.delete(ARGV.shift)
+    ret[name] = ARGV.shift || error("parameter expected - <#{name}>")
+  end
+  ret
+end
+
+def fetch_topic
+  find_args('--topic' => 1, '-t' => 1)[1] || ENV['LB_TOPIC'] || 'default'
+end
+
+def with_file(topic, mode, &block)
+  File.open(File.join(root, topic + '.log'), mode: mode, &block)
+rescue Errno::ENOENT
+  error("invalid topic name - #{topic}")
+end
+
+def find
+  topic = fetch_topic
+  filters = create_filters
+  error('argument missing - find') if ARGV.empty?
+  found = 0
+  with_file(topic, 'r') do |file|
+    file.each_line do |line|
+      next unless filters.any? { |f| f[line] }
+      puts(line)
+      found += 1
+    end
+  end
+  found.zero? ? 1 : 0
+rescue Interrupt
+  aborted!
+end
+
+exit(ARGV.shift && find) if ARGV[0] == 'find'
+
+def as_time(str, type = '')
+  return unless str
+  require('date_core')
+  tm = Date._parse(str)
+  keys = tm.keys
+  now = Time.now
+  case keys
+  when %i[mon mday]
+    if tm[:mon] > 12
+      format('[%02d%02d-', tm[:mon], tm[:mday])
+    else
+      format('[%04d-%02d-%02dT', now.year, tm[:mon], tm[:mday])
+    end
+  when %i[year mon]
+    format('[%04d-%02d-', tm[:year], tm[:mon])
+  when %i[year mon mday]
+    format('[%04d-%02d-%02dT', tm[:year], tm[:mon], tm[:mday])
+  else
+    Time
+      .new(
+        tm[:year] || now.year,
+        tm[:mon] || now.mon,
+        tm[:mday] || now.mday,
+        tm[:hour],
+        tm[:min]
+      )
+      .utc
+      .strftime('[%FT%H:%M:')
+  end
+rescue ArgumentError, TypeError
+  error("invalid #{type}time format - #{str}")
+end
+
+def show_at(file, time)
+  len = time.size
+  file.each_line do |line|
+    tm = line[0, len]
+    next print(line) if tm == time
+    break if tm > time
+  end
+  0
+end
+
+def show_after(file, time)
+  len = time.size
+  file.each_line do |line|
+    next if line[0, len] <= time
+    print(line)
+    break
+  end
+  IO.copy_stream(file, $stdout) if !file.eof?
+  0
+end
+
+def show_between(file, after, before)
+  alen = after.size
+  file.each_line do |line|
+    next if line[0, alen] <= after
+    return 0 if line[0, before.size] >= before
+    print(line)
+    break
+  end
+  show_before(file, before)
+end
+
+def show_before(file, time)
+  len = time.size
+  file.each_line { |line| line[0, len] >= time ? break : print(line) }
+  0
+end
+
+def show
+  args =
+    find_args(
+      '--topic' => :topic,
+      '--time' => :time,
+      '--before' => :before,
+      '--after' => :after,
+      '-t' => :topic,
+      '-b' => :before,
+      '-a' => :after
+    )
+  if time = as_time(args[:time], '')
+    error('invalid time option - before') if args.key?(:before)
+    error('invalid time option - after') if args.key?(:after)
+  else
+    before = as_time(args[:before], 'before ')
+    after = as_time(args[:after], 'after ')
+  end
+  with_file(args[:topic] || ENV['LB_TOPIC'] || 'default', 'r') do |file|
+    return show_at(file, time) if time
+    if after
+      return show_between(file, after, before) if before
+      return show_after(file, after)
+    end
+    before ? show_before(file, before) : IO.copy_stream(file, $stdout)
+  end
+  0
+rescue Interrupt
+  aborted!
+end
+
+exit(ARGV.shift && show) if ARGV[0] == 'print'
+
+def now_str
+  Time.now.utc.strftime('%FT%T')
+end
+
+ARGV.shift if ARGV[0] == 'add'
+
+begin
+  written = 0
+  with_file(fetch_topic, 'a') do |file|
+    file.puts("[#{now_str}] #{ARGV.join(' ')}") || exit unless ARGV.empty?
+    while line = $stdin.gets(chomp: true)
+      file.puts("[#{now_str}] #{line}")
+      written += 1
+    end
+  end
+  exit(written.zero? ? 1 : 0)
+rescue Interrupt
+  aborted!
+end
