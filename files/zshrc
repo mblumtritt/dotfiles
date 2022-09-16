@@ -86,7 +86,6 @@ setopt long_list_jobs
   export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 
   source ~/.zsh/iterm2_shell_integration.zsh
-  source ~/.zsh/fzf.zsh
 }
 
 export EDITOR='mate -w'
