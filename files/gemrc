@@ -1,5 +1,7 @@
 ---
 install: --no-document
+update: --no-document
+gem: --no-document
 :backtrace: true
 :benchmark: false
 :bulk_threshold: 1000
