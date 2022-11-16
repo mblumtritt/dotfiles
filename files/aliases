@@ -2,11 +2,12 @@
 alias ll='lsd -Al'
 alias lr='lsd -Rl'
 alias du='du -kh'
-alias top='btm'
+alias top='btm --basic'
 
 alias path='echo -e ${PATH//:/\\n}'
 alias ...='cd ..'
 alias tree='tree -AC'
+alias sks='noglob sks'
 
 alias fucking='sudo'
 alias please='sudo'
@@ -14,7 +15,6 @@ alias o='open'
 alias g='git'
 alias e='edit-text'
 alias sc='shellcheck'
-alias ∏='plutos'
 
 alias rk='noglob rake'
 alias gr='noglob rake --system'
