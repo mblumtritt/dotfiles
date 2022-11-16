@@ -16,6 +16,7 @@ module GemFile
 
       group :development, :test do
         gem 'bundler'
+        gem 'prettier'
         gem 'rake'
       end
 

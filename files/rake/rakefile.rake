@@ -34,17 +34,18 @@ module Rakefile
 
       $stdout.sync = $stderr.sync = true
 
-      CLEAN << '.yardoc'
-      CLOBBER << 'prj' << 'doc'
+      # CLEAN << '.yardoc'
+      # CLOBBER << 'doc'
+      CLOBBER << 'prj'
 
       task(:default) { exec('rake --tasks') }
 
       RSpec::Core::RakeTask.new(:test) { |task| task.ruby_opts = %w[-w] }
 
-      # YARD::Rake::YardocTask.new { |task| task.stats_options = %w[--list-undoc] }
+      # YARD::Rake::YardocTask.new(:doc) { |task| task.stats_options = %w[--list-undoc] }
 
       # desc 'Run YARD development server'
-      # task('yard:dev' => :clobber) { exec('yard server --reload') }
+      # task('doc:dev' => :clobber) { exec('yard server --reload') }
     CONTENT
   end
 end

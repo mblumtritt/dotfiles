@@ -46,9 +46,10 @@ module Gemspec
         spec.metadata['documentation_uri'] = "https://rubydoc.info/gems/#{basename}"
 
         spec.required_ruby_version = '>= 2.7.0'
-        spec.files = Dir['/lib/**/*']
-        # spec.executables = %w[command]
         # spec.add_runtime_dependency 'TODO'
+
+        spec.files = Dir['lib/**/*']
+        # spec.executables = %w[command]
         # spec.extra_rdoc_files = %w[README.md LICENSE]
       end
     CONTENT
