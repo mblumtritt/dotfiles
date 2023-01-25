@@ -1,0 +1,141 @@
+" my vim config
+set nocompatible  " Use Vim settings, rather then Vi settings
+set backspace=2   " Backspace deletes like most programs in insert mode
+set nobackup
+set nowritebackup
+set noswapfile    " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
+set history=50
+set ruler         " show the cursor position all the time
+set showcmd       " display incomplete commands
+set incsearch     " do incremental searching
+set laststatus=2  " Always display the status line
+set autowrite     " Automatically :write before running commands
+set hidden
+set number
+" set relativenumber
+" set numberwidth=5
+set autoindent
+set smartindent
+set smarttab
+set encoding=utf-8
+set hlsearch
+set undodir=~/.vim/undo
+set formatprg=par\ -qw72
+
+" Auto-remove trailing whitespace on save
+autocmd BufWritePre * %s/\s\+$//e
+
+" ignore whitespaces when vimdiffing stuff
+if &diff " diff mode
+  set diffopt+=iwhite
+endif
+" Use one space, not two, after punctuation.
+set nojoinspaces
+
+" Use the same symbols as TextMate for tabstops and EOLs
+set listchars=tab:▸\ ,eol:¬
+
+" Open new split panes to right and bottom, which feels more natural
+set splitbelow
+set splitright
+
+" leader
+let mapleader = ","
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+set signcolumn=yes
+
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
+  syntax on
+endif
+
+filetype on           " Enable filetype detection
+filetype indent on    " Enable filetype-specific indenting
+filetype plugin on    " Enable filetype-specific plugins
+
+call plug#begin('~/.vim/plugged')
+Plug 'ngmy/vim-rubocop'
+Plug 'vim-ruby/vim-ruby'
+Plug 'dhruvasagar/vim-zoom'
+Plug 'drzel/vim-split-line'
+call plug#end()
+
+" Comments should be italic
+highlight Comment cterm=italic
+
+filetype plugin indent on
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+map ga <Plug>(EasyAlign)
+" Align GitHub-flavored Markdown tables
+au FileType markdown vmap <Leader><Bar> :EasyAlign*<Bar><Enter>
+
+" Show next matched string at the center of screeen
+nnoremap n nzz
+nnoremap N Nzz
+
+" Shortcut to rapidly toggle `set list`
+nmap <leader>l :set list!<CR>
+
+" Shortcut to split
+nmap <leader>hs :split<Cr>
+nmap <leader>vs :vsplit<Cr>
+nmap <leader>vt :vsplit term://zsh<Cr>
+nmap <leader>ht :split term://zsh<Cr>
+
+" nnoremap S :SplitLine<CR>
+
+" Clear search highlight
+nnoremap <CR> :nohlsearch<CR><CR>
+
+" Toggle zoom
+nmap <leader>z <Plug>(zoom-toggle)
+
+
+" Strip trailing whitespaces and
+" keep current cursor position
+fun! <SID>StripTrailingWhitespaces()
+   let l = line(".")
+   let c = col(".")
+   %s/\s\+$//e
+   call cursor(l, c)
+endfun
+
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd BufRead,InsertLeave * match ExtraWhitespace /\s\+$/
+
+highlight ExtraWhitespace ctermbg=red guibg=red
+highlight ExtraLines ctermbg=red guibg=red
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+
+" Softtabs, 2 spaces
+set tabstop=2
+set shiftwidth=2
+set expandtab
+
+" Set to auto read when a file is changed from the outside
+set autoread
+autocmd Filetype gitcommit setlocal spell textwidth=72
+autocmd FileType eruby,json,yaml,html setlocal shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+autocmd FileType ruby setlocal colorcolumn=79 shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+autocmd FileType ruby,eruby,json,yaml,html autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType markdown setlocal spell spelllang=en_us,de_de
+autocmd FileType py setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 expandtab autoindent fileformat=unix foldmethod=indent
+autocmd FileType py  autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+au BufNewFile,BufRead *.yaml.gotmpl,*.yml.gotmpl setf yaml
+
+" vim json settings
+let g:vim_json_warnings = 1
+let g:vim_json_syntax_conceal = 1
+
+" Activate vim 7.4 matchit plugin
+runtime macros/matchit.vim
