@@ -78,12 +78,12 @@ setopt long_list_jobs
 	promptinit
 	export PS1='%~$ '
   PROMPT='%(?,,%K{red}%F{white}%B %? %b%f%k)'
+  WORDCHARS='*?_-.[]~=&;!#$%^(){}<>/@'
   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=blue'
   source_if_exists /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
   [[ "$TERM_PROGRAM" != 'iTerm.app' ]] && export PS1='%~$ '
 
   export BAT_THEME='base16'
-  export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 
   source ~/.zsh/iterm2_shell_integration.zsh
 }
@@ -91,7 +91,9 @@ setopt long_list_jobs
 export EDITOR='mate -w'
 export GEM_EDITOR=mate
 export GZIP=-9
+export SEC_DIR=$HOME/.password-store
 export GOPATH=$HOME/prj/go
+export GPG_TTY=$(tty)
 
 source ~/.aliases
 source_if_exists ~/.aliases.local
@@ -102,4 +104,4 @@ export PATH="$HOME/bin:/usr/local/opt/curl/bin:$PATH:/usr/local/sbin:/usr/local/
 source_if_exists ~/.awsrc
 source_if_exists ~/.zshrc.local
 source_if_exists ~/.config/broot/launcher/bash/br
-source_if_exists /usr/local/opt/asdf/asdf.sh
+source_if_exists /usr/local/opt/asdf/libexec/asdf.sh
