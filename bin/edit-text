@@ -10,13 +10,13 @@ elif [ $# = 0 ]; then
 	(>&2 echo "${0##*/}: FILE | NAME missing")
 	exit 1
 elif [ -e "$1" ]; then
-  mate "$1"
+  code "$1"
 else
   readonly PROJECT="$(list-projects --top "$1")"
   if [ "$PROJECT" = "" ]; then
   	(>&2 echo "${0##*/}: no such project - $1")
   	exit 2
   else
-    mate "$PROJECT"
+    code "$PROJECT"
   fi
 fi
