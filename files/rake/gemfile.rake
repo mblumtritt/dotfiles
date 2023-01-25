@@ -1,34 +1,41 @@
 # frozen_string_literal: true
 
-desc 'create default Gemfile'
-task gemfile: './Gemfile'
+file_create 'Gemfile' do |f|
+  require_relative 'prj'
 
-rule /Gemfile$/ do |r|
-  write r.name, GemFile.content
+  content = <<~CONTENT
+    # frozen_string_literal: true
+
+    source 'https://rubygems.org'
+
+    group :development, :test do
+      gem 'bundler', require: false
+      gem 'rake', require: false
+    end
+  CONTENT
+
+  content += <<~CONTENT if File.file?('.yardopts')
+
+    group :development do
+      gem 'yard', require: false
+    end
+  CONTENT
+
+  content += <<~CONTENT if File.directory?('spec')
+
+    group :test do
+      gem 'rspec', require: false
+    end
+  CONTENT
+
+  content += <<~CONTENT if File.file?(Prj.gemspec)
+
+    gemspec
+  CONTENT
+
+  write f.name, content
 end
 
-module GemFile
-  def self.content
-    <<~CONTENT
-      # frozen_string_literal: true
-
-      source 'https://rubygems.org'
-
-      group :development, :test do
-        gem 'bundler'
-        gem 'prettier'
-        gem 'rake'
-      end
-
-      # group :development do
-      #   gem 'yard'
-      # end
-
-      group :test do
-        gem 'rspec'
-      end
-
-      gemspec
-    CONTENT
-  end
+file_create 'Gemfile.lock' do
+  sh 'bundle'
 end

@@ -1,51 +1,36 @@
 # frozen_string_literal: true
 
-desc 'create default Rakefile'
-task rakefile: './Rakefile'
+file_create 'Rakefile' do |f|
+  require_relative 'prj'
 
-rule /Rakefile$/ do |r|
-  write r.name do
-    if Gemspec.present?(File.dirname(r.name))
-      Rakefile.using_gem
-    else
-      Rakefile.default
-    end
-  end
-end
+  content = <<~CONTENT
+    # frozen_string_literal: true
 
-module Rakefile
-  def self.default
-    <<~CONTENT
-      # frozen_string_literal: true
+    $stdout.sync = $stderr.sync = true
+  CONTENT
 
-      $stdout.sync = $stderr.sync = true
-      task(:default) { exec('rake --tasks') }
-    CONTENT
-  end
+  content += <<~CONTENT if File.file?(Prj.gemspec)
 
-  def self.using_gem
-    <<~CONTENT
-      # frozen_string_literal: true
+    require 'bundler/gem_tasks'
 
-      require 'rake/clean'
-      require 'bundler/gem_tasks'
-      require 'rspec/core/rake_task'
-      # require 'yard'
+    require 'rspec/core/rake_task'
+    RSpec::Core::RakeTask.new(:test) { |t| t.ruby_opts = %w[-w] }
 
-      $stdout.sync = $stderr.sync = true
+    require 'yard'
 
-      # CLEAN << '.yardoc'
-      # CLOBBER << 'doc'
-      CLOBBER << 'prj'
+    CLEAN << '.yardoc'
+    CLOBBER << 'doc'
 
-      task(:default) { exec('rake --tasks') }
+    YARD::Rake::YardocTask.new(:doc) { |t| t.stats_options = %w[--list-undoc] }
 
-      RSpec::Core::RakeTask.new(:test) { |task| task.ruby_opts = %w[-w] }
+    desc 'Run YARD development server'
+    task('doc:dev' => :clobber) { exec('yard server --reload') }
+  CONTENT
 
-      # YARD::Rake::YardocTask.new(:doc) { |task| task.stats_options = %w[--list-undoc] }
+  content += <<~CONTENT
 
-      # desc 'Run YARD development server'
-      # task('doc:dev' => :clobber) { exec('yard server --reload') }
-    CONTENT
-  end
+    task(:default) { exec('rake --tasks') }
+  CONTENT
+
+  write f.name, content
 end

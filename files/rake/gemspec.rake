@@ -1,57 +1,35 @@
 # frozen_string_literal: true
 
-desc 'create default gemspec file'
-task gemspec: "#{File.basename(File.expand_path('./'))}.gemspec"
+require_relative 'prj'
 
-rule '.gemspec' do |r|
-  write r.name, Gemspec.for(r.name)
-end
+file_create Prj.gemspec => Prj.version_file do |f|
+  write f.name, <<~CONTENT
+    # frozen_string_literal: true
 
-module Gemspec
-  def self.present?(dirname)
-    !Dir[File.join(dirname, '*.gemspec')].empty?
-  end
+    require_relative './lib/#{Prj.name}/version'
 
-  def self.basename(file_path)
-    File.dirname(File.expand_path(file_path)).split('/').last
-  end
+    Gem::Specification.new do |spec|
+      spec.name = '#{Prj.name}'
+      spec.version = #{Prj.module}::VERSION
+      spec.summary = 'The new gem #{Prj.module}.'
+      spec.description = <<~DESCRIPTION
+        Todo: write a helpful and catchy description
+      DESCRIPTION
 
-  def self.gemname(file_path)
-    basename(file_path).split(/[-_]/).map!(&:capitalize).join
-  end
+      spec.author = 'Mike Blumtritt'
+      # spec.license = 'BSD-3-Clause'
+      spec.homepage = 'https://github.com/mblumtritt/#{Prj.name}'
+      spec.metadata['source_code_uri'] = spec.homepage
+      spec.metadata['bug_tracker_uri'] = "\#{spec.homepage}/issues"
+      spec.metadata['documentation_uri'] = "https://rubydoc.info/gems/#{Prj.name}"
+      spec.metadata['rubygems_mfa_required'] = 'true'
 
-  def self.for(file_path)
-    content(basename(file_path), gemname(file_path))
-  end
+      spec.required_ruby_version = '>= 3.0.0'
+      # spec.add_runtime_dependency 'TODO'
 
-  def self.content(basename, gemname)
-    <<~CONTENT
-      # frozen_string_literal: true
-
-      require_relative './lib/#{basename}/version'
-
-      Gem::Specification.new do |spec|
-        spec.name = '#{basename}'
-        spec.version = #{gemname}::VERSION
-        spec.summary = 'The new gem #{gemname}.'
-        spec.description = <<~DESCRIPTION
-          Todo: write a helpful and catchy description
-        DESCRIPTION
-
-        spec.author = 'Mike Blumtritt'
-        # spec.license = 'BSD-3-Clause'
-        spec.homepage = 'https://github.com/mblumtritt/#{basename}'
-        spec.metadata['source_code_uri'] = spec.homepage
-        spec.metadata['bug_tracker_uri'] = "\#{spec.homepage}/issues"
-        spec.metadata['documentation_uri'] = "https://rubydoc.info/gems/#{basename}"
-
-        spec.required_ruby_version = '>= 2.7.0'
-        # spec.add_runtime_dependency 'TODO'
-
-        spec.files = Dir['lib/**/*']
-        # spec.executables = %w[command]
-        # spec.extra_rdoc_files = %w[README.md LICENSE]
-      end
-    CONTENT
-  end
+      spec.files = Dir['lib/**/*']
+      # spec.executables = %w[command]
+      # spec.extra_rdoc_files = %w[README.md LICENSE]
+    end
+  CONTENT
 end
