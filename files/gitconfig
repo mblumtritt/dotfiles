@@ -1,16 +1,35 @@
 [core]
-	editor = micro
+  # editor = micro
   pager = delta
 	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
 	excludesfile = ~/.gitignore_global
 	autocrlf = input
+[init]
+	defaultBranch = main
+[commit]
+	gpgsign = true
 [user]
 	name = Mike Blumtritt
-	email = mblumtritt@users.noreply.github.com
+	email = mike.blumtritt@pm.me
+	signingkey = E146A7729EB9D438D77160B62D9B0540ADF12330
 [credential]
 	helper = osxkeychain
+[merge]
+	ff = only
+  conflictstyle = diff3
+[pull]
+	rebase = true
+[push]
+	default = current
+[fetch]
+	prune = true
+[diff]
+	colorMoved = default
+[interactive]
+  diffFilter = delta --color-only
 [color]
 	ui = auto
+  status = always
 [color "branch"]
 	current = yellow bold
 	local = green bold
@@ -25,55 +44,42 @@
 	added = green bold
 	changed = yellow bold
 	untracked = red bold
-[merge]
-	ff = only
-  conflictstyle = diff3
-[pull]
-	rebase = true
-[push]
-	default = current
-[fetch]
-	prune = true
-[diff]
-	colorMoved = default
-[interactive]
-  diffFilter = delta --color-only
 [delta]
   navigate = true
   side-by-side = true
   line-numbers = true
   features = woolly-mammoth
 [delta "woolly-mammoth"]
-    # author: https://github.com/Kr1ss-XD
-    commit-decoration-style = 232 130 box
-    commit-style = 232 bold italic 130
-    light = true
-    file-added-label = [+]
-    file-copied-label = [C]
-    file-decoration-style = "#606018" overline
-    file-modified-label = [M]
-    file-removed-label = [-]
-    file-renamed-label = [R]
-    file-style = 232 bold 184
-    hunk-header-decoration-style = none
-    hunk-header-style = syntax bold italic 237
-    line-numbers = true
-    line-numbers-left-format = "{nm:>1}┊"
-    line-numbers-left-style = red
-    line-numbers-minus-style = red italic black
-    line-numbers-plus-style = green italic black
-    line-numbers-right-format = "{np:>1}┊"
-    line-numbers-right-style = green
-    line-numbers-zero-style = "#545474" italic
-    minus-emph-style = syntax bold "#780000"
-    minus-style = syntax "#400000"
-    plus-emph-style = syntax bold "#007800"
-    plus-style = syntax "#004000"
-    whitespace-error-style = "#280050" reverse
-    zero-style = syntax
-    blame-format = "{author:<18} ({commit:>7}) ┊{timestamp:^16}┊ "
-    blame-palette = "#101010 #200020 #002800 #000028 #202000 #280000 #002020 #002800 #202020"
-    syntax-theme = zenburn
+  # author: https://github.com/Kr1ss-XD
+  commit-decoration-style = 232 130 box
+  commit-style = 232 bold italic 130
+  light = true
+  file-added-label = [+]
+  file-copied-label = [C]
+  file-decoration-style = "#606018" overline
+  file-modified-label = [M]
+  file-removed-label = [-]
+  file-renamed-label = [R]
+  file-style = 232 bold 184
+  hunk-header-decoration-style = none
+  hunk-header-style = syntax bold italic 237
+  line-numbers = true
+  line-numbers-left-format = "{nm:>1}┊"
+  line-numbers-left-style = red
+  line-numbers-minus-style = red italic black
+  line-numbers-plus-style = green italic black
+  line-numbers-right-format = "{np:>1}┊"
+  line-numbers-right-style = green
+  line-numbers-zero-style = "#545474" italic
+  minus-emph-style = syntax bold "#780000"
+  minus-style = syntax "#400000"
+  plus-emph-style = syntax bold "#007800"
+  plus-style = syntax "#004000"
+  whitespace-error-style = "#280050" reverse
+  zero-style = syntax
+  blame-format = "{author:<18} ({commit:>7}) ┊{timestamp:^^16}┊ "
+  blame-palette = "#101010 #200020 #002800 #000028 #202000 #280000 #002020 #002800 #202020"
+  syntax-theme = zenburn
 [filter "media"]
 	required = true
 	clean = git media clean %f
@@ -88,24 +94,28 @@
 	required = true
 	process = git-lfs filter-process
 [alias]
+	aa = add --all
+  br = !sh -c 'git branch -v $1 && git checkout $1' -
+	bl = branch -a
+	blm = branch --no-merged
+  bdel = branch -d
+  bprune = remote update origin --prune
 	d = diff
 	st = status -sb
 	co = checkout
+	cob = checkout -b
 	com = ! git checkout master && git pull --all --prune --rebase
 	ci = commit
 	cia = commit --all
 	ciaa = commit --all --amend
+	ps = push --follow-tags
+  psf = push --force-with-lease
 	pl = pull --all --prune --rebase
-	ps = push
-	aa = add --all
-	br = !sh -c 'git branch -v $1 && git checkout $1' -
-	bl = branch -a
-  bdel = branch -D
-  bprune = remote update origin --prune
+  undo = ! git reset --hard master && git clean -df master
+	up = ! git fetch origin && git rebase origin/master
+	remaster = ! git branch -m master old-master && git checkout --orphan master && git reset old-master -- .
+	gone = ! git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}' | xargs -r git branch -D
 	lg = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(blue)- %an%C(reset)%C(yellow)%d%C(reset)' --all
   lgs = log -30 --graph --decorate --pretty=format:'%h %ad %s (%an)' --date=short
 	lga = log -30 --graph --decorate --all --pretty=format:'%h %ad %s (%an)' --date=short
   ld = log -p -1
-	up = ! git fetch origin && git rebase origin/master
-	remaster = ! git branch -m master old-master && git checkout --orphan master && git reset old-master -- .
-	gone = ! git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}' | xargs -r git branch -D
