@@ -8,7 +8,8 @@ else
   sudo rm -rfv /Library/Caches/* >/dev/null
   sudo rm -rfv /System/Library/Caches/* >/dev/null
   sudo rm -rfv /private/var/folders/bh/*/*/*/* >/dev/null
-  rm -rfv ~/Library/Caches/* >/dev/null
+  rm -rfv "$HOME/Library/Caches/*" >/dev/null
+  rm -rfv "$HOME/.cache" >/dev/null
   if [ "$PYENV_VIRTUALENV_CACHE_PATH" ]
   then
     rm -rfv "$PYENV_VIRTUALENV_CACHE_PATH" >/dev/null

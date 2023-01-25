@@ -10,14 +10,15 @@ fi
 with_rbenv() {
   for ruby in $(rbenv versions --bare); do
     echo ":: Ruby $ruby"
-    RBENV_VERSION="$ruby" rbenv exec "$1"
+    RBENV_VERSION="$ruby" rbenv exec $*
   done
 }
 
 with_asdf() {
 	for ruby in $(asdf list ruby); do
+    ruby="${ruby#\*}"
     echo "• Ruby $ruby"
-    ASDF_RUBY_VERSION="$ruby" asdf exec "$1"
+    ASDF_RUBY_VERSION="$ruby" asdf exec $*
 	done
 }
 

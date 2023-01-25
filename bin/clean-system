@@ -9,9 +9,9 @@ Clean system. (May require password.)
   exit
 fi
 
-trap cleanup SIGINT SIGTERM ERR EXIT
+trap cleanup INT TERM EXIT
 cleanup() {
-	trap - SIGINT SIGTERM ERR EXIT
+	trap - INT TERM EXIT
 }
 
 while true; do
@@ -22,28 +22,10 @@ done 2>/dev/null &
 
 echo '❗️ clean all stuff'
 
-echo '→ clean Trashes...'
-clean-trashes
-
-echo '→ remove system log files...'
-clean-logs
-
-echo '→ clean all library caches...'
-clean-caches
-
-echo '→ cleanup XCode derived data and archives...'
-clean-xcode
-
 if type 'brew' >/dev/null 2>&1
 then
   echo '→ clean brew stuff...'
   clean-brew
-fi
-
-if type 'gem' >/dev/null 2>&1
-then
-  echo '→ clean gems...'
-  clean-gems
 fi
 
 if type 'docker' >/dev/null 2>&1
@@ -63,3 +45,18 @@ then
   echo '→ clean Yarn...'
   clean-yarn
 fi
+
+echo '→ clean gems...'
+clean-gems
+
+echo '→ remove system log files...'
+clean-logs
+
+echo '→ clean all library caches...'
+clean-caches
+
+echo '→ cleanup XCode derived data and archives...'
+clean-xcode
+
+echo '→ clean Trashes...'
+clean-trashes
