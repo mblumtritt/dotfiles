@@ -6,7 +6,7 @@ if ARGV.empty? || ARGV.include?('--help') || ARGV.include?('-h')
     Usage: open-ruby-doc <name>
 
     Show Ruby documentation with given class and method <name>.
-    HELP
+  HELP
   exit
 end
 
@@ -47,9 +47,7 @@ class RubyDoc
     file?(name) ? name : nil
   end
 
-  def index_name(str)
-    "ruby-doc/#{str.split('::').join('/')}.html"
-  end
+  def index_name(str) = "ruby-doc/#{str.split('::').join('/')}.html"
 
   def stdlib_name(str)
     parts = str.split('::')
@@ -57,16 +55,12 @@ class RubyDoc
     "ruby-stdlib/libdoc/#{main}/rdoc/#{parts.join('/')}.html"
   end
 
-  def doc_name(str)
-    "ruby-doc/doc/#{str}_rdoc.html"
-  end
+  def doc_name(str) = "ruby-doc/doc/#{str}_rdoc.html"
 
-  def file?(index_name)
-    File.readable?(File.join(@root, index_name))
-  end
+  def file?(index_name) = File.readable?(File.join(@root, index_name))
 
   def escape(method_name)
-    method_name.gsub(/[\+\-\|\?&\[\]<=>!]/) { |c| '-' + c.ord.to_s(16).upcase }
+    method_name.gsub(/[\-+|?&\[\]<=>!]/) { |c| "-#{c.ord.to_s(16).upcase}" }
   end
 
   def split(str)
@@ -80,7 +74,7 @@ class RubyDoc
   end
 end
 
-path, name = RubyDoc.find('~/www', ARGV.first) || [nil, ARGV.first]
-exec("open \"http://[::]:4040/#{path}\"") if path
+path, = RubyDoc.find('~/www', ARGV.first)
+exec("open \"http://mike.local:4040/#{path}\"") if path
 puts("open-ruby-doc: not found - #{ARGV.first}")
 exit(1)
