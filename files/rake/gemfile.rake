@@ -17,6 +17,7 @@ file_create 'Gemfile' do |f|
   content += <<~CONTENT if File.file?('.yardopts')
 
     group :development do
+      gem 'prettier', require: false
       gem 'yard', require: false
     end
   CONTENT
@@ -28,7 +29,7 @@ file_create 'Gemfile' do |f|
     end
   CONTENT
 
-  content += <<~CONTENT if File.file?(Prj.gemspec)
+  content += <<~CONTENT if File.file?("#{Prj.name}.gemspec")
 
     gemspec
   CONTENT
@@ -37,5 +38,5 @@ file_create 'Gemfile' do |f|
 end
 
 file_create 'Gemfile.lock' do
-  sh 'bundle'
+  sh 'bundle update'
 end

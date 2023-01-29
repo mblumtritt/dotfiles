@@ -2,7 +2,10 @@
 
 require_relative 'prj'
 
-file_create Prj.file => Prj.dir do |f|
+directory 'lib'
+directory "lib/#{Prj.name}"
+
+file_create "lib/#{Prj.name}.rb" => 'lib' do |f|
   write f.name, <<~CONTENT
     # frozen_string_literal: true
 
@@ -12,7 +15,7 @@ file_create Prj.file => Prj.dir do |f|
   CONTENT
 end
 
-file_create Prj.version_file => Prj.dir do |f|
+file_create "lib/#{Prj.name}/version.rb" => "lib/#{Prj.name}" do |f|
   write f.name, <<~VERSION
     # frozen_string_literal: true
 

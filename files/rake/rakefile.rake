@@ -9,7 +9,7 @@ file_create 'Rakefile' do |f|
     $stdout.sync = $stderr.sync = true
   CONTENT
 
-  content += <<~CONTENT if File.file?(Prj.gemspec)
+  content += <<~CONTENT if File.file?("#{Prj.name}.gemspec")
 
     require 'bundler/gem_tasks'
 

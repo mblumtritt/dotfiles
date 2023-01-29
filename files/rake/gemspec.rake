@@ -2,7 +2,7 @@
 
 require_relative 'prj'
 
-file_create Prj.gemspec => Prj.version_file do |f|
+file_create "#{Prj.name}.gemspec" => "lib/#{Prj.name}/version.rb" do |f|
   write f.name, <<~CONTENT
     # frozen_string_literal: true
 
@@ -21,11 +21,11 @@ file_create Prj.gemspec => Prj.version_file do |f|
       spec.homepage = 'https://github.com/mblumtritt/#{Prj.name}'
       spec.metadata['source_code_uri'] = spec.homepage
       spec.metadata['bug_tracker_uri'] = "\#{spec.homepage}/issues"
-      spec.metadata['documentation_uri'] = "https://rubydoc.info/gems/#{Prj.name}"
+      spec.metadata['documentation_uri'] = 'https://rubydoc.info/gems/#{Prj.name}'
       spec.metadata['rubygems_mfa_required'] = 'true'
 
       spec.required_ruby_version = '>= 3.0.0'
-      # spec.add_runtime_dependency 'TODO'
+      # spec.add_runtime_dependency 'TODO: add dependency'
 
       spec.files = Dir['lib/**/*']
       # spec.executables = %w[command]

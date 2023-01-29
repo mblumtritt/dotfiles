@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
-file_create 'spec/helper.rb' => 'spec' do |f|
-  require_relative 'prj'
+require_relative 'prj'
 
+directory 'spec'
+directory "spec/#{Prj.name}"
+
+file_create 'spec/helper.rb' => 'spec' do |f|
   write f.name, <<~HELPER
     # frozen_string_literal: true
 
@@ -14,16 +17,28 @@ file_create 'spec/helper.rb' => 'spec' do |f|
   HELPER
 end
 
-file_create 'spec/version_spec.rb' => 'spec/helper.rb' do |f|
-  require_relative 'prj'
+file_create(
+  "spec/#{Prj.name}/version_spec.rb" => %W[spec/helper.rb spec/#{Prj.name}]
+) { |f| write f.name, <<~SPEC }
+  # frozen_string_literal: true
 
-  write f.name, <<~SPEC
-    # frozen_string_literal: true
+  require_relative '../helper'
 
-    require_relative 'helper'
+  RSpec.describe #{Prj.module}::VERSION do
+    it { is_expected.to match(/^\\d+\\.\\d+\\.\\d+$/) }
+  end
+SPEC
 
-    RSpec.describe #{Prj.module}::VERSION do
-      it { is_expected.to match(/^\\d+\\.\\d+\\.\\d+$/) }
+file_create(
+  "spec/#{Prj.name}/#{Prj.name}_spec.rb" => %W[spec/helper.rb spec/#{Prj.name}]
+) { |f| write f.name, <<~SPEC }
+  # frozen_string_literal: true
+
+  require_relative '../helper'
+
+  RSpec.xdescribe #{Prj.module} do
+    xit do
+      # TODO: describe your module here
     end
-  SPEC
-end
+  end
+SPEC
