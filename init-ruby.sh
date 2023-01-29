@@ -2,4 +2,4 @@
 
 set -e
 
-gem install bundler rake pry mini-cli
+gem install bundler rake pry
