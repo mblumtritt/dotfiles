@@ -4,5 +4,5 @@ set -e
   echo 'install: Ruby basic gems'
   gem update --system --no-document
   gem update --no-document
-  gem install bundler rake pry
+  gem install bundler rake pry rubocop prettier
 }
