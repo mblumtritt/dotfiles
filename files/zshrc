@@ -1,7 +1,5 @@
 #! /bin/zsh
 
-source ~/.local/init/lib.zsh
-
 # setup language
 export LANG=en_GB.utf-8
 export LC_ALL=en_GB.utf-8
@@ -9,6 +7,8 @@ export LC_ALL=en_GB.utf-8
 # setup jobs
 setopt notify
 setopt long_list_jobs
+
+source ~/.local/init/lib.zsh
 
 [[ -o interactive ]] && {
   # setup colors
@@ -82,12 +82,12 @@ setopt long_list_jobs
   PROMPT='%(?,,%K{red}%F{white}%B %? %b%f%k)'
   WORDCHARS='*?_-.[]~=&;!#$%^(){}<>/@'
   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=blue'
-  may_source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
   [[ "$TERM_PROGRAM" != 'iTerm.app' ]] && export PS1='%~$ '
 
-  export BAT_THEME='base16'
-
+  may_source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
   source ~/.local/init/iterm2_shell_integration.zsh
+  source ~/.local/init/ilib.zsh
+  source ~/.local/init/alias
 }
 
 export EDITOR='mate -w'
@@ -97,14 +97,13 @@ export SEC_DIR=$HOME/.password-store
 export GOPATH=$HOME/prj/go
 export GPG_TTY=$(tty)
 export HOMEBREW_NO_AUTO_UPDATE=1
+export BAT_THEME='base16'
 export PATH="$HOME/bin:/opt/homebrew/bin:$PATH:/opt/homebrew/opt/postgresql@10/bin"
 
-may_source ~/.local/init/aws
+source ~/.local/init/aws
 may_source /opt/homebrew/opt/asdf/libexec/asdf.sh
 
 [[ -o interactive ]] && {
-  source ~/.local/init/ilib.zsh
-  source ~/.local/init/alias
   may_source ~/.config/broot/launcher/bash/br
-  may_source ~/.local/init/welcome.zsh
+  source ~/.local/init/welcome.zsh
 }

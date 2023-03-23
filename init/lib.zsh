@@ -3,6 +3,11 @@ may_source() # source file only if file exists
 	[ -f "$1" ] && . "$1"
 }
 
+may_call() # execute file only if file exists
+{
+	[ -x "$1" ] && $1
+}
+
 mkcd() # create directory and step into
 {
 	mkdir -p "$@" && cd "$@" || exit 1
