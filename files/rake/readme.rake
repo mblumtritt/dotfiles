@@ -28,13 +28,13 @@ file_create 'README.md' do |f|
 
     and install it by running Bundler:
 
-    ```bash
+    ```shell
     bundle
     ```
 
     To install the gem globally use:
 
-    ```bash
+    ```shell
     gem install #{Prj.name}
     ```
 
