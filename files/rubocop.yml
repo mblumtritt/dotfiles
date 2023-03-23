@@ -14,3 +14,5 @@ Layout/EmptyLineAfterGuardClause:
   Enabled: false
 Metrics/BlockLength:
   AllowedMethods: ['describe', 'context']
+Lint/ReturnInVoidContext:
+  Enabled: false

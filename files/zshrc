@@ -1,4 +1,6 @@
-source ~/.zsh/functions.zsh # load helper functions
+#! /bin/zsh
+
+source ~/.local/init/lib.zsh
 
 # setup language
 export LANG=en_GB.utf-8
@@ -80,12 +82,12 @@ setopt long_list_jobs
   PROMPT='%(?,,%K{red}%F{white}%B %? %b%f%k)'
   WORDCHARS='*?_-.[]~=&;!#$%^(){}<>/@'
   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=blue'
-  source_if_exists /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  may_source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
   [[ "$TERM_PROGRAM" != 'iTerm.app' ]] && export PS1='%~$ '
 
   export BAT_THEME='base16'
 
-  source ~/.zsh/iterm2_shell_integration.zsh
+  source ~/.local/init/iterm2_shell_integration.zsh
 }
 
 export EDITOR='mate -w'
@@ -94,14 +96,15 @@ export GZIP=-9
 export SEC_DIR=$HOME/.password-store
 export GOPATH=$HOME/prj/go
 export GPG_TTY=$(tty)
+export HOMEBREW_NO_AUTO_UPDATE=1
+export PATH="$HOME/bin:/opt/homebrew/bin:$PATH:/opt/homebrew/opt/postgresql@10/bin"
 
-source ~/.aliases
-source_if_exists ~/.aliases.local
+may_source ~/.local/init/aws
+may_source /opt/homebrew/opt/asdf/libexec/asdf.sh
 
-# i need this sequence
-export PATH="$HOME/bin:/usr/local/opt/curl/bin:$PATH:/usr/local/sbin:/usr/local/opt/go/libexec/bin"
-
-source_if_exists ~/.awsrc
-source_if_exists ~/.zshrc.local
-source_if_exists ~/.config/broot/launcher/bash/br
-source_if_exists /usr/local/opt/asdf/libexec/asdf.sh
+[[ -o interactive ]] && {
+  source ~/.local/init/ilib.zsh
+  source ~/.local/init/alias
+  may_source ~/.config/broot/launcher/bash/br
+  may_source ~/.local/init/welcome.zsh
+}

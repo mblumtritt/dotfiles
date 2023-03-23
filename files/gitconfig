@@ -104,16 +104,16 @@
 	st = status -sb
 	co = checkout
 	cob = checkout -b
-	com = ! git checkout master && git pull --all --prune --rebase
+	com = ! git checkout main && git pull --all --prune --rebase
 	ci = commit
 	cia = commit --all
 	ciaa = commit --all --amend
 	ps = push --follow-tags
   psf = push --force-with-lease
 	pl = pull --all --prune --rebase
-  undo = ! git reset --hard master && git clean -df master
-	up = ! git fetch origin && git rebase origin/master
-	remaster = ! git branch -m master old-master && git checkout --orphan master && git reset old-master -- .
+  undo = ! git reset --hard main && git clean -df main
+	up = ! git fetch origin && git rebase origin/main
+	remaster = ! git branch -m main old-main && git checkout --orphan main && git reset old-main -- .
 	gone = ! git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}' | xargs -r git branch -D
 	lg = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(blue)- %an%C(reset)%C(yellow)%d%C(reset)' --all
   lgs = log -30 --graph --decorate --pretty=format:'%h %ad %s (%an)' --date=short

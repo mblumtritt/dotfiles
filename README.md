@@ -1,9 +1,9 @@
-# Dotfiles of mblumtritt
+# Dotfiles
 
-Your dotfiles are how you personalize your system. These are mine.
+These are my dotfiles and tools.
 
 ## Install
 
-```sh
-curl https://raw.githubusercontent.com/mblumtritt/dotfiles/master/install.sh | bash
+```shell
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mblumtritt/dotfiles/HEAD/install.sh)"
 ```

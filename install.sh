@@ -1,18 +1,17 @@
 #! /bin/sh
-
+echo 'install: dotfiles'
 set -e
+readonly _DOTFILE_DIR="$HOME/.local/dotfiles"
 
-readonly DOTFILE_DIR="$HOME/.usr/dotfiles"
+[ -f "$_DOTFILE_DIR/.git/config" ] || {
+  mkdir -p "$_DOTFILE_DIR"
+  git clone "https://github.com/mblumtritt/dotfiles" "$_DOTFILE_DIR"
+}
 
-mkdir -p "$DOTFILE_DIR"
-git clone "https://github.com/mblumtritt/dotfiles" "$DOTFILE_DIR"
-
-"$DOTFILE_DIR/link-dot-files.sh"
-
-if [ "$(uname -s)" = "Darwin" ]; then
-	"$DOTFILE_DIR/init-homwbrew.sh"
-	"$DOTFILE_DIR/init-macos.sh"
-fi
-
-"$DOTFILE_DIR/init-ruby.sh"
-"$DOTFILE_DIR/link-bin-files.sh"
+. "$_DOTFILE_DIR/install/test.sh"
+. "$_DOTFILE_DIR/install/homebrew.sh"
+. "$_DOTFILE_DIR/install/symlink.sh"
+. "$_DOTFILE_DIR/install/asdf.sh"
+. "$_DOTFILE_DIR/install/ruby.sh"
+. "$_DOTFILE_DIR/install/vscode.sh"
+. "$_DOTFILE_DIR/install/macos-settings.sh"
