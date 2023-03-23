@@ -7,7 +7,7 @@ if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} FILE
 Convert MP3 ausio FILE to ringtome M4R.
 "
 elif [ $# = 0 ]; then
-	(>&2 echo "${0##*/}: FILE missing")
+	echo "${0##*/}: FILE missing" >&2
 	exit 1
 else
 	for file in "$@"

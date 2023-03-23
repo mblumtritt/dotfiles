@@ -7,14 +7,14 @@ if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} [FILE | NAME]
 Edit given FILE or project NAME.
 "
 elif [ $# = 0 ]; then
-	(>&2 echo "${0##*/}: FILE | NAME missing")
+	echo "${0##*/}: FILE | NAME missing" >&2
 	exit 1
 elif [ -e "$1" ]; then
   code "$1"
 else
-  readonly PROJECT="$(list-projects --top "$1")"
+  PROJECT="$(list-projects --top "$1")"
   if [ "$PROJECT" = "" ]; then
-  	(>&2 echo "${0##*/}: no such project - $1")
+  	echo "${0##*/}: no such project - $1" >&2
   	exit 2
   else
     code "$PROJECT"

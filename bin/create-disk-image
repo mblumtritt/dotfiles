@@ -17,7 +17,7 @@ else
     OPTIONS="-encryption AES-256 -stdinpass $OPTIONS"
     shift
   fi
-  readonly DIR=$(cd "$1";pwd)
+  DIR=$(cd "$1";pwd)
   readonly BASENAME="${DIR##*/}"
   OPTIONS="-srcfolder \"$DIR\" -ov \"./$BASENAME.dmg\" $OPTIONS"
   shift
