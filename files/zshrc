@@ -98,9 +98,10 @@ export GOPATH=$HOME/prj/go
 export GPG_TTY=$(tty)
 export HOMEBREW_NO_AUTO_UPDATE=1
 export BAT_THEME='base16'
-export PATH="$HOME/bin:/opt/homebrew/bin:$PATH:/opt/homebrew/opt/postgresql@10/bin"
+export PATH="$HOME/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 
 source ~/.local/init/aws
+may_source ~/.zshrc.local
 may_source /opt/homebrew/opt/asdf/libexec/asdf.sh
 
 [[ -o interactive ]] && {
