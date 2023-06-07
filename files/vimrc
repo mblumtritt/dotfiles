@@ -60,13 +60,6 @@ filetype on           " Enable filetype detection
 filetype indent on    " Enable filetype-specific indenting
 filetype plugin on    " Enable filetype-specific plugins
 
-call plug#begin('~/.vim/plugged')
-Plug 'ngmy/vim-rubocop'
-Plug 'vim-ruby/vim-ruby'
-Plug 'dhruvasagar/vim-zoom'
-Plug 'drzel/vim-split-line'
-call plug#end()
-
 " Comments should be italic
 highlight Comment cterm=italic
 
