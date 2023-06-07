@@ -25,7 +25,7 @@ file_create "#{Prj.name}.gemspec" => "lib/#{Prj.name}/version.rb" do |f|
       spec.metadata['rubygems_mfa_required'] = 'true'
 
       spec.required_ruby_version = '>= 3.0.0'
-      # spec.add_runtime_dependency 'TODO: add dependency'
+      # spec.add_runtime_dependency 'TODO: add dependencies'
 
       spec.files = Dir['lib/**/*']
       # spec.executables = %w[command]

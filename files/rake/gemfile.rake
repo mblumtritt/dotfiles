@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-file_create 'Gemfile' do |f|
-  require_relative 'prj'
+require_relative 'prj'
 
+file_create 'Gemfile' do |f|
   content = <<~CONTENT
     # frozen_string_literal: true
 

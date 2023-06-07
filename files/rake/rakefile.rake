@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-file_create 'Rakefile' do |f|
-  require_relative 'prj'
+require_relative 'prj'
 
+file_create 'Rakefile' do |f|
   content = <<~CONTENT
     # frozen_string_literal: true
 

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-file_create 'stats.md' do |f|
-  require_relative 'prj'
+require_relative 'prj'
 
+file_create 'stats.md' do |f|
   write f.name, <<~STATS
     # Gem/Repo Statistics
 

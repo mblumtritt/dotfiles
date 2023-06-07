@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-file_create 'README.md' do |f|
-  require_relative 'prj'
+require_relative 'prj'
 
+file_create 'README.md' do |f|
   write f.name, <<~README
     # #{Prj.module} ![version](https://img.shields.io/gem/v/#{Prj.name}?label=)
 
@@ -18,27 +18,26 @@ file_create 'README.md' do |f|
 
     ## Installation
 
-    Use [Bundler](http://gembundler.com/) to add #{Prj.module} in your own project:
-
-    Include in your `Gemfile`:
-
-    ```ruby
-    gem '#{Prj.name}'
-    ```
-
-    and install it by running Bundler:
-
-    ```shell
-    bundle
-    ```
-
-    To install the gem globally use:
+    You can install the gem in your system with
 
     ```shell
     gem install #{Prj.name}
     ```
 
-    After that you need only a single line of code in your project to have it on board:
+    You can use [Bundler](http://gembundler.com/) to add #{Prj.module}
+    to your own project. Add to in your project's `Gemfile`
+
+    ```ruby
+    gem '#{Prj.name}'
+    ```
+
+    and install it by running Bundler
+
+    ```shell
+    bundle
+    ```
+
+    After that you only need one line of code to have everything together
 
     ```ruby
     require '#{Prj.name}'

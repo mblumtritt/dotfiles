@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module Prj
-  def self.name = @name ||= (ENV['NAME'] || File.basename(Dir.pwd)).freeze
-  def self.module = @module ||= name.split(/[-_]/).map!(&:capitalize).join
+  @name = (ENV['NAME'] || File.basename(Dir.pwd)).freeze
+  @module = @name.split(/[-_]/).map!(&:capitalize).join
+  class << self
+    attr_reader :name, :module
+  end
 end
