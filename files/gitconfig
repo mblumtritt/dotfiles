@@ -119,3 +119,5 @@
   lgs = log -30 --graph --decorate --pretty=format:'%h %ad %s (%an)' --date=short
 	lga = log -30 --graph --decorate --all --pretty=format:'%h %ad %s (%an)' --date=short
   ld = log -p -1
+	sa = submodule add
+	su = submodule update --init --recursive
