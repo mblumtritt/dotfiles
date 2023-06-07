@@ -1,13 +1,13 @@
 #! /bin/sh
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/}
 
 Clean up Docker stuff.
 "
 else
 	if ! docker ps >/dev/null 2>&1
-  then
-		open --background -a Docker
+  then open --background -a Docker
 	fi
   docker image prune -f
   docker container prune -f

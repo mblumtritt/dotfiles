@@ -2,10 +2,10 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/}
 
 Display the meteogram of a city - uses Leipzig as default.
 "
-else
-	finger "${1:-leipzig}@graph.no"
+else finger "${1:-leipzig}@graph.no"
 fi

@@ -2,12 +2,12 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} [on|off]
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/} [on|off]
 
 Enable/disable background process throddeling (May require password.)
 "
-elif [ "$1" = 'off' ]; then
-	sudo sysctl debug.lowpri_throttle_enabled=0
-else
-	sudo sysctl debug.lowpri_throttle_enabled=1
+elif [ "$1" = 'off' ]
+then sudo sysctl debug.lowpri_throttle_enabled=0
+else sudo sysctl debug.lowpri_throttle_enabled=1
 fi

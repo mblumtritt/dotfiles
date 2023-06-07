@@ -1,6 +1,7 @@
 #! /bin/sh
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/}
 
 Clean up Homebrew stuff.
 "

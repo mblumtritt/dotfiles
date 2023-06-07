@@ -2,13 +2,12 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} MESSAGE [TITLE]
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/} MESSAGE [TITLE]
 
 Request a user action.
 "
-elif [ $# = 0 ]; then
-	echo "${0##*/}: MESSAGE missing" >&2
-	exit 1
-else
-  osascript -e "tell app \"System Events\" to display dialog \"$1\" with title \"${2-Notification}\"" > /dev/null 2>&1
+elif [ $# = 0 ]
+then (>&2 echo "${0##*/}: MESSAGE missing") && exit 1
+else osascript -e "tell app \"System Events\" to display dialog \"$1\" with title \"${2-Notification}\"" > /dev/null 2>&1
 fi

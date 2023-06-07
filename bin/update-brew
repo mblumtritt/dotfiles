@@ -2,7 +2,8 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/}
 
 Update Homebrew and Homebrew bundles.
 "

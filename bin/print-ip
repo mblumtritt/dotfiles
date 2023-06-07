@@ -2,7 +2,8 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/}
 
 Print external or local IP address.
 
@@ -10,10 +11,10 @@ options:
    -4, --ipv4   show IPv4 address (default)
    -l, --local  show local address
 "
-elif [ "$1" =  '-l' ] || [ "$1" =  '--local' ]; then
-  ipconfig getifaddr en0
-elif [ "$1" =  '-4' ] || [ "$1" =  '--ipv4' ] || [ "$1" =  '' ]; then
-  curl https://ipecho.net/plain; echo
-# elif [ "$1" =  '-6' ] || [ "$1" =  '--ipv6' ]; then
-#   dig @resolver1.opendns.com ANY myip.opendns.com +short
+elif [ "$1" =  '-l' ] || [ "$1" =  '--local' ]
+then ipconfig getifaddr en0
+elif [ "$1" =  '-4' ] || [ "$1" =  '--ipv4' ] || [ "$1" =  '' ]
+then curl https://ipecho.net/plain && echo
+# elif [ "$1" =  '-6' ] || [ "$1" =  '--ipv6' ]
+# then dig @resolver1.opendns.com ANY myip.opendns.com +short
 fi

@@ -2,7 +2,8 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/}
 
 Clean system. (May require password.)
 "
@@ -11,7 +12,7 @@ fi
 
 trap cleanup INT TERM EXIT
 cleanup() {
-	trap - INT TERM EXIT
+  trap - INT TERM EXIT
 }
 
 while true; do
@@ -23,40 +24,23 @@ done 2>/dev/null &
 echo '❗️ clean all stuff'
 
 if type 'brew' >/dev/null 2>&1
-then
-  echo '→ clean brew stuff...'
-  clean-brew
+then echo '→ clean brew stuff...' && clean-brew
 fi
 
 if type 'docker' >/dev/null 2>&1
-then
-  echo '→ clean Docker...'
-  clean-docker
+then echo '→ clean Docker...' && clean-docker
 fi
 
 if type 'npm' >/dev/null 2>&1
-then
-  echo '→ clean NPM...'
-  clean-npm
+then echo '→ clean NPM...' && clean-npm
 fi
 
 if type 'yarn' >/dev/null 2>&1
-then
-  echo '→ clean Yarn...'
-  clean-yarn
+then echo '→ clean Yarn...' && clean-yarn
 fi
 
-echo '→ clean gems...'
-clean-gems
-
-echo '→ remove system log files...'
-clean-logs
-
-echo '→ clean all library caches...'
-clean-caches
-
-echo '→ cleanup XCode derived data and archives...'
-clean-xcode
-
-echo '→ clean Trashes...'
-clean-trashes
+echo '→ clean gems...' && clean-gems
+echo '→ remove system log files...' && clean-logs
+echo '→ clean all library caches...' && clean-caches
+echo '→ cleanup XCode derived data and archives...' && clean-xcode
+echo '→ clean Trashes...' && clean-trashes

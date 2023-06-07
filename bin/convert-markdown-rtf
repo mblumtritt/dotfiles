@@ -2,10 +2,10 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/}
 
 Convert MARKDOWN from stdin into RTF to stdout.
 "
-else
-	pandoc --from=gfm --to=rtf "$@"
+else pandoc --from=gfm --to=rtf "$@"
 fi

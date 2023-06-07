@@ -2,10 +2,10 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/}
 
 Convert YAML from stdin into JSON to stdout.
 "
-else
-	ruby -rpsych -roj -e'Oj.to_stream(STDOUT,Psych.load_stream(STDIN))'
+else ruby --disable-all -rpsych -roj -e'Oj.to_stream STDOUT,Psych.load_stream(STDIN)'
 fi

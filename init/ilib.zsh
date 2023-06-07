@@ -20,5 +20,5 @@ cde() # cd to best matching project directory
 
 @tr() # lookup in GE/EN dictionary
 {
-  fetch-web "$(print-search-url --dict $1)" | convert-html-text | less
+  fetch-web "$(print-search-url --dict "$@")" | convert-html-text | less
 }

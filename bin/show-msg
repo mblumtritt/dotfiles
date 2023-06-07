@@ -2,13 +2,12 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} MESSAGE [TITLE]
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/} MESSAGE [TITLE]
 
 Display a notification message.
 "
-elif [ $# = 0 ]; then
-	(>&2 echo "${0##*/}: MESSAGE missing")
-	exit 1
-else
-  terminal-notifier -message "$1" -title "${2-Notification}" -ignoreDnD
+elif [ $# = 0 ]
+then (>&2 echo "${0##*/}: MESSAGE missing") && exit 1
+else terminal-notifier -message "$1" -title "${2-Notification}" -ignoreDnD
 fi

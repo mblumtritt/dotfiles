@@ -2,14 +2,13 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} 2FACODE
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/} 2FACODE
 
 Renew AWS session.
 "
 elif [ $# = 0 ]
-then
-	echo "${0##*/}: 2FACODE missing" >&2
-	exit 1
+then (>&2 echo "${0##*/}: 2FACODE missing") && exit 1
 else
 	readonly MFA_USER="mike.blumtritt"
 	readonly MFA_TOKEN="$1"
@@ -25,7 +24,4 @@ else
   aws configure set --profile "${MFA_PROFILE}" aws_access_key_id "${MFA_ACCESS_KEY_ID}"
 	aws configure set --profile "${MFA_PROFILE}" aws_secret_access_key "${MFA_SECRET_ACCESS_KEY}"
 	aws configure set --profile "${MFA_PROFILE}" aws_session_token "${MFA_SESSION_TOKEN}"
-
-	echo "AWS credentials actualized"
-	. "$HOME/.local/init/aws"
 fi

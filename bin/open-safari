@@ -2,10 +2,10 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} [URI]
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/} [URI]
 
 Open given URI in Safari.
 "
-else
-	open -a /Applications/Safari.app "$*"
+else open -a /Applications/Safari.app "$*"
 fi

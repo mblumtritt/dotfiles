@@ -2,20 +2,17 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} [--no-system]
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/} [--no-system]
 
 Update System, Homebrew, Homebrew bundles, ASDF and Ruby gems.
 (May require password.)
 "
 else
-	if ! [ "$1" = '-s' ] && ! [ "$1" = '--no-system' ]; then
-    echo '→ update system stuff'
-    update-system
+	if ! [ "$1" = '-s' ] && ! [ "$1" = '--no-system' ]
+  then echo '→ update system stuff' && update-system
 	fi
-  echo '→ update Brew stuff'
-  update-brew
-  echo '→ update ASDF stuff'
-  update-asdf
-	echo '→ update Ruby stuff'
-	update-ruby
+  echo '→ update Brew stuff' && update-brew
+  echo '→ update ASDF stuff' && update-asdf
+	echo '→ update Ruby stuff' && update-ruby
 fi

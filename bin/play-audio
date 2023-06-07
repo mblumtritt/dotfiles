@@ -2,14 +2,12 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} FILE
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/} FILE
 
 Plays given audio FILE.
 "
 elif [ $# = 0 ]
-then
-	(>&2 echo "${0##*/}: FILE missing")
-	exit 1
-else
-  afplay -q 1 "$*"
+then (>&2 echo "${0##*/}: FILE missing") && exit 1
+else afplay -q 1 $@
 fi

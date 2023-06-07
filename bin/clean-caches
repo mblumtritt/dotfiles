@@ -1,6 +1,7 @@
 #! /bin/sh
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/}
 
 Clean all library caches. (May require password.)
 "
@@ -11,7 +12,6 @@ else
   rm -rfv "$HOME/Library/Caches/*" >/dev/null
   rm -rfv "$HOME/.cache" >/dev/null
   if [ "$PYENV_VIRTUALENV_CACHE_PATH" ]
-  then
-    rm -rfv "$PYENV_VIRTUALENV_CACHE_PATH" >/dev/null
+  then rm -rfv "$PYENV_VIRTUALENV_CACHE_PATH" >/dev/null
   fi
 fi

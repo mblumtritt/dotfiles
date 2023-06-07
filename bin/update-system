@@ -2,10 +2,10 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/}
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/}
 
 Update System. (May require password.)
 "
-else
-	sudo softwareupdate -i -a
+else sudo softwareupdate -i -a
 fi

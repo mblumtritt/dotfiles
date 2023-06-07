@@ -2,24 +2,25 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} TERM
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/} TERM
 
 Print search URL.
 
 options:
-   -g, --google    print Google search URL (default)
-   -y, --youtube   print YouTube search URL
-   -w, --wiki      print Wikipedia search URL
-   -a, --alpha     print Wolfram Alpha search URL
-   -l, --leo       print LeoDictionary search URL
-   -h, --github    print GitHub search URL
-   -i, --image     print image search URL (Google)
-   -v, --video     print vide search URL (YouTube)
-   -d, --dict      print vide search URL (Leo)
+   -a, --alpha        print Wolfram Alpha search URL
+   -d, --dict         print english/german term search URL (Leo)
+   -g, --google       print Google search URL (default)
+   -h, --github       print GitHub search URL
+   -i, --image        print image search URL (Google)
+   -l, --leo          print LeoDictionary search URL
+   -p, --perplexity   print Perplexity search URL
+   -v, --video        print video search URL (YouTube)
+   -w, --wiki         print Wikipedia search URL
+   -y, --youtube      print YouTube search URL
 "
-elif [ $# = 0 ]; then
-	(>&2 echo "${0##*/}: TERM missing")
-	exit 1
+elif [ $# = 0 ]
+then (>&2 echo "${0##*/}: TERM missing") && exit 1
 else
   term=''
   url='https://www.google.de/search?hl=de&as_qdr=all&as_occt=any&num=100&as_q='
@@ -48,11 +49,13 @@ else
     -h|--github)
       url='https://github.com/search?q='
       ;;
+    -p|--perplexity)
+      url='https://www.perplexity.ai/search?q='
+      ;;
     *)
-      if [ "$term" = "" ]; then
-        term="$arg"
-      else
-        term="$term $arg"
+      if [ "$term" = "" ]
+      then term="$arg"
+      else term="$term $arg"
       fi
       ;;
     esac

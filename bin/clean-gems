@@ -1,6 +1,7 @@
 #! /bin/sh
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} [--all]
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/} [--all]
 
 Clean up Ruby gems. Option '--all' removes all installed gems,
 "
@@ -10,7 +11,7 @@ fi
 with_rbenv() {
   for ruby in $(rbenv versions --bare); do
     echo ":: Ruby $ruby"
-    RBENV_VERSION="$ruby" rbenv exec $*
+    RBENV_VERSION="$ruby" rbenv exec $@
   done
 }
 
@@ -18,7 +19,7 @@ with_asdf() {
 	for ruby in $(asdf list ruby); do
     ruby="${ruby#\*}"
     echo "• Ruby $ruby"
-    ASDF_RUBY_VERSION="$ruby" asdf exec $*
+    ASDF_RUBY_VERSION="$ruby" asdf exec $@
 	done
 }
 

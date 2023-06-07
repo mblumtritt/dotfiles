@@ -2,10 +2,10 @@
 
 set -e
 
-if [ "$1" = '--help' ]; then echo "Usage: ${0##*/} TERM
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/} TERM
 
 Open Wikipedia Search.
 "
-else
-	open "$(print-search-url --wiki "$1")"
+else open "$(print-search-url --wiki "$1")"
 fi
