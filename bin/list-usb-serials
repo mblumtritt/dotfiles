@@ -1,49 +1,36 @@
 #! /usr/bin/env ruby
 # frozen_string_literal: true
 
+puts(<<~HELP) or exit if %w[-h --help help].include?(ARGV[0])
+  Usage: #{File.basename(Process.argv0)} [options] [expression]
 
-help <<~HELP, '[EXPR]'
-  -s, --serial   show serial numbers only
+  List USB devices matching given regular expression.
 
-List USB devices matching given regular expression.
+  Options:
+    -s, --serial   show serial numbers only
 HELP
 
-main do |cfg|
-  list = find_all
-  if cfg.regexp
-    list.keep_if do |serial, name|
-      cfg.regexp.match?(name) || cfg.regexp.match?(serial)
-    end
+FIND_ONLY = ARGV.delete('-f') || ARGV.delete('--find')
+SERIALS_ONLY = ARGV.delete('-s') || ARGV.delete('--serial')
+FILTER =
+  begin
+    ARGV.empty? ? nil : Regexp.new(ARGV.join(' '))
+  rescue RegexpError => e
+    $stderr.puts("invalid regular expression - #{e}") or exit(2)
   end
-  list.empty? ? exit(1) : list.each_pair(&cfg.show)
-end
-
-def find_all
-  found, name = {}, nil
-  run('system_profiler SPUSBDataType')
-    .scan(%r(\s+(.+):$|Serial Number: (.+)$)) do |match|
-      name = match[0] unless match[0].nil?
-      serial = match[1] and found[serial] = name.tr(' \/|-', '_')
-    end
-  found
-end
-
-parse_argv do |args|
-  Struct.new(:show, :regexp).new.tap do |cfg|
-    cfg.regexp = Regexp.new(args['EXPR']) if args.key?('EXPR')
-    cfg.show =
-      if args.key?('serial')
-        proc{ |serial, _| puts(serial) }
-      else
-        proc{ |serial, name| puts("#{name}: #{serial}") }
+FOUND =
+  {}.tap do |found|
+    name = nil
+    IO
+      .popen('system_profiler SPUSBDataType', err: %i[child out], &:read)
+      .scan(/\s+(.+):$|Serial Number: (.+)$/) do |match|
+        match[0] ? name = match[0] : found[match[1]] = name.tr(' \/|-', '_')
       end
+    found.keep_if { |s, n| FILTER.match?(s) || FILTER.match?(n) } if FILTER
   end
-rescue RegexpError => e
-  error(3, e)
+exit(FOUND.empty? ? 1 : 0) if FIND_ONLY
+if SERIALS_ONLY
+  FOUND.each_key { |serial| puts(serial) }
+else
+  FOUND.each_pair { |serial, name| puts("#{name}: #{serial}") }
 end
-
-BEGIN {
-  require 'mini-cli'
-  require 'mini-cli/run'
-  include MiniCli
-}

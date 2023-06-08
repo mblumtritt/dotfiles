@@ -1,86 +1,43 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby --disable-all
 # frozen_string_literal: true
 
-if ARGV.include?('-h') || ARGV.include?('--help')
-  puts <<~HELP
-    Usage: list-projects [<options>] <name>
+puts(<<~HELP) or exit if ARGV.include?('-h') || ARGV.include?('--help')
+  Usage: list-projects [<options>] <name>
 
-    Options:
-      -h, --help  show this help
-      -t, --top   print first matching project only
+  Options:
+    -h, --help  show this help
+    -t, --top   print first matching project only
 
-    List all projects matching NAME shortcut.
-  HELP
-  exit
-end
-
-def error(msg, code)
-  $stderr.puts("list-projects: #{msg}")
-  exit(code)
-end
+  List all projects matching NAME shortcut.
+HELP
 
 TOP = ARGV.delete('-t') || ARGV.delete('--top')
-NAME = ARGV.first or error('argument <name> missing', 2)
-
-def read_roots(file_name = '~/.list-projects')
-  IO
-    .readlines(File.expand_path(file_name))
-    .map!(&:strip)
-    .delete_if { |name| name.nil? || name.empty? || name.start_with?('#') }
-rescue SystemCallError
-  error("configuration not found - #{file_name}", 3)
-end
-
-class ProjectsFinder
-  def initialize(roots)
-    @roots, @map = roots, nil
-  end
-
-  def map
-    @map ||= create_map
-  end
-
-  def related_dirs(name)
-    dirs_for(related_keys(name))
-  end
-
-  private
-
-  def normalized(str)
-    str.downcase.tr('-._', '')
-  end
-
-  def related_keys(name)
-    name = normalized(name)
-    map
-      .keys
-      .find_all { |key| key.index(name) }
-      .sort_by! { |key| key.size - name.size }
-  end
-
-  def dirs_for(keys)
-    ret = []
-    keys.each { |key| ret << map[key] }
-    ret.flatten!
-    ret.uniq!
-    ret
-  end
-
-  def create_map
-    ret = Hash.new { |h, k| h[k] = [] }
-    @roots.each do |root|
-      root = File.expand_path(root)
-      next unless File.directory?(root)
-      Dir.glob(root + '/*') do |file_name|
+ERR = ->(msg) { $stderr.puts("list-projects: #{msg}") or exit(1) }
+NORM = ->(str) { str.downcase.tr('-._', '') }
+NAME = NORM[ARGV[0] || ERR['argument <name> missing']]
+FOUND =
+  begin
+    map = Hash.new { |h, k| h[k] = [] }
+    File.foreach(File.expand_path('~/.list-projects')) do |name|
+      name.strip!
+      next if name.empty? || name.start_with?('#')
+      name = File.expand_path(name)
+      next unless File.directory?(name)
+      Dir.glob("#{name}/*") do |file_name|
         next unless File.directory?(file_name)
-        name = normalized(File.basename(file_name))
-        ret[name] << file_name
+        map[NORM[File.basename(file_name)]] << file_name
       end
     end
-    ret
+    map
+      .keys
+      .find_all { |key| key.index(NAME) }
+      .sort_by! { |key| key.size - NAME.size }
+      .map! { |key| map[key] }
+      .flatten
+      .uniq
+  rescue Errno::ENOENT
+    ERR['configuration not found - ~/.list-projects']
   end
-end
 
-FOUND = ProjectsFinder.new(read_roots).related_dirs(NAME)
 exit(1) if FOUND.empty?
-TOP ? puts(FOUND.first) : FOUND.each { |f| puts f }
+TOP ? puts(FOUND[0]) : FOUND.each { |f| puts f }

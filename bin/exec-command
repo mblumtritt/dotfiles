@@ -1,4 +1,4 @@
-#! /usr/bin/env ruby
+#! /usr/bin/env ruby --disable-all
 # frozen_string_literal: true
 
 module CLI
@@ -18,17 +18,10 @@ module CLI
     exit
   end
 
-  def self.my_name
-    File.basename(__FILE__)
-  end
-
-  def self.help?(str)
-    HELP.index(str)
-  end
-
-  def self.which?(str)
-    WHICH.index(str)
-  end
+  def self.my_name = File.basename(__FILE__)
+  def self.help?(str) = %w[help --help h -h].include?(str)
+  def self.which?(str) = %w[which --which w -w].include?(str)
+  def self.which(str) = (puts(find_command(str).realname) or exit)
 
   def self.error(msg, subject)
     $stderr.puts("#{my_name}: #{msg} - #{subject}")
@@ -39,7 +32,7 @@ module CLI
   def self.non_bijective_command(cmd, alternatives)
     error('command non-bijective', cmd) do
       $stderr.puts('Did you mean:')
-      alternatives.each { |cmd| $stderr.puts("  #{cmd}") }
+      alternatives.each { |a| $stderr.puts("  #{a}") }
     end
   end
 
@@ -47,11 +40,6 @@ module CLI
     found = Finder.find(str) or error('command not found', str)
     non_bijective_command(str, found) if Array === found
     found
-  end
-
-  def self.which(str)
-    puts(find_command(str).realname)
-    exit
   end
 
   private_class_method def self.display_cols(ary)
@@ -64,21 +52,21 @@ module CLI
       puts
     end
   end
-
-  HELP = %w[help --help h -h]
-  WHICH = %w[which --which w -w]
 end
 
 module Finder
   class Command
-    attr_reader :to_s, :realname
+    attr :to_s, :realname
 
     def initialize(name)
-      @to_s, @realname = File.basename(name), name
+      @to_s = File.basename(name)
+      @realname = name
     end
   end
 
   class << self
+    def all(&) = executables_of('~/bin', &)
+
     def find(str)
       cmds = all.to_a
       found = cmds.find { |cmd| cmd.to_s == str } and return found
@@ -87,10 +75,6 @@ module Finder
         found += cmds.find_all { |cmd| pat.match?(cmd.to_s) }
       end
       found.empty? ? nil : best_of(found)
-    end
-
-    def all(&block)
-      executables_of('~/bin', &block)
     end
 
     private
@@ -105,11 +89,12 @@ module Finder
     end
 
     def each_pat(str)
-      Abbr.weighted_matrix(str).each do |ary|
-        yield(
-          Regexp.new('^' + ary.map { |s| Regexp.escape(s) + '\w*' }.join('-'))
-        )
-      end
+      Abbr
+        .weighted_matrix(str)
+        .each do |e|
+          e = e.map { |s| "#{Regexp.escape(s)}\\w*" }.join('-')
+          yield(Regexp.new("^#{e}"))
+        end
     end
 
     def executables_of(dirname)
@@ -126,11 +111,13 @@ CLI.help if CMD.nil? || (ARGV.empty? && CLI.help?(CMD))
 
 module Abbr
   def self.weighted_matrix(str)
-    matrix(str).sort do |a, b|
-      next b.map(&:size) <=> a.map(&:size) if a.size == b.size
-      ret = b.max_by(&:size).size <=> a.max_by(&:size).size
-      ret.zero? ? a.size <=> b.size : ret
-    end.tap { |ret| ret.pop if ret.size > 1 }
+    matrix(str)
+      .sort do |a, b|
+        next b.map(&:size) <=> a.map(&:size) if a.size == b.size
+        ret = b.max_by(&:size).size <=> a.max_by(&:size).size
+        ret.zero? ? a.size <=> b.size : ret
+      end
+      .tap { |ret| ret.pop if ret.size > 1 }
   end
 
   private_class_method def self.matrix(str, ic = false)

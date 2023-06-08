@@ -1,35 +1,24 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby --disable-all
 # frozen_string_literal: true
 
-if ARGV.include?('--help') || ARGV.include?('-h')
-  puts <<~HELP
-    usage: #{File.basename(Process.argv0)} <style>
+puts(<<~HELP) or exit if ARGV.include?('--help') || ARGV.include?('-h')
+  usage: #{File.basename(Process.argv0)} <style>
 
-    Convert TEXT from stdin to styled TEXT to stdout.
+  Convert TEXT from stdin to styled TEXT to stdout.
 
-    Valid styles:
-    #{styles.join(', ')}
-  HELP
-  exit
-end
+  Valid styles:
+  #{styles.join(', ')}
+HELP
 
-begin
-  map = find(ARGV.first || 'cursive')
-  if map.nil?
-    $stderr.puts("invalid style - #{ARGV.first}")
-    exit(1)
-  end
-  STDIN.each_char { |c| STDOUT << map[c] }
-rescue Interrupt
-  exit(128)
-end
+MAP = find(ARGV[0] || 'cursive')
+STDERR.puts("invalid style - #{ARGV[0]}") or exit(1) if MAP.nil?
+STDIN.each_char { |c| STDOUT << MAP[c] }
 
 BEGIN {
+  trap(2) { exit(138) }
   STDOUT.sync = true
 
-  def styles
-    SIMPLE.keys + MAPPED.keys
-  end
+  def styles = SIMPLE.keys + MAPPED.keys
 
   def find(name)
     ret = SIMPLE[name] and ret = Hash[ret.chars.each_slice(2).to_a]
@@ -96,7 +85,7 @@ BEGIN {
       'aคb๖c¢d໓eēgງjวm๓nຖo໐q๑sŞuนvงwຟyฯzຊAคB๖C¢D໓EēFfGງHhIiJวKkLlM๓NຖO໐PpQ๑RrSŞTtUนVงWຟXxYฯZຊ',
     'squiggle5' =>
       'aąbცcƈdɖeɛfʄgɠhɧiıjʝkƙlƖmɱnŋoơp℘qզrཞsʂtɬuųv۷wῳxҳyყzʑAąBცCƈDɖEɛFʄGɠHɧIıJʝKƙLƖMɱNŋOơP℘QզRཞSʂTɬUųV۷WῳXҳYყZʑ'
-  }
+  }.freeze
 
   MAPPED = {
     'leet' => {
@@ -289,5 +278,5 @@ BEGIN {
       'Ø' => 'ᴓ',
       'ø' => 'ᴓ'
     }
-  }
+  }.freeze
 }

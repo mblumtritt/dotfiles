@@ -1,39 +1,28 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby --disable-all
 # frozen_string_literal: true
 
 if ARGV.empty? || ARGV.include?('--help') || ARGV.include?('-h')
-  puts <<~HELP
+  puts(<<~HELP) or exit
     Usage: open-ruby-doc <name>
 
     Show Ruby documentation with given class and method <name>.
   HELP
-  exit
 end
 
 class RubyDoc
-  INDEX = 'ruby-doc/index.html'
-  STDLIB = 'ruby-stdlib/packages.html'
+  def self.find(root, str) = new(root).find(str)
 
-  def self.find(root, str)
-    new(root).find(str)
-  end
-
-  def initialize(root)
-    @root = File.expand_path(root)
-  end
+  def initialize(root) = @root = File.expand_path(root)
 
   def find(str)
-    return INDEX if INDEX_REQUEST.include?(str)
-    return STDLIB if STDLIB_REQUEST.include?(str)
+    return 'ruby-doc/index.html' if [nil, '', 'main', '/'].include?(str)
+    return 'ruby-stdlib/packages.html' if %w[std stdlib].include?(str)
     klazz, method, type = split(str)
     path = find_klass(klazz) or return find_doc(str)
     type ? "#{path}##{type}-#{escape(method)}" : path
   end
 
   private
-
-  INDEX_REQUEST = [nil, '', 'main', '/'].freeze
-  STDLIB_REQUEST = %w[std stdlib]
 
   def find_klass(str)
     name = index_name(str)
@@ -51,12 +40,11 @@ class RubyDoc
 
   def stdlib_name(str)
     parts = str.split('::')
-    main = parts.first.downcase
+    main = parts[0].downcase
     "ruby-stdlib/libdoc/#{main}/rdoc/#{parts.join('/')}.html"
   end
 
   def doc_name(str) = "ruby-doc/doc/#{str}_rdoc.html"
-
   def file?(index_name) = File.readable?(File.join(@root, index_name))
 
   def escape(method_name)
@@ -74,7 +62,7 @@ class RubyDoc
   end
 end
 
-path, = RubyDoc.find('~/www', ARGV.first)
-exec("open \"http://mike.local:4040/#{path}\"") if path
-puts("open-ruby-doc: not found - #{ARGV.first}")
+PATH = RubyDoc.find('~/www', ARGV[0])
+exec("open -a Safari \"http://mike.local:4040/#{PATH}\"") if PATH
+puts("open-ruby-doc: not found - #{ARGV[0]}")
 exit(1)
