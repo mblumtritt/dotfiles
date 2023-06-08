@@ -1,0 +1,11 @@
+#! /bin/sh
+
+set -e
+
+if [ "$1" = '--help' ]
+then echo "Usage: ${0##*/} <name>
+
+Print UUID of given volume name.
+"
+else diskutil info "$1" | grep 'Disk / Partition UUID:' | sed 's/^.*: *//'
+fi
