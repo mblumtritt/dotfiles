@@ -37,5 +37,4 @@ link_files()
 link_files "$HOME/.local/dotfiles/files" "$HOME" "."
 link_files "$HOME/.local/dotfiles/init" "$HOME/.local/init"
 link_files "$HOME/.local/dotfiles/bin" "$HOME/bin"
-ln -sf "$HOME/.local/dotfiles/bin/exec-command" "$HOME/bin/#"
 ln -sf "$HOME/.local/dotfiles/welcome" "$HOME/.local"
