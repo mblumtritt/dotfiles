@@ -1,19 +1,19 @@
 may_source() # source file only if file exists
 {
-	[ -f "$1" ] && . "$1"
+	[ -f "$1" ] && . "$1" || return 1
 }
 
 may_call() # execute file only if file exists
 {
-	[ -x "$1" ] && $1
+	[ -x "$1" ] && $1 || return 1
 }
 
 mkcd() # create directory and step into
 {
-	mkdir -p "$@" && cd "$@" || exit 1
+	mkdir -p "$@" && cd "$@" || return 1
 }
 
 cdp() # cd to best matching project directory
 {
-	cd "$(list-projects --top "$@")" || exit 1
+	cd "$(list-projects --top "$@")" || return 1
 }
