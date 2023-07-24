@@ -17,3 +17,12 @@ cdp() # cd to best matching project directory
 {
 	cd "$(list-projects --top "$@")" || return 1
 }
+
+welcome() # print file content found in welcome dir
+{
+	[[ -o interactive ]] &&
+	[[ "$(tput lines)" -gt 35 ]] &&
+	[[ "$(tput cols)" -gt 50 ]] &&
+	cat $(find $HOME/.local/welcome/*.txt -type f | shuf -n 1) &&
+	echo
+}

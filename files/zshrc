@@ -93,7 +93,6 @@ source ~/.local/init/lib.zsh
 export EDITOR='mate -w'
 export GEM_EDITOR=mate
 export GZIP=-9
-export SEC_DIR=$HOME/.password-store
 export GOPATH=$HOME/prj/go
 export GPG_TTY=$(tty)
 export HOMEBREW_NO_AUTO_UPDATE=1
@@ -104,7 +103,6 @@ source ~/.local/init/aws
 may_source ~/.zshrc.local
 may_source /opt/homebrew/opt/asdf/libexec/asdf.sh
 
-[[ -o interactive ]] && {
-  may_source ~/.config/broot/launcher/bash/br
-  source ~/.local/init/welcome.zsh
-}
+[[ -o interactive ]] && may_source ~/.config/broot/launcher/bash/br
+
+welcome
