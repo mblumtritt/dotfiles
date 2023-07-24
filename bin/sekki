@@ -1,0 +1,227 @@
+#!/usr/bin/env ruby --disable-all
+# frozen_string_literal: true
+
+VERSION = '0.0.3'
+puts(<<~HELP) or exit if %w[-h --help help].include?(ARGV[0])
+  sekki - display the sekki (節気) for a given date
+
+  Usage: sekki [--jap|--asc|--desc] [month-day]
+HELP
+puts("sekki v#{VERSION}") or exit if %w[-v --version].include?(ARGV[0])
+trap(2) { exit(138) }
+require 'date'
+FORMAT = %w[--jp --jap --asc --desc].find { |format| ARGV.delete(format) }
+DATE = ->(month, day) { Date.new(0, month, day).jd }
+DIE = ->(msg, code = 1) { $stderr.puts("sekki: #{msg}") or exit(code) }
+FOR_DATE =
+  begin
+    date = ARGV.shift
+    if date.nil?
+      date = Date.today
+      DATE[date.month, date.day]
+    else
+      month, day = date.split('-', 2).map!(&:to_i)
+      DIE['invalid date'] unless month.between?(1, 12) && day.between?(1, 31)
+      DATE[month, day]
+    end
+  end
+DIE['too many arguments'] unless ARGV.empty?
+OUT =
+  lambda do |jap, asc, desc|
+    puts(
+      case FORMAT
+      when '--jap', '--jp'
+        jap
+      when '--asc'
+        asc
+      when '--desc'
+        desc
+      else
+        "#{jap} (#{asc})"
+      end
+    )
+  end
+case FOR_DATE
+when (DATE[2, 4]..DATE[2, 8])
+  OUT['東風解凍', 'Harukaze kōri o toku', 'The east wind melts the thick ice.']
+when (DATE[2, 9]..DATE[2, 13])
+  OUT['黄鶯睍睆', 'Kōō kenkan su', 'Bush warblers sing in the countryside.']
+when (DATE[2, 14]..DATE[2, 18])
+  OUT['魚上氷', 'Uo kōri o izuru', 'Ice cracks, allowing fish to emerge.']
+when (DATE[2, 19]..DATE[2, 23])
+  OUT['土脉潤起', 'Tsuchi no shō uruoi okoru', 'Rain falls, moistening the soil.']
+when (DATE[2, 24]..DATE[2, 28])
+  OUT['霞始靆', 'Kasumi hajimete tanabiku', 'Mist lies over the land.']
+when (DATE[3, 1]..DATE[3, 5])
+  OUT['草木萌動', 'Sōmoku mebae izuru', 'Trees and plants put forth buds.']
+when (DATE[3, 6]..DATE[3, 10])
+  OUT['蟄虫啓戸', 'Sugomori mushito o hiraku', 'Hibernating insects emerge.']
+when (DATE[3, 11]..DATE[3, 15])
+  OUT['桃始笑', 'Momo hajimete saku', 'Peach trees begin to bloom.']
+when (DATE[3, 16]..DATE[3, 20])
+  OUT[
+    '菜虫化蝶',
+    'Namushi chō to naru',
+    'Cabbage whites emerge from their cocoons.'
+  ]
+when (DATE[3, 21]..DATE[3, 25])
+  OUT['雀始巣', 'Suzume hajimete sukū', 'Sparrows begin building their nests.']
+when (DATE[3, 26]..DATE[3, 30])
+  OUT['櫻始開', 'Sakura hajimete saku', 'Cherry blossoms begin to bloom.']
+when (DATE[3, 31]..DATE[4, 4])
+  OUT['雷乃発声', 'Kaminari sunawachi koe o hassu', 'Thunder rumbles far away.']
+when (DATE[4, 5]..DATE[4, 9])
+  OUT['玄鳥至', 'Tsubame kitaru', 'Swallows return from the south.']
+when (DATE[4, 10]..DATE[4, 14])
+  OUT['鴻雁北', 'Kōgan kaeru', 'Wild geese fly north.']
+when (DATE[4, 15]..DATE[4, 19])
+  OUT['虹始見', 'Niji hajimete arawaru', 'Rainbows begin to appear.']
+when (DATE[4, 20]..DATE[4, 24])
+  OUT['葭始生', 'Ashi hajimete shōzu', 'Reeds begin to sprout.']
+when (DATE[4, 25]..DATE[4, 29])
+  OUT['霜止出苗', 'Shimo yamite nae izuru', 'Rice seedlings grow.']
+when (DATE[4, 30]..DATE[5, 4])
+  OUT['牡丹華', 'Botan hana saku', 'Peonies bloom.']
+when (DATE[5, 5]..DATE[5, 9])
+  OUT['蛙始鳴', 'Kawazu hajimete naku', 'Frogs begin croaking.']
+when (DATE[5, 10]..DATE[5, 14])
+  OUT['蚯蚓出', 'Mimizu izuru', 'Worms wriggle to the surface.']
+when (DATE[5, 15]..DATE[5, 20])
+  OUT['竹笋生', 'Takenoko shōzu', 'Bamboo shoots sprout.']
+when (DATE[5, 21]..DATE[5, 25])
+  OUT['蚕起食桑', 'Kaiko okite kuwa o hamu', 'Silkworms feast on mulberry leaves.']
+when (DATE[5, 26]..DATE[5, 30])
+  OUT['紅花栄', 'Benibana sakau', 'Safflowers bloom in abundance.']
+when (DATE[5, 31]..DATE[6, 5])
+  OUT['麦秋至', 'Mugi no toki itaru', 'Barley ripens, ready to be harvested.']
+when (DATE[6, 6]..DATE[6, 10])
+  OUT['蟷螂生', 'Kamakiri shōzu', 'Praying mantises hatch and come forth.']
+when (DATE[6, 11]..DATE[6, 15])
+  OUT[
+    '腐草為螢',
+    'Kusaretaru kusa hotaru to naru',
+    'Fireflies fly out from moist grass.'
+  ]
+when (DATE[6, 16]..DATE[6, 20])
+  OUT['梅子黄', 'Ume no mi kibamu', 'Plums ripen, turning yellow.']
+when (DATE[6, 21]..DATE[6, 26])
+  OUT['乃東枯', 'Natsukarekusa karuru', 'Prunella flowers wither.']
+when (DATE[6, 27]..DATE[7, 1])
+  OUT['菖蒲華', 'Ayame hana saku', 'Irises bloom.']
+when (DATE[7, 2]..DATE[7, 6])
+  OUT['半夏生', 'Hange shōzu', 'Crowdipper sprouts.']
+when (DATE[7, 7]..DATE[7, 11])
+  OUT['温風至', 'Atsukaze itaru', 'Warm winds blow.']
+when (DATE[7, 12]..DATE[7, 16])
+  OUT['蓮始開', 'Hasu hajimete hiraku', 'Lotuses begin to bloom.']
+when (DATE[7, 17]..DATE[7, 22])
+  OUT['鷹乃学習', 'Taka sunawachi waza o narau', 'Young hawks learn to fly.']
+when (DATE[7, 23]..DATE[7, 28])
+  OUT[
+    '桐始結花',
+    'Kiri hajimete hana o musubu',
+    'Paulownia trees begin to produce seeds.'
+  ]
+when (DATE[7, 29]..DATE[8, 2])
+  OUT[
+    '土潤溽暑',
+    'Tsuchi uruōte mushi atsushi',
+    'The ground is damp, the air hot and humid.'
+  ]
+when (DATE[8, 3]..DATE[8, 7])
+  OUT['大雨時行', 'Taiu tokidoki furu', 'Heavy rains fall.']
+when (DATE[8, 8]..DATE[8, 2])
+  OUT['涼風至', 'Suzukaze itaru', 'Cool winds blow.']
+when (DATE[8, 13]..DATE[8, 17])
+  OUT['寒蝉鳴', 'Higurashi naku', 'Evening cicadas begin to sing.']
+when (DATE[8, 18]..DATE[8, 22])
+  OUT['蒙霧升降', 'Fukaki kiri matō', 'Thick fog blankets the land.']
+when (DATE[8, 23]..DATE[8, 27])
+  OUT['綿柎開', 'Wata no hana shibe hiraku', 'Cotton bolls open.']
+when (DATE[8, 28]..DATE[9, 1])
+  OUT['天地始粛', 'Tenchi hajimete samushi', 'The heat finally relents.']
+when (DATE[9, 2]..DATE[9, 7])
+  OUT['禾乃登', 'Kokumono sunawachi minoru', 'Rice ripens.']
+when (DATE[9, 8]..DATE[9, 12])
+  OUT['草露白', 'Kusa no tsuyu shiroshi', 'White dew shimmers on the grass.']
+when (DATE[9, 13]..DATE[9, 17])
+  OUT['鶺鴒鳴', 'Sekirei naku', 'Wagtails begin to sing.']
+when (DATE[9, 18]..DATE[9, 22])
+  OUT['玄鳥去', 'Tsubame saru', 'Swallows return to the south.']
+when (DATE[9, 23]..DATE[9, 27])
+  OUT['雷乃収声', 'Kaminari sunawachi koe o osamu', 'Thunder comes to an end.']
+when (DATE[9, 28]..DATE[10, 2])
+  OUT['蟄虫坏戸', 'Mushi kakurete to o fusagu', 'Insects close up their burrows.']
+when (DATE[10, 3]..DATE[10, 7])
+  OUT['水始涸', 'Mizu hajimete karuru', 'Fields are drained of water.']
+when (DATE[10, 8]..DATE[10, 12])
+  OUT['鴻雁来', 'Kōgan kitaru', 'Wild geese begin to fly back.']
+when (DATE[10, 13]..DATE[10, 17])
+  OUT['菊花開', 'Kiku no hana hiraku', 'Chrysanthemums bloom.']
+when (DATE[10, 18]..DATE[10, 22])
+  OUT['蟋蟀在戸', 'Kirigirisu to ni ari', 'Crickets chirp by the door.']
+when (DATE[10, 23]..DATE[10, 27])
+  OUT['霜始降', 'Shimo hajimete furu', 'Frost begins to form.']
+when (DATE[10, 28]..DATE[11, 1])
+  OUT['霎時施', 'Kosame tokidoki furu', 'Drizzling rain falls gently.']
+when (DATE[11, 2]..DATE[11, 6])
+  OUT['楓蔦黄', 'Momiji tsuta kibamu', 'Maple leaves and ivy turn yellow.']
+when (DATE[11, 7]..DATE[11, 11])
+  OUT['山茶始開', 'Tsubaki hajimete hiraku', 'Sasanqua camellias begin to bloom.']
+when (DATE[11, 12]..DATE[11, 16])
+  OUT['地始凍', 'Chi hajimete kōru', 'The land begins to freeze.']
+when (DATE[11, 17]..DATE[11, 21])
+  OUT['金盞香', 'Kinsenka saku', 'Daffodils bloom.']
+when (DATE[11, 22]..DATE[11, 26])
+  OUT['虹蔵不見', 'Niji kakurete miezu', 'Rainbows disappear.']
+when (DATE[11, 27]..DATE[12, 1])
+  OUT[
+    '朔風払葉',
+    'Kitakaze konoha o harau',
+    'The north wind blows leaves off the trees.'
+  ]
+when (DATE[12, 2]..DATE[12, 6])
+  OUT[
+    '橘始黄',
+    'Tachibana hajimete kibamu',
+    'Tachibana citrus trees begin to turn yellow.'
+  ]
+when (DATE[12, 7]..DATE[12, 11])
+  OUT[
+    '閉塞成冬',
+    'Sora samuku fuyu to naru',
+    'The skies stay cold as winter arrives.'
+  ]
+when (DATE[12, 12]..DATE[12, 16])
+  OUT[
+    '熊蟄穴',
+    'Kuma ana ni komoru',
+    'Bears hide away in their dens to hibernate.'
+  ]
+when (DATE[12, 17]..DATE[12, 21])
+  OUT['鱖魚群', 'Sake no uo muragaru', 'Salmon swim upstream en masse.']
+when (DATE[12, 22]..DATE[12, 26])
+  OUT['乃東生', 'Natsukarekusa shōzu', 'Prunella sprouts.']
+when (DATE[12, 27]..DATE[12, 31])
+  OUT['麋角解', 'Sawashika no tsuno otsuru', 'Deer shed their antlers.']
+when (DATE[1, 1]..DATE[1, 4])
+  OUT['雪下出麦', 'Yuki watarite mugi nobiru', 'Barley sprouts under the snow.']
+when (DATE[1, 5]..DATE[1, 9])
+  OUT['芹乃栄', 'Seri sunawachi sakau', 'Parsley thrives.']
+when (DATE[1, 10]..DATE[1, 14])
+  OUT['水泉動', 'Shimizu atataka o fukumu', 'Springs once frozen flow once more.']
+when (DATE[1, 15]..DATE[1, 19])
+  OUT['雉始雊', 'Kiji hajimete naku', 'Cock pheasants begin to call.']
+when (DATE[1, 20]..DATE[1, 24])
+  OUT['款冬華', 'Fuki no hana saku', 'Butterburs put forth buds.']
+when (DATE[1, 25]..DATE[1, 29])
+  OUT[
+    '水沢腹堅',
+    'Sawamizu kōri tsumeru',
+    'Mountain streams gain a cover of thick ice.'
+  ]
+when (DATE[1, 30]..DATE[2, 3])
+  OUT['鶏始乳', 'Niwatori hajimete toya ni tsuku', 'Hens begin to lay eggs.']
+else
+  DIE["internal error - nothing found for #{MONTH}-#{DAY}"]
+end
