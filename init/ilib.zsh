@@ -18,6 +18,11 @@ cde() # cd to best matching project directory
 	cd "$(list-projects --top "$@")" && edit-text .
 }
 
+lc() # list commands
+{
+	list-commands "$@" | column -x
+}
+
 @tr() # lookup in GE/EN dictionary
 {
   fetch-web "$(print-search-url --dict "$@")" | convert-html-text | less
