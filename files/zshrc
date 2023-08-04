@@ -1,8 +1,7 @@
 #! /bin/zsh
 
 # setup language
-export LANG=en_GB.utf-8
-export LC_ALL=en_GB.utf-8
+export LANG=en_GB.utf-8 LANGUAGE=en_GB.utf-8 LC_ALL=en_GB.utf-8
 
 # setup jobs
 setopt notify
@@ -19,9 +18,7 @@ source ~/.local/init/lib.zsh
   export LS_COLORS="di=32:ln=35:so=33:pi=33:ex=31:bd=1;34:cd=1;34:su=1;31:sg=1;31:tw=1;32:ow=1;32"
 
 	# setup history
-	export HISTFILE=~/.histfile
-	export HISTSIZE=100000
-	export SAVEHIST=100000
+	export HISTFILE=~/.histfile HISTSIZE=100000 SAVEHIST=100000
 	setopt extended_history
 	setopt share_history
   setopt hist_expire_dups_first
@@ -43,7 +40,7 @@ source ~/.local/init/lib.zsh
 	bindkey "\e[B" history-beginning-search-forward-end
 
 	# setup completion
-  # fpath=($HOME/.zsh/completions $fpath)
+  fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
   zstyle ':completion:*' completer _complete _ignored _approximate
   zstyle ':completion:*' max-errors 2
   zstyle ':completion:*' menu select=1
