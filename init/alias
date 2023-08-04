@@ -4,7 +4,6 @@ alias ll='lsd -Al'
 alias lr='lsd -Rl'
 alias du='du -kh'
 alias top='btm --basic'
-alias sec='noglob sec'
 
 alias path='echo -e ${PATH//:/\\n}'
 alias ...='cd ..'
@@ -12,6 +11,7 @@ alias tree='tree -AC'
 
 alias fucking='sudo'
 alias please='sudo'
+
 alias o='open'
 alias g='git'
 alias e='edit-text'
@@ -19,13 +19,19 @@ alias sc='shellcheck'
 
 alias rk='noglob rake'
 alias gr='noglob rake --rakelib ~/.rake'
+
 alias be='bundle exec'
 alias ber='noglob bundle exec rake'
 alias bert='ber -T'
 alias berd='ber -D'
 alias berta='bert -A'
 alias bdep='bundle list --paths | ruby --disable-all -n -e"puts(File.basename(\$_))"'
-alias rcop='rubocop -D -E -S'
-alias pretty!='noglob ~/.asdf/shims/rbprettier --ignore-path=".gitignore" --single-quote --ruby-to-proc --no-error-on-unmatched-pattern --write "**/*.{ru,rb,yml,yaml,md,rake}"'
+
 alias fspec='be rspec --order defined --fail-fast --format d'
-alias dco='docker compose'
+alias rcop='rubocop -D -E -S'
+alias pretty!='rbprettier --ignore-path=".gitignore" --single-quote --ruby-single-quote --ruby-to-proc --no-error-on-unmatched-pattern --write "**/*.{ru,rb,yml,yaml,md,rake}"'
+
+alias dc='docker compose'
+alias dcp='dc pull'
+alias dcu='dc up -d'
+alias dcd='dc down --remove-orphans'
