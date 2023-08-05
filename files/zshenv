@@ -1,0 +1,25 @@
+
+try_source() # source file only if file exists
+{
+	[ -f "$1" ] && . $@ || return 1
+}
+
+try_call() # execute file only if file exists
+{
+	[ -x "$1" ] && $@ || return 1
+}
+
+export LANG=en_GB.utf-8 LANGUAGE=en_GB.utf-8 LC_ALL=en_GB.utf-8
+export PS1='%~$ '
+export EDITOR='mate -w'
+export GEM_EDITOR=mate
+export GZIP=-9
+export GOPATH=$HOME/prj/go
+export GPG_TTY=$(tty)
+export HOMEBREW_NO_AUTO_UPDATE=1
+export BAT_THEME='base16'
+export PATH="$HOME/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+
+setopt beep
+
+try_source /opt/homebrew/opt/asdf/libexec/asdf.sh

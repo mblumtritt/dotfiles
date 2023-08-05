@@ -5,7 +5,6 @@ alias lr='lsd -Rl'
 alias du='du -kh'
 alias top='btm --basic'
 
-alias path='echo -e ${PATH//:/\\n}'
 alias ...='cd ..'
 alias tree='tree -AC'
 

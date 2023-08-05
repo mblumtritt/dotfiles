@@ -1,11 +1,21 @@
-may_source() # source file only if file exists
+h() # find in history
 {
-	[ -f "$1" ] && . "$1" || return 1
+	history 0 | grep "$1"
 }
 
-may_call() # execute file only if file exists
+f() # find file
 {
-	[ -x "$1" ] && $1 || return 1
+	find . -iname "*$1*" "${@:2}"
+}
+
+ff() # find file containing
+{
+	grep "$1" "${@:2}" -R .
+}
+
+dump-path() # show path
+{
+	print -l ${(s.:.)PATH}
 }
 
 mkcd() # create directory and step into
@@ -16,6 +26,99 @@ mkcd() # create directory and step into
 cdp() # cd to best matching project directory
 {
 	cd "$(list-projects --top "$@")" || return 1
+}
+
+cde() # cd to best matching project directory
+{
+	cd "$(list-projects --top "$@")" && edit-text .
+}
+
+lc() # list commands
+{
+	list-commands "$@" | column -x
+}
+
+\#() # find and execute command with options
+{
+	[ $# = 0 ] && { >&2 echo "command missing" && return 1 }
+	IFS=$'\n' readonly array=($(list-commands "$1"))
+	[ ${#array[@]} = 0 ] && { >&2 echo "no such command - $1" && return 1 }
+	[ ${#array[@]} = 1 ] || {
+		>&2 echo "too many matching commands - $1\nDid you mean one of these?"
+		>&2 IFS=$'\n'; echo "${array[*]}" | column -x
+		return 1
+	}
+	shift
+	"$(list-commands --long "${array}")" $@
+	return $?
+}
+
+npass() # add new password to password-store
+{
+	[ $# = 0 ] && { >&2 echo "pass-name missing" && return 1 }
+	readonly name="$1"
+	shift
+	{
+		[ $# = 0 ] && { generate-password } || { echo "$@" }
+	} | pass insert -e "$name"
+}
+
+browse() # open prefered browser
+{
+	open -a /Applications/Safari.app $@
+}
+
+git-url() # URL of current project
+{
+	echo ${$(git remote get-url origin)/.git/$nop}
+}
+
+git-branch-name() # current branch name
+{
+	basename "$(git symbolic-ref HEAD)"
+}
+
+@gh() # GitHub command
+{
+	case "$1" in
+	(-h|--help)
+		cat <<- HELP
+			Options:
+			<name>   open branch <name>
+			-b       open current branch
+			-pr      open pull requests
+			-pc      open pull request for current branch
+			-pn      create pull request for current branch
+			-px      open pull request #x
+		HELP
+		;;
+	(-b)
+		browse "$(git-url)/tree/$(git-branch-name)"
+		;;
+	(-pr)
+		browse "$(git-url)/pulls"
+		;;
+	(-pc)
+		browse "$(git-url)/pull/$(git-branch-name)"
+		;;
+	(-pn)
+		browse "$(git-url)/pull/new/$(git-branch-name)"
+		;;
+	(-px)
+		browse "$(git-url)/pull/$2"
+		;;
+	('')
+		browse "$(git-url)"
+	;;
+	(*)
+		browse "$(git-url)/tree/$1"
+		;;
+	esac
+}
+
+@tr() # lookup in GE/EN dictionary
+{
+  fetch-web "$(print-search-url --dict "$@")" | convert-html-text | less
 }
 
 welcome() # print file content found in welcome dir
