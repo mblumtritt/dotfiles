@@ -23,12 +23,14 @@ lc() # list commands
 	list-commands "$@" | column -x
 }
 
-npass() # add new name/password pair to password store
+npass() # add new password to password-store
 {
 	[ $# = 0 ] && { >&2 echo "pass-name missing" && return 1 }
-	[ $# = 1 ] && { >&2 echo "name/id missing" && return 1 }
-	echo "$2" | pass insert -e "$1/name"
-	generate-password | pass insert -e "$1/pass"
+	readonly name="$1"
+	shift
+	{
+		[ $# = 0 ] && { generate-password } || { echo "$@" }
+	} | pass insert -e "$name"
 }
 
 @tr() # lookup in GE/EN dictionary
