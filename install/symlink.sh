@@ -1,7 +1,7 @@
 #! /bin/sh
-
 echo 'install: create symlinks'
 set -e
+
 _BACKUP_DIR="$HOME/.local/bak/$(date +%s)"
 readonly _BACKUP_DIR
 
@@ -12,7 +12,8 @@ backup()
 	mv "$1" "$_BACKUP_DIR"
 }
 
-valid_file() {
+valid_file()
+{
 	basename "$1" | grep -v '^.DS_Store$' >/dev/null 2>&1
 }
 

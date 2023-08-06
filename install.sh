@@ -1,6 +1,7 @@
 #! /bin/sh
 echo 'install: dotfiles'
 set -e
+
 readonly _DOTFILE_DIR="$HOME/.local/dotfiles"
 
 [ -f "$_DOTFILE_DIR/.git/config" ] || {
@@ -13,5 +14,5 @@ readonly _DOTFILE_DIR="$HOME/.local/dotfiles"
 . "$_DOTFILE_DIR/install/symlink.sh"
 . "$_DOTFILE_DIR/install/asdf.sh"
 . "$_DOTFILE_DIR/install/ruby.sh"
-. "$_DOTFILE_DIR/install/vscode.sh"
+# . "$_DOTFILE_DIR/install/vscode.sh"
 . "$_DOTFILE_DIR/install/macos-settings.sh"

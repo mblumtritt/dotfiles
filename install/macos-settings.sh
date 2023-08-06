@@ -1,5 +1,6 @@
 #! /bin/sh
 set -e
+
 [ "$(uname -s)" = "Darwin" ] && {
   echo 'install: configure MacOS'
 

@@ -1,5 +1,6 @@
 #! /bin/sh
 set -e
+
 (command -v code >/dev/null 2>&1) && {
   echo 'install: VSCode extensions'
 

@@ -1,9 +1,9 @@
 # Dotfiles
 
-These are my dotfiles and tools.
+These are my dot-files and tools.
 
 ## Install
 
 ```shell
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mblumtritt/dotfiles/HEAD/install.sh)"
+/bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/mblumtritt/dotfiles/HEAD/install.sh)"
 ```

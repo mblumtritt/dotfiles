@@ -1,5 +1,6 @@
 #! /bin/sh
 set -e
+
 (command -v asdf >/dev/null 2>&1) && {
   echo 'install: ASDF packages'
 
@@ -12,4 +13,5 @@ set -e
       asdf install "$1" "$2"
     }
   done < "$HOME/.tool-versions"
+  asdf reshim
 }
