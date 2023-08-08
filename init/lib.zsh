@@ -41,17 +41,23 @@ lc() # list commands
 \#() # find and execute command with options
 {
 	[ $# = 0 ] && { >&2 echo "command missing" && return 1 }
-	IFS=$'\n' readonly array=($(list-commands "$1"))
-	[ ${#array[@]} = 0 ] && { >&2 echo "no such command - $1" && return 1 }
-	[ ${#array[@]} = 1 ] || {
+	IFS=$'\n' readonly cmds=($(list-commands "$1"))
+	[ ${#cmds[@]} = 0 ] && { >&2 echo "no such command - $1" && return 1 }
+	[ ${#cmds[@]} = 1 ] || {
 		>&2 echo "too many matching commands - $1\nDid you mean one of these?"
-		>&2 IFS=$'\n'; echo "${array[*]}" | column -x
+		>&2 IFS=$'\n'; echo "${cmds[*]}" | column -x
 		return 1
 	}
 	shift
-	"$(list-commands --long "${array}")" $@
+	${cmds} $@
 	return $?
 }
+
+fae_completion() {
+	readonly cmds=( $(list-commands) )
+	compadd -a cmds
+}
+compdef fae_completion \#
 
 npass() # add new password to password-store
 {

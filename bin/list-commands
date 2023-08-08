@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 ME = File.basename(Process.argv0)
-PEX = ->(*msg) { puts(*msg) or exit }
+PEX = ->(*msg) { puts(msg) or exit }
 PEX["#{ME} v0.2.1"] if %w[-v --version].include?(ARGV[0])
 PEX[<<~HELP] if %w[-h --help].include?(ARGV[0])
   Usage: #{ME} [-l|--long] [<name>] [<dir>]
@@ -54,7 +54,7 @@ def each_pat(str)
 end
 
 def matrix(str, ic = false)
-  return to_enum(__method__, str) unless block_given?
+  return to_enum(__method__, str, ic) unless block_given?
   return if str.empty?
   yield([str])
   return if str.size == 1
