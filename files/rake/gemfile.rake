@@ -17,7 +17,6 @@ file_create 'Gemfile' do |f|
   content += <<~CONTENT if File.file?('.yardopts')
 
     group :development do
-      gem 'prettier', require: false
       gem 'yard', require: false
     end
   CONTENT
