@@ -2,10 +2,8 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-Clear the DNS cache. (May require password.)
-"
-else sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder
-fi
+Clear the DNS cache. (May require password.)" && exit
+
+sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder

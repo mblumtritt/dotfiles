@@ -2,10 +2,8 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-List informatin about the display.
-"
-else system_profiler SPDisplaysDataType
-fi
+List informatin about the display." && exit
+
+system_profiler SPDisplaysDataType

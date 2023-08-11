@@ -20,17 +20,24 @@ dump-path() # show path
 
 mkcd() # create directory and step into
 {
-	mkdir -p "$@" && cd "$@" || return 1
+	mkdir -p "$1" && cd "$1" || return 1
+}
+
+lp() # list projects
+{
+	list-projects "$@" | column -x
 }
 
 cdp() # cd to best matching project directory
 {
-	cd "$(list-projects --top "$@")" || return 1
+	local path="$(list-projects "$1")"
+	[ "$path" = "" ] && { >&2 echo "no matching project - $1" && return 1 }
+	cd "$path"
 }
 
 cde() # cd to best matching project directory
 {
-	cd "$(list-projects --top "$@")" && edit-text .
+	cdp "$1" && edit-text . || return 1
 }
 
 lc() # list commands
@@ -40,16 +47,11 @@ lc() # list commands
 
 \#() # find and execute command with options
 {
-	[ $# = 0 ] && { >&2 echo "command missing" && return 1 }
-	IFS=$'\n' readonly cmds=($(list-commands "$1"))
-	[ ${#cmds[@]} = 0 ] && { >&2 echo "no such command - $1" && return 1 }
-	[ ${#cmds[@]} = 1 ] || {
-		>&2 echo "too many matching commands - $1\nDid you mean one of these?"
-		>&2 IFS=$'\n'; echo "${cmds[*]}" | column -x
-		return 1
-	}
+	[ $# = 0 ] && { list-commands | column -x && return 0 }
+	local cmd="$(list-commands --long "$1")"
+	[ "$cmd" = "" ] && { >&2 echo "no such command - $1" && return 1 }
 	shift
-	${cmds} $@
+	${cmd} $@
 	return $?
 }
 
@@ -71,7 +73,7 @@ npass() # add new password to password-store
 
 browse() # open prefered browser
 {
-	open -a /Applications/Safari.app $@
+	open -a Safari "$@"
 }
 
 git-url() # URL of current project
@@ -130,8 +132,9 @@ git-branch-name() # current branch name
 welcome() # print file content found in welcome dir
 {
 	[[ -o interactive ]] &&
-	[[ "$(tput lines)" -gt 35 ]] &&
-	[[ "$(tput cols)" -gt 50 ]] &&
-	cat $(find $HOME/.local/welcome/*.txt -type f | shuf -n 1) &&
-	echo
+		[[ "$(tput lines)" -gt 35 ]] &&
+		[[ "$(tput cols)" -gt 50 ]] &&
+		cat $(find $HOME/.local/welcome/*.txt -type f | shuf -n 1) &&
+		echo
+	return 0
 }

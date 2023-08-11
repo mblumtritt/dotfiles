@@ -2,18 +2,16 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-Clean system. (May require password.)
-"
-  exit
-fi
+Clean system. (May require password.)" && exit
 
-trap cleanup INT TERM EXIT
+echo '❗️ clean all stuff'
+
 cleanup() {
   trap - INT TERM EXIT
 }
+trap cleanup INT TERM EXIT
 
 while true; do
 	sudo -n true
@@ -21,23 +19,10 @@ while true; do
 	kill -0 "$$" || exit
 done 2>/dev/null &
 
-echo '❗️ clean all stuff'
-
-if type 'brew' >/dev/null 2>&1
-then echo '→ clean brew stuff...' && clean-brew
-fi
-
-if type 'docker' >/dev/null 2>&1
-then echo '→ clean Docker...' && clean-docker
-fi
-
-if type 'npm' >/dev/null 2>&1
-then echo '→ clean NPM...' && clean-npm
-fi
-
-if type 'yarn' >/dev/null 2>&1
-then echo '→ clean Yarn...' && clean-yarn
-fi
+type 'brew' >/dev/null 2>&1 && echo '→ clean brew stuff...' && clean-brew
+type 'docker' >/dev/null 2>&1 && echo '→ clean Docker...' && clean-docker
+type 'npm' >/dev/null 2>&1 && echo '→ clean NPM...' && clean-npm
+type 'yarn' >/dev/null 2>&1 && echo '→ clean Yarn...' && clean-yarn
 
 echo '→ clean gems...' && clean-gems
 echo '→ remove system log files...' && clean-logs

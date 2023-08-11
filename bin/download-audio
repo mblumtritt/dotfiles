@@ -3,19 +3,18 @@
 set -e
 readonly TDIR="$HOME/Downloads"
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/} URL
+[ "$1" = '--help' ] && echo "Usage: ${0##*/} URL
 
-Download a audio or playlist as MP3 from given URL to '$TDIR'.
-"
-elif [ $# = 0 ]
-then (>&2 echo "${0##*/}: URL missing") && exit 1
-else yt-dlp \
+Download a audio or playlist as MP3 from given URL to '$TDIR'." && exit
+
+[ $# = 0 ] && (>&2 echo "${0##*/}: URL missing") && exit 1
+
+mkdir -p "$TDIR"
+cd "$TDIR"
+yt-dlp \
     --extract-audio --audio-format m4a --audio-quality 0 \
     --embed-metadata \
     --embed-thumbnail \
     --concurrent-fragments 8 \
     --geo-bypass \
-    --output "$TDIR/%(playlist_title)s/%(playlist_index)s-%(title)s.%(ext)s" \
     "$@"
-fi

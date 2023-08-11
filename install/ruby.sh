@@ -1,4 +1,5 @@
 #! /bin/sh
+
 set -e
 
 _GEM=$(asdf which gem)

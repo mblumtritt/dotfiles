@@ -1,4 +1,5 @@
 #! /bin/sh
+
 echo 'install: create symlinks'
 set -e
 

@@ -1,9 +1,7 @@
 #! /bin/sh
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-Clean up YARN cache.
-"
-else yarn cache clean --force
-fi
+Clean up YARN cache." && exit
+
+yarn cache clean --force

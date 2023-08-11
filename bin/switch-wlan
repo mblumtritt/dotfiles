@@ -3,20 +3,21 @@
 set -e
 
 case "$1" in
-on|1)
-  networksetup -setairportpower en0 on
-  ;;
-off|0)
-  networksetup -setairportpower en0 off
-  ;;
-reconnect|re)
-  networksetup -setairportpower en0 off
-  networksetup -setairportpower en0 on
-  ;;
-*)
-  echo "Usage: ${0##*/} on|off|re
+(--help|-h|help)
+  echo "Usage: ${0##*/} [on|off|status]
 
-Switch WLAN on, off or reconnect.
-"
+Switch WLAN on/off or return the current status."
+  ;;
+(on|1)
+  networksetup -setairportpower en0 on
+  ;;
+(off|0)
+  networksetup -setairportpower en0 off
+  ;;
+(status|'')
+  echo "State = $(networksetup -getairportpower en0 | grep -oE 'On|Off' | tr '[:upper:]' '[:lower:]')"
+  ;;
+(*)
+  (>&2 echo "${0##*/}: unknown option - $1") && exit 1
   ;;
 esac

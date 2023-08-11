@@ -2,64 +2,52 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/} TERM
+[ "$1" = '--help' ] && echo "Usage: ${0##*/} <OPTION> [TERM]
 
 Print search URL.
 
-options:
+Options:
    -a, --alpha        print Wolfram Alpha search URL
    -d, --dict         print english/german term search URL (Leo)
    -g, --google       print Google search URL (default)
    -h, --github       print GitHub search URL
    -i, --image        print image search URL (Google)
-   -l, --leo          print LeoDictionary search URL
    -p, --perplexity   print Perplexity search URL
    -v, --video        print video search URL (YouTube)
    -w, --wiki         print Wikipedia search URL
-   -y, --youtube      print YouTube search URL
-"
-elif [ $# = 0 ]
-then (>&2 echo "${0##*/}: TERM missing") && exit 1
-else
-  term=''
+   -y, --youtube      print YouTube search URL" && exit
+
+[ $# = 0 ] && (>&2 echo "${0##*/}: OPTION missing") && exit 1
+
+case "$1" in
+(-a|--alpha)
+  url='https://www.wolframalpha.com/input/?i='
+  ;;
+(-d|--dict)
+  url='https://pocket.dict.cc/?s='
+  ;;
+(-g|--google)
   url='https://www.google.de/search?hl=de&as_qdr=all&as_occt=any&num=100&as_q='
+  ;;
+(-h|--github)
+  url='https://github.com/search?q='
+  ;;
+(-i|--image)
+  url='https://www.google.de/search?source=lnms&tbm=isch&sa=X&ei=qWBvVcrKMYWAUa3BgZAF&ved=0CAgQ_AUoAg&biw=1075&bih=728&q='
+  ;;
+(-p|--perplexity)
+  url='https://www.perplexity.ai/search?q='
+  ;;
+(-v|--video|-y|--youtube)
+  url='https://www.youtube.com/results?search_query='
+  ;;
+(-w|--wiki|--wikipedia)
+  url='https://de.wikipedia.org/w/index.php?fulltext=1&search='
+  ;;
+(*)
+  (>&2 echo "${0##*/}: unknonw option - $1") && exit 1
+  ;;
+esac
 
-	for arg in "$@"
-	do
-    case "$arg" in
-    -g|--google)
-      url='https://www.google.de/search?hl=de&as_qdr=all&as_occt=any&num=100&as_q='
-      ;;
-    -i|--image)
-      url='https://www.google.de/search?source=lnms&tbm=isch&sa=X&ei=qWBvVcrKMYWAUa3BgZAF&ved=0CAgQ_AUoAg&biw=1075&bih=728&q='
-      ;;
-    -v|--video|-y|--youtube)
-      url='https://www.youtube.com/results?search_query='
-      ;;
-    -w|--wiki|--wikipedia)
-      url='https://de.wikipedia.org/w/index.php?fulltext=1&search='
-      ;;
-    -a|--alpha)
-      url='https://www.wolframalpha.com/input/?i='
-      ;;
-    -d|--dict|-l|--leo)
-      url='https://pocket.dict.cc/?s='
-      ;;
-    -h|--github)
-      url='https://github.com/search?q='
-      ;;
-    -p|--perplexity)
-      url='https://www.perplexity.ai/search?q='
-      ;;
-    *)
-      if [ "$term" = "" ]
-      then term="$arg"
-      else term="$term $arg"
-      fi
-      ;;
-    esac
-	done
-
-  echo "$url$(echo "$term" | convert-text-uri)"
-fi
+shift
+echo "$url$(echo "$@" | convert-text-uri)"

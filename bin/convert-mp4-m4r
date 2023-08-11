@@ -2,17 +2,14 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/} FILE
+[ "$1" = '--help' ] && echo "Usage: ${0##*/} FILE
 
-Convert MP3 ausio FILE to ringtome M4R.
-"
-elif [ $# = 0 ]
-then (>&2 echo "${0##*/}: FILE missing") && exit 1
-else
-	for file in "$@"
-	do
-    file="${file%.*}"
-		afconvert "$file.mp3" "$file.m4r" -f m4af
-	done
-fi
+Convert MP3 ausio FILE to ringtome M4R." && exit
+
+[ $# = 0 ] && (>&2 echo "${0##*/}: FILE missing") && exit 1
+
+for file in "$@"
+do
+	file="${file%.*}"
+	afconvert "$file.mp3" "$file.m4r" -f m4af
+done

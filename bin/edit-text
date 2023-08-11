@@ -2,19 +2,15 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/} [FILE | NAME]
+[ "$1" = '--help' ] && echo "Usage: ${0##*/} [FILE | NAME]
 
-Edit given FILE or project NAME.
-"
-elif [ $# = 0 ]
-then (>&2 echo "${0##*/}: FILE | NAME missing") && exit 1
-elif [ -e "$1" ]
+Edit given FILE or project NAME." && exit
+
+[ $# = 0 ] && (>&2 echo "${0##*/}: FILE | NAME missing") && exit 1
+
+if [ -e "$1" ]
 then code "$1"
 else
-  PROJECT="$(list-projects --top "$1")"
-  if [ "$PROJECT" = "" ]
-  then (>&2 echo "${0##*/}: no such project - $1") && exit 2
-  else code "$PROJECT"
-  fi
+  PROJECT="$(list-projects "$1")" || (>&2 echo "${0##*/}: no such project - $1" && exit 2)
+  code "$PROJECT"
 fi

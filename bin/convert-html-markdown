@@ -2,10 +2,8 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-Convert HTML from stdin into MARKDOWN to stdout.
-"
-else pandoc --from=html --to=gfm "$@"
-fi
+Convert HTML from stdin into MARKDOWN to stdout." && exit
+
+pandoc --from=html --to=gfm "$@"

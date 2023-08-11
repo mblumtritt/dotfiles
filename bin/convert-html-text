@@ -2,10 +2,8 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-Convert HTML from stdin into plain TEXT to stdout.
-"
-else pandoc --from=html --to=plain "$@"
-fi
+Convert HTML from stdin into plain TEXT to stdout." && exit
+
+pandoc --from=html --to=plain "$@"

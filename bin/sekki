@@ -130,7 +130,7 @@ when (DATE[7, 29]..DATE[8, 2])
   ]
 when (DATE[8, 3]..DATE[8, 7])
   OUT['大雨時行', 'Taiu tokidoki furu', 'Heavy rains fall.']
-when (DATE[8, 8]..DATE[8, 2])
+when (DATE[8, 8]..DATE[8, 12])
   OUT['涼風至', 'Suzukaze itaru', 'Cool winds blow.']
 when (DATE[8, 13]..DATE[8, 17])
   OUT['寒蝉鳴', 'Higurashi naku', 'Evening cicadas begin to sing.']
@@ -223,5 +223,6 @@ when (DATE[1, 25]..DATE[1, 29])
 when (DATE[1, 30]..DATE[2, 3])
   OUT['鶏始乳', 'Niwatori hajimete toya ni tsuku', 'Hens begin to lay eggs.']
 else
-  DIE["internal error - nothing found for #{MONTH}-#{DAY}"]
+  date = Date.jd(FOR_DATE)
+  DIE["internal error - nothing found for #{date.month}-#{date.day}"]
 end

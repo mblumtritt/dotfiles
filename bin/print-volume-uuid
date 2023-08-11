@@ -2,10 +2,8 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/} <name>
+[ "$1" = '--help' ] && echo "Usage: ${0##*/} <name>
 
-Print UUID of given volume name.
-"
-else diskutil info "$1" | grep 'Disk / Partition UUID:' | sed 's/^.*: *//'
-fi
+Print UUID of given volume name." && exit
+
+diskutil info "$1" | grep 'Disk / Partition UUID:' | sed 's/^.*: *//'

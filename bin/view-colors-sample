@@ -2,16 +2,14 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-View colors.
-"
-else
-	readonly CLEAR=$(tput op)
-	readonly COLS=$(tput cols)
-	for i in {0..255} ; do
-	  printf "$(tput setaf "$i" ; tput setab "$i") %03d $CLEAR" "$i"
-	  { test "$(((i + 1) % (COLS / 5)))" -eq '0' || test "$i" -eq '255'; } && echo
-	done
-fi
+View colors." && exit
+
+CLEAR=$(tput op)
+COLS=$(tput cols)
+
+for i in {0..255} ; do
+	printf "$(tput setaf "$i" ; tput setab "$i") %03d $CLEAR" "$i"
+	{ test "$(((i + 1) % (COLS / 5)))" -eq '0' || test "$i" -eq '255'; } && echo
+done

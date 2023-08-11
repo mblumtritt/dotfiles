@@ -2,14 +2,11 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-Execute given command for each installed ruby version.
-"
-else
-	for ruby in $(asdf list ruby | grep -oE '[0-9]+\.[0-9]+\.[0-9]+'); do
-    echo "• Ruby $ruby"
-		ASDF_RUBY_VERSION="$ruby" asdf exec $@
-	done
-fi
+Execute given command for each installed ruby version." && exit
+
+for ruby in $(asdf list ruby | grep -oE '[0-9]+\.[0-9]+\.[0-9]+'); do
+	echo "• Ruby $ruby"
+	ASDF_RUBY_VERSION="$ruby" asdf exec $@
+done

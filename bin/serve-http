@@ -2,15 +2,12 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/} FILE_NAME [PORT]
+[ "$1" = '--help' ] && echo "Usage: ${0##*/} FILE_NAME [PORT]
 
-Serve FILE_NAME via HTTP.
-"
-elif [ $# = 0 ]
-then (>&2 echo "${0##*/}: FILE_NAME missing") && exit 1
-else
-	while true; do
-		{ echo -e 'HTTP/1.1 200 OK\r\n'; cat "$1"; } | nc -l "${2:-8080}"
-	done
-fi
+Serve FILE_NAME via HTTP." && exit
+
+[ $# = 0 ] && (>&2 echo "${0##*/}: FILE_NAME missing") && exit 1
+
+while true; do
+	{ echo -e 'HTTP/1.1 200 OK\r\n'; cat "$1"; } | nc -l "${2:-8080}"
+done

@@ -1,12 +1,9 @@
 #! /bin/sh
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-Cleanup XCode derived data and archives.
-"
-else
-	rm -rfv ~/Library/Developer/Xcode/DerivedData/* >/dev/null
-	rm -rfv ~/Library/Developer/Xcode/Archives/* >/dev/null
-  rm -rfv ~/Library/Developer/Xcode/iOS Device Logs/* >/dev/null
-fi
+Cleanup XCode derived data and archives." && exit
+
+rm -rfv ~/Library/Developer/Xcode/DerivedData/* >/dev/null
+rm -rfv ~/Library/Developer/Xcode/Archives/* >/dev/null
+rm -rfv ~/Library/Developer/Xcode/iOS Device Logs/* >/dev/null

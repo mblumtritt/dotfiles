@@ -2,12 +2,10 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/} URL
+[ "$1" = '--help' ] && echo "Usage: ${0##*/} URL
 
-Display a file from given URL.
-"
-elif [ $# = 0 ]
-then (>&2 echo "${0##*/}: URL missing") && exit 1
-else curl -sLN "$*"
-fi
+Display a file from given URL." && exit
+
+[ $# = 0 ] && (>&2 echo "${0##*/}: URL missing") && exit 1
+
+curl -sLN $@

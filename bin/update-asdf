@@ -2,13 +2,10 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-Update ASDF and stuff.
-"
-else
-  asdf plugin update --all
-	asdf install nodejs latest
-	asdf install ruby latest
-fi
+Update ASDF and stuff." && exit
+
+asdf plugin update --all
+asdf install nodejs latest
+asdf install ruby latest

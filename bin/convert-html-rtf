@@ -2,10 +2,8 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-Convert HTML from stdin into RTF to stdout.
-"
-else pandoc --from=html --to=rtf "$@"
-fi
+Convert HTML from stdin into RTF to stdout." && exit
+
+pandoc --from=html --to=rtf "$@"

@@ -1,12 +1,8 @@
 #! /bin/sh
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/} [--all]
+[ "$1" = '--help' ] && echo "Usage: ${0##*/} [--all]
 
-Clean up Ruby gems. Option '--all' removes all installed gems,
-"
-  exit
-fi
+Clean up Ruby gems. Option '--all' removes all installed gems." && exit
 
 with_rbenv() {
   for ruby in $(rbenv versions --bare); do
@@ -24,6 +20,6 @@ with_asdf() {
 }
 
 CMD='gem cleanup'
-if [ "$1" = "--all" ]; then CMD='gem uninstall -aIx'; fi
-if type 'rbenv' >/dev/null 2>&1; then with_rbenv "$CMD"; fi
-if type 'asdf' >/dev/null 2>&1; then with_asdf "$CMD"; fi
+[ "$1" = "--all" ] && CMD='gem uninstall -aIx'
+type 'rbenv' >/dev/null 2>&1 && with_rbenv "$CMD"
+type 'asdf' >/dev/null 2>&1 && with_asdf "$CMD"

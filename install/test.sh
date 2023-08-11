@@ -1,4 +1,5 @@
 #! /bin/sh
+
 echo 'install: test if required tools ara avail'
 set -e
 

@@ -2,10 +2,8 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-Convert JSON from stdin into YAML to stdout.
-"
-else ruby --disable-all -rpsych -roj -e'Psych.dump Oj.load(STDIN),STDOUT'
-fi
+Convert JSON from stdin into YAML to stdout." && exit
+
+ruby --disable-all -rpsych -roj -e'Psych.dump Oj.load(STDIN),STDOUT'

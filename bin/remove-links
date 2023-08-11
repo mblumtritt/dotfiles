@@ -1,0 +1,15 @@
+#! /bin/sh
+
+set -e
+
+[ "$1" = '--help' ] &&
+echo "Usage: ${0##*/} PATH
+
+Remove all links from PATH." && exit
+
+[ $# = 0 ] && (>&2 echo "${0##*/}: PATH missing") && exit 1
+[ -d "$1" ] || (>&2 echo "${0##*/}: invalid path - '$1'" && exit 1)
+
+for file in "$1"/*
+do [ -L "$file" ] && rm "$file"
+done

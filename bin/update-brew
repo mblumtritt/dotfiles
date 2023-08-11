@@ -2,14 +2,11 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-Update Homebrew and Homebrew bundles.
-"
-else
-	brew update
-	brew bundle --global
-	brew upgrade
-	brew upgrade --cask
-fi
+Update Homebrew and Homebrew bundles." && exit
+
+brew update
+brew bundle --global
+brew upgrade
+brew upgrade --cask

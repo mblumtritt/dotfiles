@@ -2,10 +2,8 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-Convert TEXT from stdin into URI (WWW form component) to stdout.
-"
-else ruby --disable-all -ruri -e'puts URI.encode_www_form_component STDIN.readlines(chomp:true).join'
-fi
+Convert TEXT from stdin into URI (WWW form component) to stdout." && exit
+
+ruby --disable-all -ruri -e'puts URI.encode_www_form_component STDIN.readlines(chomp:true).join'

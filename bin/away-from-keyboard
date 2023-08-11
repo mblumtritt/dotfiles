@@ -2,10 +2,8 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-Lock the computer now.
-"
-else '/System/Library/CoreServices/Menu Extras/User.menu/Contents/Resources/CGSession' -suspend
-fi
+Lock the computer now." && exit
+
+'/System/Library/CoreServices/Menu Extras/User.menu/Contents/Resources/CGSession' -suspend

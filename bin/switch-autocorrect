@@ -2,16 +2,22 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/} [on|off|status]
+case "$1" in
+(--help|-h|help)
+  echo "Usage: ${0##*/} [on|off|status]
 
-Enable/disable text auto correction or show status.
-"
-elif [ "$1" = 'on' ]
-then defaults write -g NSAutomaticSpellingCorrectionEnabled -bool true
-elif [ "$1" = 'off' ]
-then defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
-else
-  readonly state=$(defaults read -g NSAutomaticSpellingCorrectionEnabled)
-	echo "State = $state"
-fi
+Enable/disable text auto correction or show status."
+  ;;
+(on|1)
+  defaults write -g NSAutomaticSpellingCorrectionEnabled -bool true
+  ;;
+(off|0)
+  defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
+  ;;
+(status|'')
+  echo "State = $(defaults read -g NSAutomaticSpellingCorrectionEnabled)"
+  ;;
+(*)
+  (>&2 echo "${0##*/}: unknown option - $1") && exit 1
+  ;;
+esac

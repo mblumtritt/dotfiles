@@ -1,70 +1,75 @@
 #!/usr/bin/env ruby --disable-all
 # frozen_string_literal: true
 
-ME = File.basename(Process.argv0)
-PEX = ->(*msg) { puts(msg) or exit }
-PEX["#{ME} v0.2.1"] if %w[-v --version].include?(ARGV[0])
-PEX[<<~HELP] if %w[-h --help].include?(ARGV[0])
-  Usage: #{ME} [-l|--long] [<name>] [<dir>]
+case ARGV[0]
+when '-v', '--version'
+  out("#{me} v0.4.0")
+when '-h', '--help'
+  out(<<~HELP)
+    Usage: #{me} [<dir>]
+      Print all commands and their abbreviations found in <dir>.
+      If <dir> is omitted, '~/bin' is used.
 
-  Find commands matching <name> in <dir> and print them to stdout.
-  If <dir> is omitted, '~/bin' is used.
-  If -l or --long is given, the full path to the command is printed.
-HELP
+    Usage: #{me} -f|--find|-l|--long <name> [<dir>]
+      Print command matching <name> in <dir>.
+      If <dir> is omitted, '~/bin' is used.
+      If -l or --long is given, the full path to the command is printed.
 
-LONG = ARGV.delete('-l') || ARGV.delete('--long')
-ERR = ->(msg) { $stderr.puts("#{ME}: #{msg}") or exit(1) }
-ERR['too many arguments'] if ARGV.size > 2
-NAME = ARGV[0]
-DIRNAME = File.expand_path(ARGV[1] || '~/bin')
-ERR["no such directory - #{DIRNAME}"] unless File.directory?(DIRNAME)
-CMDS =
-  Hash[
-    Dir["#{DIRNAME}/*"]
-      .keep_if { |fname| File.executable_real?(fname) }
-      .map! { |fname| [File.basename(fname, '.*'), fname] }
-  ]
+    Usage: #{me} -v|--version
+      Print version information.
 
-PEX[*(LONG ? CMDS.values : CMDS.keys)] if NAME.nil?
-PEX[CMDS[NAME]] if CMDS.key?(NAME)
-
-def find(str, words)
-  found = []
-  each_pat(str) { |pat| found += words.find_all { |w| pat.match?(w) } }
-  return if found.empty?
-  found.uniq!
-  grouped = found.group_by { |w| w.count('-') }
-  grouped.transform_values!(&:sort!)
-  sizes = grouped.keys.sort!
-  min = grouped[sizes[0]]
-  min.size == 1 ? min[0] : sizes.map! { |c| grouped[c] }.flatten
+    Usage: #{me} -h|--help
+      Print this help information.
+  HELP
+when nil
+  arg_path = '~/bin'
+when '-f', '--find', '-l', '--long'
+  arg_name = ARGV[1] || die!('<name> missing')
+  arg_path = ARGV[2] || '~/bin'
+  opt_long = ARGV[0].include?('l')
+  die!('too many arguments') if ARGV.size > 2
+else
+  die!("unknown option - #{ARGV[0]}") if ARGV[0][0] == '-'
+  die!('too many arguments') if ARGV.size != 1
+  arg_path = ARGV[0]
 end
 
-def each_pat(str)
-  matrix(str)
-    .sort do |a, b|
-      next b.map(&:size) <=> a.map(&:size) if a.size == b.size
-      ret = b.max_by(&:size).size <=> a.max_by(&:size).size
-      ret.zero? ? a.size <=> b.size : ret
-    end
-    .tap { |m| m.pop if m.size > 1 }
-    .each do |e|
-      yield(Regexp.new("^#{e.map { |s| "#{Regexp.escape(s)}\\w*" }.join('-')}"))
-    end
-end
+BEGIN {
+  def me = File.basename(Process.argv0)
+  def out(msg) = (puts(msg) or exit)
+  def die!(msg, code: 1) = ($stderr.puts("#{me}: #{msg}") or exit(code))
+}
 
-def matrix(str, ic = false)
-  return to_enum(__method__, str, ic) unless block_given?
-  return if str.empty?
-  yield([str])
-  return if str.size == 1
-  1.upto(str.size - 1) do |i|
-    left = str[0, i]
-    right = str[i, str.size - i]
-    matrix(right, true) { |ary| yield(ary.unshift(left)) }
+IO.pipe do |in_read, in_write|
+  if arg_name
+    IO.popen(
+      "word-abbrev '#{arg_name}'",
+      in: in_read,
+      err: %i[child out]
+    ) do |stream|
+      fmap = {}
+      Dir.glob("#{File.expand_path(arg_path)}/*") do |fname|
+        next unless File.executable_real?(fname)
+        name = File.basename(fname, '.*')
+        fmap[name] = fname
+        in_write.puts(name)
+      end
+      in_write.close
+      found = stream.readline(chomp: true)
+      out(opt_long ? fmap[found] : found)
+    rescue EOFError
+      exit(1)
+    end
   end
-  yield(str.chars) unless ic
-end
 
-FOUND = find(NAME, CMDS.keys) || exit
-puts(*(LONG ? CMDS.values_at(*FOUND) : FOUND))
+  IO.popen('word-abbrev', in: in_read, err: %i[child out]) do |stream|
+    Dir.glob("#{File.expand_path(arg_path)}/*") do |fname|
+      next unless File.executable_real?(fname)
+      in_write.puts(File.basename(fname, '.*'))
+    end
+    in_write.close
+    IO.copy_stream(stream, $stdout)
+  end
+rescue Errno::ENOENT
+  die!('command not found - word-abbrev', code: 2)
+end

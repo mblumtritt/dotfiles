@@ -1,43 +1,62 @@
 #!/usr/bin/env ruby --disable-all
 # frozen_string_literal: true
 
-puts(<<~HELP) or exit if ARGV.include?('-h') || ARGV.include?('--help')
-  Usage: list-projects [<options>] <name>
+out("#{me} v0.4.0") if %w[-v --version].include?(ARGV[0])
+out(<<~HELP) if %w[-h --help].include?(ARGV[0])
+  Usage: #{me}
+    Print all project directories and their abbrevations.
 
-  Options:
-    -h, --help  show this help
-    -t, --top   print first matching project only
+  Usage: #{me} <name>
+    Print project directory matching <name>.
 
-  List all projects matching NAME shortcut.
+  Usage: #{me} -v|--version
+    Print version information.
+
+  Usage: #{me} -h|--help
+    Print this help information.
 HELP
 
-TOP = ARGV.delete('-t') || ARGV.delete('--top')
-ERR = ->(msg) { $stderr.puts("list-projects: #{msg}") or exit(1) }
-NORM = ->(str) { str.downcase.tr('-._', '') }
-NAME = NORM[ARGV[0] || ERR['argument <name> missing']]
-FOUND =
+BEGIN {
+  def me = File.basename(Process.argv0)
+  def out(msg) = (puts(msg) or exit)
+}
+def die!(msg, code: 1) = ($stderr.puts("#{me}: #{msg}") or exit(code))
+die!('too many arguments') if ARGV.size > 1
+
+def with_word_abbrev(input, arg = nil)
+  arg = " '#{arg}'" if arg
+  IO.pipe do |in_read, in_write|
+    IO.popen("word-abbrev#{arg}", in: in_read, err: %i[child out]) do |stream|
+      in_write.puts(input)
+      in_write.close
+      yield(stream)
+    end
+  rescue Errno::ENOENT
+    die!('command not found - word-abbrev', code: 2)
+  end
+end
+
+projects =
   begin
-    map = Hash.new { |h, k| h[k] = [] }
-    File.foreach(File.expand_path('~/.list-projects')) do |name|
-      name.strip!
-      next if name.empty? || name.start_with?('#')
-      name = File.expand_path(name)
-      next unless File.directory?(name)
-      Dir.glob("#{name}/*") do |file_name|
-        next unless File.directory?(file_name)
-        map[NORM[File.basename(file_name)]] << file_name
+    ret = {}
+    prj_dir = "#{File.expand_path('~/prj')}/"
+    Dir.glob("#{prj_dir}*") do |tdir|
+      next unless File.directory?(tdir)
+      Dir.glob("#{tdir}/*") do |sdir|
+        next unless File.directory?(sdir)
+        short = sdir.delete_prefix(prj_dir).tr('/', '-')
+        ret[short] = sdir unless short.include?('--')
       end
     end
-    map
-      .keys
-      .find_all { |key| key.index(NAME) }
-      .sort_by! { |key| key.size - NAME.size }
-      .map! { |key| map[key] }
-      .flatten
-      .uniq
-  rescue Errno::ENOENT
-    ERR['configuration not found - ~/.list-projects']
+    ret
   end
 
-exit(1) if FOUND.empty?
-TOP ? puts(FOUND[0]) : FOUND.each { |f| puts f }
+if ARGV.empty?
+  with_word_abbrev(projects.keys) { |stream| IO.copy_stream(stream, $stdout) }
+else
+  with_word_abbrev(projects.keys, ARGV[0]) do |stream|
+    out(projects[stream.readline(chomp: true)])
+  rescue EOFError
+    exit(1)
+  end
+end

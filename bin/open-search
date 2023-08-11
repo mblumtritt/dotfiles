@@ -1,0 +1,13 @@
+#! /bin/sh
+
+set -e
+
+[ "$1" = '--help' ] && echo "Usage: ${0##*/} <ENGINE> TERM
+
+Open search ENGINE with TERM." && exit
+
+[ $# = 0 ] && (>&2 echo "${0##*/}: OPTION missing") && exit 1
+[ $# -lt 2 ] && (>&2 echo "${0##*/}: TERM missing") && exit 1
+
+url="$(print-search-url "$@")" || exit $?
+open "$url"

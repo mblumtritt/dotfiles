@@ -2,12 +2,35 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/} [on|off]
+[ "$1" = '--help' ] &&  echo "Usage: ${0##*/} [on|off]
 
-Enable/disable background process throddeling (May require password.)
-"
-elif [ "$1" = 'off' ]
-then sudo sysctl debug.lowpri_throttle_enabled=0
-else sudo sysctl debug.lowpri_throttle_enabled=1
+" && exit
+
+if [ "$1" = 'off' ]
+then
+else
 fi
+
+#! /bin/sh
+
+set -e
+
+case "$1" in
+(--help|-h|help)
+  echo "Usage: ${0##*/} [on|off]
+
+Enable/disable background process throddeling (May require password.)"
+  ;;
+(on|1)
+  sudo sysctl debug.lowpri_throttle_enabled=0
+  ;;
+(off|0)
+  sudo sysctl debug.lowpri_throttle_enabled=1
+  ;;
+('')
+  (>&2 echo "${0##*/}: option missing") && exit 1
+  ;;
+(*)
+  (>&2 echo "${0##*/}: unknown option - $1") && exit 1
+  ;;
+esac

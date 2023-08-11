@@ -2,10 +2,8 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-List downloaded apps from AppStore.
-"
-else mdfind kMDItemAppStoreHasReceipt=1
-fi
+List downloaded apps from AppStore." && exit
+
+mdfind kMDItemAppStoreHasReceipt=1

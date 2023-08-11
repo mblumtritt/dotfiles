@@ -2,10 +2,8 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-Watch StarWars in ASCII from blinkenlights.nl
-"
-else ncat towel.blinkenlights.nl 23
-fi
+Watch StarWars in ASCII from blinkenlights.nl." && exit
+
+ncat towel.blinkenlights.nl 23

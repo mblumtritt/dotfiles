@@ -2,16 +2,22 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/} [on|off|status]
+case "$1" in
+(--help|-h|help)
+  echo "Usage: ${0##*/} [on|off|status]
 
-Enable/disable infrared receiver or show status.
-"
-elif [ "$1" = 'on' ]
-then defaults write /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled -int 1
-elif [ "$1" = 'off' ]
-then defaults write /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled -int 0
-else
-  readonly state=$(defaults read /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled)
-  echo "State = $state"
-fi
+Enable/disable infrared receiver or show status (default)."
+  ;;
+(on|1)
+  defaults write /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled -int 1
+  ;;
+(off|0)
+  defaults write /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled -int 0
+  ;;
+(status|'')
+  echo "State = $(defaults read /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled)"
+  ;;
+(*)
+  (>&2 echo "${0##*/}: unknown option - $1") && exit 1
+  ;;
+esac

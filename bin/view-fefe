@@ -2,10 +2,8 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-Displays Fefes blog.
-"
-else fetch-web https://blog.fefe.de | convert-html-text | less
-fi
+Displays Fefes blog." && exit
+
+fetch-web https://blog.fefe.de | convert-html-text | less

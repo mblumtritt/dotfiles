@@ -3,17 +3,12 @@
 set -e
 readonly TDIR="$HOME/Downloads"
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/} URL
+[ "$1" = '--help' ] && echo "Usage: ${0##*/} URL
 
-Download a file from given URL to '$TDIR'.
-"
-  exit 0
-elif [ $# = 0 ]
-then (>&2 echo "${0##*/}: URL missing") && exit 1
-else
-  trap 'exit 130' INT HUP TERM
-  mkdir -p "$TDIR"
-  cd "$TDIR"
-  curl -sLNO "$@"
-fi
+Download a file from given URL to '$TDIR'." && exit
+
+[ $# = 0 ] && (>&2 echo "${0##*/}: URL missing") && exit 1
+
+mkdir -p "$TDIR"
+cd "$TDIR"
+curl -sLNO "$@"

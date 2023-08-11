@@ -2,10 +2,8 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-Ejects all removeable disks.
-"
-else osascript -e 'tell application "Finder" to eject (every disk whose ejectable is true)'
-fi
+Ejects all removeable disks." && exit
+
+osascript -e 'tell application "Finder" to eject (every disk whose ejectable is true)'

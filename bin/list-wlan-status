@@ -2,10 +2,8 @@
 
 set -e
 
-if [ "$1" = '--help' ]
-then echo "Usage: ${0##*/}
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
 
-List information about current WLAN connection.
-"
-else /System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport -I
-fi
+List information about current WLAN connection." && exit
+
+/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport -I

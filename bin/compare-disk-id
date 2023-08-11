@@ -2,19 +2,18 @@
 
 set -e
 
-if [ "$1" = '--help' ] || [ "$1" = '' ]
-then echo "Usage: ${0##*/} NAME
+[ "$1" = '--help' ]  && echo "Usage: ${0##*/} NAME
 
-Checks if disk NAME is the correct one.
-"
-else
-   # check partition UUID against regsitered id (stored in pass)
-   if [ "$(print-disk-uuid "$1")" = "$(print-system-secret "$1")" ]
-   then
-      # test if really mounted
-      if [ -f "/Volumes/$1/.fseventsd/fseventsd-uuid" ]
-      then exit 0
-      fi
+Checks if disk NAME is the correct one." && exit
+
+[ $# = 0 ] && (>&2 echo "${0##*/}: NAME missing") && exit 1
+
+# check partition UUID against regsitered id (stored in pass)
+if [ "$(print-disk-uuid "$1")" = "$(print-system-secret "$1")" ]
+then
+   # test if really mounted
+   if [ -f "/Volumes/$1/.fseventsd/fseventsd-uuid" ]
+   then exit 0
    fi
-   exit 1
 fi
+exit 1
