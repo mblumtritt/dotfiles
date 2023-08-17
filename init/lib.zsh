@@ -1,51 +1,37 @@
-h() # find in history
-{
-	history 0 | grep "$1"
-}
+# find in history
+h() { history 0 | grep "$1"}
 
-f() # find file
-{
-	find . -iname "*$1*" "${@:2}"
-}
+# find file
+f() { find . -iname "*$1*" "${@:2}" }
 
-ff() # find file containing
-{
-	grep "$1" "${@:2}" -R .
-}
+# find file containing
+ff() { grep "$1" "${@:2}" -R . }
 
-dump-path() # show path
-{
-	print -l ${(s.:.)PATH}
-}
+# show path
+dump-path() { print -l ${(s.:.)PATH} }
 
-mkcd() # create directory and step into
-{
-	mkdir -p "$1" && cd "$1" || return 1
-}
+# create directory and step into
+mkcd() { mkdir -p "$1" && cd "$1" || return 1 }
 
-lp() # list projects
-{
-	list-projects "$@" | column -x
-}
+# list projects
+lp() { list-projects "$@" | column -x }
 
-cdp() # cd to best matching project directory
+# cd to best matching project directory
+cdp()
 {
 	local path="$(list-projects "$1")"
 	[ "$path" = "" ] && { >&2 echo "no matching project - $1" && return 1 }
 	cd "$path"
 }
 
-cde() # cd to best matching project directory
-{
-	cdp "$1" && edit-text . || return 1
-}
+# cd to best matching project directory
+cde() { cdp "$1" && edit-text . || return 1 }
 
-lc() # list commands
-{
-	list-commands "$@" | column -x
-}
+# list commands
+lc() { list-commands "$@" | column -x }
 
-\#() # find and execute command with options
+# find and execute command with options
+\#()
 {
 	[ $# = 0 ] && { list-commands | column -x && return 0 }
 	local cmd="$(list-commands --long "$1")"
@@ -55,38 +41,42 @@ lc() # list commands
 	return $?
 }
 
-fae_completion() {
-	readonly cmds=( $(list-commands) )
-	compadd -a cmds
+cdp_completion()
+{
+	local prjs=( $(list-projects) )
+	compadd -o nosort -a prjs
 }
+
+fae_completion()
+{
+	local cmds=( $(list-commands) )
+	compadd -o nosort -a cmds
+}
+compdef cdp_completion cdp
 compdef fae_completion \#
 
-npass() # add new password to password-store
+# add new password to password-store
+npass()
 {
 	[ $# = 0 ] && { >&2 echo "pass-name missing" && return 1 }
-	readonly name="$1"
+	local name="$1"
 	shift
 	{
 		[ $# = 0 ] && { generate-password } || { echo "$@" }
 	} | pass insert -e "$name"
 }
 
-browse() # open prefered browser
-{
-	open -a Safari "$@"
-}
+# open prefered browser
+browse() { open -a Safari "$@" }
 
-git-url() # URL of current project
-{
-	echo ${$(git remote get-url origin)/.git/$nop}
-}
+# URL of current project
+git-url() { echo ${$(git remote get-url origin)/.git/$nop} }
 
-git-branch-name() # current branch name
-{
-	basename "$(git symbolic-ref HEAD)"
-}
+# current branch name
+git-branch-name() { basename "$(git symbolic-ref HEAD)" }
 
-@gh() # GitHub command
+# GitHub command
+@gh()
 {
 	case "$1" in
 	(-h|--help)
@@ -124,17 +114,19 @@ git-branch-name() # current branch name
 	esac
 }
 
-@tr() # lookup in GE/EN dictionary
-{
-  fetch-web "$(print-search-url --dict "$@")" | convert-html-text | less
-}
+# lookup in GE/EN dictionary
+@tr() { fetch-web "$(print-search-url --dict "$@")" | convert-html-text | less }
 
-welcome() # print file content found in welcome dir
+# show random ASCII art
+apic() { cat $(find $HOME/.local/apic/*.txt -type f | shuf -n 1) && echo }
+
+# print welcome message
+welcome()
 {
-	[[ -o interactive ]] &&
+	{
+		[[ -o interactive ]] &&
 		[[ "$(tput lines)" -gt 35 ]] &&
-		[[ "$(tput cols)" -gt 50 ]] &&
-		cat $(find $HOME/.local/welcome/*.txt -type f | shuf -n 1) &&
-		echo
+		[[ "$(tput cols)" -gt 50 ]]
+	} && apic || date +"=== %d.%m.%Y, %H:%M ==="
 	return 0
 }

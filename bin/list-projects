@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby --disable-all
 # frozen_string_literal: true
 
-out("#{me} v0.4.0") if %w[-v --version].include?(ARGV[0])
+out("#{me} v0.4.1") if %w[-v --version].include?(ARGV[0])
 out(<<~HELP) if %w[-h --help].include?(ARGV[0])
-  Usage: #{me}
+  Usage: #{me} [-a|--abbrev]
     Print all project directories and their abbrevations.
 
   Usage: #{me} <name>
@@ -19,11 +19,13 @@ HELP
 BEGIN {
   def me = File.basename(Process.argv0)
   def out(msg) = (puts(msg) or exit)
+  def die!(msg, code: 1) = ($stderr.puts("#{me}: #{msg}") or exit(code))
 }
-def die!(msg, code: 1) = ($stderr.puts("#{me}: #{msg}") or exit(code))
+
+arg_list = '--list' if %w[-a --abbrev].include?(ARGV[0]) && ARGV.shift
 die!('too many arguments') if ARGV.size > 1
 
-def with_word_abbrev(input, arg = nil)
+def with_word_abbrev(input, arg)
   arg = " '#{arg}'" if arg
   IO.pipe do |in_read, in_write|
     IO.popen("word-abbrev#{arg}", in: in_read, err: %i[child out]) do |stream|
@@ -52,7 +54,9 @@ projects =
   end
 
 if ARGV.empty?
-  with_word_abbrev(projects.keys) { |stream| IO.copy_stream(stream, $stdout) }
+  with_word_abbrev(projects.keys, arg_list) do |stream|
+    IO.copy_stream(stream, $stdout)
+  end
 else
   with_word_abbrev(projects.keys, ARGV[0]) do |stream|
     out(projects[stream.readline(chomp: true)])

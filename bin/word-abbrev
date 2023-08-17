@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby --disable-all
 # frozen_string_literal: true
 
-out("#{me} v0.1.0") if %w[-v --version].include?(ARGV[0])
+out("#{me} v0.1.1") if %w[-v --version].include?(ARGV[0])
 out(<<~HELP) if %w[-h --help].include?(ARGV[0])
   Usage: #{me}
     Read wordlist from $stdin and print all words and abbreviations.
 
-  Usage: #{me} -a|--abbrev
-    Read wordlist from $stdin and print all abbreviations only.
+  Usage: #{me} -l|--list
+    Read wordlist from $stdin and print all abbreviations list.
 
   Usage: #{me} <word>
     Read wordlist from $stdin and print matching word.
@@ -28,8 +28,8 @@ BEGIN {
 def die!(msg) = ($stderr.puts("#{me}: #{msg}") or exit(1))
 die!('too many arguments') if ARGV.size > 1
 
-ABBREV_ONLY = %w[-a --abbrev].include?(ARGV[0])
-FIND_WORD = (ABBREV_ONLY ? nil : ARGV[0])
+VIEW_LIST = %w[-l --list].include?(ARGV[0])
+FIND_WORD = (VIEW_LIST ? nil : ARGV[0])
 Word = Struct.new(:value, :word_count, :sub)
 
 def read_in
@@ -72,7 +72,7 @@ end
 
 def combine(left, right)
   ret = []
-  left.each { |lp| right.each { |rp| ret << "#{lp}#{rp}" } }
+  left.each { |l| right.each { |r| ret << "#{l}#{r}" } }
   ret
 end
 
@@ -80,10 +80,23 @@ def create_candidates(words)
   abbrevs = create_abbrevs(words)
   ret = Hash.new { |h, k| h[k] = [] }
   words.each do |word|
+    # sub = abbrevs[word.sub.shift]
+    # sub = combine(sub, abbrevs[word.sub.shift]) until word.sub.empty?
+    # word.sub = sub.size
+    # sub.each { |w| ret[w] << word }
+
     sub = abbrevs[word.sub.shift]
-    sub = combine(sub, abbrevs[word.sub.shift]) until word.sub.empty?
-    word.sub = sub.size
-    sub.each { |w| ret[w] << word }
+    if word.sub.empty?
+      sub.each { |w| ret[w] << word }
+      size = sub.size
+    else
+      until word.sub.empty?
+        sub = combine(sub, abbrevs[word.sub.shift])
+        sub.each { |w| ret[w] << word }
+        size = sub.size
+      end
+    end
+    word.sub = size
   end
   ret
 end
@@ -92,8 +105,8 @@ def create_result(words, tabu)
   ret = {}.compare_by_identity
   sort_proc =
     proc do |a, b|
-      c = b.word_count <=> a.word_count
-      next c if ret != 0
+      c = a.word_count <=> b.word_count
+      next c if c != 0
       c = a.sub <=> b.sub
       c == 0 ? a.value <=> b.value : c
     end
@@ -110,8 +123,16 @@ end
 tabu, all_words = read_in
 all_words = create_result(all_words, tabu)
 
-ABBREV_ONLY and out(all_words.keys)
 FIND_WORD and out((all_words[FIND_WORD] || exit(1)).value)
 
-puts(tabu.to_a.sort!)
-all_words.keys.sort!.each { |abbrev| puts(abbrev, all_words[abbrev].value) }
+view =
+  if VIEW_LIST
+    ->(abbrev) { puts("#{all_words[abbrev]&.value || abbrev}: #{abbrev}") }
+  else
+    lambda do |abbrev|
+      puts(abbrev)
+      puts(all_words[abbrev].value) if all_words.key?(abbrev)
+    end
+  end
+
+(all_words.keys + tabu.to_a).sort!.each(&view)

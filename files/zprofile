@@ -1,13 +1,9 @@
 
-try_source() # source file only if file exists
-{
-	[ -f "$1" ] && . $@ || return 1
-}
+# source file only if file exists
+try_source() { [ -f "$1" ] && . $@ || return 1 }
 
-try_call() # execute file only if file exists
-{
-	[ -x "$1" ] && $@ || return 1
-}
+# execute file only if file exists
+try_call() { [ -x "$1" ] && $@ || return 1 }
 
 setopt beep
 

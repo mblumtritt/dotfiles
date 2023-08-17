@@ -4,7 +4,7 @@ set -e
 
 (command -v brew >/dev/null 2>&1) || {
   echo 'install: Homebrew'
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   brew tap homebrew/bundle
   brew bundle --global
 }

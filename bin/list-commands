@@ -3,12 +3,13 @@
 
 case ARGV[0]
 when '-v', '--version'
-  out("#{me} v0.4.0")
+  out("#{me} v0.4.1")
 when '-h', '--help'
   out(<<~HELP)
-    Usage: #{me} [<dir>]
+    Usage: #{me} [-a|--abbrev] [<dir>]
       Print all commands and their abbreviations found in <dir>.
       If <dir> is omitted, '~/bin' is used.
+      If -a or --abbrev is given, the abbrevation assignmend is printed.
 
     Usage: #{me} -f|--find|-l|--long <name> [<dir>]
       Print command matching <name> in <dir>.
@@ -27,6 +28,10 @@ when '-f', '--find', '-l', '--long'
   arg_name = ARGV[1] || die!('<name> missing')
   arg_path = ARGV[2] || '~/bin'
   opt_long = ARGV[0].include?('l')
+  die!('too many arguments') if ARGV.size > 3
+when '-a', '--abbrev'
+  opt_abbrev = true
+  arg_path = ARGV[1] || '~/bin'
   die!('too many arguments') if ARGV.size > 2
 else
   die!("unknown option - #{ARGV[0]}") if ARGV[0][0] == '-'
@@ -62,7 +67,11 @@ IO.pipe do |in_read, in_write|
     end
   end
 
-  IO.popen('word-abbrev', in: in_read, err: %i[child out]) do |stream|
+  IO.popen(
+    "word-abbrev#{' --list' if opt_abbrev}",
+    in: in_read,
+    err: %i[child out]
+  ) do |stream|
     Dir.glob("#{File.expand_path(arg_path)}/*") do |fname|
       next unless File.executable_real?(fname)
       in_write.puts(File.basename(fname, '.*'))
