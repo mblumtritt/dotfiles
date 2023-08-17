@@ -1,9 +1,0 @@
-#! /bin/sh
-
-set -e
-
-[ "$1" = '--help' ] && echo "Usage: ${0##*/}
-
-Lock the computer now." && exit
-
-'/System/Library/CoreServices/Menu Extras/User.menu/Contents/Resources/CGSession' -suspend
