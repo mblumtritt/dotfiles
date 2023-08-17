@@ -30,6 +30,18 @@ cde() { cdp "$1" && edit-text . || return 1 }
 # list commands
 lc() { list-commands "$@" | column -x }
 
+# export AWS related environment variables
+aws-env()
+{
+	source "$HOME/.local/dotfiles/init/aws-export"
+}
+
+# renew AWS session
+aws-renew()
+{
+	"$HOME/.local/dotfiles/init/aws-renew" "$1" && aws-env
+}
+
 # find and execute command with options
 \#()
 {

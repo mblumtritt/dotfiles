@@ -23,9 +23,4 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 export BAT_THEME='base16'
 export PATH="$HOME/bin:$BREW_PATH/bin:$BREW_PATH/sbin:$PATH"
 
-AWS_ACCESS_KEY_ID=$(awk -F "=" '/aws_access_key_id/ {print $2}' "$HOME/.aws/credentials" |tail -1 | xargs)
-AWS_SECRET_ACCESS_KEY=$(awk -F "=" '/aws_secret_access_key/ {print $2}' "$HOME/.aws/credentials" |tail -1 | xargs)
-AWS_SESSION_TOKEN=$(awk -F "=" '/aws_session_token/ {print $2}' "$HOME/.aws/credentials" |tail -1 | xargs)
-export AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN
-
 try_source "$BREW_PATH/opt/asdf/libexec/asdf.sh"
