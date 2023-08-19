@@ -11,6 +11,7 @@ Renew AWS session." && exit
 readonly MFA_USER="mike.blumtritt"
 readonly MFA_TOKEN="$1"
 readonly MFA_PROFILE="${2:-default}"
+
 MFA_CALLER_ID=$(aws sts get-caller-identity --profile "${MFA_USER}" | jq -r '.Arn | split("/")[1]')
 MFA_DEVICES=$(aws iam list-mfa-devices --profile "${MFA_USER}" --user-name "${MFA_CALLER_ID}")
 MFA_SERIAL_NUMBER=$(echo "${MFA_DEVICES}"| jq -r '.MFADevices[0].SerialNumber')

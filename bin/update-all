@@ -8,8 +8,8 @@ Update System, Homebrew, Homebrew bundles, ASDF and Ruby gems.
 (May require password.)" && exit
 
 if ! [ "$1" = '-s' ] && ! [ "$1" = '--no-system' ]
-then echo '→ update system stuff' && update-system
+then echo '🆙 update system stuff' && update-system
 fi
-echo '→ update Brew stuff' && update-brew
-echo '→ update ASDF stuff' && update-asdf
-echo '→ update Ruby stuff' && update-ruby
+echo '🆙 update Brew stuff' && update-brew
+echo '🆙 update ASDF stuff' && update-asdf
+echo '🆙 update Ruby stuff' && update-ruby

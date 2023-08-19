@@ -139,6 +139,6 @@ welcome()
 		[[ -o interactive ]] &&
 		[[ "$(tput lines)" -gt 35 ]] &&
 		[[ "$(tput cols)" -gt 50 ]]
-	} && apic || date +"=== %d.%m.%Y, %H:%M ==="
+	} && apic || date +"=== $(sekki), %d.%m.%Y, %H:%M ==="
 	return 0
 }
