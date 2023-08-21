@@ -36,7 +36,20 @@ link_files()
   done
 }
 
+link_file_to()
+{
+  _source="$1"
+  _target="$2"
+  _target_dir="$(dirname "$_target")"
+
+  [ -d "$_target_dir" ] || return 0
+  echo "   link '$_target'"
+  ln -sf "$_source" "$_target"
+}
+
 link_files "$HOME/.local/dotfiles/files" "$HOME" "."
 link_files "$HOME/.local/dotfiles/init" "$HOME/.local/init"
 link_files "$HOME/.local/dotfiles/bin" "$HOME/bin"
 ln -sf "$HOME/.local/dotfiles/apic" "$HOME/.local"
+
+link_file_to "$HOME/.local/dotfiles/files/vscode-settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
