@@ -30,8 +30,10 @@ cde() { cdp "$1" && edit-text . || return 1 }
 # completion for cdp
 _cdp()
 {
-	local prjs=( $(list-projects --abbrev) )
-	(( CURRENT == 2 )) && _describe -t prjs 'commands' prjs
+	(( CURRENT == 2 )) && {
+		local prjs=( $(list-projects --abbrev) )
+		_describe -t prjs 'commands' prjs
+	}
 	return 0
 }
 compdef _cdp cdp cde
@@ -65,8 +67,10 @@ aws-renew()
 # completion for #
 _fae()
 {
-	local cmds=( $(list-commands --abbrev) )
-	(( CURRENT == 2 )) && _describe -t cmds 'commands' cmds
+	(( CURRENT == 2 )) &&{
+		local cmds=( $(list-commands --abbrev) )
+		_describe -t cmds 'commands' cmds
+	}
 	return 0
 }
 compdef _fae \#
@@ -95,40 +99,45 @@ git-branch-name() { basename "$(git symbolic-ref HEAD)" }
 @gh()
 {
 	case "$1" in
-	(-h|--help)
-		cat <<- HELP
-			Options:
-			<name>   open branch <name>
-			-b       open current branch
-			-pr      open pull requests
-			-pc      open pull request for current branch
-			-pn      create pull request for current branch
-			-px      open pull request #x
-		HELP
-		;;
-	(-b)
-		browse "$(git-url)/tree/$(git-branch-name)"
-		;;
-	(-pr)
-		browse "$(git-url)/pulls"
-		;;
-	(-pc)
-		browse "$(git-url)/pull/$(git-branch-name)"
-		;;
-	(-pn)
-		browse "$(git-url)/pull/new/$(git-branch-name)"
-		;;
-	(-px)
-		browse "$(git-url)/pull/$2"
-		;;
 	('')
 		browse "$(git-url)"
 	;;
+	(branch)
+		browse "$(git-url)/tree/$(git-branch-name)"
+		;;
+	(create)
+		browse "$(git-url)/pull/new/$(git-branch-name)"
+		;;
+	(current)
+		browse "$(git-url)/pull/$(git-branch-name)"
+		;;
+	(index)
+		browse "$(git-url)/pulls"
+		;;
+	# (-px)
+	# 	browse "$(git-url)/pull/$2"
+	# 	;;
 	(*)
 		browse "$(git-url)/tree/$1"
 		;;
 	esac
 }
+
+_gh()
+{
+	(( CURRENT == 2 )) &&{
+		local -a commands
+  	commands=(
+    	'branch:open current branch'
+    	'create:create a pull request for current branch'
+    	'current:open pull request for current branch'
+    	'index:open pull request index'
+  	)
+		_describe -t commands 'commands' commands
+	}
+	return 0
+}
+compdef _gh @gh
 
 # lookup in GE/EN dictionary
 @tr() { fetch-web "$(print-search-url --dict "$@")" | convert-html-text | less }
