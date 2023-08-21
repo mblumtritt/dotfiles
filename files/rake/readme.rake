@@ -25,16 +25,10 @@ file_create 'README.md' do |f|
     ```
 
     You can use [Bundler](http://gembundler.com/) to add #{Prj.module}
-    to your own project. Add to in your project's `Gemfile`
-
-    ```ruby
-    gem '#{Prj.name}'
-    ```
-
-    and install it by running Bundler
+    to your own project:
 
     ```shell
-    bundle
+    bundle add '#{Prj.name}'
     ```
 
     After that you only need one line of code to have everything together
