@@ -127,7 +127,7 @@ FIND_WORD and out((all_words[FIND_WORD] || exit(1)).value)
 
 view =
   if VIEW_LIST
-    ->(abbrev) { puts("#{abbrev}: #{all_words[abbrev]&.value || abbrev}") }
+    ->(abbrev) { puts("#{abbrev}:#{all_words[abbrev]&.value || abbrev}") }
   else
     lambda do |abbrev|
       puts(abbrev)

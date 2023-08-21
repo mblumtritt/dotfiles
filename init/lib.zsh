@@ -55,14 +55,16 @@ aws-renew()
 
 cdp_completion()
 {
-	local prjs=( $(list-projects) )
-	compadd -o nosort -a prjs
+	local prjs=( $(list-projects --abbrev) )
+	(( CURRENT == 2 )) && _describe -t prjs 'commands' prjs
+	return 0
 }
 
 fae_completion()
 {
-	local cmds=( $(list-commands) )
-	compadd -o nosort -a cmds
+	local cmds=( $(list-commands --abbrev) )
+	(( CURRENT == 2 )) && _describe -t cmds 'commands' cmds
+	return 0
 }
 compdef cdp_completion cdp
 compdef fae_completion \#
