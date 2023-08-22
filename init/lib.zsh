@@ -96,7 +96,7 @@ git-url() { echo ${$(git remote get-url origin)/.git/$nop} }
 git-branch-name() { basename "$(git symbolic-ref HEAD)" }
 
 # GitHub command
-@gh()
+gh()
 {
 	case "$1" in
 	('')
@@ -137,7 +137,7 @@ _gh()
 	}
 	return 0
 }
-compdef _gh @gh
+compdef _gh gh
 
 # lookup in GE/EN dictionary
 @tr() { fetch-web "$(print-search-url --dict "$@")" | convert-html-text | less }
