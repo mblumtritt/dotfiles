@@ -43,6 +43,7 @@ link_file_to()
   _target_dir="$(dirname "$_target")"
 
   [ -d "$_target_dir" ] || return 0
+  [ "$(readlink "$_target")" = "$_source" ] && return 0
   echo "   link '$_target'"
   ln -sf "$_source" "$_target"
 }
