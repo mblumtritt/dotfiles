@@ -1,0 +1,14 @@
+#! /bin/sh
+
+[ "$1" = '--help' ] && echo "Usage: ${0##*/}
+
+Ensure that Docker is started." && exit
+
+(command -v docker >/dev/null 2>&1) || {
+  (>&2 echo "${0##*/}: Docker not installed") && exit 1
+}
+
+open --background -a Docker
+while [ -z "$(! docker stats --no-stream 2> /dev/null)" ]
+do sleep 1
+done

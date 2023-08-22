@@ -4,8 +4,7 @@
 
 Clean up Docker stuff." && exit
 
-docker ps >/dev/null 2>&1 || open --background -a Docker
-
+start-docker
 docker image prune -f
 docker container prune -f
 docker volume prune -f
