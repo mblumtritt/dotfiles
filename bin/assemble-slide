@@ -1,0 +1,30 @@
+#! /bin/sh
+
+set -e
+
+[ "$1" = '--help' ] && echo "Usage: ${0##*/} [-d|--draft] SOURCE ...
+
+Assemble reveal.js slide from SOURCE." && exit
+
+die() {
+  (>&2 echo "${0##*/}: $1")
+  exit 1
+}
+
+if [ "$1" = "-d" ] || [ "$1" = "--draft" ]
+then
+  shift
+  ARGS=""
+else
+  ARGS=" --embed-resources"
+fi
+[ $# = 0 ] && die 'SOURCE name missing'
+(command -v pandoc >/dev/null 2>&1) || die 'pandoc not installed'
+[ -d "$HOME/.local/share/pandoc/reveal" ] || die 'reveal not installed'
+ARGS="-V revealjs-url:"$HOME/.local/share/pandoc/reveal"$ARGS"
+
+for SOURCE in "$@"
+do
+  [ -f "$SOURCE" ] || die "file not found - $SOURCE"
+  pandoc -t revealjs  -s "$SOURCE" -o "${SOURCE%.*}.html" "$ARGS"
+done
