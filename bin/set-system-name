@@ -6,7 +6,6 @@ set -e
 
 Set system NAME. (May require password.)" && exit
 
-
 [ $# = 0 ] && (>&2 echo "${0##*/}: NAME missing") && exit 1
 
 readonly NAME="$*"
