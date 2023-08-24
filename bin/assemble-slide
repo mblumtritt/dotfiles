@@ -16,15 +16,14 @@ then
   shift
   ARGS=""
 else
-  ARGS=" --embed-resources"
+  ARGS="--embed-resources"
 fi
 [ $# = 0 ] && die 'SOURCE name missing'
 (command -v pandoc >/dev/null 2>&1) || die 'pandoc not installed'
 [ -d "$HOME/.local/share/pandoc/reveal" ] || die 'reveal not installed'
-ARGS="-V revealjs-url:"$HOME/.local/share/pandoc/reveal"$ARGS"
 
 for SOURCE in "$@"
 do
   [ -f "$SOURCE" ] || die "file not found - $SOURCE"
-  pandoc -t revealjs  -s "$SOURCE" -o "${SOURCE%.*}.html" "$ARGS"
+  pandoc -t revealjs  -s "$SOURCE" -o "${SOURCE%.*}.html" -V revealjs-url:"$HOME/.local/share/pandoc/reveal" "$ARGS"
 done

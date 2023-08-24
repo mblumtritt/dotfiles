@@ -20,4 +20,5 @@ set -e
   mv "$_REV_DIR/reveal.js-master/plugin" "$_REV_DIR/plugin"
   rm "$_REV_DIR/latest.zip"
   rm -rf "$_REV_DIR/reveal.js-master"
+  ln -sf "$HOME/.local/dotfiles/assets/reveal/default.css" "$_REV_DIR/dist/theme"
 }
