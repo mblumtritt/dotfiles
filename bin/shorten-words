@@ -3,21 +3,18 @@
 
 out("#{me} v0.2.0") if %w[-v --version].include?(ARGV[0])
 out(<<~HELP) if %w[-h --help].include?(ARGV[0])
-  Usage: #{me}
-    Read wordlist from $stdin and print all words and abbreviations.
+  Usage: #{me} [<option> | <word>]
 
-  Usage: #{me} -l|--list
-    Read wordlist from $stdin and print all abbreviations list.
+  Without any arguments, a wordlist is read from $stdin and print all words and
+  abbreviations.
 
-  Usage: #{me} <word>
-    Read wordlist from $stdin and print matching word.
-    Eixts with errorcode 1 when no matching word was found.
+  If a <word> is given, the wordlist is read from $stdin and print matching word.
+  Eixts with errorcode 1 when no matching word was found.
 
-  Usage: #{me} -v|--version
-    Print version information.
-
-  Usage: #{me} -h|--help
-    Print this help information.
+  Options:
+    -l, --list      Read wordlist from $stdin and print all abbreviations list.
+    -v, --version   Print version information.
+    -h, --help      Print this help information.
 HELP
 
 BEGIN {

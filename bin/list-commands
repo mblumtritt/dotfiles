@@ -48,7 +48,7 @@ BEGIN {
 IO.pipe do |in_read, in_write|
   if arg_name
     IO.popen(
-      "word-abbrev '#{arg_name}'",
+      "shorten-words '#{arg_name}'",
       in: in_read,
       err: %i[child out]
     ) do |stream|
@@ -68,7 +68,7 @@ IO.pipe do |in_read, in_write|
   end
 
   IO.popen(
-    "word-abbrev#{' --list' if opt_abbrev}",
+    "shorten-words#{' --list' if opt_abbrev}",
     in: in_read,
     err: %i[child out]
   ) do |stream|
@@ -80,5 +80,5 @@ IO.pipe do |in_read, in_write|
     IO.copy_stream(stream, $stdout)
   end
 rescue Errno::ENOENT
-  die!('command not found - word-abbrev', code: 2)
+  die!('command not found - shorten-words', code: 2)
 end

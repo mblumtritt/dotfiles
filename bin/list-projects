@@ -28,13 +28,13 @@ die!('too many arguments') if ARGV.size > 1
 def with_word_abbrev(input, arg)
   arg = " '#{arg}'" if arg
   IO.pipe do |in_read, in_write|
-    IO.popen("word-abbrev#{arg}", in: in_read, err: %i[child out]) do |stream|
+    IO.popen("shorten-words#{arg}", in: in_read, err: %i[child out]) do |stream|
       in_write.puts(input)
       in_write.close
       yield(stream)
     end
   rescue Errno::ENOENT
-    die!('command not found - word-abbrev', code: 2)
+    die!('command not found - shorten-words', code: 2)
   end
 end
 
