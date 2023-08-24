@@ -27,17 +27,6 @@ cdp()
 # cd to best matching project directory
 cde() { cdp "$1" && edit-text . || return 1 }
 
-# completion for cdp
-_cdp()
-{
-	(( CURRENT == 2 )) && {
-		local prjs=( $(list-projects --abbrev) )
-		_describe -t prjs 'commands' prjs
-	}
-	return 0
-}
-compdef _cdp cdp cde
-
 # list commands
 lc() { list-commands "$@" | column -x }
 
@@ -63,17 +52,6 @@ aws-renew()
 	${cmd} $@
 	return $?
 }
-
-# completion for #
-_fae()
-{
-	(( CURRENT == 2 )) &&{
-		local cmds=( $(list-commands --abbrev) )
-		_describe -t cmds 'commands' cmds
-	}
-	return 0
-}
-compdef _fae \#
 
 # add new password to password-store
 npass()
@@ -122,22 +100,6 @@ gh()
 		;;
 	esac
 }
-
-_gh()
-{
-	(( CURRENT == 2 )) &&{
-		local -a commands
-  	commands=(
-    	'branch:open current branch'
-    	'create:create a pull request for current branch'
-    	'current:open pull request for current branch'
-    	'index:open pull request index'
-  	)
-		_describe -t commands 'commands' commands
-	}
-	return 0
-}
-compdef _gh gh
 
 # lookup in GE/EN dictionary
 @tr() { fetch-web "$(print-search-url --dict "$@")" | convert-html-text | less }

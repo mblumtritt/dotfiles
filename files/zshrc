@@ -74,6 +74,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=blue'
 try_source "$BREW_PATH/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 source ~/.local/init/iterm2_shell_integration.zsh
 source ~/.local/init/lib.zsh
+source ~/.local/init/completion.zsh
 source ~/.local/init/alias
 try_source ~/.zshrc.local
 try_source ~/.config/broot/launcher/bash/br
