@@ -19,17 +19,32 @@ case "$1" in
 		kill -0 "$$" || exit
 	done 2>/dev/null &
 
-	(command -v brew >/dev/null 2>&1) && echo '🗑️ clean brew stuff...' && clean-brew
-	(command -v docker >/dev/null 2>&1) && echo '🗑️ clean Docker...' && clean-docker
-	(command -v npm >/dev/null 2>&1) && echo '🗑️ clean NPM...' && clean-npm
-	(command -v yarn >/dev/null 2>&1) && echo '🗑️ clean Yarn...' && clean-yarn
-	(command -v gem >/dev/null 2>&1) && echo '🗑️ clean gems...' && clean-gems
+	(command -v brew >/dev/null 2>&1) && (
+		echo '🗑️ clean brew stuff...'
+		clean-brew
+	)
+	(command -v docker >/dev/null 2>&1) && (
+		echo '🗑️ clean Docker...'
+		clean-docker
+	)
+	(command -v npm >/dev/null 2>&1) && (
+		echo '🗑️ clean NPM...'
+		clean-npm
+	)
+	(command -v yarn >/dev/null 2>&1) && (
+		echo '🗑️ clean Yarn...'
+		clean-yarn
+	)
+	(command -v gem >/dev/null 2>&1) && (
+		echo '🗑️ clean gems...'
+		clean-gems
+	)
 
-	echo '🗑️ remove system log files...' && clean-logs
-	echo '🗑️ clean all library caches...' && clean-caches
-	echo '🗑️ cleanup XCode derived data and archives...' && clean-xcode
-	echo '🗑️ clean Trashes...' && clean-trashes
+	echo '🗑️ remove system log files...' ; clean-logs
+	echo '🗑️ clean all library caches...' ; clean-caches
+	echo '🗑️ cleanup XCode derived data and archives...' ; clean-xcode
+	echo '🗑️ clean Trashes...' ; clean-trashes
 ;;
 (-h|--help) echo "$USAGE" ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac

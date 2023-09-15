@@ -9,5 +9,5 @@ case "$1" in
 (off|0) defaults write /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled -int 0 ;;
 (status|'') echo "state=$(defaults read /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled)" ;;
 (-h|--help) echo "$USAGE" ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac

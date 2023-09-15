@@ -5,7 +5,7 @@ Download a video or video playlist from given URL to '$HOME/Downloads'."
 
 set -e
 case "$1" in
-('') echo "${0##*/}: URL missing" >&2 && exit 1 ;;
+('') echo "${0##*/}: URL missing" >&2 ; exit 1 ;;
 (-h|--help) echo "$USAGE" ;;
 (*)
     mkdir -p "$HOME/Downloads"

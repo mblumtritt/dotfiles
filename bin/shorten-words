@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby --disable-all
 # frozen_string_literal: true
 
-out("#{me} v0.2.0") if %w[-v --version].include?(ARGV[0])
+out("#{me} v0.2.1") if %w[-v --version].include?(ARGV[0])
 out(<<~HELP) if %w[-h --help].include?(ARGV[0])
   Usage: #{me} [<option> | <word>]
 
@@ -77,11 +77,6 @@ def create_candidates(words)
   abbrevs = create_abbrevs(words)
   ret = Hash.new { |h, k| h[k] = [] }
   words.each do |word|
-    # sub = abbrevs[word.sub.shift]
-    # sub = combine(sub, abbrevs[word.sub.shift]) until word.sub.empty?
-    # word.sub = sub.size
-    # sub.each { |w| ret[w] << word }
-
     sub = abbrevs[word.sub.shift]
     if word.sub.empty?
       sub.each { |w| ret[w] << word }
@@ -100,17 +95,15 @@ end
 
 def create_result(words, tabu)
   ret = {}.compare_by_identity
-  sort_proc =
-    proc do |a, b|
-      c = a.word_count <=> b.word_count
-      next c if c != 0
-      c = a.sub <=> b.sub
-      c == 0 ? a.value <=> b.value : c
-    end
   create_candidates(words)
     .except(*tabu.to_a)
     .each_pair do |abbrev, ary|
-      ary.sort!(&sort_proc)
+      ary.sort! do |a, b|
+        c = a.word_count <=> b.word_count
+        next c if c != 0
+        c = a.sub <=> b.sub
+        c == 0 ? a.value <=> b.value : c
+      end
       best = ary[0]
       ret[best] = abbrev unless ret.key?(best)
     end

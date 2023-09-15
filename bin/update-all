@@ -7,12 +7,12 @@ Update System, Homebrew, Homebrew bundles, ASDF and Ruby gems.
 set -e
 case "$1" in
 (-S|--no-system) SYSTEM=0 ;;
-(-h|--help) echo "$USAGE" && exit ;;
+(-h|--help) echo "$USAGE" ; exit ;;
 ('') SYSTEM=1 ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac
 
-[ "$SYSTEM" = "1" ] && echo '🆙 update system stuff' && update-system
-echo '🆙 update Brew stuff' && update-brew
-echo '🆙 update ASDF stuff' && update-asdf
-echo '🆙 update Ruby stuff' && update-ruby
+[ "$SYSTEM" = "1" ] && (echo '🆙 update system stuff' ; update-system)
+echo '🆙 update Brew stuff' ; update-brew
+echo '🆙 update ASDF stuff' ; update-asdf
+echo '🆙 update Ruby stuff' ; update-ruby

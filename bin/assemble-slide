@@ -15,7 +15,7 @@ case "$1" in
   ARGS=""
   shift
 ;;
-(-h|--help) echo "$USAGE" && exit ;;
+(-h|--help) echo "$USAGE" ; exit ;;
 ('') die "SOURCE missing" ;;
 (*) ARGS="--embed-resources" ;;
 esac

@@ -5,7 +5,7 @@ Display WHOIS rrecord about given URL or domain."
 
 set -e
 case "$1" in
-('') echo "${0##*/}: NAME missing" >&2 && exit 1 ;;
+('') echo "${0##*/}: NAME missing" >&2 ; exit 1 ;;
 (-h|--help) echo "$USAGE" ;;
 (*)
   domain=$(echo "$1" | awk -F/ '{print $3}') # get domain from URL

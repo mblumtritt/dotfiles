@@ -9,5 +9,5 @@ case "$1" in
 (off|0) networksetup -setairportpower en0 off ;;
 (status|'') echo "state=$(networksetup -getairportpower en0 | grep -oE 'On|Off' | tr '[:upper:]' '[:lower:]')" ;;
 (-h|--help) echo "$USAGE" ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac

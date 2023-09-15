@@ -7,5 +7,5 @@ set -e
 case "$1" in
 ('') pmset -g batt | sed -nE 's/^.*[^0-9]([0-9]+\%);.*$/\1/p' ;;
 (-h|--help) echo "$USAGE" ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac

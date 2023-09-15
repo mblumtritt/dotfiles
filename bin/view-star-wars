@@ -7,5 +7,5 @@ set -e
 case "$1" in
 ('') ncat towel.blinkenlights.nl 23 ;;
 (-h|--help) echo "$USAGE" ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac

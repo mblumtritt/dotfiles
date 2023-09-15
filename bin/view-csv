@@ -5,7 +5,7 @@ View given CSV FILE."
 
 set -e
 case "$1" in
-('') echo "${0##*/}: FILE name missing" >&2 && exit 1 ;;
+('') echo "${0##*/}: FILE name missing" >&2 ; exit 1 ;;
 (-h|--help) echo "$USAGE" ;;
 (*) sed 's/,,/, ,/g;s/,,/, ,/g' "$@" | column -s, -t | less -#2 -N -S ;;
 esac

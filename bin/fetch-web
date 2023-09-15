@@ -5,7 +5,7 @@ Display a file from given URL."
 
 set -e
 case "$1" in
-('') echo "${0##*/}: URL missing" >&2 && exit 1 ;;
+('') echo "${0##*/}: URL missing" >&2 ; exit 1 ;;
 (-h|--help) echo "$USAGE" ;;
 (*) curl \
   --fail \

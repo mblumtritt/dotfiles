@@ -6,7 +6,7 @@ Request a user action."
 set -e
 case "$1" in
 (-h|--help) echo "$USAGE" ;;
-('') echo "${0##*/}: MESSAGE missing" >&2 && exit 1 ;;
+('') echo "${0##*/}: MESSAGE missing" >&2 ; exit 1 ;;
 (*)
   osascript -e "tell app \"System Events\" to display dialog \"$1\" with title \"${2-Notification}\"" >/dev/null 2>&1
 ;;

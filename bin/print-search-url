@@ -24,9 +24,9 @@ case "$1" in
 (-p|--perplexity) url='https://www.perplexity.ai/search?q=' ;;
 (-v|--video|-y|--youtube) url='https://www.youtube.com/results?search_query=' ;;
 (-w|--wiki|--wikipedia) url='https://de.wikipedia.org/w/index.php?fulltext=1&search=' ;;
-(--help) echo "$USAGE" && exit ;;
-('') echo "${0##*/}: argument missing" >&2 && exit 1 ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
+(--help) echo "$USAGE" ; exit ;;
+('') echo "${0##*/}: argument missing" >&2 ; exit 1 ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac
 shift
 echo "$url$(echo "$@" | convert-text-uri)"

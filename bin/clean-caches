@@ -14,5 +14,5 @@ case "$1" in
   [ "$PYENV_VIRTUALENV_CACHE_PATH" ] && rm -rfv "$PYENV_VIRTUALENV_CACHE_PATH" >/dev/null
 ;;
 (-h|--help) echo "$USAGE" ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac
