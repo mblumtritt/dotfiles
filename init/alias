@@ -1,12 +1,12 @@
 #! /bin/sh
 
-alias ll='lsd -Al'
+alias ll='lsd -Alg'
 alias lr='lsd -Rl'
+alias tree='lsd --tree'
 alias du='du -kh'
 alias top='btm --basic'
 
 alias ...='cd ..'
-alias tree='tree -AC'
 
 alias fucking='sudo'
 alias please='sudo'
