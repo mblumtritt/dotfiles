@@ -1,12 +1,13 @@
 #! /bin/sh
+USAGE="Usage: ${0##*/} MESSAGE [TITLE]
+
+Request a user action."
 
 set -e
-
-[ "$1" = '--help' ] &&
-echo "Usage: ${0##*/} MESSAGE [TITLE]
-
-Request a user action." && exit
-
-[ $# = 0 ] && (>&2 echo "${0##*/}: MESSAGE missing") && exit 1
-
-osascript -e "tell app \"System Events\" to display dialog \"$1\" with title \"${2-Notification}\"" > /dev/null 2>&1
+case "$1" in
+(-h|--help) echo "$USAGE" ;;
+('') echo "${0##*/}: MESSAGE missing" >&2 && exit 1 ;;
+(*)
+  osascript -e "tell app \"System Events\" to display dialog \"$1\" with title \"${2-Notification}\"" >/dev/null 2>&1
+;;
+esac

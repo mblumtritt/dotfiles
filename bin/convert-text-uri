@@ -1,9 +1,15 @@
 #! /bin/sh
+USAGE="Usage: ${0##*/}
+
+Convert TEXT from stdin into URI (WWW form component) to stdout."
 
 set -e
-
-[ "$1" = '--help' ] && echo "Usage: ${0##*/}
-
-Convert TEXT from stdin into URI (WWW form component) to stdout." && exit
-
-ruby --disable-all -ruri -e'puts URI.encode_www_form_component STDIN.readlines(chomp:true).join'
+case "$1" in
+('') ruby \
+  --disable-all \
+  -ruri \
+  -e'puts URI.encode_www_form_component STDIN.readlines(chomp:true).join'
+;;
+(-h|--help) echo "$USAGE" ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
+esac

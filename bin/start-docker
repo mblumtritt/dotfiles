@@ -1,14 +1,19 @@
 #! /bin/sh
+USAGE="Usage: ${0##*/}
 
-[ "$1" = '--help' ] && echo "Usage: ${0##*/}
+Ensure Docker is started."
 
-Ensure that Docker is started." && exit
-
-(command -v docker >/dev/null 2>&1) || {
-  (>&2 echo "${0##*/}: Docker not installed") && exit 1
-}
-
-open --background -a Docker
-while [ -z "$(! docker stats --no-stream 2> /dev/null)" ]
-do sleep 1
-done
+set -e
+case "$1" in
+('')
+  (command -v docker >/dev/null 2>&1) || {
+    echo "${0##*/}: Docker not installed" >&2 && exit 1
+  }
+  open --background -a Docker
+  while [ -z "$(! docker stats --no-stream 2> /dev/null)" ]
+  do sleep 1
+  done
+;;
+(-h|--help) echo "$USAGE" ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
+esac

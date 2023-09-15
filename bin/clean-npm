@@ -1,7 +1,11 @@
 #! /bin/sh
+USAGE="Usage: ${0##*/}
 
-[ "$1" = '--help' ] && echo "Usage: ${0##*/}
+Clean up NPM cache."
 
-Clean up NPM cache." && exit
-
-npm cache clean --force
+set -e
+case "$1" in
+('') npm cache clean --force ;;
+(-h|--help) echo "$USAGE" ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
+esac

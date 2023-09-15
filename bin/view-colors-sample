@@ -1,15 +1,18 @@
 #! /bin/bash
+USAGE="Usage: ${0##*/}
+
+View colors."
 
 set -e
-
-[ "$1" = '--help' ] && echo "Usage: ${0##*/}
-
-View colors." && exit
-
-CLEAR=$(tput op)
-COLS=$(tput cols)
-
-for i in {0..255} ; do
-	printf "$(tput setaf "$i" ; tput setab "$i") %03d $CLEAR" "$i"
-	{ test "$(((i + 1) % (COLS / 5)))" -eq '0' || test "$i" -eq '255'; } && echo
-done
+case "$1" in
+('')
+	CLEAR=$(tput op)
+	COLS=$(tput cols)
+	for i in {0..255} ; do
+		printf "$(tput setaf "$i" ; tput setab "$i") %03d $CLEAR" "$i"
+		{ test "$(((i + 1) % (COLS / 5)))" -eq '0' || test "$i" -eq '255'; } && echo
+	done
+;;
+(-h|--help) echo "$USAGE" ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
+esac

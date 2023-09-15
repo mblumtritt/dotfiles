@@ -1,9 +1,11 @@
 #! /bin/sh
+USAGE="Usage: ${0##*/}
+
+Convert HTML from stdin into MARKDOWN to stdout."
 
 set -e
-
-[ "$1" = '--help' ] && echo "Usage: ${0##*/}
-
-Convert HTML from stdin into MARKDOWN to stdout." && exit
-
-pandoc --from=html --to=gfm "$@"
+case "$1" in
+('') pandoc --from=html --to=gfm "$@" ;;
+(-h|--help) echo "$USAGE" ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
+esac

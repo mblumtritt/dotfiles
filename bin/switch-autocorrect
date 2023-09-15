@@ -1,23 +1,13 @@
 #! /bin/sh
-
-set -e
-
-case "$1" in
-(--help|-h|help)
-  echo "Usage: ${0##*/} [on|off|status]
+USAGE="Usage: ${0##*/} [on|off|status]
 
 Enable/disable text auto correction or show status."
-  ;;
-(on|1)
-  defaults write -g NSAutomaticSpellingCorrectionEnabled -bool true
-  ;;
-(off|0)
-  defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
-  ;;
-(status|'')
-  echo "State = $(defaults read -g NSAutomaticSpellingCorrectionEnabled)"
-  ;;
-(*)
-  (>&2 echo "${0##*/}: unknown option - $1") && exit 1
-  ;;
+
+set -e
+case "$1" in
+(on|1) defaults write -g NSAutomaticSpellingCorrectionEnabled -bool true ;;
+(off|0) defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false ;;
+(status|'') echo "state=$(defaults read -g NSAutomaticSpellingCorrectionEnabled)" ;;
+(-h|--help) echo "$USAGE" ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
 esac

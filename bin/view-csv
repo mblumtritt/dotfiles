@@ -1,11 +1,11 @@
 #! /bin/sh
+USAGE="Usage: ${0##*/} FILE
+
+View given CSV FILE."
 
 set -e
-
-[ "$1" = '--help' ] && echo "Usage: ${0##*/} CSV_FILE
-
-View given CSV_FILE." && exit
-
-[ $# = 0 ] && (>&2 echo "${0##*/}: CSV_FILE missing") && exit 1
-
-sed 's/,,/, ,/g;s/,,/, ,/g' "$@" | column -s, -t | less -#2 -N -S
+case "$1" in
+('') echo "${0##*/}: FILE name missing" >&2 && exit 1 ;;
+(-h|--help) echo "$USAGE" ;;
+(*) sed 's/,,/, ,/g;s/,,/, ,/g' "$@" | column -s, -t | less -#2 -N -S ;;
+esac

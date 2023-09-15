@@ -1,16 +1,15 @@
 #! /bin/sh
+USAGE="Usage: ${0##*/} [-a|--all]
 
-[ "$1" = '--help' ] && echo "Usage: ${0##*/} [--all]
+Clean up Ruby gems. Option '--all' removes all installed gems."
 
-Clean up Ruby gems. Option '--all' removes all installed gems." && exit
-
+set -e
 with_rbenv() {
   for ruby in $(rbenv versions --bare); do
     echo ":: Ruby $ruby"
     RBENV_VERSION="$ruby" rbenv exec $@
   done
 }
-
 with_asdf() {
 	for ruby in $(asdf list ruby); do
     ruby="${ruby#\*}"
@@ -18,8 +17,15 @@ with_asdf() {
     ASDF_RUBY_VERSION="$ruby" asdf exec $@
 	done
 }
-
-CMD='gem cleanup'
-[ "$1" = "--all" ] && CMD='gem uninstall -aIx'
-type 'rbenv' >/dev/null 2>&1 && with_rbenv "$CMD"
-type 'asdf' >/dev/null 2>&1 && with_asdf "$CMD"
+case "$1" in
+('')
+  type 'rbenv' >/dev/null 2>&1 && with_rbenv gem cleanup
+  type 'asdf' >/dev/null 2>&1 && with_asdf gem cleanup
+;;
+(-a|--all)
+  type 'rbenv' >/dev/null 2>&1 && with_rbenv gem uninstall -aIx
+  type 'asdf' >/dev/null 2>&1 && with_asdf gem uninstall -aIx
+;;
+(-h|--help) echo "$USAGE" ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
+esac

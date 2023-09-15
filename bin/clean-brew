@@ -1,10 +1,16 @@
 #! /bin/sh
+USAGE="Usage: ${0##*/}
 
-[ "$1" = '--help' ] && echo "Usage: ${0##*/}
+Clean up Homebrew stuff."
 
-Clean up Homebrew stuff." && exit
-
-brew upgrade
-brew cleanup -s
-# rm -rfv "$(brew --cache)" >/dev/null
-brew tap --repair
+set -e
+case "$1" in
+('')
+  brew upgrade
+  brew cleanup -s
+  # rm -rfv "$(brew --cache)" >/dev/null
+  brew tap --repair
+;;
+(-h|--help) echo "$USAGE" ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
+esac

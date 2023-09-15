@@ -1,13 +1,15 @@
 #! /bin/bash
+USAGE="Usage: ${0##*/} FILE [PORT]
+
+Serve FILE_NAME via HTTP."
 
 set -e
-
-[ "$1" = '--help' ] && echo "Usage: ${0##*/} FILE_NAME [PORT]
-
-Serve FILE_NAME via HTTP." && exit
-
-[ $# = 0 ] && (>&2 echo "${0##*/}: FILE_NAME missing") && exit 1
-
-while true; do
-	{ echo -e 'HTTP/1.1 200 OK\r\n'; cat "$1"; } | nc -l "${2:-8080}"
-done
+case "$1" in
+('') echo "${0##*/}: FILE name missing" >&2 && exit 1 ;;
+(-h|--help) echo "$USAGE" ;;
+(*)
+	while true; do
+		{ echo -e 'HTTP/1.1 200 OK\r\n'; cat "$1"; } | nc -l "${2:-8080}"
+	done
+;;
+esac

@@ -1,11 +1,11 @@
 #! /bin/sh
+USAGE="Usage: ${0##*/} FILE
+
+Plays given audio FILE."
 
 set -e
-
-[ "$1" = '--help' ] && echo "Usage: ${0##*/} FILE
-
-Plays given audio FILE." && exit
-
-[ $# = 0 ] && (>&2 echo "${0##*/}: FILE missing") && exit 1
-
-afplay -q 1 $@
+case "$1" in
+('') echo "${0##*/}: FILE missing" >&2 && exit 1 ;;
+(-h|--help) echo "$USAGE" ;;
+(*) afplay -q 1 "$@" ;;
+esac

@@ -1,8 +1,14 @@
 #! /bin/sh
+USAGE="Usage: ${0##*/}
 
-[ "$1" = '--help' ] && echo "Usage: ${0##*/}
+Clean all trashes. (May require password.)"
 
-Clean all trashes. (May require password.)" && exit
-
-sudo rm -rfv /Volumes/*/.Trashes/* >/dev/null
-rm -rfv ~/.Trash/* >/dev/null
+set -e
+case "$1" in
+('')
+  sudo rm -rfv /Volumes/*/.Trashes/* >/dev/null
+  rm -rfv ~/.Trash/* >/dev/null
+;;
+(-h|--help) echo "$USAGE" ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
+esac

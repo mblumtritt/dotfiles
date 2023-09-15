@@ -1,10 +1,14 @@
 #! /bin/sh
+USAGE="Usage: ${0##*/}
+
+Update Ruby gems."
 
 set -e
-
-[ "$1" = '--help' ] && echo "Usage: ${0##*/}
-
-Update Ruby gems." && exit
-
-gem update --system --no-document
-gem update --no-document
+case "$1" in
+('')
+  gem update --system --no-document
+  gem update --no-document
+;;
+(-h|--help) echo "$USAGE" ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
+esac

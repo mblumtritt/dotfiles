@@ -1,9 +1,11 @@
 #! /bin/sh
+USAGE="Usage: ${0##*/} [CITY]
+
+Display the meteogram of a city - uses Leipzig as default."
 
 set -e
-
-[ "$1" = '--help' ] && echo "Usage: ${0##*/}
-
-Display the meteogram of a city - uses Leipzig as default." && exit
-
-finger "${1:-leipzig}@graph.no"
+case "$1" in
+(-h|--help) echo "$USAGE" ;;
+('') finger leipzig@graph.no ;;
+(*) finger "${1}@graph.no" ;;
+esac

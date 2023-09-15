@@ -1,11 +1,11 @@
 #! /bin/sh
+USAGE="Usage: ${0##*/} INTERFACE
+
+Flush routes for your INTERFACE (like en0, en1, ...). (May require password.)"
 
 set -e
-
-[ "$1" = '--help' ] && echo "Usage: ${0##*/} INTERFACE
-
-Flush routes for your INTERFACE (like en0, en1, ...). (May require password.)" && exit
-
-[ $# = 0 ] && (>&2 echo "${0##*/}: name of INTERFACE missing") && exit 1
-
-sudo ifconfig "$1" down && sudo route flush && sudo ifconfig "$1" up
+case "$1" in
+('') echo "${0##*/}: INTERFACE name missing" >&2 && exit 1 ;;
+(-h|--help) echo "$USAGE" ;;
+(*) sudo ifconfig "$1" down && sudo route flush && sudo ifconfig "$1" up ;;
+esac

@@ -1,23 +1,13 @@
 #! /bin/sh
-
-set -e
-
-case "$1" in
-(--help|-h|help)
-  echo "Usage: ${0##*/} [on|off|status]
+USAGE="Usage: ${0##*/} [on|off|status]
 
 Enable/disable firewall or show status. (May require password.)"
-  ;;
-(on|1)
-  sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
-  ;;
-(off|0)
-  sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate off
-  ;;
-(status|'')
-  sudo /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate
-  ;;
-(*)
-  (>&2 echo "${0##*/}: unknown option - $1") && exit 1
-  ;;
+
+set -e
+case "$1" in
+(on|1) sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on ;;
+(off|0) sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate off ;;
+(status|'') sudo /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate ;;
+(-h|--help) echo "$USAGE" ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
 esac

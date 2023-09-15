@@ -1,17 +1,20 @@
 #! /bin/sh
+USAGE="Usage: ${0##*/} URL
+
+Download a video or video playlist from given URL to '$HOME/Downloads'."
 
 set -e
-readonly TDIR="$HOME/Downloads"
-
-[ "$1" = '--help' ] && echo "Usage: ${0##*/} URL
-
-Download a video or video playlist from given URL to '$TDIR'." && exit
-
-[ $# = 0 ] && (>&2 echo "${0##*/}: URL missing") && exit 1
-
-mkdir -p "$TDIR"
-cd "$TDIR"
-yt-dlp \
-    --concurrent-fragments 8 \
-    --geo-bypass \
-    "$@"
+case "$1" in
+('') echo "${0##*/}: URL missing" >&2 && exit 1 ;;
+(-h|--help) echo "$USAGE" ;;
+(*)
+    mkdir -p "$HOME/Downloads"
+    cd "$HOME/Downloads"
+    yt-dlp \
+        --no-overwrites \
+        --console-title \
+        --concurrent-fragments 8 \
+        --geo-bypass \
+        "$@"
+;;
+esac

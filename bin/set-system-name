@@ -1,15 +1,16 @@
 #! /bin/sh
+USAGE="Usage: ${0##*/} NAME
+
+Set system NAME. (May require password.)"
 
 set -e
-
-[ "$1" = '--help' ] && echo "Usage: ${0##*/} NAME
-
-Set system NAME. (May require password.)" && exit
-
-[ $# = 0 ] && (>&2 echo "${0##*/}: NAME missing") && exit 1
-
-readonly NAME="$*"
-sudo scutil --set ComputerName "$NAME"
-sudo scutil --set HostName "$NAME"
-sudo scutil --set LocalHostName "$NAME"
-sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$NAME"
+case "$1" in
+('') echo "${0##*/}: NAME missing" >&2 && exit 1 ;;
+(-h|--help) echo "$USAGE" ;;
+(*)
+  sudo scutil --set ComputerName "$1"
+  sudo scutil --set HostName "$1"
+  sudo scutil --set LocalHostName "$1"
+  sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$1"
+;;
+esac

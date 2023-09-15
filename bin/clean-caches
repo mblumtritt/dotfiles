@@ -1,12 +1,18 @@
 #! /bin/sh
+USAGE="Usage: ${0##*/}
 
-[ "$1" = '--help' ] && echo "Usage: ${0##*/}
+Clean all library caches. (May require password.)"
 
-Clean all library caches. (May require password.)" && exit
-
-sudo rm -rfv /Library/Caches/* >/dev/null
-sudo rm -rfv /System/Library/Caches/* >/dev/null
-sudo rm -rfv /private/var/folders/bh/*/*/*/* >/dev/null
-rm -rfv "$HOME/Library/Caches/*" >/dev/null
-rm -rfv "$HOME/.cache" >/dev/null
-[ "$PYENV_VIRTUALENV_CACHE_PATH" ] && rm -rfv "$PYENV_VIRTUALENV_CACHE_PATH" >/dev/null
+set -e
+case "$1" in
+('')
+  sudo rm -rfv /Library/Caches/* >/dev/null
+  sudo rm -rfv /System/Library/Caches/* >/dev/null
+  sudo rm -rfv /private/var/folders/bh/*/*/*/* >/dev/null
+  rm -rfv "$HOME/Library/Caches/*" >/dev/null
+  rm -rfv "$HOME/.cache" >/dev/null
+  [ "$PYENV_VIRTUALENV_CACHE_PATH" ] && rm -rfv "$PYENV_VIRTUALENV_CACHE_PATH" >/dev/null
+;;
+(-h|--help) echo "$USAGE" ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
+esac

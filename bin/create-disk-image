@@ -1,21 +1,22 @@
 #! /bin/sh
+USAGE="Usage: ${0##*/} [--encrypt] DIR [NAME]
+
+Create disk image from DIR named NAME, optionally encrypted."
 
 set -e
-
-[ "$1" = '--help' ] && echo "Usage: ${0##*/} [--encrypt] DIR [NAME]
-
-Create disk image from DIR named NAME, optionally encrypted." && exit
-
-[ $# = 0 ] && (>&2 echo "${0##*/}: DIR missing") && exit 1
-
 OPTIONS="-nospotlight -noanyowners"
 TYPE=volume
-if [ "$1" = "--encrypt" ] || [ "$1" = "-e" ]
-then
+case "$1" in
+(-e|--encrypt)
   TYPE="encrypted volume"
   OPTIONS="-encryption AES-256 -stdinpass $OPTIONS"
   shift
-fi
+;;
+(-h|--help) echo "$USAGE" && exit ;;
+('') echo "${0##*/}: DIR missing " >&2 && exit 1 ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
+esac
+
 DIR=$(cd "$1";pwd)
 readonly BASENAME="${DIR##*/}"
 OPTIONS="-srcfolder \"$DIR\" -ov \"./$BASENAME.dmg\" $OPTIONS"

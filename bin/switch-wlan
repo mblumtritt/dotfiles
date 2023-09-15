@@ -1,23 +1,13 @@
 #! /bin/sh
-
-set -e
-
-case "$1" in
-(--help|-h|help)
-  echo "Usage: ${0##*/} [on|off|status]
+USAGE="Usage: ${0##*/} [on|off|status]
 
 Switch WLAN on/off or return the current status."
-  ;;
-(on|1)
-  networksetup -setairportpower en0 on
-  ;;
-(off|0)
-  networksetup -setairportpower en0 off
-  ;;
-(status|'')
-  echo "State = $(networksetup -getairportpower en0 | grep -oE 'On|Off' | tr '[:upper:]' '[:lower:]')"
-  ;;
-(*)
-  (>&2 echo "${0##*/}: unknown option - $1") && exit 1
-  ;;
+
+set -e
+case "$1" in
+(on|1) networksetup -setairportpower en0 on ;;
+(off|0) networksetup -setairportpower en0 off ;;
+(status|'') echo "state=$(networksetup -getairportpower en0 | grep -oE 'On|Off' | tr '[:upper:]' '[:lower:]')" ;;
+(-h|--help) echo "$USAGE" ;;
+(*) echo "${0##*/}: invalid argument - $1" >&2 && exit 1 ;;
 esac

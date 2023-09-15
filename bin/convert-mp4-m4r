@@ -1,15 +1,17 @@
 #! /bin/sh
+USAGE="Usage: ${0##*/} FILE
+
+Convert MP3 ausio FILE to ringtome M4R."
 
 set -e
-
-[ "$1" = '--help' ] && echo "Usage: ${0##*/} FILE
-
-Convert MP3 ausio FILE to ringtome M4R." && exit
-
-[ $# = 0 ] && (>&2 echo "${0##*/}: FILE missing") && exit 1
-
-for file in "$@"
-do
-	file="${file%.*}"
-	afconvert "$file.mp3" "$file.m4r" -f m4af
-done
+case "$1" in
+('') echo "${0##*/}: FILE missing" >&2 && exit 1 ;;
+(-h|--help) echo "$USAGE" ;;
+(*)
+	for file in "$@"
+	do
+		file="${file%.*}"
+		afconvert "$file.mp3" "$file.m4r" -f m4af
+	done
+;;
+esac

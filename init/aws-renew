@@ -1,25 +1,27 @@
 #! /bin/sh
+USAGE="Usage: ${0##*/} 2FACODE
+
+Renew AWS session."
 
 set -e
+case "$1" in
+('') echo "${0##*/}: 2FACODE missing" >&2 && exit 1 ;;
+(-h|--help) echo "$USAGE" ;;
+(*)
+  readonly MFA_USER="mike.blumtritt"
+  readonly MFA_TOKEN="$1"
+  readonly MFA_PROFILE="${2:-default}"
 
-[ "$1" = '--help' ] && echo "Usage: ${0##*/} 2FACODE
+  MFA_CALLER_ID=$(aws sts get-caller-identity --profile "${MFA_USER}" | jq -r '.Arn | split("/")[1]')
+  MFA_DEVICES=$(aws iam list-mfa-devices --profile "${MFA_USER}" --user-name "${MFA_CALLER_ID}")
+  MFA_SERIAL_NUMBER=$(echo "${MFA_DEVICES}"| jq -r '.MFADevices[0].SerialNumber')
+  MFA_SESSION=$(aws sts --profile "${MFA_USER}" get-session-token --duration-seconds 28800 --serial-number "${MFA_SERIAL_NUMBER}" --token-code "${MFA_TOKEN}")
+  MFA_ACCESS_KEY_ID=$(echo "${MFA_SESSION}" | jq -r '.Credentials.AccessKeyId')
+  MFA_SECRET_ACCESS_KEY=$(echo "${MFA_SESSION}" | jq -r '.Credentials.SecretAccessKey')
+  MFA_SESSION_TOKEN=$(echo "${MFA_SESSION}" | jq -r '.Credentials.SessionToken')
 
-Renew AWS session." && exit
-
-[ $# = 0 ] && (>&2 echo "${0##*/}: 2FACODE missing") && exit 1
-
-readonly MFA_USER="mike.blumtritt"
-readonly MFA_TOKEN="$1"
-readonly MFA_PROFILE="${2:-default}"
-
-MFA_CALLER_ID=$(aws sts get-caller-identity --profile "${MFA_USER}" | jq -r '.Arn | split("/")[1]')
-MFA_DEVICES=$(aws iam list-mfa-devices --profile "${MFA_USER}" --user-name "${MFA_CALLER_ID}")
-MFA_SERIAL_NUMBER=$(echo "${MFA_DEVICES}"| jq -r '.MFADevices[0].SerialNumber')
-MFA_SESSION=$(aws sts --profile "${MFA_USER}" get-session-token --duration-seconds 28800 --serial-number "${MFA_SERIAL_NUMBER}" --token-code "${MFA_TOKEN}")
-MFA_ACCESS_KEY_ID=$(echo "${MFA_SESSION}" | jq -r '.Credentials.AccessKeyId')
-MFA_SECRET_ACCESS_KEY=$(echo "${MFA_SESSION}" | jq -r '.Credentials.SecretAccessKey')
-MFA_SESSION_TOKEN=$(echo "${MFA_SESSION}" | jq -r '.Credentials.SessionToken')
-
-aws configure set --profile "${MFA_PROFILE}" aws_access_key_id "${MFA_ACCESS_KEY_ID}"
-aws configure set --profile "${MFA_PROFILE}" aws_secret_access_key "${MFA_SECRET_ACCESS_KEY}"
-aws configure set --profile "${MFA_PROFILE}" aws_session_token "${MFA_SESSION_TOKEN}"
+  aws configure set --profile "${MFA_PROFILE}" aws_access_key_id "${MFA_ACCESS_KEY_ID}"
+  aws configure set --profile "${MFA_PROFILE}" aws_secret_access_key "${MFA_SECRET_ACCESS_KEY}"
+  aws configure set --profile "${MFA_PROFILE}" aws_session_token "${MFA_SESSION_TOKEN}"
+;;
+esac
