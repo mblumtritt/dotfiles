@@ -17,6 +17,7 @@ file_create 'Gemfile' do |f|
   content += <<~CONTENT if File.file?('.yardopts')
 
     group :development do
+      gem 'webrick', require: false
       gem 'yard', require: false
     end
   CONTENT

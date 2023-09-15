@@ -24,7 +24,8 @@ file_create(
 
   require_relative '../helper'
 
-  RSpec.describe #{Prj.module}::VERSION do
+  RSpec.describe '#{Prj.module}::VERSION' do
+    subject(:version) { #{Prj.module}::VERSION }
     it { is_expected.to match(/\\A[[:digit:]]+\\.[[:digit:]]+\\.[[:digit:]]+\\z/) }
     it { is_expected.to be_frozen }
   end
@@ -37,7 +38,7 @@ file_create(
 
   require_relative '../helper'
 
-  RSpec.xdescribe #{Prj.module} do
+  RSpec.describe #{Prj.module} do
     xit do
       # TODO: describe your module here
     end

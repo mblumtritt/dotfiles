@@ -4,13 +4,16 @@ require_relative 'prj'
 
 file_create 'README.md' do |f|
   write f.name, <<~README
-    # #{Prj.module} ![version](https://img.shields.io/gem/v/#{Prj.name}?label=)
+    # #{Prj.module}
+    <!-- TODO: ![version](https://img.shields.io/gem/v/#{Prj.name}?label=) -->
 
     TODO: gem description here
 
+    <!-- TODO:
     - Gem: [rubygems.org](https://rubygems.org/gems/#{Prj.name})
     - Source: [github.com](https://github.com/mblumtritt/#{Prj.name})
     - Help: [rubydoc.info](https://rubydoc.info/gems/#{Prj.name}/#{Prj.module})
+    -->
 
     ## Description
 
@@ -24,8 +27,7 @@ file_create 'README.md' do |f|
     gem install #{Prj.name}
     ```
 
-    You can use [Bundler](http://gembundler.com/) to add #{Prj.module}
-    to your own project:
+    or you can use [Bundler](http://gembundler.com/) to add #{Prj.module} to your own project:
 
     ```shell
     bundle add '#{Prj.name}'

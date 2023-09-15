@@ -6,6 +6,8 @@ file_create '.yardopts' => 'README.md' do |f|
     --title 'TODO: Documentation'
     --charset utf-8
     --markup markdown
+    --tag comment
+    --hide-tag comment
     'lib/**/*.rb' - 'README.md'
   YARDOPTS
 end

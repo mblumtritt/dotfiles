@@ -20,6 +20,7 @@ file_create "lib/#{Prj.name}/version.rb" => "lib/#{Prj.name}" do |f|
     # frozen_string_literal: true
 
     module #{Prj.module}
+      # @return [String] the version number of the gem
       VERSION = '0.1.0'
     end
   VERSION

@@ -6,7 +6,7 @@ file_create "#{Prj.name}.gemspec" => "lib/#{Prj.name}/version.rb" do |f|
   write f.name, <<~CONTENT
     # frozen_string_literal: true
 
-    require_relative './lib/#{Prj.name}/version'
+    require_relative 'lib/#{Prj.name}/version'
 
     Gem::Specification.new do |spec|
       spec.name = '#{Prj.name}'
@@ -24,7 +24,7 @@ file_create "#{Prj.name}.gemspec" => "lib/#{Prj.name}/version.rb" do |f|
       spec.metadata['documentation_uri'] = 'https://rubydoc.info/gems/#{Prj.name}'
       spec.metadata['rubygems_mfa_required'] = 'true'
 
-      spec.required_ruby_version = '>= 3.0.0'
+      spec.required_ruby_version = '>= 3.0'
       # spec.add_runtime_dependency 'TODO: add dependencies'
 
       spec.files = Dir['lib/**/*']
