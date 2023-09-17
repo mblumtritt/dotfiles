@@ -11,7 +11,6 @@ case "$1" in
   sudo rm -rfv /private/var/folders/bh/*/*/*/* >/dev/null
   rm -rfv "$HOME/Library/Caches/*" >/dev/null
   rm -rfv "$HOME/.cache" >/dev/null
-  [ "$PYENV_VIRTUALENV_CACHE_PATH" ] && rm -rfv "$PYENV_VIRTUALENV_CACHE_PATH" >/dev/null
 ;;
 (-h|--help) echo "$USAGE" ;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
