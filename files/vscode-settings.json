@@ -62,11 +62,6 @@
   "prettier.singleQuote": true,
   "prettier.trailingComma": "none",
   "prettier.useEditorConfig": false,
-  "ruby.format": "standard",
-  "ruby.intellisense": "rubyLocate",
-  "ruby.rubocop.executePath": "/Users/mike/.asdf/shims/",
-  "ruby.useBundler": true,
-  "ruby.useLanguageServer": true,
   "security.workspace.trust.banner": "always",
   "security.workspace.trust.enabled": false,
   "shell-syntax.defaultShell": "zsh",
@@ -86,18 +81,14 @@
   "workbench.iconTheme": "vs-minimal",
   "workbench.sideBar.location": "right",
   "workbench.startupEditor": "newUntitledFile",
-  // "prettier.documentSelectors": ["*.rb"],
   "[ruby]": {
     "editor.useTabStops": false,
     "editor.defaultFormatter": "ruby-syntax-tree.vscode-syntax-tree"
   },
   "syntaxTree.singleQuotes": true,
-  "github.copilot.enable": {
-    "*": true,
-    "plaintext": false,
-    "markdown": true,
-    "scminput": false
-  },
+  "workbench.activityBar.visible": false,
   "window.zoomLevel": 1,
-  "workbench.activityBar.visible": false
+  "files.associations": {
+    "Gemfile": "ruby"
+  }
 }
