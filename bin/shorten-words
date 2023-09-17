@@ -14,7 +14,7 @@ out(<<~HELP) if %w[-h --help].include?(ARGV[0])
   Options:
     -l, --list      Read wordlist from $stdin and print all abbreviations list.
     -v, --version   Print version information.
-    -h, --help      Print this help information.
+    -h, --help      Print help information.
 HELP
 
 BEGIN {

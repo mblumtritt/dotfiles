@@ -7,7 +7,8 @@ set -e
 case "$1" in
 ('')
   (command -v docker >/dev/null 2>&1) || {
-    echo "${0##*/}: Docker not installed" >&2 ; exit 1
+    echo "${0##*/}: Docker not installed" >&2
+    exit 1
   }
   open --background -a Docker
   while [ -z "$(! docker stats --no-stream 2> /dev/null)" ]

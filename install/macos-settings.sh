@@ -49,7 +49,7 @@ set -e
   defaults write com.apple.mail AddressesIncludeNameOnPasteboard -bool false
 
   # show the ~/Library folder
-  chflags nohidden ~/Library
+  chflags nohidden "$HOME/Library"
 
   [ -f "$HOME/bin/airport" ] || ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport "$HOME/bin"
 

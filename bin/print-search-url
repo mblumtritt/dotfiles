@@ -12,7 +12,8 @@ Options:
    -p, --perplexity   print Perplexity search URL
    -v, --video        print video search URL (YouTube)
    -w, --wiki         print Wikipedia search URL
-   -y, --youtube      print YouTube search URL"
+   -y, --youtube      print YouTube search URL
+       --help         print help"
 
 set -e
 case "$1" in

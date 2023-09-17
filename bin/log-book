@@ -29,7 +29,7 @@ pex(<<~HELP) if %w[-h --help help].include?(ARGV[0])
       '2022-03-14 14:30' March 14th of year 2022 at 14:30h
 
   #{NAME} help
-    Print this help.
+    Print help information.
 
   #{NAME} -v|--version
     Print version information.

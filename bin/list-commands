@@ -20,7 +20,7 @@ when '-h', '--help'
       Print version information.
 
     Usage: #{me} -h|--help
-      Print this help information.
+      Print help information.
   HELP
 when nil
   arg_path = '~/bin'

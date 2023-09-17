@@ -6,9 +6,9 @@ Cleanup XCode derived data and archives."
 set -e
 case "$1" in
 ('')
-  rm -rfv ~/Library/Developer/Xcode/DerivedData/* >/dev/null
-  rm -rfv ~/Library/Developer/Xcode/Archives/* >/dev/null
-  rm -rfv ~/Library/Developer/Xcode/iOS Device Logs/* >/dev/null
+  rm -rfv "$HOME/Library/Developer/Xcode/DerivedData/*" >/dev/null
+  rm -rfv "$HOME/Library/Developer/Xcode/Archives/*" >/dev/null
+  rm -rfv "$HOME/Library/Developer/Xcode/iOS Device Logs/*" >/dev/null
 ;;
 (-h|--help) echo "$USAGE" ;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
