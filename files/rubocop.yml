@@ -1,18 +1,41 @@
 ---
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 3.2
+  TargetRubyVersion: 3.3
+
 Style/Documentation:
   Enabled: false
 Style/NumericPredicate:
   Enabled: false
 Style/StderrPuts:
   Enabled: false
-Style/EmptyMethod:
+Style/InfiniteLoop:
   Enabled: false
+Style/HashConversion:
+  Enabled: false
+Style/IfUnlessModifier:
+  Enabled: false
+Style/SpecialGlobalVars:
+  Enabled: false
+
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
+Layout/MultilineOperationIndentation:
+  Enabled: false
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+Layout/BlockAlignment:
+  Enabled: false
+
 Metrics/BlockLength:
-  AllowedMethods: ['describe', 'context']
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
+Metrics/ClassLength:
+  Enabled: false
+
 Lint/ReturnInVoidContext:
+  Enabled: false
+
+Naming/FileName:
   Enabled: false
