@@ -53,6 +53,16 @@ aws-renew()
 	return $?
 }
 
+_fae()
+{
+	(( CURRENT == 2 )) &&{
+		local cmds=( $(list-commands --abbrev) )
+		_describe -t cmds 'commands' cmds
+	}
+	return 0
+}
+compdef _fae \#
+
 # add new password to password-store
 npass()
 {

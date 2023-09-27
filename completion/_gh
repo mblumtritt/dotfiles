@@ -1,0 +1,13 @@
+#compdef gh
+
+(( CURRENT == 2 )) &&{
+  local -a commands
+  commands=(
+    'branch:open current branch'
+    'create:create a pull request for current branch'
+    'current:open pull request for current branch'
+    'index:open pull request index'
+  )
+  _describe -t commands 'commands' commands
+}
+return 0

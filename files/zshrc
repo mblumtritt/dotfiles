@@ -33,7 +33,7 @@ bindkey "\e[A" history-beginning-search-backward-end
 bindkey "\e[B" history-beginning-search-forward-end
 
 # setup completion
-fpath=($BREW_PATH/share/zsh/site-functions $fpath)
+fpath=($HOME/.local/completion $BREW_PATH/share/zsh/functions $BREW_PATH/share/zsh/site-functions $fpath)
 zstyle ':completion:*' completer _complete _ignored _approximate
 zstyle ':completion:*' max-errors 2
 zstyle ':completion:*' menu select=1
@@ -69,12 +69,12 @@ promptinit
 PROMPT=''
 RPROMPT='%(?,,%K{red}%F{white}%B %? %b%f%k)'
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>/@'
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=blue'
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#f873f0'
 
 try_source "$BREW_PATH/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+try_source "$BREW_PATH/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source ~/.local/init/iterm2_shell_integration.zsh
 source ~/.local/init/lib.zsh
-source ~/.local/init/completion.zsh
 source ~/.local/init/alias
 try_source ~/.zshrc.local
 try_source ~/.config/broot/launcher/bash/br

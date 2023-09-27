@@ -52,5 +52,6 @@ link_files "$HOME/.local/dotfiles/files" "$HOME" "."
 link_files "$HOME/.local/dotfiles/init" "$HOME/.local/init"
 link_files "$HOME/.local/dotfiles/bin" "$HOME/bin"
 ln -sf "$HOME/.local/dotfiles/assets/apic" "$HOME/.local"
+ln -sf "$HOME/.local/dotfiles/completion" "$HOME/.local"
 
 link_file_to "$HOME/.local/dotfiles/files/vscode-settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
