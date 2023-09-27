@@ -5,7 +5,7 @@ List information about all disks."
 
 set -e
 case "$1" in
-('') diskutil list ;;
+('') exec diskutil list ;;
 (-h|--help) echo "$USAGE" ;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac

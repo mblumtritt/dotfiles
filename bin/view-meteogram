@@ -6,6 +6,6 @@ Display the meteogram of a city - uses Leipzig as default."
 set -e
 case "$1" in
 (-h|--help) echo "$USAGE" ;;
-('') finger leipzig@graph.no ;;
-(*) finger "${1}@graph.no" ;;
+('') exec finger leipzig@graph.no ;;
+(*) exec finger "${1}@graph.no" ;;
 esac

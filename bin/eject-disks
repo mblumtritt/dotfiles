@@ -6,7 +6,7 @@ Ejects all removeable disks."
 set -e
 case "$1" in
 ('')
-  osascript -e 'tell application "Finder" to eject (every disk whose ejectable is true)'
+  exec osascript -e 'tell application "Finder" to eject (every disk whose ejectable is true)'
 ;;
 (-h|--help) echo "$USAGE" ;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;

@@ -5,7 +5,7 @@ Convert YAML from stdin into JSON to stdout."
 
 set -e
 case "$1" in
-('') ruby \
+('') exec ruby \
   --disable-all \
   -rpsych \
   -roj \

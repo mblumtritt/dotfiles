@@ -5,7 +5,7 @@ Convert JSON from stdin into YAML to stdout."
 
 set -e
 case "$1" in
-('') ruby --disable-all -rpsych -roj -e'Psych.dump Oj.load(STDIN),STDOUT' ;;
+('') exec ruby --disable-all -rpsych -roj -e'Psych.dump Oj.load(STDIN),STDOUT' ;;
 (-h|--help) echo "$USAGE" ;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac

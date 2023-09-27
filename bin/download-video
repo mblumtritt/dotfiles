@@ -10,7 +10,7 @@ case "$1" in
 (*)
     mkdir -p "$HOME/Downloads"
     cd "$HOME/Downloads"
-    yt-dlp \
+    exec yt-dlp \
         --no-overwrites \
         --console-title \
         --concurrent-fragments 8 \

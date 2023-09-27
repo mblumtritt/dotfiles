@@ -9,10 +9,12 @@ case "$1" in
 (-h|--help) echo "$USAGE" ;;
 (*)
   if [ -r "$1" ]
-  then code "$1"
+  then exec code "$1"
   else
-    PROJECT="$(list-projects "$1")" || (>&2 echo "${0##*/}: no such project - $1" ; exit 2)
-    code "$PROJECT"
+    PROJECT="$(list-projects "$1")" || (>&2
+      echo "${0##*/}: no such project - $1" ; exit 2
+    )
+    exec code "$PROJECT"
   fi
 ;;
 esac
