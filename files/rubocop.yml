@@ -33,6 +33,8 @@ Metrics/MethodLength:
   Enabled: false
 Metrics/ClassLength:
   Enabled: false
+Metrics/ModuleLength:
+  Enabled: false
 
 Lint/ReturnInVoidContext:
   Enabled: false
