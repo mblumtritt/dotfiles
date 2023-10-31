@@ -1,8 +1,9 @@
 #! /bin/sh
 
-alias ll='lsd -Alg'
-alias lr='lsd -Rl'
-alias tree='lsd --tree'
+alias ls='eza -A --icons=always'
+alias ll='eza -AlFm --git --icons=always --no-user'
+alias lr='eza -ARlFm --git --icons=always --no-user'
+alias tree='eza -lFm --git --icons=always --no-user --tree'
 alias du='du -kh'
 alias top='btm --basic'
 
