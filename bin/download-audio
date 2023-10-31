@@ -11,7 +11,8 @@ case "$1" in
     mkdir -p "$HOME/Downloads"
     cd "$HOME/Downloads"
     exec yt-dlp \
-        --extract-audio --audio-format m4a --audio-quality 0 \
+        --extract-audio \
+        --audio-quality 0 \
         --embed-metadata \
         --embed-thumbnail \
         --no-overwrites \
@@ -19,5 +20,6 @@ case "$1" in
         --concurrent-fragments 8 \
         --geo-bypass \
         "$@"
+        # --audio-format m4a \
 ;;
 esac
