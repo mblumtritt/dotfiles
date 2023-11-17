@@ -22,7 +22,6 @@ file_create 'stats.md' do |f|
 
     ![last commit](https://img.shields.io/github/last-commit/mblumtritt/#{Prj.name}/main)
     ![files](https://img.shields.io/github/directory-file-count/mblumtritt/#{Prj.name})
-    ![build status](https://img.shields.io/github/workflow/status/mblumtritt/#{Prj.name}/Ruby)
     ![dependencies](https://img.shields.io/librariesio/github/mblumtritt/#{Prj.name})
 
     ![commit activity](https://img.shields.io/github/commit-activity/m/mblumtritt/#{Prj.name})

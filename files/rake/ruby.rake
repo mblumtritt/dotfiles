@@ -21,7 +21,7 @@ file_create "lib/#{Prj.name}/version.rb" => "lib/#{Prj.name}" do |f|
 
     module #{Prj.module}
       # @return [String] the version number of the gem
-      VERSION = '0.1.0'
+      VERSION = '0.1.0alpha'
     end
   VERSION
 end

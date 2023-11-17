@@ -26,8 +26,13 @@ file_create(
 
   RSpec.describe '#{Prj.module}::VERSION' do
     subject(:version) { #{Prj.module}::VERSION }
-    it { is_expected.to match(/\\A[[:digit:]]+\\.[[:digit:]]+\\.[[:digit:]]+\\z/) }
+
     it { is_expected.to be_frozen }
+    it do
+      is_expected.to match(
+        /\A[[:digit:]]{1,3}.[[:digit:]]{1,3}.[[:digit:]]{1,3}(alpha|beta)?\z/
+      )
+    end
   end
 SPEC
 
