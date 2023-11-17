@@ -18,7 +18,7 @@ alias e='edit-text'
 alias sc='shellcheck'
 
 alias rk='noglob rake'
-alias gr='rk --rakelib ~/.rake'
+alias gr='rk --rakelib ~/.rake --rakefile none'
 
 alias be='bundle exec'
 alias ber='noglob bundle exec rake'
