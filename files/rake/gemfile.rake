@@ -14,7 +14,7 @@ file_create 'Gemfile' do |f|
     end
   CONTENT
 
-  content += <<~CONTENT if File.file?('.yardopts')
+  content << <<~CONTENT if File.file?('.yardopts')
 
     group :development do
       gem 'webrick', require: false
@@ -22,14 +22,14 @@ file_create 'Gemfile' do |f|
     end
   CONTENT
 
-  content += <<~CONTENT if File.directory?('spec')
+  content << <<~CONTENT if File.directory?('spec')
 
     group :test do
       gem 'rspec', require: false
     end
   CONTENT
 
-  content += <<~CONTENT if File.file?("#{Prj.name}.gemspec")
+  content << <<~CONTENT if File.file?("#{Prj.name}.gemspec")
 
     gemspec
   CONTENT

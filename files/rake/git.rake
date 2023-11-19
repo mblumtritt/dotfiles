@@ -11,6 +11,8 @@ file_create '.gitignore' => '.git/HEAD' do |f|
     local/
     doc/
     .yardoc/
-    Gemfile.lock
+    .vscode/
+    *.lock
+    .rubocop.*
   GITIGNORE
 end
