@@ -9,7 +9,7 @@ file_create 'Rakefile' do |f|
     $stdout.sync = $stderr.sync = true
   CONTENT
 
-  content << <<~CONTENT if File.file?("#{Prj.name}.gemspec")
+  content += <<~CONTENT if File.file?("#{Prj.name}.gemspec")
 
     require 'bundler/gem_tasks'
 
@@ -27,7 +27,7 @@ file_create 'Rakefile' do |f|
     task('doc:dev' => :clobber) { exec('yard server --reload') }
   CONTENT
 
-  content << <<~CONTENT
+  content += <<~CONTENT
 
     task(:default) { exec('rake --tasks') }
   CONTENT
