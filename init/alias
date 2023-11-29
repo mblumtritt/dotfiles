@@ -1,16 +1,13 @@
 #! /bin/sh
 
+alias fucking='sudo'
+alias please='sudo'
+
 alias ls='eza -A --icons=always'
 alias ll='eza -AlFm --git --icons=always --no-user'
 alias lr='eza -ARlFm --git --icons=always --no-user'
 alias tree='eza -lFm --git --icons=always --no-user --tree'
 alias du='du -kh'
-alias top='btm --basic'
-
-alias ...='cd ..'
-
-alias fucking='sudo'
-alias please='sudo'
 
 alias o='open'
 alias g='git'
@@ -18,7 +15,7 @@ alias e='edit-text'
 alias sc='shellcheck'
 
 alias rk='noglob rake'
-alias gr='rk --rakelib ~/.rake --rakefile none'
+alias gr='noglob rake --rakelib ~/.rake --rakefile none'
 
 alias be='bundle exec'
 alias ber='noglob bundle exec rake'
@@ -32,6 +29,4 @@ alias rcop='rubocop -D -E -S'
 alias pretty!='rbprettier --ignore-path=".gitignore" --single-quote --ruby-single-quote --ruby-to-proc --no-error-on-unmatched-pattern --write "**/*.{ru,rb,yml,yaml,md,rake}"'
 
 alias dc='docker compose'
-alias dcp='docker compose pull'
-alias dcu='docker compose up -d'
 alias dcd='docker compose down --remove-orphans'
