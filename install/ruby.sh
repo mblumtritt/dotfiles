@@ -9,5 +9,5 @@ readonly _GEM
   echo 'install: Ruby basic gems'
   $_GEM update --system --no-document
   $_GEM update --no-document
-  $_GEM install bundler rake pry rubocop prettier
+  $_GEM install bundler rake pry rubocop syntax_tree tcp-client host-os natty-ui
 }
