@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby --disable-all
+# frozen_string_literal: true
+
+case ARGV[0]
+when '-v', '--version'
+  puts("#{File.basename(Process.argv0)} v0.1.0")
+  exit
+when '-h', '--help'
+  puts(<<~HELP)
+    Usage: #{File.basename(Process.argv0)} <addressee> [<message>]
+
+    Send given <message> or STDIN to <addressee> via iMessage.
+  HELP
+  exit
+when nil
+  $stderr.puts("#{File.basename(Process.argv0)}: <addressee> missing")
+  exit(1)
+else
+  addressee = ARGV.shift
+  msg = Array.new(ARGV)
+  msg += $stdin.readlines(chomp: true) if File.pipe?($stdin)
+  if ARGV.empty?
+    $stderr.puts("#{File.basename(Process.argv0)}: <message> missing")
+    exit(1)
+  end
+  msg.map! { |line| line.tr("'", '`').gsub(/["\n]/) { |i| "\\#{i}" } }
+  exec(
+    "osascript -e 'tell application \"Messages\" to send \"#{
+      msg.join('\\n')
+    }\" to buddy \"#{addressee}\"'"
+  )
+end
