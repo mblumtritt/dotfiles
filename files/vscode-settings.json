@@ -38,7 +38,7 @@
   "editor.tabSize": 2,
   "editor.unicodeHighlight.ambiguousCharacters": false,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "eslint.format.enable": true,
   "eslint.run": "onSave",
@@ -87,9 +87,9 @@
     "editor.defaultFormatter": "ruby-syntax-tree.vscode-syntax-tree"
   },
   "syntaxTree.singleQuotes": true,
-  "workbench.activityBar.visible": false,
   "files.associations": {
     "Gemfile": "ruby"
   },
-  "workbench.colorTheme": "Witch Hazel Hypercolor"
+  "workbench.colorTheme": "MikeLight",
+  "workbench.activityBar.location": "hidden"
 }
