@@ -87,7 +87,7 @@ module Abbrev
 
       def combine(left, right)
         ret = []
-        left.each { |l| right.each { |r| ret << "#{l}#{r}" } }
+        left.each { |l| right.each { |r| ret << (l + r) } }
         ret
       end
 

@@ -41,10 +41,10 @@ end
 projects =
   begin
     ret = {}
-    prj_dir = "#{File.expand_path('~/prj')}/"
+    prj_dir = File.expand_path('~/prj') + '/'
     Dir.glob("#{prj_dir}*") do |tdir|
       next unless File.directory?(tdir)
-      Dir.glob("#{tdir}/*") do |sdir|
+      Dir.glob(tdir + '/*') do |sdir|
         next unless File.directory?(sdir)
         short = sdir.delete_prefix(prj_dir).tr('/', '-')
         ret[short] = sdir unless short.include?('--')

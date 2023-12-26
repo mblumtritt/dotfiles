@@ -11,8 +11,7 @@ end
 
 class RubyDoc
   def self.find(root, str) = new(root).find(str)
-
-  def initialize(root) = @root = File.expand_path(root)
+  def initialize(root) = (@root = File.expand_path(root))
 
   def find(str)
     return 'ruby-doc/index.html' if [nil, '', 'main', '/'].include?(str)
