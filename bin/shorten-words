@@ -1,128 +1,116 @@
 #!/usr/bin/env ruby --disable-all
 # frozen_string_literal: true
 
-out("#{me} v0.2.1") if %w[-v --version].include?(ARGV[0])
-out(<<~HELP) if %w[-h --help].include?(ARGV[0])
-  Usage: #{me} [<option> | <word>]
+$stdout.sync = true
+trap(2) { exit(138) }
+opt_list = opt_sort = opt_word = nil
+def me = File.basename(Process.argv0)
 
-  Without any arguments, a wordlist is read from $stdin and print all words and
-  abbreviations.
+ARGV.each do |arg|
+  case arg
+  when '-v', '--version'
+    puts("#{me} v0.3.0")
+    exit
+  when '-h', '--help'
+    puts(<<~HELP)
+      Usage: #{me} [<options> | <word>]
 
-  If a <word> is given, the wordlist is read from $stdin and print matching word.
-  Eixts with errorcode 1 when no matching word was found.
+      Without any arguments, a wordlist is read from $stdin and print all words and
+      abbreviations.
 
-  Options:
-    -l, --list      Read wordlist from $stdin and print all abbreviations list.
-    -v, --version   Print version information.
-    -h, --help      Print help information.
-HELP
+      If a <word> is given, the wordlist is read from $stdin and print matching word.
+      Eixts with errorcode 1 when no matching word was found.
 
-BEGIN {
-  def me = File.basename(Process.argv0)
-  def out(msg) = (puts(msg) or exit)
-}
-
-def die!(msg) = ($stderr.puts("#{me}: #{msg}") or exit(1))
-die!('too many arguments') if ARGV.size > 1
-
-VIEW_LIST = %w[-l --list].include?(ARGV[0])
-FIND_WORD = (VIEW_LIST ? nil : ARGV[0])
-Word = Struct.new(:value, :word_count, :sub)
-
-def read_in
-  word_pad = Set.new
-  tabu = Set.new
-  ret = []
-
-  $stdin.each_line(chomp: true) do |line|
-    line
-      .split
-      .map!(&:strip)
-      .each do |word|
-        next if word.empty?
-        out(word) if word == FIND_WORD
-        next if word_pad.include?(word)
-        word_pad << word
-        sub = word.split('-')
-        next tabu << word if (sub.size == 1) && (word.size <= 4)
-        ret << Word.new(word, sub.size, sub)
-      end
-  end
-  [
-    tabu.freeze,
-    ret
-      .sort! do |a, b|
-        r = a.word_count <=> b.word_count
-        r == 0 ? a.value <=> b.value : r
-      end
-      .freeze
-  ]
-end
-
-def create_abbrevs(words)
-  ret = {}
-  words.each do |word|
-    word.sub.each { |sw| ret[sw] ||= Array.new(sw.size) { |i| sw[..i] } }
-  end
-  ret.freeze
-end
-
-def combine(left, right)
-  ret = []
-  left.each { |l| right.each { |r| ret << "#{l}#{r}" } }
-  ret
-end
-
-def create_candidates(words)
-  abbrevs = create_abbrevs(words)
-  ret = Hash.new { |h, k| h[k] = [] }
-  words.each do |word|
-    sub = abbrevs[word.sub.shift]
-    if word.sub.empty?
-      sub.each { |w| ret[w] << word }
-      size = sub.size
-    else
-      until word.sub.empty?
-        sub = combine(sub, abbrevs[word.sub.shift])
-        sub.each { |w| ret[w] << word }
-        size = sub.size
-      end
-    end
-    word.sub = size
-  end
-  ret
-end
-
-def create_result(words, tabu)
-  ret = {}.compare_by_identity
-  create_candidates(words)
-    .except(*tabu.to_a)
-    .each_pair do |abbrev, ary|
-      ary.sort! do |a, b|
-        c = a.word_count <=> b.word_count
-        next c if c != 0
-        c = a.sub <=> b.sub
-        c == 0 ? a.value <=> b.value : c
-      end
-      best = ary[0]
-      ret[best] = abbrev unless ret.key?(best)
-    end
-  ret.invert
-end
-
-tabu, all_words = read_in
-all_words = create_result(all_words, tabu)
-
-FIND_WORD and out((all_words[FIND_WORD] || exit(1)).value)
-
-view =
-  if VIEW_LIST
-    ->(abbrev) { puts("#{abbrev}:#{all_words[abbrev]&.value || abbrev}") }
+      Options:
+        -l, --list      Read wordlist from $stdin and print all abbreviations list.
+        -s, --sort      Print sorted.
+        -v, --version   Print version information.
+        -h, --help      Print help information.
+    HELP
+    exit
+  when '-l', '--list'
+    opt_list = true
+  when '-s', '--sort'
+    opt_sort = true
+  when '-ls', '-sl'
+    opt_list = true
+    opt_sort = true
   else
-    lambda do |abbrev|
-      puts(abbrev)
-      puts(all_words[abbrev].value) if all_words.key?(abbrev)
+    opt_word = arg
+  end
+end
+
+module Abbrev
+  def self.add(word)
+    word = Word.new(word)
+    word.each { |abbrev| @cat[abbrev][word] = word }
+    @cat[word.value][word] = word if word.value.include?('-')
+  end
+
+  def self.each_pair
+    until @cat.empty?
+      @cat
+        .keys
+        .sort! { |a, b| (r = a.size <=> b.size) == 0 ? a <=> b : r }
+        .each do |abbrev|
+          found = @cat[abbrev]
+          next if found.size > 1
+          next @cat.delete(abbrev) if found.empty?
+          word = found.first[0]
+          @cat.delete(abbrev)
+          @cat.each_value { |ary| ary.delete(word) }
+          yield(abbrev, word.value)
+        end
     end
   end
 
-(all_words.keys + tabu.to_a).sort!.each(&view)
+  def self.each_sorted_pair(&)
+    temp = []
+    each_pair { |*a| temp << a }
+    temp.sort_by!(&:first).each(&)
+  end
+
+  @cat = Hash.new { |h, k| h[k] = {}.compare_by_identity }
+
+  Word =
+    Data.define(:value) do
+      def each(&)
+        reduce(value.split('-').delete_if(&:empty?).map! { abbrev(_1) }).each(&)
+      end
+
+      private
+
+      def abbrev(word)
+        return word.size.times { |i| yield(word[..i]) } if block_given?
+        to_enum(__method__, word)
+      end
+
+      def combine(left, right)
+        ret = []
+        left.each { |l| right.each { |r| ret << "#{l}#{r}" } }
+        ret
+      end
+
+      def reduce(parts)
+        ret = parts.shift
+        ret = combine(ret, parts.shift) until parts.empty?
+        ret
+      end
+    end
+end
+
+$stdin.each_line(chomp: true) do |line|
+  line.split.map!(&:strip).each { |word| Abbrev.add(word) unless word.empty? }
+end
+
+if opt_word
+  Abbrev.each_pair do |abbrev, word|
+    next if opt_word != abbrev
+    puts(word)
+    exit
+  end
+  exit(1)
+end
+
+func = opt_list ? proc { |a, w| puts("#{a}:#{w}") } : proc { |*a| puts(*a) }
+opt_sort ? Abbrev.each_sorted_pair(&func) : Abbrev.each_pair(&func)

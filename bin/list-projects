@@ -22,7 +22,7 @@ BEGIN {
   def die!(msg, code: 1) = ($stderr.puts("#{me}: #{msg}") or exit(code))
 }
 
-arg_list = '--list' if %w[-a --abbrev].include?(ARGV[0]) && ARGV.shift
+arg_list = '-ls' if %w[-a --abbrev].include?(ARGV[0]) && ARGV.shift
 die!('too many arguments') if ARGV.size > 1
 
 def with_word_abbrev(input, arg)

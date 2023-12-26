@@ -68,7 +68,7 @@ IO.pipe do |in_read, in_write|
   end
 
   IO.popen(
-    "shorten-words#{' --list' if opt_abbrev}",
+    "shorten-words#{' -ls' if opt_abbrev}",
     in: in_read,
     err: %i[child out]
   ) do |stream|
