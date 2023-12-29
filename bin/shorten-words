@@ -9,102 +9,73 @@ def me = File.basename(Process.argv0)
 ARGV.each do |arg|
   case arg
   when '-v', '--version'
-    puts("#{me} v0.3.0")
+    puts("#{me} v0.3.5")
     exit
   when '-h', '--help'
     puts(<<~HELP)
-      Usage: #{me} [<options> | <word>]
+      Usage: #{me} [<options> | <abbrev> | --help | --version]
 
-      Without any arguments, a wordlist is read from $stdin and print all words and
-      abbreviations.
-
-      If a <word> is given, the wordlist is read from $stdin and print matching word.
-      Eixts with errorcode 1 when no matching word was found.
+      Without further arguments, a word list is read in from $stdin and all words
+      and their abbreviations are printed.
 
       Options:
-        -l, --list      Read wordlist from $stdin and print all abbreviations list.
-        -s, --sort      Print sorted.
-        -v, --version   Print version information.
-        -h, --help      Print help information.
+        -l, --list      Print as list.
+        -s, --sort      Print as sorted list.
+
+      If an <abbrev> is given, a word list is read in from $stdin and the word
+      matching the given <abbrev> is printed. When no match was found the program
+      terminates with errorcode 1.
+
+      Other commands:
+        -v, --version   Print just version information.
+        -h, --help      Print this help text.
     HELP
     exit
   when '-l', '--list'
     opt_list = true
-  when '-s', '--sort'
-    opt_sort = true
-  when '-ls', '-sl'
-    opt_list = true
-    opt_sort = true
+  when '-s', '--sort', '-ls', '-sl'
+    opt_list = opt_sort = true
   else
     opt_word = arg
   end
 end
 
-module Abbrev
-  def self.add(word)
-    word = Word.new(word)
-    word.each { |abbrev| @cat[abbrev][word] = word }
-    @cat[word.value][word] = word if word.value.include?('-')
-  end
+catalog = Hash.new { |h, k| h[k] = {}.compare_by_identity }
+def abbrev(word) = Array.new(word.size) { word[.._1] }
+def combine(left, right) = left.map { |l| right.map { |r| l + r } }.flatten(1)
 
-  def self.each_pair
-    until @cat.empty?
-      @cat
-        .keys
-        .sort! { |a, b| (r = a.size <=> b.size) == 0 ? a <=> b : r }
-        .each do |abbrev|
-          found = @cat[abbrev]
-          next if found.size > 1
-          next @cat.delete(abbrev) if found.empty?
-          word = found.first[0]
-          @cat.delete(abbrev)
-          @cat.each_value { |ary| ary.delete(word) }
-          yield(abbrev, word.value)
-        end
-    end
-  end
-
-  def self.each_sorted_pair(&)
-    temp = []
-    each_pair { |*a| temp << a }
-    temp.sort_by!(&:first).each(&)
-  end
-
-  @cat = Hash.new { |h, k| h[k] = {}.compare_by_identity }
-
-  Word =
-    Data.define(:value) do
-      def each(&)
-        reduce(value.split('-').delete_if(&:empty?).map! { abbrev(_1) }).each(&)
-      end
-
-      private
-
-      def abbrev(word)
-        return word.size.times { |i| yield(word[..i]) } if block_given?
-        to_enum(__method__, word)
-      end
-
-      def combine(left, right)
-        ret = []
-        left.each { |l| right.each { |r| ret << (l + r) } }
-        ret
-      end
-
-      def reduce(parts)
-        ret = parts.shift
-        ret = combine(ret, parts.shift) until parts.empty?
-        ret
-      end
-    end
+def add(catalog, word)
+  parts = word.split('-').delete_if(&:empty?)
+  candidates = abbrev(parts.shift)
+  candidates = combine(candidates, abbrev(parts.shift)) until parts.empty?
+  candidates.each { |abbrev| catalog[abbrev][word] = word }
+  catalog[word][word] = word if word.include?('-')
+  nil
 end
 
 $stdin.each_line(chomp: true) do |line|
-  line.split.map!(&:strip).each { |word| Abbrev.add(word) unless word.empty? }
+  line.split.map!(&:strip).each { |word| add(catalog, word) unless word.empty? }
+end
+
+def each_pair(catalog)
+  until catalog.empty?
+    catalog
+      .keys
+      .sort! { |a, b| (r = a.size <=> b.size) == 0 ? a <=> b : r }
+      .each do |abbrev|
+        found = catalog[abbrev]
+        next if found.size > 1
+        catalog.delete(abbrev)
+        next if found.empty?
+        word = found.first[0]
+        catalog.each_value { |ary| ary.delete(word) }
+        yield(abbrev, word)
+      end
+  end
 end
 
 if opt_word
-  Abbrev.each_pair do |abbrev, word|
+  each_pair(catalog) do |abbrev, word|
     next if opt_word != abbrev
     puts(word)
     exit
@@ -113,4 +84,9 @@ if opt_word
 end
 
 func = opt_list ? proc { |a, w| puts("#{a}:#{w}") } : proc { |*a| puts(*a) }
-opt_sort ? Abbrev.each_sorted_pair(&func) : Abbrev.each_pair(&func)
+
+if opt_sort
+  to_enum(:each_pair, catalog).sort_by(&:first).each(&func)
+else
+  each_pair(catalog, &func)
+end
