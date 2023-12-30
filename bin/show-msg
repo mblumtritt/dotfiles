@@ -1,11 +1,11 @@
 #! /bin/sh
-USAGE="Usage: ${0##*/} MESSAGE [TITLE]
 
-Display a notification message."
-
-set -e
 case "$1" in
+(-h|--help) echo "Usage: ${0##*/} MESSAGE [TITLE]
+
+Display a notification message." ;;
 ('') echo "${0##*/}: MESSAGE missing" >&2 ; exit 1 ;;
-(-h|--help) echo "$USAGE" ;;
-(*) exec terminal-notifier -message "$1" -title "${2-Notification}" -ignoreDnD ;;
+(*)
+  set -e
+  exec terminal-notifier -message "$1" -title "${2-Notification}" -ignoreDnD ;;
 esac

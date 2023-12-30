@@ -1,29 +1,46 @@
 #!/usr/bin/env ruby --disable-all
 # frozen_string_literal: true
 
-out("#{me} v0.4.1") if %w[-v --version].include?(ARGV[0])
-out(<<~HELP) if %w[-h --help].include?(ARGV[0])
-  Usage: #{me} [-a|--abbrev]
-    Print all project directories and their abbrevations.
+def me = File.basename(Process.argv0)
+def die!(msg, code: 1) = ($stderr.puts("#{me}: #{msg}") or exit(code))
+arg_list = nil
 
-  Usage: #{me} <name>
-    Print project directory matching <name>.
+case ARGV[0]
+when '-v', '--version'
+  puts("#{me} v0.4.1")
+  exit
+when '-h', '--help'
+  puts(<<~HELP)
+    Usage: #{me} [-a|--abbrev]
+      Print all project directories and their abbrevations.
 
-  Usage: #{me} -v|--version
-    Print version information.
+    Usage: #{me} <name>
+      Print project directory matching <name>.
 
-  Usage: #{me} -h|--help
-    Print this help information.
-HELP
+    Usage: #{me} -v|--version
+      Print version information.
 
-BEGIN {
-  def me = File.basename(Process.argv0)
-  def out(msg) = (puts(msg) or exit)
-  def die!(msg, code: 1) = ($stderr.puts("#{me}: #{msg}") or exit(code))
-}
+    Usage: #{me} -h|--help
+      Print this help information.
+  HELP
+  exit
+when '-a', '--abbrev'
+  arg_list = '-ls'
+  ARGV.shift
+end
 
-arg_list = '-ls' if %w[-a --abbrev].include?(ARGV[0]) && ARGV.shift
 die!('too many arguments') if ARGV.size > 1
+
+projects = {}
+prj_dir = File.expand_path('~/prj') + '/'
+Dir.glob("#{prj_dir}*") do |tdir|
+  next unless File.directory?(tdir)
+  Dir.glob(tdir + '/*') do |sdir|
+    next unless File.directory?(sdir)
+    short = sdir.delete_prefix(prj_dir).tr('/', '-')
+    projects[short] = sdir unless short.include?('--')
+  end
+end
 
 def with_word_abbrev(input, arg)
   arg = " '#{arg}'" if arg
@@ -38,29 +55,15 @@ def with_word_abbrev(input, arg)
   end
 end
 
-projects =
-  begin
-    ret = {}
-    prj_dir = File.expand_path('~/prj') + '/'
-    Dir.glob("#{prj_dir}*") do |tdir|
-      next unless File.directory?(tdir)
-      Dir.glob(tdir + '/*') do |sdir|
-        next unless File.directory?(sdir)
-        short = sdir.delete_prefix(prj_dir).tr('/', '-')
-        ret[short] = sdir unless short.include?('--')
-      end
-    end
-    ret
-  end
-
 if ARGV.empty?
   with_word_abbrev(projects.keys, arg_list) do |stream|
     IO.copy_stream(stream, $stdout)
   end
-else
-  with_word_abbrev(projects.keys, ARGV[0]) do |stream|
-    out(projects[stream.readline(chomp: true)])
-  rescue EOFError
-    exit(1)
-  end
+  exit
+end
+
+with_word_abbrev(projects.keys, ARGV[0]) do |stream|
+  puts(projects[stream.readline(chomp: true)])
+rescue EOFError
+  exit(1)
 end

@@ -1,4 +1,5 @@
 #! /bin/sh
+
 echo 'install: dotfiles'
 set -e
 

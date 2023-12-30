@@ -1,11 +1,11 @@
 #! /bin/sh
-USAGE="Usage: ${0##*/}
 
-Clean up Docker stuff."
-
-set -e
 case "$1" in
+(-h|--help) echo "Usage: ${0##*/}
+
+Clean up Docker stuff." ;;
 ('')
+  set -e
   start-docker
   docker image prune -f
   docker container prune -f
@@ -13,6 +13,5 @@ case "$1" in
   docker network prune -f
   docker system prune -f -a
 ;;
-(-h|--help) echo "$USAGE" ;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac

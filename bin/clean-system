@@ -1,11 +1,11 @@
 #! /bin/sh
-USAGE="Usage: ${0##*/}
 
-Clean system. (May require password.)"
-
-set -e
 case "$1" in
+(-h|--help) echo "Usage: ${0##*/}
+
+Clean system. (May require password.)" ;;
 ('')
+	set -e
 	echo '❗️ clean all stuff'
 
 	cleanup() {
@@ -45,6 +45,5 @@ case "$1" in
 	echo '🗑️ cleanup XCode derived data and archives...' ; clean-xcode
 	echo '🗑️ clean Trashes...' ; clean-trashes
 ;;
-(-h|--help) echo "$USAGE" ;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac

@@ -1,11 +1,11 @@
 #! /bin/bash
-USAGE="Usage: ${0##*/}
 
-View colors."
-
-set -e
 case "$1" in
+(-h|--help) echo "Usage: ${0##*/}
+
+View colors." ;;
 ('')
+	set -e
 	CLEAR=$(tput op)
 	COLS=$(tput cols)
 	for i in {0..255} ; do
@@ -13,6 +13,5 @@ case "$1" in
 		{ test "$(((i + 1) % (COLS / 5)))" -eq '0' || test "$i" -eq '255'; } && echo
 	done
 ;;
-(-h|--help) echo "$USAGE" ;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac

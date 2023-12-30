@@ -1,11 +1,11 @@
 #! /bin/sh
-USAGE="Usage: ${0##*/}
 
-Ensure Docker is started."
-
-set -e
 case "$1" in
+(-h|--help) echo "Usage: ${0##*/}
+
+Ensure Docker is started." ;;
 ('')
+  set -e
   (command -v docker >/dev/null 2>&1) || {
     echo "${0##*/}: Docker not installed" >&2
     exit 1
@@ -15,6 +15,5 @@ case "$1" in
   do sleep 1
   done
 ;;
-(-h|--help) echo "$USAGE" ;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac

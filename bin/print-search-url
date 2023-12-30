@@ -1,5 +1,8 @@
 #! /bin/sh
-USAGE="Usage: ${0##*/} OPTION [TERM]
+
+set -e
+case "$1" in
+(--help) echo "Usage: ${0##*/} OPTION [TERM]
 
 Print search URL.
 
@@ -14,9 +17,8 @@ Options:
    -w, --wiki         print Wikipedia search URL
    -y, --youtube      print YouTube search URL
        --help         print help"
-
-set -e
-case "$1" in
+    exit
+;;
 (-a|--alpha) url='https://www.wolframalpha.com/input/?i=' ;;
 (-d|--dict) url='https://pocket.dict.cc/?s=' ;;
 (-g|--google) url='https://www.google.de/search?hl=de&as_qdr=all&as_occt=any&num=100&as_q=' ;;
@@ -25,7 +27,6 @@ case "$1" in
 (-p|--perplexity) url='https://www.perplexity.ai/search?q=' ;;
 (-v|--video|-y|--youtube) url='https://www.youtube.com/results?search_query=' ;;
 (-w|--wiki|--wikipedia) url='https://de.wikipedia.org/w/index.php?fulltext=1&search=' ;;
-(--help) echo "$USAGE" ; exit ;;
 ('') echo "${0##*/}: argument missing" >&2 ; exit 1 ;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac

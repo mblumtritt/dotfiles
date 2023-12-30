@@ -1,13 +1,12 @@
 #! /bin/sh
-USAGE="Usage: ${0##*/} [on|off|status]
-
-Enable/disable text auto correction or show status."
 
 set -e
 case "$1" in
+(-h|--help) echo "Usage: ${0##*/} [on|off|status]
+
+Enable/disable text auto correction or show status." ;;
 (on|1) exec defaults write -g NSAutomaticSpellingCorrectionEnabled -bool true ;;
 (off|0) exec defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false ;;
 (status|'') echo "autocorrection_state=$(defaults read -g NSAutomaticSpellingCorrectionEnabled)" ;;
-(-h|--help) echo "$USAGE" ;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac

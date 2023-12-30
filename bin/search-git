@@ -1,11 +1,9 @@
 #! /bin/sh
-USAGE="Usage: ${0##*/} PHRASE
 
-Search given phrase in git history."
-
-set -e
 case "$1" in
+(-h|--help) echo "Usage: ${0##*/} PHRASE
+
+Search given phrase in git history." ;;
 ('') echo "${0##*/}: PHRASE missing" >&2 ; exit 1 ;;
-(-h|--help) echo "$USAGE" ;;
-(*) git log --all -pG"$1" -i | less -i -p"$1" ;;
+(*) set -e; git log --all -pG"$1" -i | less -i -p"$1" ;;
 esac

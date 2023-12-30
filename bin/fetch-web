@@ -1,17 +1,17 @@
 #! /bin/sh
-USAGE="Usage: ${0##*/} URL
 
-Display a file from given URL."
-
-set -e
 case "$1" in
+(-h|--help) echo "Usage: ${0##*/} URL
+
+Display a file from given URL." ;;
 ('') echo "${0##*/}: URL missing" >&2 ; exit 1 ;;
-(-h|--help) echo "$USAGE" ;;
-(*) exec curl \
-  --fail \
-  --compressed \
-  --silent \
-  --location \
-  "$@"
+(*)
+  set -e
+  exec curl \
+    --fail \
+    --compressed \
+    --silent \
+    --location \
+    "$@"
 ;;
 esac

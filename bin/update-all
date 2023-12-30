@@ -1,13 +1,14 @@
 #! /bin/sh
-USAGE="Usage: ${0##*/} [--no-system]
-
-Update System, Homebrew, Homebrew bundles, ASDF and Ruby gems.
-(May require password.)"
 
 set -e
 case "$1" in
+(-h|--help) echo "Usage: ${0##*/} [--no-system]
+
+Update System, Homebrew, Homebrew bundles, ASDF and Ruby gems.
+(May require password.)"
+  exit
+;;
 (-S|--no-system) SYSTEM=0 ;;
-(-h|--help) echo "$USAGE" ; exit ;;
 ('') SYSTEM=1 ;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac

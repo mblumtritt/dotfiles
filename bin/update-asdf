@@ -1,15 +1,14 @@
 #! /bin/sh
-USAGE="Usage: ${0##*/}
 
-Update ASDF and stuff."
-
-set -e
 case "$1" in
+(-h|--help) echo "Usage: ${0##*/}
+
+Update ASDF and stuff." ;;
 ('')
+  set -e
   asdf plugin update --all
   asdf install nodejs latest
   asdf install ruby latest
 ;;
-(-h|--help) echo "$USAGE" ;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac

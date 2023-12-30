@@ -1,21 +1,21 @@
 #! /bin/sh
-USAGE="Usage: ${0##*/} URL
 
-Download a file from given URL to '$HOME/Downloads'."
-
-set -e
 case "$1" in
+(-h|--help) echo "Usage: ${0##*/} URL
+
+Download a file from given URL to '$HOME/Downloads'." ;;
 ('') echo "${0##*/}: URL missing" >&2 ; exit 1 ;;
-(-h|--help) echo "$USAGE" ;;
-(*) exec curl \
-  --output-dir "$HOME/Downloads" \
-  --create-dirs  \
-  --remote-name \
-  --fail \
-  --compressed \
-  --remove-on-error \
-  --progress-bar \
-  --location \
-  "$@"
+(*)
+  set -e
+  exec curl \
+    --output-dir "$HOME/Downloads" \
+    --create-dirs  \
+    --remote-name \
+    --fail \
+    --compressed \
+    --remove-on-error \
+    --progress-bar \
+    --location \
+    "$@"
 ;;
 esac

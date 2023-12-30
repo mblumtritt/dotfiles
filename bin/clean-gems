@@ -1,9 +1,11 @@
 #! /bin/sh
+
 USAGE="Usage: ${0##*/} [-a|--all]
 
 Clean up Ruby gems. Option '--all' removes all installed gems."
 
 set -e
+
 with_rbenv() {
   for ruby in $(rbenv versions --bare); do
     echo "• Ruby $ruby"

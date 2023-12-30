@@ -1,13 +1,12 @@
 #! /bin/sh
-USAGE="Usage: ${0##*/} NAME
 
-Set system NAME. (May require password.)"
-
-set -e
 case "$1" in
+(-h|--help) echo "Usage: ${0##*/} NAME
+
+Set system NAME. (May require password.)" ;;
 ('') echo "${0##*/}: NAME missing" >&2 ; exit 1 ;;
-(-h|--help) echo "$USAGE" ;;
 (*)
+  set -e
   sudo scutil --set ComputerName "$1"
   sudo scutil --set HostName "$1"
   sudo scutil --set LocalHostName "$1"

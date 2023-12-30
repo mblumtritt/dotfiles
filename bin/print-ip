@@ -1,5 +1,8 @@
 #! /bin/sh
-USAGE="Usage: ${0##*/} [OPTIONS]
+
+set -e
+case "$1" in
+(-h|--help) echo "Usage: ${0##*/} [OPTIONS]
 
 Print external or local IP address.
 
@@ -7,13 +10,9 @@ options:
    -4, --ipv4   print IPv4 address (default)
    -6, --ipv6   print IPv6 address
    -l, --local  print local address
-   -h, --help   print help"
-
-set -e
-case "$1" in
+   -h, --help   print help" ;;
 (-4|--ipv4|'') curl -4 https://ipecho.net/plain && echo ;;
 (-6|--ipv6) curl -6 https://ipecho.net/plain && echo ;;
 (-l|--local) ipconfig getifaddr en0 ;;
-(-h|--help) echo "$USAGE" ;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac

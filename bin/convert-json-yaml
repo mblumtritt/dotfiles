@@ -1,11 +1,12 @@
 #! /bin/sh
-USAGE="Usage: ${0##*/}
 
-Convert JSON from stdin into YAML to stdout."
-
-set -e
 case "$1" in
-('') exec ruby --disable-all -rpsych -roj -e'Psych.dump Oj.load(STDIN),STDOUT' ;;
-(-h|--help) echo "$USAGE" ;;
+(-h|--help) echo "Usage: ${0##*/}
+
+Convert JSON from stdin into YAML to stdout." ;;
+('')
+  set -e
+  exec ruby --disable-all -rpsych -roj -e'Psych.dump Oj.load(STDIN),STDOUT'
+;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac

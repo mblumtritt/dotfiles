@@ -1,18 +1,27 @@
 #!/usr/bin/env ruby --disable-all
 # frozen_string_literal: true
 
-VERSION = '0.0.3'
 puts(<<~HELP) or exit if %w[-h --help help].include?(ARGV[0])
   sekki - display the sekki (節気) for a given date
 
   Usage: sekki [--jap|--asc|--desc] [month-day]
 HELP
-puts("sekki v#{VERSION}") or exit if %w[-v --version].include?(ARGV[0])
+puts('sekki v0.1.0') or exit if %w[-v --version].include?(ARGV[0])
 trap(2) { exit(138) }
-require 'date'
-FORMAT = %w[--jp --jap --asc --desc].find { |format| ARGV.delete(format) }
-DATE = ->(month, day) { Date.new(0, month, day).jd }
 DIE = ->(msg, code = 1) { $stderr.puts("sekki: #{msg}") or exit(code) }
+DATE = ->(month, day) { Date.new(0, month, day).jd }
+OUT =
+  case %w[--jp --jap --asc --desc -d].find { |format| ARGV.delete(format) }
+  when '--jap', '--jp'
+    proc { puts(_1) }
+  when '--asc'
+    proc { puts(_2) }
+  when '-d', '--desc'
+    proc { puts(_3) }
+  else
+    proc { |jap, asc, _desc| puts("#{jap} (#{asc})") }
+  end
+require 'date'
 FOR_DATE =
   begin
     date = ARGV.shift
@@ -26,21 +35,6 @@ FOR_DATE =
     end
   end
 DIE['too many arguments'] unless ARGV.empty?
-OUT =
-  lambda do |jap, asc, desc|
-    puts(
-      case FORMAT
-      when '--jap', '--jp'
-        jap
-      when '--asc'
-        asc
-      when '--desc'
-        desc
-      else
-        "#{jap} (#{asc})"
-      end
-    )
-  end
 case FOR_DATE
 when (DATE[2, 4]..DATE[2, 8])
   OUT['東風解凍', 'Harukaze kōri o toku', 'The east wind melts the thick ice.']

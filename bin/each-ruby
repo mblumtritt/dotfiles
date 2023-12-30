@@ -1,17 +1,16 @@
 #! /bin/sh
-USAGE="Usage: ${0##*/} COMMAND
 
-Execute given command for each installed ruby version."
-
-set -e
 case "$1" in
+(-h|--help) echo "Usage: ${0##*/} COMMAND
+
+Execute given command for each installed ruby version." ;;
 ('') echo "${0##*/}: COMMAND missing" >&2 ; exit 1 ;;
-(-h|--help) echo "$USAGE" ;;
 (*)
+	set -e
 	for ruby in $(asdf list ruby | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
 	do
 		echo "• Ruby $ruby"
-		ASDF_RUBY_VERSION="$ruby" asdf exec $@
+		ASDF_RUBY_VERSION="$ruby" asdf exec "$@"
 	done
 ;;
 esac

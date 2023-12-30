@@ -1,10 +1,12 @@
 #! /bin/sh
-USAGE="Usage: ${0##*/}
-
-List WLAN information."
 
 case "$1" in
-('') exec /System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport -s ;;
-(-h|--help) echo "$USAGE" ;;
+(-h|--help) echo "Usage: ${0##*/}
+
+List WLAN information." ;;
+('')
+  set -e
+  exec /System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport -s
+;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac
