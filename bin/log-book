@@ -1,47 +1,67 @@
 #!/usr/bin/env ruby --disable-all
 # frozen_string_literal: true
 
-VERSION = '0.2.1'
+VERSION = '0.4.0'
 NAME = File.basename(Process.argv0).freeze
-def pex(msg, out: $stdout, code: 0) = (out.puts(msg) or exit(code))
-trap(2) { exit(138) }
-
-pex(<<~HELP) if %w[-h --help help].include?(ARGV[0])
+HELP = <<~HELP.freeze
   #{NAME} [-t|--topic <topic>] [<message>]
-    Log a <message> or all stdin lines to a given <topic>.
-
-  #{NAME} ls [<glob>]
-    List <glob> matching or all topics.
-
-  #{NAME} print [-t|--topic <topic>] [<pattern>]
-  #{NAME} print [-t|--topic <topic>] [--time <time>] [<pattern>]
-  #{NAME} print [-t|--topic <topic>] [--after <time>] [--before <time>] [<pattern>]
-    Find all entries of a <topic> matching given <pattern>.
-    The <pattern> can be a simple sub-string or a regular expression when
-    enclosed in slashes ('/').
-    A time or time range can be specified with this formatting:
-      '4:20'             today at 4:20h
-      'may 06'           May 6th this year
-      'may 06 14:30'     May 6th this year at 14:30h
-      '2022'             year 2022
-      '2022/3'           March 2022
-      '2022/3/14'        March 14th of year 2022
-      '2022-03-14 14:30' March 14th of year 2022 at 14:30h
-
-  #{NAME} help
-    Print help information.
-
-  #{NAME} -v|--version
-    Print version information.
+      Log a <message> or all stdin lines to a given <topic>.
+  #{NAME} -l|--list [<glob>]
+      List <glob> matching or all topics.
+  #{NAME} -p|--print [-t|--topic <topic>] [<pattern>]
+  #{NAME} -p|--print [-t|--topic <topic>] [--time <time>] [<pattern>]
+  #{NAME} -p|--print [-t|--topic <topic>] [--after <time>] [--before <time>] [<pattern>]
+      Find all entries of a <topic> matching given <pattern>.
+      The <pattern> can be a simple sub-string or a regular expression when
+      enclosed in slashes ('/').
+      A time or time range can be specified with this formatting:
+        '4:20'              today at 4:20h
+        'may 06'            May 6th this year
+        'may 06 14:30'      May 6th this year at 14:30h
+        '2022'              year 2022
+        '2022/3'            March 2022
+        '2022/3/14'         March 14th of year 2022
+        '2022-03-14 14:30'  March 14th of year 2022 at 14:30h
+  #{NAME} -h | --help
+      Print help information.
+  #{NAME} -v | --version
+      Print version information.
 HELP
 
-pex("#{NAME} v#{VERSION}") if %w[-v --version].include?(ARGV[0])
-
-def root = mkdir_p(File.expand_path(ENV['LB_DIR'] || "~/.#{NAME}"))
+trap(2) { exit(138) }
+def pex(msg, out: $stdout, code: 0) = (out.puts(msg) or exit(code))
 def die!(msg, code: 1) = pex("#{NAME}: #{msg}", code:, out: $stderr)
-def cmd?(name) = (ARGV[0] == name) && ARGV.shift
 
-def mkdir_p(path)
+COMMAND =
+  case ARGV[0]
+  when '-h', '--help'
+    pex(HELP)
+  when '-v', '--version'
+    pex("#{NAME} v#{VERSION}")
+  when '-l', '--list'
+    ARGV.shift
+    'list'
+  when '-p', '--print'
+    ARGV.shift
+    'print'
+  when '-t', '--topic'
+    ARGV.shift and (topic = ARGV.shift or die!('argument missing - <topic>'))
+    'add'
+  else
+    'add'
+  end
+
+ROOT = File.expand_path(ENV['LB_DIR'] || '~/.local/logs').freeze
+
+if COMMAND == 'list'
+  Dir.glob(File.join(ROOT, "#{ARGV[0] || '*'}.log"), sort: true) do |fname|
+    puts(File.basename(fname, '.log')) if file?(fname)
+  end
+  exit
+end
+
+def mkdir_for(fname)
+  path = File.dirname(fname)
   stack = []
   until File.directory?(path)
     stack << path
@@ -52,30 +72,8 @@ def mkdir_p(path)
   rescue SystemCallError
     File.directory?(name) or die("unable to create path - #{name}", code: 3)
   end
-  path
+  nil
 end
-
-def file?(fname)
-  stat = File.stat(fname) and (stat.file? && stat.readable?)
-rescue SystemCallError
-  false
-end
-
-if cmd?('ls')
-  Dir.glob(File.join(root, "#{ARGV[0] || '*'}.log"), sort: true) do |fname|
-    puts(File.basename(fname, '.log')) if file?(fname)
-  end
-  exit
-end
-
-def find_topic
-  i = ARGV.index('--topic') || ARGV.index('-t') or return 'default'
-  ARGV.delete_at(i)
-  ARGV.delete_at(i) || 'default'
-end
-
-fname = File.join(root, "#{find_topic}.log")
-pex(fname) if cmd?('name')
 
 def flags(fname, mode)
   return File::SYNC | File::BINARY | File::RDONLY if mode != :write
@@ -84,6 +82,7 @@ def flags(fname, mode)
 end
 
 def with_file(fname, mode)
+  mkdir_for(fname)
   File.open(fname, flags(fname, mode)) do |file|
     file.flock(mode == :write ? File::LOCK_EX : File::LOCK_SH)
     yield(file)
@@ -92,38 +91,35 @@ rescue SystemCallError
   die!("unable to #{mode} file - #{fname}", code: 3)
 end
 
-def write_msg(out, msg)
-  out.puts("[#{Time.now.utc.strftime('%FT%T')}] #{msg.tr("\r\n", ' ')}")
-end
+def fname(topic) = File.join(ROOT, "#{topic || 'default'}.log")
 
-unless cmd?('print')
-  with_file(fname, :write) do |file|
-    write_msg(file, ARGV.join(' ')) unless ARGV.empty?
+if COMMAND == 'add'
+  with_file(fname(topic), :write) do |file|
+    out =
+      proc do |m|
+        file.puts("[#{Time.now.utc.strftime('%FT%T')}] #{m.tr("\r\n", ' ')}")
+      end
+    out[ARGV.join(' ')] unless ARGV.empty?
     if ARGV.empty? || File.pipe?($stdin)
-      $stdin.each_line(chomp: true) { |line| write_msg(file, line) }
+      $stdin.each_line(chomp: true) { out[_1] }
     end
   end
   exit
 end
 
-file?(fname) ? $stdout.sync = true : exit
-
-if ARGV.empty?
-  with_file(fname, :read) { |file| IO.copy_stream(file, $stdout) }
-  exit
-end
-
 def as_time(str, name)
+  die!("argument missing - <#{name}>") unless str
+  require('date_core') unless defined?(Date)
   tm = Date._parse(str)
   tk = tm.keys.sort!
-  return format('[%04d-%02d-', tm[:year], tm[:mon]) if tk == %i[mon year]
+  return format('[%<year>04d-%<mon>02d-', **tm) if tk == %i[mon year]
   if tk == %i[mday mon year]
-    return format('[%04d-%02d-%02dT', tm[:year], tm[:mon], tm[:mday])
+    return format('[%<year>04d-%<mon>02d-%<mday>02dT', **tm)
   end
   now = Time.now.utc
   if tk == %i[mday mon]
-    return format('[%02d%02d-', tm[:mon], tm[:mday]) if tm[:mon] > 12
-    return format('[%04d-%02d-%02dT', now.year, tm[:mon], tm[:mday])
+    return format('[%<mon>02d%<mday>02d-', **tm) if tm[:mon] > 12
+    return format('[%<year>04d-%<mon>02d-%<mday>02dT', **tm, year: now.year)
   end
   Time.utc(
     tm[:year] || now.year,
@@ -133,74 +129,85 @@ def as_time(str, name)
     tm[:min]
   ).strftime('[%FT%H:%M:')
 rescue ArgumentError, TypeError
-  die!("invalid time format for '#{name}' - #{str}")
+  die!("invalid time format for <#{name}> - #{str}")
 end
 
-def find_time(name)
-  i = ARGV.index(name) or return
-  ARGV.delete_at(i)
-  as_time(ARGV.delete_at(i) || die!("argument missing - #{name}"), name)
+topic = before = after = time = nil
+until ARGV.empty?
+  case ARGV[0]
+  when '-t', '--topic'
+    (ARGV.shift and topic = ARGV.shift) or die!('argument missing - <topic>')
+  when '--time'
+    die!('invalid option - --time') if before || after
+    ARGV.shift and time = as_time(ARGV.shift, 'time')
+  when '--before'
+    die!('invalid option - --before') if time
+    ARGV.shift and before = as_time(ARGV.shift, 'before')
+  when '--after'
+    die!('invalid option - --after') if time
+    ARGV.shift and after = as_time(ARGV.shift, 'after')
+  else
+    break
+  end
 end
 
-require('date_core')
-time = find_time('--time')
-if time
-  die!('invalid option - --before') if ARGV.include?('--before')
-  die!('invalid option - --after') if ARGV.include?('--after')
-else
-  before = find_time('--before')
-  after = find_time('--after')
+FNAME = fname(topic)
+begin
+  (stat = File.stat(FNAME) and stat.file? && stat.readable?) or exit
+rescue SystemCallError
+  exit
 end
 
-matcher =
+PRINTER =
   begin
-    str = ARGV.join(' ')
-    if str.empty?
-      Module.new { define_singleton_method(:match?) { |_| true } }
+    if (str = ARGV.join(' ')).empty?
+      ->(line) { print(line) }
     elsif str.start_with?('/') && str.end_with?('/')
-      Regexp.new(str.delete_prefix('/').delete_suffix!('/'), Regexp::IGNORECASE)
+      str =
+        Regexp.new(
+          str.delete_prefix('/').delete_suffix!('/'),
+          Regexp::IGNORECASE
+        )
+      ->(line) { print(line) if str.match?(line) }
     else
-      Module.new { define_singleton_method(:match?) { |l| l.index(str) } }
+      ->(line) { print(line) if line.index(str) }
     end
   rescue RegexpError => e
     die!("invalid regular expression - #{e}")
   end
 
-def show_matching_before(file, time, matcher)
+def show_matching_before(file, time)
   len = time.size
   file.each_line do |line|
     break if line[0, len] >= time
-    print(line) if matcher.match?(line)
+    PRINTER[line]
   end
 end
 
-with_file(fname, :read) do |file|
+with_file(FNAME, :read) do |file|
   if time
     len = time.size
     file.each_line do |line|
-      tm = line[0, len]
-      break if tm > time
-      print(line) if tm == time && matcher.match?(line)
+      break if (tm = line[0, len]) > time
+      PRINTER[line] if tm == time
     end
   elsif after
     len = after.size
     if before
+      len_bef = before.size
       file.each_line do |line|
         next if line[0, len] <= after
-        exit if line[0, before.size] >= before
-        print(line) if matcher.match?(line)
+        exit if line[0, len_bef] >= before
+        PRINTER[line]
         break
       end
-      show_matching_before(file, before, matcher)
+      show_matching_before(file, before)
     else
-      file.each_line do |line|
-        next if after <= line[0, len]
-        print(line) if matcher.match?(line)
-      end
+      file.each_line { |line| PRINTER[line] if line[0, len] > after }
     end
   elsif before
-    show_matching_before(file, before, matcher)
+    show_matching_before(file, before)
   else
-    file.each_line { |line| print(line) if matcher.match?(line) }
+    file.each_line(&PRINTER)
   end
 end
