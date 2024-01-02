@@ -53,9 +53,15 @@ COMMAND =
 
 ROOT = File.expand_path(ENV['LB_DIR'] || '~/.local/logs').freeze
 
+def file?(fname)
+  stat = File.stat(fname) and stat.file? && stat.readable?
+rescue SystemCallError
+  false
+end
+
 if COMMAND == 'list'
-  Dir.glob(File.join(ROOT, "#{ARGV[0] || '*'}.log"), sort: true) do |fname|
-    puts(File.basename(fname, '.log')) if file?(fname)
+  Dir.glob(File.join(ROOT, "#{ARGV[0] || '*'}.log"), sort: true) do |name|
+    puts(File.basename(name, '.log')) if file?(name)
   end
   exit
 end
@@ -91,7 +97,9 @@ rescue SystemCallError
   die!("unable to #{mode} file - #{fname}", code: 3)
 end
 
-def fname(topic) = File.join(ROOT, "#{topic || 'default'}.log")
+def fname(topic)
+  File.join(ROOT, "#{topic || ENV['LB_TOPIC'] || 'default'}.log")
+end
 
 if COMMAND == 'add'
   with_file(fname(topic), :write) do |file|
@@ -151,26 +159,21 @@ until ARGV.empty?
   end
 end
 
-FNAME = fname(topic)
-begin
-  (stat = File.stat(FNAME) and stat.file? && stat.readable?) or exit
-rescue SystemCallError
-  exit
-end
+exit unless file?(FNAME = fname(topic))
 
 PRINTER =
   begin
     if (str = ARGV.join(' ')).empty?
-      ->(line) { print(line) }
+      proc { print(_1) }
     elsif str.start_with?('/') && str.end_with?('/')
       str =
         Regexp.new(
           str.delete_prefix('/').delete_suffix!('/'),
           Regexp::IGNORECASE
         )
-      ->(line) { print(line) if str.match?(line) }
+      proc { print(_1) if str.match?(_1) }
     else
-      ->(line) { print(line) if line.index(str) }
+      proc { print(_1) if _1.index(str) }
     end
   rescue RegexpError => e
     die!("invalid regular expression - #{e}")
