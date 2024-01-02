@@ -7,7 +7,7 @@ Update Ruby gems." ;;
 ('')
   set -e
   gem update --system --no-document
-  gem install --no-document bundler rake syntax_tree pry rubocop tcp-client host-os natty-ui
+  gem install --conservative --no-document bundler rake syntax_tree pry rubocop tcp-client host-os natty-ui
   gem update --no-document
 ;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
