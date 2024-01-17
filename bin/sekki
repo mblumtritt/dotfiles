@@ -16,7 +16,7 @@ OUT =
     proc { puts(_1) }
   when '--asc'
     proc { puts(_2) }
-  when '-d', '--desc'
+  when '-d', '--desc', '--description'
     proc { puts(_3) }
   else
     proc { |jap, asc, _desc| puts("#{jap} (#{asc})") }
