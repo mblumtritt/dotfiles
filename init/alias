@@ -9,12 +9,18 @@ alias lr='eza -ARlFm --git --icons=always --no-user'
 alias tree='eza -lFm --git --icons=always --no-user --tree'
 alias du='du -kh'
 
-alias o='open'
-alias g='git'
+alias c='code .'
 alias e='edit-text'
+alias f='fork .'
+alias g='git'
+alias h='history 0 | grep'
+alias o='open'
+alias rk='noglob rake'
 alias sc='shellcheck'
 
-alias rk='noglob rake'
+alias dc='docker compose'
+alias dcd='docker compose down --remove-orphans'
+
 alias gr='noglob rake --rakelib ~/.rake --rakefile none'
 
 alias be='bundle exec'
@@ -24,9 +30,6 @@ alias berd='bundle exec rake -D'
 alias berta='bundle exec rake -T -A'
 alias bdep='bundle list --paths | ruby --disable-all -n -e"puts(File.basename(\$_))"'
 
-alias fspec='be rspec --order defined --fail-fast --format d'
+alias fspec='bundle exec rspec --order defined --fail-fast --format d'
 alias rcop='rubocop -D -E -S'
-alias pretty!='rbprettier --ignore-path=".gitignore" --single-quote --ruby-single-quote --ruby-to-proc --no-error-on-unmatched-pattern --write "**/*.{ru,rb,yml,yaml,md,rake}"'
-
-alias dc='docker compose'
-alias dcd='docker compose down --remove-orphans'
+alias rpretty='stree write --plugins=plugin/single_quotes "**/*.{ru,rb,rake}"'

@@ -1,8 +1,5 @@
-# find in history
-h() { history 0 | grep "$1"}
-
 # find file
-f() { find . -iname "*$1*" "${@:2}" }
+fn() { find . -iname "*$1*" "${@:2}" }
 
 # find file containing
 ff() { grep "$1" "${@:2}" -R . }
