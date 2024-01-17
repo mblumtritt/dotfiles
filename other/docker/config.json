@@ -1,0 +1,11 @@
+{
+  "auths": {},
+  "credHelpers": {
+    "276018124710.dkr.ecr.eu-west-1.amazonaws.com": "ecr-login",
+    "eu.gcr.io": "gcloud"
+  },
+  "credsStore": "desktop",
+  "currentContext": "default",
+  "experimental": "disabled",
+  "stackOrchestrator": "swarm"
+}
