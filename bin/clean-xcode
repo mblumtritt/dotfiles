@@ -1,11 +1,10 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/}
 
 Cleanup XCode derived data and archives." ;;
 ('')
-  set -e
   rm -rfv "$HOME/Library/Developer/Xcode/DerivedData/*" >/dev/null
   rm -rfv "$HOME/Library/Developer/Xcode/Archives/*" >/dev/null
   rm -rfv "$HOME/Library/Developer/Xcode/iOS Device Logs/*" >/dev/null

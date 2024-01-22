@@ -1,10 +1,9 @@
-#! /bin/sh
+#! /bin/sh -e
 
 USAGE="Usage: ${0##*/} [--encrypt] DIR [NAME]
 
 Create disk image from DIR named NAME, optionally encrypted."
 
-set -e
 OPTIONS="-nospotlight -noanyowners"
 TYPE=volume
 case "$1" in

@@ -1,11 +1,10 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/}
 
 Clean up Homebrew stuff." ;;
 ('')
-  set -e
   brew upgrade
   brew cleanup -s
   # rm -rfv "$(brew --cache)" >/dev/null

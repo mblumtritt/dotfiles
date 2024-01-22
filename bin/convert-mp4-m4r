@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/} FILE
@@ -6,7 +6,6 @@ case "$1" in
 Convert MP3 ausio FILE to ringtome M4R." ;;
 ('') echo "${0##*/}: FILE missing" >&2 ; exit 1 ;;
 (*)
-	set -e
 	for file in "$@"
 	do
 		file="${file%.*}"

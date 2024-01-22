@@ -1,9 +1,7 @@
-#! /bin/sh
+#! /bin/sh -e
 USAGE="Usage: ${0##*/} [-d|--draft] SOURCE ...
 
 Assemble reveal.js slide from SOURCE."
-
-set -e
 
 die() {
   echo "${0##*/}: $1" >&2

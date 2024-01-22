@@ -1,11 +1,10 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/}
 
 Clean all trashes. (May require password.)" ;;
 ('')
-  set -e
   sudo rm -rfv /Volumes/*/.Trashes/* >/dev/null
   rm -rfv "$HOME/.Trash/*" >/dev/null
 ;;

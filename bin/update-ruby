@@ -1,11 +1,10 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/}
 
 Update Ruby gems." ;;
 ('')
-  set -e
   gem update --system --no-document
   gem install --conservative --no-document bundler rake syntax_tree pry rubocop tcp-client host-os natty-ui
   gem update --no-document

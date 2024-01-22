@@ -1,9 +1,9 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/} FILE
 
 View given CSV FILE." ;;
 ('') echo "${0##*/}: FILE name missing" >&2 ; exit 1 ;;
-(*) set -e; sed 's/,,/, ,/g;s/,,/, ,/g' "$@" | column -s, -t | less -#2 -N -S ;;
+(*) sed 's/,,/, ,/g;s/,,/, ,/g' "$@" | column -s, -t | less -#2 -N -S ;;
 esac

@@ -1,7 +1,6 @@
-#! /bin/sh
+#! /bin/sh -e
 
-echo 'install: test if required tools ara avail'
-set -e
+echo 'install: test if required tools are avail'
 
 for cmd in basename readlink uname bash curl grep
 do

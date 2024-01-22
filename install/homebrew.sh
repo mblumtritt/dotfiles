@@ -1,6 +1,4 @@
-#! /bin/sh
-
-set -e
+#! /bin/sh -e
 
 (command -v brew >/dev/null 2>&1) || {
   echo 'install: Homebrew'

@@ -1,11 +1,10 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/}
 
 Ejects all removeable disks." ;;
 ('')
-  set -e
   exec osascript -e 'tell application "Finder" to eject
     (every disk whose ejectable is true)'
 ;;

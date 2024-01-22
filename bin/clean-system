@@ -1,11 +1,10 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/}
 
 Clean system. (May require password.)" ;;
 ('')
-	set -e
 	echo '❗️ clean all stuff'
 
 	cleanup() {

@@ -1,7 +1,6 @@
-#! /bin/sh
+#! /bin/sh -e
 
 echo 'install: create symlinks'
-set -e
 
 _BACKUP_DIR="$HOME/.local/bak/$(date +%s)"
 readonly _BACKUP_DIR

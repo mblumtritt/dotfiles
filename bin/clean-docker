@@ -1,11 +1,10 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/}
 
 Clean up Docker stuff." ;;
 ('')
-  set -e
   start-docker
   docker image prune -f
   docker container prune -f

@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/} DIR
@@ -6,7 +6,6 @@ case "$1" in
 Remove all links from DIR." ;;
 ('') echo "${0##*/}: DIR name missing" >&2 ; exit 1 ;;
 (*)
-  set -e
   [ -d "$1" ] || (echo "${0##*/}: invalid directory name - '$1'" >&2 ; exit 1)
   for file in "$1"/*
   do [ -L "$file" ] && rm "$file"

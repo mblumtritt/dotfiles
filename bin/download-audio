@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/} URL
@@ -6,7 +6,6 @@ case "$1" in
 Download a audio or playlist as MP3 from given URL to '$HOME/Downloads'." ;;
 ('') echo "${0##*/}: URL missing" >&2 ; exit 1 ;;
 (*)
-    set -e
     mkdir -p "$HOME/Downloads"
     cd "$HOME/Downloads"
     exec yt-dlp \

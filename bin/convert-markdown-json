@@ -1,9 +1,9 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/}
 
 Convert MARKDOWN from stdin into JSON to stdout." ;;
-('') set -e; exec pandoc --from=gfm --to=json "$@" ;;
+('') exec pandoc --from=gfm --to=json "$@" ;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac

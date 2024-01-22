@@ -1,11 +1,10 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/}
 
 Update Homebrew and Homebrew bundles." ;;
 ('')
-  set -e
   brew update
   brew bundle --global
   brew upgrade

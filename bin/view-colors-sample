@@ -1,11 +1,10 @@
-#! /bin/bash
+#! /bin/bash -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/}
 
 View colors." ;;
 ('')
-	set -e
 	CLEAR=$(tput op)
 	COLS=$(tput cols)
 	for i in {0..255} ; do

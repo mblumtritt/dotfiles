@@ -1,11 +1,10 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/}
 
 Clean all library caches. (May require password.)" ;;
 ('')
-  set -e
   sudo rm -rfv /Library/Caches/* >/dev/null
   sudo rm -rfv /System/Library/Caches/* >/dev/null
   sudo rm -rfv /private/var/folders/bh/*/*/*/* >/dev/null

@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/}
@@ -7,7 +7,6 @@ Export AWS related environment variables."
   exit
 ;;
 ('')
-  set -e
   AWS_ACCESS_KEY_ID=$(awk -F "=" '/aws_access_key_id/ {print $2}' "$HOME/.aws/credentials" | tail -1 | xargs)
   AWS_SECRET_ACCESS_KEY=$(awk -F "=" '/aws_secret_access_key/ {print $2}' "$HOME/.aws/credentials" | tail -1 | xargs)
   AWS_SESSION_TOKEN=$(awk -F "=" '/aws_session_token/ {print $2}' "$HOME/.aws/credentials" | tail -1 | xargs)

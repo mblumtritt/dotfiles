@@ -1,11 +1,10 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/}
 
 Convert TEXT from stdin into URI (WWW form component) to stdout." ;;
 ('')
-  set -e
   exec ruby \
   --disable-all \
   -ruri \

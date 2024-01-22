@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/} 2FACODE
@@ -6,7 +6,6 @@ case "$1" in
 Renew AWS session." ;;
 ('') echo "${0##*/}: 2FACODE missing" >&2 ; exit 1 ;;
 (*)
-  set -e
   readonly MFA_USER="mike.blumtritt"
   readonly MFA_TOKEN="$1"
   readonly MFA_PROFILE="${2:-default}"

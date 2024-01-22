@@ -1,7 +1,6 @@
-#! /bin/sh
+#! /bin/sh -e
 
 echo 'install: dotfiles'
-set -e
 
 readonly _DOTFILE_DIR="$HOME/.local/dotfiles"
 

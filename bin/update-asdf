@@ -1,11 +1,10 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/}
 
 Update ASDF and stuff." ;;
 ('')
-  set -e
   asdf plugin update --all
   asdf install nodejs latest
   asdf install ruby latest

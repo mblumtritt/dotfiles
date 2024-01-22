@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/} FILE [PORT]
@@ -6,7 +6,6 @@ case "$1" in
 Serve FILE_NAME via HTTP." ;;
 ('') echo "${0##*/}: FILE name missing" >&2 ; exit 1 ;;
 (*)
-	set -e
 	while true; do
 		{ echo -e 'HTTP/1.1 200 OK\r\n'; cat "$1"; } | nc -l "${2:-8080}"
 	done

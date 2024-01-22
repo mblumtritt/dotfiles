@@ -1,12 +1,9 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/}
 
 List information about current WLAN connection." ;;
-('')
-  set -e
-  exec  /System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport -I
-;;
+('') exec /System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport -I ;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac

@@ -1,11 +1,9 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/} NAME
 
 Print UUID of given volume NAME." ;;
 ('') echo "${0##*/}: NAME missing" >&2 ; exit 1 ;;
-(*)
-  set -e
-  diskutil info "$1" | grep 'Disk / Partition UUID:' | sed 's/^.*: *//' ;;
+(*) diskutil info "$1" | grep 'Disk / Partition UUID:' | sed 's/^.*: *//' ;;
 esac

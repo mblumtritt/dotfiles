@@ -1,6 +1,5 @@
-#! /bin/sh
+#! /bin/sh -e
 
-set -e
 case "$1" in
 (--help) echo "Usage: ${0##*/} OPTION [TERM]
 

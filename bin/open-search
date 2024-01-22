@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/} ENGINE TERM
@@ -6,7 +6,6 @@ case "$1" in
 Open search ENGINE with TERM." ;;
 ('') echo "${0##*/}: argument missing" >&2 ; exit 1 ;;
 (*)
-  set -e
   [ $# -lt 2 ] && (echo "${0##*/}: TERM missing" >&2 ; exit 1)
   url="$(print-search-url "$@")" || exit $?
   open "$url"

@@ -1,9 +1,9 @@
-#! /bin/sh
+#! /bin/sh -e
 
 case "$1" in
 (-h|--help) echo "Usage: ${0##*/}
 
 Watch StarWars in ASCII from blinkenlights.nl." ;;
-('') set -e; exec ncat towel.blinkenlights.nl 23 ;;
+('') exec ncat towel.blinkenlights.nl 23 ;;
 (*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
 esac
