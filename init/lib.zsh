@@ -5,7 +5,7 @@ fn() { find . -iname "*$1*" "${@:2}" }
 ff() { grep "$1" "${@:2}" -R . }
 
 # show path
-dump-path() { print -l ${(s.:.)PATH} }
+path() { print -l ${(s.:.)PATH} }
 
 # create directory and step into
 mkcd() { mkdir -p "$1" && cd "$1" || return 1 }
