@@ -1,14 +1,9 @@
-if [ "$(uname -m)" = "arm64" ]
-then export BREW_PATH="/opt/homebrew"
-else export BREW_PATH="/usr/local"
-fi
-
-export LANG=en_GB.utf-8 LANGUAGE=en_GB.utf-8 LC_ALL=en_GB.utf-8
 export PS1='%~$ '
+export LANG=en_GB.utf-8 LANGUAGE=en_GB.utf-8 LC_ALL=en_GB.utf-8
 export EDITOR='mate -w'
 export GEM_EDITOR=mate
 export GZIP=-9
 export GOPATH=$HOME/prj/go
 # export GPG_TTY=$(tty)
-export HOMEBREW_NO_AUTO_UPDATE=1
+export BREW_PATH="/opt/homebrew" HOMEBREW_NO_AUTO_UPDATE=1
 export PATH="$HOME/bin:$BREW_PATH/bin:$BREW_PATH/sbin:$PATH"

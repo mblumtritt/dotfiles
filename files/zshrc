@@ -1,4 +1,3 @@
-
 # setup jobs
 setopt notify
 setopt long_list_jobs

@@ -1,10 +1,5 @@
-
-# source file only if file exists
-try_source() { [ -f "$1" ] && . $@ || return 1 }
-
-# execute file only if file exists
-try_call() { [ -x "$1" ] && $@ || return 1 }
-
 setopt beep
-
+try_call() { [ -x "$1" ] && $@ || return 1 }
+try_source() { [ -f "$1" ] && . $@ || return 1 }
 try_source "$BREW_PATH/opt/asdf/libexec/asdf.sh"
+export PATH="$HOME/bin:$BREW_PATH/bin:$BREW_PATH/sbin:$PATH"
