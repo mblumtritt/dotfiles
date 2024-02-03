@@ -35,18 +35,6 @@ link_files()
   done
 }
 
-link_file_to()
-{
-  _source="$1"
-  _target="$2"
-  _target_dir="$(dirname "$_target")"
-
-  [ -d "$_target_dir" ] || return 0
-  [ "$(readlink "$_target")" = "$_source" ] && return 0
-  echo "   link '$_target'"
-  ln -sf "$_source" "$_target"
-}
-
 link_files "$HOME/.local/dotfiles/init" "$HOME/.local/init"
 link_files "$HOME/.local/dotfiles/files" "$HOME" "."
 link_files "$HOME/.local/dotfiles/other/vscode" "$HOME/Library/Application Support/Code/User"
