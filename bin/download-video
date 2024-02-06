@@ -1,9 +1,15 @@
 #! /bin/sh -e
 
 case "$1" in
-(-h|--help) echo "Usage: ${0##*/} URL
+(-h|--help) echo "Usage: ${0##*/} [options] URL
 
-Download a video or video playlist from given URL to '$HOME/Downloads'." ;;
+Download a video or video playlist from given URL to '$HOME/Downloads'.
+
+Options:
+    -l, --list    display available formats
+    -f, --format  select specific formats (combine them with '+')
+" ;;
+(-l|--list) shift && exec yt-dlp --quiet --list-formats "$@" ;;
 ('') echo "${0##*/}: URL missing" >&2 ; exit 1 ;;
 (*)
     mkdir -p "$HOME/Downloads"
