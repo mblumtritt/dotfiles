@@ -4,9 +4,9 @@ alias fucking='sudo'
 alias please='sudo'
 
 alias ls='eza -A --icons=always'
-alias ll='eza -AlFm --git --icons=always --no-user'
-alias lr='eza -ARlFm --git --icons=always --no-user'
-alias tree='eza -lFm --git --icons=always --no-user --tree'
+alias ll='eza -Alm --git --icons=always --no-user'
+alias lr='eza -ARlm --git --icons=always --no-user'
+alias tree='eza -lm --git --icons=always --no-user --tree'
 alias du='du -kh'
 
 alias c='code .'
