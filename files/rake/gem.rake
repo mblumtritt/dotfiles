@@ -99,7 +99,13 @@ file_create '.yardopts' do |f|
   YARDOPTS
 end
 
-file_create 'spec/helper.rb' do |f|
+file_create '.rspec' do |f|
+  write f.name, <<~RSPEC
+    --require helper
+  RSPEC
+end
+
+file_create 'spec/helper.rb' => '.rspec' do |f|
   write f.name, <<~HELPER
     # frozen_string_literal: true
 
@@ -111,11 +117,9 @@ file_create 'spec/helper.rb' do |f|
   HELPER
 end
 
-file_create "spec/#{Gem.name}_spec.rb" => 'spec/helper.rb' do |f|
+file_create "spec/lib/#{Gem.name}_spec.rb" => 'spec/helper.rb' do |f|
   write f.name, <<~SPEC
     # frozen_string_literal: true
-
-    require_relative 'helper'
 
     RSpec.describe #{Gem.module} do
       xit do
@@ -125,11 +129,9 @@ file_create "spec/#{Gem.name}_spec.rb" => 'spec/helper.rb' do |f|
   SPEC
 end
 
-file_create "spec/#{Gem.name}/version_spec.rb" => 'spec/helper.rb' do |f|
+file_create "spec/lib/#{Gem.name}/version_spec.rb" => 'spec/helper.rb' do |f|
   write f.name, <<~VERSION_SPEC
     # frozen_string_literal: true
-
-    require_relative '../helper'
 
     RSpec.describe '#{Gem.module}::VERSION' do
       subject(:version) { #{Gem.module}::VERSION }
@@ -144,7 +146,7 @@ file_create "spec/#{Gem.name}/version_spec.rb" => 'spec/helper.rb' do |f|
   VERSION_SPEC
 end
 
-file_create "lib/#{Gem.name}.rb" => "spec/#{Gem.name}_spec.rb" do |f|
+file_create "lib/#{Gem.name}.rb" => "spec/lib/#{Gem.name}_spec.rb" do |f|
   write f.name, <<~SOURCE
     # frozen_string_literal: true
 
@@ -156,7 +158,7 @@ end
 
 file_create "lib/#{Gem.name}/version.rb" => %W[
               lib/#{Gem.name}.rb
-              spec/#{Gem.name}/version_spec.rb
+              spec/lib/#{Gem.name}/version_spec.rb
             ] do |f|
   write f.name, <<~VERSION
     # frozen_string_literal: true
@@ -251,7 +253,7 @@ file_create 'Rakefile' do |f|
     require 'bundler/gem_tasks'
 
     require 'rspec/core/rake_task'
-    RSpec::Core::RakeTask.new(:test) { |t| t.ruby_opts = %w[-w] }
+    RSpec::Core::RakeTask.new(:test) { _1.ruby_opts = %w[-w] }
   RAKEFILE
 
   content += <<~RAKEFILE if File.file?('.yardopts')
@@ -261,7 +263,7 @@ file_create 'Rakefile' do |f|
     CLEAN << '.yardoc'
     CLOBBER << 'doc'
 
-    YARD::Rake::YardocTask.new(:doc) { |t| t.stats_options = %w[--list-undoc] }
+    YARD::Rake::YardocTask.new(:doc) { _1.stats_options = %w[--list-undoc] }
 
     desc 'Run YARD development server'
     task('doc:dev' => :clobber) { exec('yard server --reload') }

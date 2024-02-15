@@ -6,7 +6,7 @@ def dir_for(file_name)
 end
 
 def write(file_name, content = nil)
+  puts "• write #{file_name}"
   dir_for file_name
-  puts "write #{file_name}"
   File.write file_name, content || yield
 end
