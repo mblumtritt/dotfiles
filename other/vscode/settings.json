@@ -1,4 +1,8 @@
 {
+  "[ruby]": {
+    "editor.defaultFormatter": "ruby-syntax-tree.vscode-syntax-tree",
+    "editor.useTabStops": false
+  },
   "C_Cpp.doxygen.generateOnType": false,
   "cmake.configureOnOpen": false,
   "code-runner.clearPreviousOutput": true,
@@ -11,35 +15,36 @@
   "code-runner.showStopIconInEditorTitleMenu": false,
   "diffEditor.codeLens": true,
   "diffEditor.diffAlgorithm": "advanced",
+  "editor.autoClosingDelete": "always",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
   "editor.copyWithSyntaxHighlighting": false,
-  "editor.cursorWidth": 2,
+  "editor.cursorWidth": 4,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.find.autoFindInSelection": "multiline",
   // "editor.fontFamily": "B612 Mono",
-  // "editor.fontFamily": "RobotoMono Nerd Font Mono",
-  "editor.fontFamily": "RobotoMono Nerd Font",
+  "editor.fontFamily": "RobotoMono Nerd Font Mono",
+  // "editor.fontFamily": "RobotoMono Nerd Font",
   "editor.fontSize": 13,
   "editor.formatOnPaste": false,
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
   "editor.formatOnType": false,
   "editor.guides.bracketPairs": "active",
-  "editor.inlayHints.fontSize": 10,
+  "editor.inlayHints.fontSize": 12,
   "editor.inlineSuggest.enabled": true,
   "editor.inlineSuggest.showToolbar": "always",
   "editor.links": false,
   "editor.minimap.enabled": false,
-  "editor.multiCursorModifier": "ctrlCmd",
   "editor.peekWidgetDefaultFocus": "editor",
   "editor.renderLineHighlightOnlyWhenFocus": true,
   "editor.rulers": [80],
+  "editor.snippetSuggestions": "top",
   "editor.suggestSelection": "first",
   "editor.tabCompletion": "on",
   "editor.tabSize": 2,
   "editor.unicodeHighlight.ambiguousCharacters": false,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
-  },
   "eslint.format.enable": true,
   "eslint.run": "onSave",
   "eslint.useESLintClass": true,
@@ -55,8 +60,14 @@
   "explorer.confirmDragAndDrop": false,
   "extensions.autoUpdate": false,
   "extensions.ignoreRecommendations": true,
+  "files.associations": {
+    "Gemfile": "ruby",
+    "Rakefile": "ruby"
+  },
   "files.eol": "\n",
+  "files.hotExit": "off",
   "files.trimTrailingWhitespace": true,
+  "git.allowForcePush": true,
   "javascript.suggest.completeFunctionCalls": true,
   "markdown.preview.fontSize": 12,
   "prettier.jsxSingleQuote": true,
@@ -71,6 +82,9 @@
   "spellright.configurationScope": "user",
   "spellright.documentTypes": ["markdown", "latex", "text"],
   "spellright.language": ["en"],
+  "syntaxTree.singleQuotes": true,
+  "telemetry.enableCrashReporter": false,
+  "telemetry.enableTelemetry": false,
   "telemetry.telemetryLevel": "off",
   "terminal.external.osxExec": "iTerm.app",
   "terminal.integrated.cursorStyle": "line",
@@ -79,17 +93,9 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "update.showReleaseNotes": false,
   "vscode-run-rspec-file.custom-command": "bundle exec rspec --color --order defined --fail-fast --format d",
+  "workbench.activityBar.location": "hidden",
+  "workbench.colorTheme": "MikeLight",
   "workbench.iconTheme": "vs-minimal",
   "workbench.sideBar.location": "right",
-  "workbench.startupEditor": "newUntitledFile",
-  "[ruby]": {
-    "editor.useTabStops": false,
-    "editor.defaultFormatter": "ruby-syntax-tree.vscode-syntax-tree"
-  },
-  "syntaxTree.singleQuotes": true,
-  "files.associations": {
-    "Gemfile": "ruby"
-  },
-  "workbench.colorTheme": "MikeLight",
-  "workbench.activityBar.location": "hidden"
+  "workbench.startupEditor": "newUntitledFile"
 }
