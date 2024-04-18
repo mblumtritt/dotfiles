@@ -164,7 +164,7 @@ file_create "lib/#{Gem.name}/version.rb" => %W[
     # frozen_string_literal: true
 
     module #{Gem.module}
-      # @return [String] the version number of the gem
+      # The version number of the gem.
       VERSION = '0.1.0alpha'
     end
   VERSION
