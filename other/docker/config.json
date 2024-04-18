@@ -6,5 +6,5 @@
 		"eu.gcr.io": "gcloud"
 	},
 	"experimental": "disabled",
-	"currentContext": "default"
+	"currentContext": "desktop-linux"
 }
