@@ -9,10 +9,12 @@ alias lr='eza -ARlm --git --icons=always --no-user'
 alias tree='eza -lm --git --icons=always --no-user --tree'
 alias du='du -kh'
 
-alias c='code .'
+alias c='$IDE .'
 alias e='edit-text'
+compdef e=edit-text
 alias f='fork .'
 alias g='git'
+compdef g=git
 alias h='history 0 | grep'
 alias o='open'
 alias rk='noglob rake'
@@ -30,6 +32,6 @@ alias berd='bundle exec rake -D'
 alias berta='bundle exec rake -T -A'
 alias bdep='bundle list --paths | ruby --disable-all -n -e"puts(File.basename(\$_))"'
 
-alias fspec='bundle exec rspec --order defined --fail-fast --format d'
+alias fspec='rspec --order defined --fail-fast --format d'
 alias rcop='rubocop -D -E -S'
 alias rpretty='stree write --plugins=plugin/single_quotes "**/*.{ru,rb,rake}"'

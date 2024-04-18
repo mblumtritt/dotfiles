@@ -1,6 +1,7 @@
 export PS1='%~$ '
 export LANG=en_GB.utf-8 LANGUAGE=en_GB.utf-8 LC_ALL=en_GB.utf-8
 export EDITOR='mate -w'
+export IDE=code
 export GEM_EDITOR=mate
 export GZIP=-9
 export GOPATH=$HOME/prj/go

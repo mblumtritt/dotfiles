@@ -2,8 +2,7 @@
 # frozen_string_literal: true
 
 def me = File.basename(Process.argv0)
-def die!(msg, code: 1) = ($stderr.puts("#{me}: #{msg}") or exit(code))
-arg_list = nil
+abbrev = false
 
 case ARGV[0]
 when '-v', '--version'
@@ -24,46 +23,41 @@ when '-h', '--help'
       Print this help information.
   HELP
   exit
+when nil
+  abbrev = true
 when '-a', '--abbrev'
-  arg_list = '-ls'
+  abbrev = true
   ARGV.shift
 end
 
-die!('too many arguments') if ARGV.size > 1
+if ARGV.size > 1
+  $stderr.puts("#{me}: too many arguments")
+  exit(1)
+end
 
 projects = {}
-prj_dir = File.expand_path('~/prj') + '/'
-Dir.glob("#{prj_dir}*") do |tdir|
-  next unless File.directory?(tdir)
-  Dir.glob(tdir + '/*') do |sdir|
-    next unless File.directory?(sdir)
-    short = sdir.delete_prefix(prj_dir).tr('/', '-')
-    projects[short] = sdir unless short.include?('--')
+
+root = "#{File.expand_path('~/prj')}/"
+%w[3rd ivx my].each do |dir|
+  Dir.glob("#{root}#{dir}/*") do |tdir|
+    next unless File.directory?(tdir)
+    projects[File.basename(tdir).downcase] = tdir
   end
 end
 
-def with_word_abbrev(input, arg)
-  arg = " '#{arg}'" if arg
-  IO.pipe do |in_read, in_write|
-    IO.popen("shorten-words#{arg}", in: in_read, err: %i[child out]) do |stream|
-      in_write.puts(input)
-      in_write.close
-      yield(stream)
-    end
-  rescue Errno::ENOENT
-    die!('command not found - shorten-words', code: 2)
-  end
-end
-
-if ARGV.empty?
-  with_word_abbrev(projects.keys, arg_list) do |stream|
-    IO.copy_stream(stream, $stdout)
-  end
+unless abbrev
+  found = projects[ARGV[0]] or exit 1
+  puts(found)
   exit
 end
 
-with_word_abbrev(projects.keys, ARGV[0]) do |stream|
-  puts(projects[stream.readline(chomp: true)])
-rescue EOFError
-  exit(1)
+projects = projects.to_a
+
+unless ARGV.empty?
+  arg = ARGV[0]
+  projects.keep_if { _1.incldue?(arg) }
 end
+
+projects
+  .sort_by!(&:first)
+  .each { |short, dir| puts("#{short}:#{dir.delete_prefix(root)}") }

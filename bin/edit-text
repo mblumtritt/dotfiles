@@ -7,12 +7,9 @@ Edit given FILE or project NAME." ;;
 ('') echo "${0##*/}: FILE or NAME missing " >&2 ; exit 1 ;;
 (*)
   if [ -r "$1" ]
-  then exec code "$1"
-  else
-    PROJECT="$(list-projects "$1")" || (>&2
-      echo "${0##*/}: no such project - $1" ; exit 2
-    )
-    exec code "$PROJECT"
+  then PROJECT="$1"
+  else PROJECT="$(list-projects "$1")" || PROJECT="$1"
   fi
+  exec "$IDE" "$PROJECT"
 ;;
 esac
