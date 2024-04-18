@@ -101,7 +101,14 @@
   },
 
   "Ruby: private_constant": { "prefix": "pc", "body": "private_constant :$0" },
-  "Ruby: compare_by_identity": { "prefix": "co", "body": "compare_by_identity" },
+  "Ruby: private_class_method": {
+    "prefix": "pm",
+    "body": "private_class_method :$0"
+  },
+  "Ruby: compare_by_identity": {
+    "prefix": "co",
+    "body": "compare_by_identity"
+  },
 
   "RSpec: before": { "prefix": "bef", "body": "before { $0 }" },
   "RSpec: after": { "prefix": "aft", "body": "after { $0 }" }

@@ -24,5 +24,9 @@
   {
     "key": "ctrl+alt+cmd+f",
     "command": "workbench.action.experimental.quickTextSearch"
+  },
+  {
+    "key": "cmd",
+    "command": "workbench.action.toggleMultiCursorModifier"
   }
 ]
