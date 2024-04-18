@@ -1,4 +1,5 @@
 .DS_Store
+.wti
 .bundle/
 .yardoc/
 idea/
