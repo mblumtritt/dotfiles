@@ -65,11 +65,10 @@ setopt correct
 
 # setup prompt
 setopt prompt_subst
-setopt prompt_percent
-autoload -U promptinit
+# setopt prompt_percent
+autoload -Uz promptinit
 promptinit
-PROMPT=''
-RPROMPT='%(?,,%K{red}%F{white}%B %? %b%f%k)'
+[ "$TERM_PROGRAM" = "iTerm.app" ] && export PROMPT='' || export PROMPT='%~ ▸'
 
 try_source "$BREW_PATH/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 try_source "$BREW_PATH/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
