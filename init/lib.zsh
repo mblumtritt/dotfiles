@@ -99,6 +99,12 @@ gh()
 # lookup in GE/EN dictionary
 @tr() { fetch-web "$(print-search-url --dict "$@")" | convert-html-text | less }
 
+# set title of the current tab
+title() { echo "\e]0;"$@"\a" }
+
+# set title of the current window
+wtitle() { echo "\e]2;"$@"\e\\" }
+
 # show random ASCII art
 apic() { cat $(find $HOME/.local/apic/*.txt -type f | shuf -n 1) && echo }
 
