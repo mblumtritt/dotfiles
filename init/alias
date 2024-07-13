@@ -8,21 +8,23 @@ alias ll='eza -Alm --git --icons=always --no-user'
 alias lr='eza -ARlm --git --icons=always --no-user'
 alias tree='eza -lm --git --icons=always --no-user --tree'
 alias du='du -kh'
+alias rst='echo "\e[H\e[2J\e[3J" && welcome'
+alias path='print -l ${(s.:.)PATH}'
 
 alias c='$IDE .'
 alias e='edit-text'
 compdef e=edit-text
-alias f='fork .'
+alias f='gitui --watcher'
 alias g='git'
 compdef g=git
 alias h='history 0 | grep'
 alias o='open'
-alias rk='noglob rake'
 alias sc='shellcheck'
 
 alias dc='docker compose'
 alias dcd='docker compose down --remove-orphans'
 
+alias rk='noglob rake'
 alias gr='noglob rake --rakelib ~/.rake --rakefile none'
 
 alias be='bundle exec'
