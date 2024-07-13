@@ -50,7 +50,7 @@ file_create 'README.md' do |f|
     or you can use [Bundler](http://gembundler.com/) to add #{Gem.module} to your own project:
 
     ```shell
-    bundle add '#{Gem.name}'
+    bundle add #{Gem.name}
     ```
 
     After that you only need one line of code to have everything together
@@ -89,13 +89,17 @@ end
 
 file_create '.yardopts' do |f|
   write f.name, <<~YARDOPTS
-    --readme README.md
-    --title 'TODO: Documentation'
+    --title '#{Gem.name}'
     --charset utf-8
     --markup markdown
+    --readme README.md
+    --no-private
+    --embed-mixins
     --tag comment
     --hide-tag comment
-    'lib/**/*.rb' - 'README.md'
+    lib/**/*.rb
+    -
+    README.md
   YARDOPTS
 end
 
@@ -109,7 +113,6 @@ file_create 'spec/helper.rb' => '.rspec' do |f|
   write f.name, <<~HELPER
     # frozen_string_literal: true
 
-    require 'rspec/core'
     require_relative '../lib/#{Gem.name}'
 
     $stdout.sync = $stderr.sync = $VERBOSE = true
@@ -266,12 +269,12 @@ file_create 'Rakefile' do |f|
     YARD::Rake::YardocTask.new(:doc) { _1.stats_options = %w[--list-undoc] }
 
     desc 'Run YARD development server'
-    task('doc:dev' => :clobber) { exec('yard server --reload') }
+    task('doc:dev' => :clobber) { exec 'yard server --reload' }
   RAKEFILE
 
   content += <<~RAKEFILE
 
-    task(:default) { exec('rake --tasks') }
+    task(:default) { exec 'rake --tasks' }
   RAKEFILE
 
   write f.name, content
