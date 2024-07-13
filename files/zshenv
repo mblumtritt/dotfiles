@@ -1,4 +1,4 @@
-export PS1='%~$ '
+export PS1='%~ :'
 export LANG=en_GB.utf-8 LANGUAGE=en_GB.utf-8 LC_ALL=en_GB.utf-8
 export EDITOR='mate -w'
 export IDE=code
