@@ -94,31 +94,32 @@
 	process = git-lfs filter-process
 [alias]
 	aa = add --all
-  br = !sh -c 'git branch -v $1 && git checkout $1' -
 	bl = branch -a -vv
 	blm = branch --no-merged
-  bdel = branch -d
-  bprune = remote update origin --prune
-	d = diff
-	st = status -sb
-	co = checkout
-	cob = checkout -b
-	com = ! git checkout main && git pull --all --prune --rebase
 	ci = commit -m
 	cia = commit --all
 	ciaa = commit --all --amend
-	ps = push --follow-tags
-  psf = push --force-with-lease
-	pl = pull --all --prune --rebase
-  rb = rebase
-  rbc = rebase --continue
-  rba = rebase --abort
-  undo = ! git reset --hard main && git clean -df main
-	up = ! git fetch origin && git rebase origin/main
-	remaster = ! git branch -m main old-main && git checkout --orphan main && git reset old-main -- .
+	co = checkout
+	cob = checkout -b
+	com = ! git checkout main && git pull --all --prune --rebase
+	d = diff @{upstream} @
 	lg = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(blue)- %an%C(reset)%C(yellow)%d%C(reset)' --all
-  lgs = log -30 --graph --decorate --pretty=format:'%h %ad %s (%an)' --date=short
 	lga = log -30 --graph --decorate --all --pretty=format:'%h %ad %s (%an)' --date=short
-  ld = log -p -1
+	now = commit --amend --date=now --no-edit
+	pl = pull --all --prune --rebase
+	ps = push --follow-tags
+	remaster = ! git branch -m main old-main && git checkout --orphan main && git reset old-main -- .
 	sa = submodule add
+	st = status -sb
 	su = submodule update --init --recursive
+	up = ! git fetch origin && git rebase origin/main
+  bdel = branch -d
+  bprune = remote update origin --prune
+  br = !sh -c 'git branch -v $1 && git checkout $1' -
+  ld = log -p -1
+  lgs = log -30 --graph --decorate --pretty=format:'%h %ad %s (%an)' --date=short
+  psf = push --force-with-lease
+  rb = rebase
+  rba = rebase --abort
+  rbc = rebase --continue
+  undo = ! git reset --hard main && git clean -df main
