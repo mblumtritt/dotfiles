@@ -4,14 +4,8 @@ fn() { find . -iname "*$1*" "${@:2}" }
 # find file containing
 ff() { grep "$1" "${@:2}" -R . }
 
-# show path
-path() { print -l ${(s.:.)PATH} }
-
 # create directory and step into
 mkcd() { mkdir -p "$1" && cd "$1" || return 1 }
-
-# list projects
-lp() { list-projects "$@" | column -x }
 
 # cd to best matching project directory
 cdp()
@@ -23,9 +17,6 @@ cdp()
 
 # cd to best matching project directory
 cde() { cdp "$1" && edit-text . || return 1 }
-
-# list commands
-lc() { list-commands "$@" | column -x }
 
 # export AWS related environment variables
 aws-env() { source "$HOME/.local/dotfiles/init/aws-export" }
