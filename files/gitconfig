@@ -46,19 +46,19 @@
   navigate = true
   side-by-side = true
   line-numbers = true
+	true-color = always
   features = woolly-mammoth
 [delta "woolly-mammoth"]
-  # author: https://github.com/Kr1ss-XD
-  commit-decoration-style = 232 130 box
-  commit-style = 232 bold italic 130
-  light = true
-  file-added-label = [+]
-  file-copied-label = [C]
+  commit-decoration-style = none
+  commit-style = 255 bold 33
+  dark = true
   file-decoration-style = "#606018" overline
-  file-modified-label = [M]
+  file-added-label = [+]
   file-removed-label = [-]
-  file-renamed-label = [R]
-  file-style = 232 bold 184
+  file-copied-label = 🄲
+  file-modified-label = 🄼
+  file-renamed-label = 🅁
+  file-style = 0 bold 184
   hunk-header-decoration-style = none
   hunk-header-style = syntax bold italic 237
   line-numbers = true
@@ -75,7 +75,8 @@
   plus-style = syntax "#004000"
   whitespace-error-style = "#280050" reverse
   zero-style = syntax
-  blame-format = "{author:<18} ({commit:>7}) ┊{timestamp:^^16}┊ "
+	hyperlinks = true
+  blame-format = "{author:<18} ({commit:>7}) {timestamp:<16} "
   blame-palette = "#101010 #200020 #002800 #000028 #202000 #280000 #002020 #002800 #202020"
   syntax-theme = zenburn
 [filter "media"]
