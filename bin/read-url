@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby --disable-all
+# frozen_string_literal: true
+
+puts(<<~HELP) or exit if ARGV.include?('--help') || ARGV.include?('-h')
+  usage: #{File.basename(Process.argv0)} <file>...
+
+  Read URL from a WEBLOC file.
+HELP
+
+def extract_url(webloc_file)
+  content = File.binread(webloc_file)
+  idx = content.index('<string>http')
+  if idx
+    edx = content.index('</string>', idx + 13) or return
+    idx += 8
+    return content[idx, edx - idx].strip
+  end
+  idx = content.index('http') or return
+  edx = idx + 5
+  edx = content.index("\b", edx) || content.index("\0", edx) or return
+  content[idx, edx - idx]
+rescue SystemCallError
+  nil
+end
+
+$stdout.sync = true
+
+ARGV.each do |arg|
+  name = extract_url(arg) and next puts(name)
+  $stderr.puts "#{File.basename(Process.argv0)}: unable to read URL - #{arg}"
+  exit(1)
+end
