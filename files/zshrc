@@ -70,7 +70,13 @@ setopt prompt_subst
 # setopt prompt_percent
 autoload -Uz promptinit
 promptinit
-[ "$TERM_PROGRAM" = "iTerm.app" ] && export PROMPT='' || export PROMPT='%~ ▸'
+if [ "$TERM_PROGRAM" = "iTerm.app" ]
+then
+  PROMPT=''
+  RPROMPT='%(?,,❗%F{yellow}%B%?%b%f)'
+else
+  PROMPT='%~ ▸'
+fi
 
 try_source "$BREW_PATH/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 try_source "$BREW_PATH/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
