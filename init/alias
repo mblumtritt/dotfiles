@@ -2,6 +2,7 @@
 
 alias fucking='sudo'
 alias please='sudo'
+alias dude='man'
 
 alias ls='eza -A --icons=always'
 alias ll='eza -Alm --git --icons=always --no-user'
