@@ -4,6 +4,6 @@ case "$1" in
 (-h|--help) echo "Usage: ${0##*/} FILE
 
 Plays given audio FILE." ;;
-('') echo "${0##*/}: FILE missing" >&2 ; exit 1 ;;
+('') >&2 echo "${0##*/}: FILE missing" ; exit 1 ;;
 (*) exec afplay -q 1 "$@" ;;
 esac

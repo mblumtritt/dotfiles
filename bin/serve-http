@@ -4,7 +4,7 @@ case "$1" in
 (-h|--help) echo "Usage: ${0##*/} FILE [PORT]
 
 Serve FILE_NAME via HTTP." ;;
-('') echo "${0##*/}: FILE name missing" >&2 ; exit 1 ;;
+('') >&2 echo "${0##*/}: FILE name missing" ; exit 1 ;;
 (*)
 	while true; do
 		{ echo -e 'HTTP/1.1 200 OK\r\n'; cat "$1"; } | nc -l "${2:-8080}"

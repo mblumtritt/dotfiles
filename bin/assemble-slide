@@ -4,7 +4,7 @@ USAGE="Usage: ${0##*/} [-d|--draft] SOURCE ...
 Assemble reveal.js slide from SOURCE."
 
 die() {
-  echo "${0##*/}: $1" >&2
+  >&2 echo "${0##*/}: $1"
   exit 1
 }
 

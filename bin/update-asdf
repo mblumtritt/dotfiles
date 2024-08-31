@@ -9,5 +9,5 @@ Update ASDF and stuff." ;;
   asdf install nodejs latest
   asdf install ruby latest
 ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
+(*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
 esac

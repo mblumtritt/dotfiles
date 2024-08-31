@@ -7,5 +7,5 @@ Enable/disable infrared receiver or show status (default)." ;;
 (on|1) exec defaults write /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled -int 1 ;;
 (off|0) exec defaults write /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled -int 0 ;;
 (status|'') echo "infrared_state=$(defaults read /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled)" ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
+(*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
 esac

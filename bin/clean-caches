@@ -11,5 +11,5 @@ Clean all library caches. (May require password.)" ;;
   rm -rfv "$HOME/Library/Caches/*" >/dev/null
   rm -rfv "$HOME/.cache" >/dev/null
 ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
+(*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
 esac

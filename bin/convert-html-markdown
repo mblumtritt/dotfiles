@@ -5,5 +5,5 @@ case "$1" in
 
 Convert HTML from stdin into MARKDOWN to stdout." ;;
 ('') exec pandoc --from=html --to=gfm "$@" ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
+(*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
 esac

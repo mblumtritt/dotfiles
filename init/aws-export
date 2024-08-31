@@ -12,5 +12,5 @@ Export AWS related environment variables."
   AWS_SESSION_TOKEN=$(awk -F "=" '/aws_session_token/ {print $2}' "$HOME/.aws/credentials" | tail -1 | xargs)
   export AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN
 ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
+(*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
 esac

@@ -4,7 +4,7 @@ case "$1" in
 (-h|--help) echo "Usage: ${0##*/} COMMAND
 
 Execute given command for each installed ruby version." ;;
-('') echo "${0##*/}: COMMAND missing" >&2 ; exit 1 ;;
+('') >&2 echo "${0##*/}: COMMAND missing" ; exit 1 ;;
 (*)
 	for ruby in $(asdf list ruby | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
 	do

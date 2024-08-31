@@ -12,5 +12,5 @@ Clean up Docker stuff." ;;
   docker network prune -f
   docker system prune -f -a
 ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
+(*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
 esac

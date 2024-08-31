@@ -4,9 +4,9 @@ case "$1" in
 (-h|--help) echo "Usage: ${0##*/} ENGINE TERM
 
 Open search ENGINE with TERM." ;;
-('') echo "${0##*/}: argument missing" >&2 ; exit 1 ;;
+('') >&2 echo "${0##*/}: argument missing" ; exit 1 ;;
 (*)
-  [ $# -lt 2 ] && (echo "${0##*/}: TERM missing" >&2 ; exit 1)
+  [ $# -lt 2 ] && (>&2 echo "${0##*/}: TERM missing" ; exit 1)
   url="$(print-search-url "$@")" || exit $?
   open "$url"
 ;;

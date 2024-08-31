@@ -5,5 +5,5 @@ case "$1" in
 
 List downloaded apps from AppStore." ;;
 ('') exec mdfind kMDItemAppStoreHasReceipt=1 ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
+(*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
 esac

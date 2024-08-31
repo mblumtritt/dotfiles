@@ -5,5 +5,5 @@ case "$1" in
 
 List WLAN information." ;;
 ('') exec /System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport -s ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
+(*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
 esac

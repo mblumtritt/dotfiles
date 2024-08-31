@@ -5,5 +5,5 @@ case "$1" in
 
 Clean up YARN cache." ;;
 ('') yarn cache clean --force ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
+(*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
 esac

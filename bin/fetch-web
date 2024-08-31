@@ -4,7 +4,7 @@ case "$1" in
 (-h|--help) echo "Usage: ${0##*/} URL
 
 Display a file from given URL." ;;
-('') echo "${0##*/}: URL missing" >&2 ; exit 1 ;;
+('') >&2 echo "${0##*/}: URL missing" ; exit 1 ;;
 (*)
   exec curl \
     --fail \

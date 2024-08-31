@@ -8,7 +8,7 @@ Ejects all removeable disks." ;;
   exec osascript -e 'tell application "Finder" to eject
     (every disk whose ejectable is true)'
 ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
+(*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
 esac
 
 

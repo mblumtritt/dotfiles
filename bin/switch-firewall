@@ -7,5 +7,5 @@ Enable/disable firewall or show status. (May require password.)" ;;
 (on|1) exec sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on ;;
 (off|0) exec sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate off ;;
 (status|'') exec sudo /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
+(*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
 esac

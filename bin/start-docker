@@ -6,7 +6,7 @@ case "$1" in
 Ensure Docker is started." ;;
 ('')
   (command -v docker >/dev/null 2>&1) || {
-    echo "${0##*/}: Docker not installed" >&2
+    >&2 echo "${0##*/}: Docker not installed"
     exit 1
   }
   open --background -a Docker
@@ -14,5 +14,5 @@ Ensure Docker is started." ;;
   do sleep 1
   done
 ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
+(*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
 esac

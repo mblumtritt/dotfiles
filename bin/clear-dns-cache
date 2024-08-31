@@ -5,5 +5,5 @@ case "$1" in
 
 Clear the DNS cache. (May require password.)" ;;
 ('') sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
+(*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
 esac

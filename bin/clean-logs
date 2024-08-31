@@ -11,5 +11,5 @@ Clean system log files. (May require password.)" ;;
   rm -rfv "$HOME/Library/Containers/com.apple.mail/Data/Library/Logs/Mail/*" >/dev/null
   rm -rfv "$HOME/Library/Logs/CoreSimulator/*" >/dev/null
 ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
+(*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
 esac

@@ -26,8 +26,8 @@ Options:
 (-p|--perplexity) url='https://www.perplexity.ai/search?q=' ;;
 (-v|--video|-y|--youtube) url='https://www.youtube.com/results?search_query=' ;;
 (-w|--wiki|--wikipedia) url='https://de.wikipedia.org/w/index.php?fulltext=1&search=' ;;
-('') echo "${0##*/}: argument missing" >&2 ; exit 1 ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
+('') >&2 echo "${0##*/}: argument missing" ; exit 1 ;;
+(*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
 esac
 shift
 echo "$url$(echo "$@" | convert-text-uri)"

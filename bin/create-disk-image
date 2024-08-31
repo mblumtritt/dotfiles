@@ -13,8 +13,8 @@ case "$1" in
   OPTIONS="-encryption AES-256 -stdinpass $OPTIONS"
   shift
 ;;
-('') echo "${0##*/}: DIR missing " >&2 ; exit 1 ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
+('') >&2 echo "${0##*/}: DIR missing " ; exit 1 ;;
+(*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
 esac
 
 DIR=$(cd "$1";pwd)

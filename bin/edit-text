@@ -4,7 +4,7 @@ case "$1" in
 (-h|--help) echo "Usage: ${0##*/} [FILE | NAME]
 
 Edit given FILE or project NAME." ;;
-('') echo "${0##*/}: FILE or NAME missing " >&2 ; exit 1 ;;
+('') >&2 echo "${0##*/}: FILE or NAME missing " ; exit 1 ;;
 (*)
   if [ -r "$1" ]
   then PROJECT="$1"

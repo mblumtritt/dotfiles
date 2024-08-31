@@ -4,7 +4,7 @@ case "$1" in
 (-h|--help) echo "Usage: ${0##*/} NAME
 
 Set system NAME. (May require password.)" ;;
-('') echo "${0##*/}: NAME missing" >&2 ; exit 1 ;;
+('') >&2 echo "${0##*/}: NAME missing" ; exit 1 ;;
 (*)
   sudo scutil --set ComputerName "$1"
   sudo scutil --set HostName "$1"

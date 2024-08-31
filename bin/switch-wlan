@@ -7,5 +7,5 @@ Switch WLAN on/off or return the current status." ;;
 (on|1) exec networksetup -setairportpower en0 on ;;
 (off|0) exec networksetup -setairportpower en0 off ;;
 (status|'') echo "wlan_state=$(networksetup -getairportpower en0 | grep -oE 'On|Off' | tr '[:upper:]' '[:lower:]')" ;;
-(*) echo "${0##*/}: invalid argument - $1" >&2 ; exit 1 ;;
+(*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
 esac
