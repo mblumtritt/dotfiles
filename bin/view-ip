@@ -1,0 +1,15 @@
+#! /bin/sh -e
+
+case "$1" in
+(-h|--help) echo "Usage: ${0##*/} [OPTIONS]
+
+View IP information.
+
+options:
+   -4, --ipv4   view IPv4 information (default)
+   -6, --ipv6   view IPv6 information
+   -h, --help   print help" ;;
+(-4|--ipv4|'') curl -4 https://ipv4.myip.wtf/yaml ;;
+(-6|--ipv6) curl -6 https://myip.wtf/yaml ;;
+(*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
+esac
