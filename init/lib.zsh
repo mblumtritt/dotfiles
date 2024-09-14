@@ -75,21 +75,27 @@ gh()
 	('')
 		browse "$(git-url)"
 	;;
-	(branch)
+	(b|branch)
 		browse "$(git-url)/tree/$(git-branch-name)"
 		;;
-	(create)
-		browse "$(git-url)/pull/new/$(git-branch-name)"
-		;;
-	(current)
+	(o|open)
 		browse "$(git-url)/pull/$(git-branch-name)"
 		;;
-	(index)
+	(p|pulls)
 		browse "$(git-url)/pulls"
 		;;
-	# (-px)
-	# 	browse "$(git-url)/pull/$2"
-	# 	;;
+	(n|new)
+		browse "$(git-url)/pull/new/$(git-branch-name)"
+		;;
+	(-h|--help)
+		echo "gh       : open repository
+gh pulls : open pull request index
+gh open  : open pull request for current branch
+gh new   : create pull request for current branch
+gh branch: open current branch
+gh <name>: open branch <name>
+		"
+		;;
 	(*)
 		browse "$(git-url)/tree/$1"
 		;;
