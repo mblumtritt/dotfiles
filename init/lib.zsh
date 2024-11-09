@@ -7,46 +7,51 @@ ff() { grep "$1" "${@:2}" -R . }
 # create directory and step into
 mkcd() { mkdir -p "$1" && cd "$1" || return 1 }
 
+# find my command
+\#()
+{
+	local cmd="$(select-file -i -s -f -x "$HOME/bin" -m "$1")"
+	[ "$cmd" = "" ] && return 1
+	[ $# -ne 0 ] && shift
+	print -z "${cmd} $@"
+}
+
+_fmc()
+{
+	(( CURRENT == 2 )) &&{
+		local cmds=( $(select-file -s -f -x "$HOME/bin") )
+		_describe -t cmds 'commands' cmds
+	}
+	return 0
+}
+compdef _fmc \#
+
 # cd to best matching project directory
 cdp()
 {
-	local path="$(list-projects "$1")"
-	[ "$path" = "" ] && { >&2 echo "no matching project - $1" && return 1 }
-	cd "$path"
+	local dir="$(select-file -i -d -r "$HOME/prj/3rd" "$HOME/prj/ivx" "$HOME/prj/my" -m "$1")"
+	[ "$dir" = "" ] && return 1
+	cd "$dir"
 }
 
-# cd to best matching project directory
-cde() { cdp "$1" && edit-text . || return 1 }
+# cd to best matching project directory and start IDE
+cde() { cdp "$@" && $IDE . }
+
+_cdp()
+{
+	(( CURRENT == 2 )) &&{
+		local cmds=( $(select-file -s -d -r "$HOME/prj/3rd" "$HOME/prj/ivx" "$HOME/prj/my") )
+		_describe -t cmds 'commands' cmds
+	}
+	return 0
+}
+compdef _cdp cdp cde
 
 # export AWS related environment variables
 aws-env() { source "$HOME/.local/dotfiles/init/aws-export" }
 
 # renew AWS session
-aws-renew()
-{
-	"$HOME/.local/dotfiles/init/aws-renew" "$1" && aws-env
-}
-
-# find and execute command with options
-\#()
-{
-	[ $# = 0 ] && { list-commands | column -x && return 0 }
-	local cmd="$(list-commands --long "$1")"
-	[ "$cmd" = "" ] && { >&2 echo "no such command - $1" && return 1 }
-	shift
-	${cmd} $@
-	return $?
-}
-
-_fae()
-{
-	(( CURRENT == 2 )) &&{
-		local cmds=( $(list-commands --abbrev) )
-		_describe -t cmds 'commands' cmds
-	}
-	return 0
-}
-compdef _fae \#
+aws-renew() { "$HOME/.local/dotfiles/init/aws-renew" "$1" && aws-env }
 
 # add new password to password-store
 npass()
@@ -94,13 +99,30 @@ gh open  : open pull request for current branch
 gh new   : create pull request for current branch
 gh branch: open current branch
 gh <name>: open branch <name>
-		"
+"
 		;;
 	(*)
 		browse "$(git-url)/tree/$1"
 		;;
 	esac
 }
+
+_gh()
+{
+	(( CURRENT == 2 )) &&{
+		local -a commands
+		commands=(
+			'--help:more help'
+			'b,branch:open current branch'
+			'n,new:create pull request for current branch'
+			'open:open pull request for current branch'
+			'pulls:open pull request index'
+		)
+		_describe -t commands 'commands' commands
+	}
+	return 0
+}
+compdef _gh gh
 
 # lookup in GE/EN dictionary
 @tr() { fetch-web "$(print-search-url --dict "$@")" | convert-html-text | less }

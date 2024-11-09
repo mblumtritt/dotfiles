@@ -1,7 +1,0 @@
-#compdef cdp
-
-(( CURRENT == 2 )) && {
-  local prjs=( $(list-projects --abbrev) )
-  _describe -t prjs 'commands' prjs
-}
-return 0

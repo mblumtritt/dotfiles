@@ -13,8 +13,6 @@ alias clr='echo "\e[H\e[2J\e[3J" && welcome'
 alias path='print -l ${(s.:.)PATH}'
 
 alias c='$IDE .'
-alias e='edit-text'
-compdef e=edit-text
 alias f='gitui --watcher'
 alias g='git'
 compdef g=git
