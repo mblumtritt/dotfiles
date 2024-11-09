@@ -10,10 +10,10 @@ def help = (puts <<~HELP or exit)
   Select a file from given directory.
 
   Options:
-    -i, --interactive  interactive select (using fzf)
-    -s, --short        print short file name
-    -h, --help         print this help
-    -v, --version      print version information
+    -i, --interactive       interactive select (using fzf)
+    -s, --short             print short file name
+    -h, --help              print this help
+    -v, --version           print version information
 
   Filters:
   #{Filters.help}
@@ -23,15 +23,15 @@ module Filters
   def self.find(name) = map[name]&.first&.to_proc
 
   def self.help
-    help = { '-m, --match <str>' => 'name matching <str>' }.merge!(
+    { '-m, --match <str>' => 'name matching <str>' }.merge!(
       map
         .transform_values(&:last)
         .group_by(&:last)
         .transform_values! { _1.map!(&:first).sort_by(&:size).join(', ') }
         .invert
     )
-    width = help.keys.max_by(&:size).size
-    help.map { |k, v| "  #{k.ljust(width)}  #{v}" }.join("\n")
+      .map { |k, v| "  #{k.ljust(22)}  #{v}" }
+      .join("\n")
   end
 
   def self.map
