@@ -33,6 +33,6 @@ alias berd='bundle exec rake -D'
 alias berta='bundle exec rake -T -A'
 alias bdep='bundle list --paths | ruby --disable-all -n -e"puts(File.basename(\$_))"'
 
-alias fspec='rspec --order defined --fail-fast --format d'
+alias fspec='rspec --order defined --format d --fail-fast --color'
 alias rcop='rubocop -D -E -S'
 alias rpretty='stree write --plugins=plugin/single_quotes "**/*.{ru,rb,rake}"'
