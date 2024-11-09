@@ -93,7 +93,7 @@
   "terminal.integrated.fontFamily": "RobotoMono Nerd Font",
   "typescript.updateImportsOnFileMove.enabled": "always",
   "update.showReleaseNotes": false,
-  "vscode-run-rspec-file.custom-command": "bundle exec rspec --color --order defined --fail-fast --format d",
+  "vscode-run-rspec-file.custom-command": "bundle exec rspec --order defined --format d --fail-fast --color",
   "workbench.colorTheme": "MikeLight",
   "workbench.iconTheme": "vs-minimal",
   "workbench.sideBar.location": "right",
@@ -110,7 +110,6 @@
   "terminal.integrated.enableImages": true,
   "terminal.integrated.gpuAcceleration": "on",
   "terminal.integrated.fontSize": 13,
-  "workbench.activityBar.location": "hidden",
   "extensions.autoCheckUpdates": false,
   "code-runner.showRunIconInEditorTitleMenu": false,
   "diffEditor.ignoreTrimWhitespace": false,
@@ -135,5 +134,14 @@
   "terminal.integrated.drawBoldTextInBrightColors": false,
   "window.customTitleBarVisibility": "never",
   "window.restoreWindows": "none",
-  "window.openFilesInNewWindow": "default"
+  "window.openFilesInNewWindow": "default",
+  "workbench.activityBar.location": "hidden",
+  "editor.accessibilitySupport": "off",
+  "[cpp]": {
+    "editor.defaultFormatter": "ms-vscode.cpptools"
+  },
+  "C_Cpp.autocompleteAddParentheses": true,
+  "C_Cpp.clang_format_style": "Microsoft",
+  "C_Cpp.formatting": "disabled",
+  "cmake.showOptionsMovedNotification": false
 }
