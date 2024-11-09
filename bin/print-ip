@@ -5,7 +5,7 @@ case "$1" in
 
 Print external or local IP address.
 
-options:
+Options:
    -4, --ipv4   print IPv4 address (default)
    -6, --ipv6   print IPv6 address
    -l, --local  print local address
