@@ -8,6 +8,6 @@ Open search ENGINE with TERM." ;;
 (*)
   [ $# -lt 2 ] && (>&2 echo "${0##*/}: TERM missing" ; exit 1)
   url="$(print-search-url "$@")" || exit $?
-  open "$url"
+  exec open "$url"
 ;;
 esac

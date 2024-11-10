@@ -10,8 +10,8 @@ Options:
    -6, --ipv6   print IPv6 address
    -l, --local  print local address
    -h, --help   print help" ;;
-(-4|--ipv4|'') curl -4 https://ipv4.myip.wtf/text ;;
-(-6|--ipv6) curl -6 https://myip.wtf/text ;;
-(-l|--local) ipconfig getifaddr en0 ;;
+(-4|--ipv4|'') exec curl -4 https://ipv4.myip.wtf/text ;;
+(-6|--ipv6) exec curl -6 https://myip.wtf/text ;;
+(-l|--local) exec ipconfig getifaddr en0 ;;
 (*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
 esac

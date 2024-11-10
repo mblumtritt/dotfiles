@@ -6,9 +6,9 @@ case "$1" in
 Convert TEXT from stdin into URI (WWW form component) to stdout." ;;
 ('')
   exec ruby \
-  --disable-all \
-  -ruri \
-  -e'puts URI.encode_www_form_component STDIN.readlines(chomp:true).join'
+    --disable-all \
+    -ruri \
+    -e'puts URI.encode_www_form_component STDIN.readlines(chomp:true).join'
 ;;
 (*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
 esac
