@@ -22,105 +22,95 @@ task(
   ]
 ) { exec('bundle exec rake test') }
 
-file_create 'README.md' do |f|
-  write f.name, <<~README
-    # #{ThisGem.module}
-    <!-- TODO: ![version](https://img.shields.io/gem/v/#{ThisGem.name}?label=) -->
+file_create('README.md') { |f| write f.name, <<~README }
+  # #{ThisGem.module}
+  <!-- TODO: ![version](https://img.shields.io/gem/v/#{ThisGem.name}?label=) -->
 
-    TODO: gem description here
+  TODO: gem description here
 
-    <!-- TODO:
-    - ThisGem: [rubygems.org](https://rubygems.org/gems/#{ThisGem.name})
-    - Source: [github.com](https://github.com/mblumtritt/#{ThisGem.name})
-    - Help: [rubydoc.info](https://rubydoc.info/gems/#{ThisGem.name}/#{ThisGem.module})
-    -->
+  <!-- TODO:
+  - ThisGem: [rubygems.org](https://rubygems.org/gems/#{ThisGem.name})
+  - Source: [github.com](https://github.com/mblumtritt/#{ThisGem.name})
+  - Help: [rubydoc.info](https://rubydoc.info/gems/#{ThisGem.name}/#{ThisGem.module})
+  -->
 
-    ## Description
+  ## Description
 
-    TODO: more here
+  TODO: more here
 
-    ## Installation
+  ## Installation
 
-    You can install the gem in your system with
+  You can install the gem in your system with
 
-    ```shell
-    gem install #{ThisGem.name}
-    ```
+  ```shell
+  gem install #{ThisGem.name}
+  ```
 
-    or you can use [Bundler](http://gembundler.com/) to add #{ThisGem.module} to your own project:
+  or you can use [Bundler](http://gembundler.com/) to add #{ThisGem.module} to your own project:
 
-    ```shell
-    bundle add #{ThisGem.name}
-    ```
+  ```shell
+  bundle add #{ThisGem.name}
+  ```
 
-    After that you only need one line of code to have everything together
+  After that you only need one line of code to have everything together
 
-    ```ruby
-    require '#{ThisGem.name}'
-    ```
-  README
-end
+  ```ruby
+  require '#{ThisGem.name}'
+  ```
+README
 
-file_create 'stats.md' do |f|
-  write f.name, <<~STATS
-    # ThisGem/Repo Statistics
+file_create('stats.md') { |f| write f.name, <<~STATS }
+  # ThisGem/Repo Statistics
 
-    ![version](https://img.shields.io/gem/v/#{ThisGem.name})
-    ![downloads](https://img.shields.io/gem/dt/#{ThisGem.name})
-    ![downloads](https://img.shields.io/gem/dtv/#{ThisGem.name})
+  ![version](https://img.shields.io/gem/v/#{ThisGem.name})
+  ![downloads](https://img.shields.io/gem/dt/#{ThisGem.name})
+  ![downloads](https://img.shields.io/gem/dtv/#{ThisGem.name})
 
-    ![license](https://img.shields.io/github/license/mblumtritt/#{ThisGem.name})
-    ![stars](https://img.shields.io/github/stars/mblumtritt/#{ThisGem.name})
-    ![watchers](https://img.shields.io/github/watchers/mblumtritt/#{ThisGem.name})
-    ![forks](https://img.shields.io/github/forks/mblumtritt/#{ThisGem.name})
+  ![license](https://img.shields.io/github/license/mblumtritt/#{ThisGem.name})
+  ![stars](https://img.shields.io/github/stars/mblumtritt/#{ThisGem.name})
+  ![watchers](https://img.shields.io/github/watchers/mblumtritt/#{ThisGem.name})
+  ![forks](https://img.shields.io/github/forks/mblumtritt/#{ThisGem.name})
 
-    ![issues](https://img.shields.io/github/issues/mblumtritt/#{ThisGem.name})
-    ![closed issues](https://img.shields.io/github/issues-closed/mblumtritt/#{ThisGem.name})
-    ![pull-requests](https://img.shields.io/github/issues-pr/mblumtritt/#{ThisGem.name})
-    ![closed pull-requests](https://img.shields.io/github/issues-pr-closed/mblumtritt/#{ThisGem.name})
+  ![issues](https://img.shields.io/github/issues/mblumtritt/#{ThisGem.name})
+  ![closed issues](https://img.shields.io/github/issues-closed/mblumtritt/#{ThisGem.name})
+  ![pull-requests](https://img.shields.io/github/issues-pr/mblumtritt/#{ThisGem.name})
+  ![closed pull-requests](https://img.shields.io/github/issues-pr-closed/mblumtritt/#{ThisGem.name})
 
-    ![last commit](https://img.shields.io/github/last-commit/mblumtritt/#{ThisGem.name}/main)
-    ![files](https://img.shields.io/github/directory-file-count/mblumtritt/#{ThisGem.name})
-    ![dependencies](https://img.shields.io/librariesio/github/mblumtritt/#{ThisGem.name})
+  ![last commit](https://img.shields.io/github/last-commit/mblumtritt/#{ThisGem.name}/main)
+  ![files](https://img.shields.io/github/directory-file-count/mblumtritt/#{ThisGem.name})
+  ![dependencies](https://img.shields.io/librariesio/github/mblumtritt/#{ThisGem.name})
 
-    ![commit activity](https://img.shields.io/github/commit-activity/m/mblumtritt/#{ThisGem.name})
-  STATS
-end
+  ![commit activity](https://img.shields.io/github/commit-activity/m/mblumtritt/#{ThisGem.name})
+STATS
 
-file_create '.yardopts' do |f|
-  write f.name, <<~YARDOPTS
-    --title '#{ThisGem.name}'
-    --charset utf-8
-    --markup markdown
-    --readme README.md
-    --no-private
-    --embed-mixins
-    --tag comment
-    --hide-tag comment
-    lib/**/*.rb
-    -
-    README.md
-  YARDOPTS
-end
+file_create('.yardopts') { |f| write f.name, <<~YARDOPTS }
+  --title '#{ThisGem.name}'
+  --charset utf-8
+  --markup markdown
+  --readme README.md
+  --no-private
+  --embed-mixins
+  --tag comment
+  --hide-tag comment
+  lib/**/*.rb
+  -
+  README.md
+YARDOPTS
 
-file_create '.rspec' do |f|
-  write f.name, <<~RSPEC
-    --require helper
-  RSPEC
-end
+file_create('.rspec') { |f| write f.name, <<~RSPEC }
+  --require helper
+RSPEC
 
-file_create 'spec/helper.rb' => '.rspec' do |f|
-  write f.name, <<~HELPER
-    # frozen_string_literal: true
+file_create('spec/helper.rb' => '.rspec') { |f| write f.name, <<~HELPER }
+  # frozen_string_literal: true
 
-    require_relative '../lib/#{ThisGem.name}'
+  require_relative '../lib/#{ThisGem.name}'
 
-    $stdout.sync = $stderr.sync = $VERBOSE = true
-    RSpec.configure(&:disable_monkey_patching!)
-  HELPER
-end
+  $stdout.sync = $stderr.sync = $VERBOSE = true
+  RSpec.configure(&:disable_monkey_patching!)
+HELPER
 
-file_create "spec/lib/#{ThisGem.name}_spec.rb" => 'spec/helper.rb' do |f|
+file_create("spec/lib/#{ThisGem.name}_spec.rb" => 'spec/helper.rb') do |f|
   write f.name, <<~SPEC
     # frozen_string_literal: true
 
@@ -132,82 +122,80 @@ file_create "spec/lib/#{ThisGem.name}_spec.rb" => 'spec/helper.rb' do |f|
   SPEC
 end
 
-file_create "spec/lib/#{ThisGem.name}/version_spec.rb" =>
-              'spec/helper.rb' do |f|
-  write f.name, <<~VERSION_SPEC
-    # frozen_string_literal: true
+file_create(
+  "spec/lib/#{ThisGem.name}/version_spec.rb" => 'spec/helper.rb'
+) { |f| write f.name, <<~VERSION_SPEC }
+  # frozen_string_literal: true
 
-    RSpec.describe '#{ThisGem.module}::VERSION' do
-      subject(:version) { #{ThisGem.module}::VERSION }
+  RSpec.describe '#{ThisGem.module}::VERSION' do
+    subject(:version) { #{ThisGem.module}::VERSION }
 
-      it { is_expected.to be_frozen }
-      it do
-        is_expected.to match(
-          /\\A[[:digit:]]{1,3}.[[:digit:]]{1,3}.[[:digit:]]{1,3}(alpha|beta)?\\z/
-        )
-      end
+    it { is_expected.to be_frozen }
+    it do
+      is_expected.to match(
+        /\\A[[:digit:]]{1,3}.[[:digit:]]{1,3}.[[:digit:]]{1,3}(alpha|beta)?\\z/
+      )
     end
-  VERSION_SPEC
-end
+  end
+VERSION_SPEC
 
-file_create "lib/#{ThisGem.name}.rb" =>
-              "spec/lib/#{ThisGem.name}_spec.rb" do |f|
-  write f.name, <<~SOURCE
-    # frozen_string_literal: true
+file_create(
+  "lib/#{ThisGem.name}.rb" => "spec/lib/#{ThisGem.name}_spec.rb"
+) { |f| write f.name, <<~SOURCE }
+  # frozen_string_literal: true
 
-    module #{ThisGem.module}
-      # TODO: add code here
-    end
-  SOURCE
-end
+  module #{ThisGem.module}
+    # TODO: add code here
+  end
+SOURCE
 
-file_create "lib/#{ThisGem.name}/version.rb" => %W[
-              lib/#{ThisGem.name}.rb
-              spec/lib/#{ThisGem.name}/version_spec.rb
-            ] do |f|
-  write f.name, <<~VERSION
-    # frozen_string_literal: true
+file_create(
+  "lib/#{ThisGem.name}/version.rb" => %W[
+    lib/#{ThisGem.name}.rb
+    spec/lib/#{ThisGem.name}/version_spec.rb
+  ]
+) { |f| write f.name, <<~VERSION }
+  # frozen_string_literal: true
 
-    module #{ThisGem.module}
-      # The version number of the gem.
-      VERSION = '0.1.0alpha'
-    end
-  VERSION
-end
+  module #{ThisGem.module}
+    # The version number of the gem.
+    VERSION = '0.1.0alpha'
+  end
+VERSION
 
-file_create "#{ThisGem.name}.gemspec" => "lib/#{ThisGem.name}/version.rb" do |f|
-  write f.name, <<~GEMSPEC
-    # frozen_string_literal: true
+file_create(
+  "#{ThisGem.name}.gemspec" => "lib/#{ThisGem.name}/version.rb"
+) { |f| write f.name, <<~GEMSPEC }
+  # frozen_string_literal: true
 
-    require_relative 'lib/#{ThisGem.name}/version'
+  require_relative 'lib/#{ThisGem.name}/version'
 
-    ThisGem::Specification.new do |spec|
-      spec.name = '#{ThisGem.name}'
-      spec.version = #{ThisGem.module}::VERSION
-      spec.summary = 'The new gem #{ThisGem.module}.'
-      spec.description = <<~DESCRIPTION
-        A helpful and catchy description is missing here!
-      DESCRIPTION
+  ThisGem::Specification.new do |spec|
+    spec.name = '#{ThisGem.name}'
+    spec.version = #{ThisGem.module}::VERSION
+    spec.summary = 'The new gem #{ThisGem.module}.'
+    spec.description = <<~DESCRIPTION
+      A helpful and catchy description is missing here!
+    DESCRIPTION
 
-      spec.author = 'Mike Blumtritt'
-      # spec.license = 'BSD-3-Clause'
-      spec.homepage = 'https://github.com/mblumtritt/#{ThisGem.name}'
-      spec.metadata['source_code_uri'] = spec.homepage
-      spec.metadata['bug_tracker_uri'] = "\#{spec.homepage}/issues"
-      spec.metadata['documentation_uri'] = 'https://rubydoc.info/gems/#{ThisGem.name}'
-      spec.metadata['rubygems_mfa_required'] = 'true'
+    spec.author = 'Mike Blumtritt'
+    # spec.license = 'BSD-3-Clause'
+    spec.homepage = 'https://github.com/mblumtritt/#{ThisGem.name}'
+    spec.metadata['source_code_uri'] = spec.homepage
+    spec.metadata['bug_tracker_uri'] = "\#{spec.homepage}/issues"
+    spec.metadata['documentation_uri'] = 'https://rubydoc.info/gems/#{ThisGem.name}'
+    spec.metadata['rubygems_mfa_required'] = 'true'
 
-      spec.required_ruby_version = '>= 3.0'
-      # spec.add_dependency 'TODO: add dependencies'
+    spec.required_ruby_version = '>= 3.0'
+    # spec.add_dependency 'TODO: add dependencies'
 
-      spec.files = Dir['lib/**/*']
-      # spec.executables = %w[command]
-      # spec.extra_rdoc_files = %w[README.md LICENSE]
-    end
-  GEMSPEC
-end
+    spec.files = Dir['lib/**/*']
+    # spec.executables = %w[command]
+    # spec.extra_rdoc_files = %w[README.md LICENSE]
+  end
+GEMSPEC
 
-file_create 'Gemfile' do |f|
+file_create('Gemfile') do |f|
   content = <<~GEMFILE
     # frozen_string_literal: true
 
@@ -242,11 +230,9 @@ file_create 'Gemfile' do |f|
   write f.name, content
 end
 
-file_create 'Gemfile.lock' => 'Gemfile' do |f|
-  sh 'bundle update'
-end
+file_create('Gemfile.lock' => 'Gemfile') { sh 'bundle update' }
 
-file_create 'Rakefile' do |f|
+file_create('Rakefile') do |f|
   content = <<~RAKEFILE
     # frozen_string_literal: true
 
