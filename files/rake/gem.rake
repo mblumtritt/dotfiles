@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Gem
+module ThisGem
   class << self
     attr_reader :name, :module
   end
@@ -9,30 +9,30 @@ module Gem
   @module = @name.split(/[-_]/).map!(&:capitalize).join.freeze
 end
 
-desc "Create structure for gem '#{Gem.name}' in './'"
-task gem: %W[
-       #{Gem.name}.gemspec
-       .yardopts
-       Gemfile.lock
-       Rakefile
-       README.md
-       stats.md
-       .gitignore
-     ] do
-  exec('bundle exec rake test')
-end
+desc "Create structure for gem '#{ThisGem.name}' in './'"
+task(
+  gem: %W[
+    #{ThisGem.name}.gemspec
+    .yardopts
+    Gemfile.lock
+    Rakefile
+    README.md
+    stats.md
+    .gitignore
+  ]
+) { exec('bundle exec rake test') }
 
 file_create 'README.md' do |f|
   write f.name, <<~README
-    # #{Gem.module}
-    <!-- TODO: ![version](https://img.shields.io/gem/v/#{Gem.name}?label=) -->
+    # #{ThisGem.module}
+    <!-- TODO: ![version](https://img.shields.io/gem/v/#{ThisGem.name}?label=) -->
 
     TODO: gem description here
 
     <!-- TODO:
-    - Gem: [rubygems.org](https://rubygems.org/gems/#{Gem.name})
-    - Source: [github.com](https://github.com/mblumtritt/#{Gem.name})
-    - Help: [rubydoc.info](https://rubydoc.info/gems/#{Gem.name}/#{Gem.module})
+    - ThisGem: [rubygems.org](https://rubygems.org/gems/#{ThisGem.name})
+    - Source: [github.com](https://github.com/mblumtritt/#{ThisGem.name})
+    - Help: [rubydoc.info](https://rubydoc.info/gems/#{ThisGem.name}/#{ThisGem.module})
     -->
 
     ## Description
@@ -44,52 +44,52 @@ file_create 'README.md' do |f|
     You can install the gem in your system with
 
     ```shell
-    gem install #{Gem.name}
+    gem install #{ThisGem.name}
     ```
 
-    or you can use [Bundler](http://gembundler.com/) to add #{Gem.module} to your own project:
+    or you can use [Bundler](http://gembundler.com/) to add #{ThisGem.module} to your own project:
 
     ```shell
-    bundle add #{Gem.name}
+    bundle add #{ThisGem.name}
     ```
 
     After that you only need one line of code to have everything together
 
     ```ruby
-    require '#{Gem.name}'
+    require '#{ThisGem.name}'
     ```
   README
 end
 
 file_create 'stats.md' do |f|
   write f.name, <<~STATS
-    # Gem/Repo Statistics
+    # ThisGem/Repo Statistics
 
-    ![version](https://img.shields.io/gem/v/#{Gem.name})
-    ![downloads](https://img.shields.io/gem/dt/#{Gem.name})
-    ![downloads](https://img.shields.io/gem/dtv/#{Gem.name})
+    ![version](https://img.shields.io/gem/v/#{ThisGem.name})
+    ![downloads](https://img.shields.io/gem/dt/#{ThisGem.name})
+    ![downloads](https://img.shields.io/gem/dtv/#{ThisGem.name})
 
-    ![license](https://img.shields.io/github/license/mblumtritt/#{Gem.name})
-    ![stars](https://img.shields.io/github/stars/mblumtritt/#{Gem.name})
-    ![watchers](https://img.shields.io/github/watchers/mblumtritt/#{Gem.name})
-    ![forks](https://img.shields.io/github/forks/mblumtritt/#{Gem.name})
+    ![license](https://img.shields.io/github/license/mblumtritt/#{ThisGem.name})
+    ![stars](https://img.shields.io/github/stars/mblumtritt/#{ThisGem.name})
+    ![watchers](https://img.shields.io/github/watchers/mblumtritt/#{ThisGem.name})
+    ![forks](https://img.shields.io/github/forks/mblumtritt/#{ThisGem.name})
 
-    ![issues](https://img.shields.io/github/issues/mblumtritt/#{Gem.name})
-    ![closed issues](https://img.shields.io/github/issues-closed/mblumtritt/#{Gem.name})
-    ![pull-requests](https://img.shields.io/github/issues-pr/mblumtritt/#{Gem.name})
-    ![closed pull-requests](https://img.shields.io/github/issues-pr-closed/mblumtritt/#{Gem.name})
+    ![issues](https://img.shields.io/github/issues/mblumtritt/#{ThisGem.name})
+    ![closed issues](https://img.shields.io/github/issues-closed/mblumtritt/#{ThisGem.name})
+    ![pull-requests](https://img.shields.io/github/issues-pr/mblumtritt/#{ThisGem.name})
+    ![closed pull-requests](https://img.shields.io/github/issues-pr-closed/mblumtritt/#{ThisGem.name})
 
-    ![last commit](https://img.shields.io/github/last-commit/mblumtritt/#{Gem.name}/main)
-    ![files](https://img.shields.io/github/directory-file-count/mblumtritt/#{Gem.name})
-    ![dependencies](https://img.shields.io/librariesio/github/mblumtritt/#{Gem.name})
+    ![last commit](https://img.shields.io/github/last-commit/mblumtritt/#{ThisGem.name}/main)
+    ![files](https://img.shields.io/github/directory-file-count/mblumtritt/#{ThisGem.name})
+    ![dependencies](https://img.shields.io/librariesio/github/mblumtritt/#{ThisGem.name})
 
-    ![commit activity](https://img.shields.io/github/commit-activity/m/mblumtritt/#{Gem.name})
+    ![commit activity](https://img.shields.io/github/commit-activity/m/mblumtritt/#{ThisGem.name})
   STATS
 end
 
 file_create '.yardopts' do |f|
   write f.name, <<~YARDOPTS
-    --title '#{Gem.name}'
+    --title '#{ThisGem.name}'
     --charset utf-8
     --markup markdown
     --readme README.md
@@ -113,18 +113,18 @@ file_create 'spec/helper.rb' => '.rspec' do |f|
   write f.name, <<~HELPER
     # frozen_string_literal: true
 
-    require_relative '../lib/#{Gem.name}'
+    require_relative '../lib/#{ThisGem.name}'
 
     $stdout.sync = $stderr.sync = $VERBOSE = true
     RSpec.configure(&:disable_monkey_patching!)
   HELPER
 end
 
-file_create "spec/lib/#{Gem.name}_spec.rb" => 'spec/helper.rb' do |f|
+file_create "spec/lib/#{ThisGem.name}_spec.rb" => 'spec/helper.rb' do |f|
   write f.name, <<~SPEC
     # frozen_string_literal: true
 
-    RSpec.describe #{Gem.module} do
+    RSpec.describe #{ThisGem.module} do
       xit do
         # TODO: describe your module here
       end
@@ -132,12 +132,13 @@ file_create "spec/lib/#{Gem.name}_spec.rb" => 'spec/helper.rb' do |f|
   SPEC
 end
 
-file_create "spec/lib/#{Gem.name}/version_spec.rb" => 'spec/helper.rb' do |f|
+file_create "spec/lib/#{ThisGem.name}/version_spec.rb" =>
+              'spec/helper.rb' do |f|
   write f.name, <<~VERSION_SPEC
     # frozen_string_literal: true
 
-    RSpec.describe '#{Gem.module}::VERSION' do
-      subject(:version) { #{Gem.module}::VERSION }
+    RSpec.describe '#{ThisGem.module}::VERSION' do
+      subject(:version) { #{ThisGem.module}::VERSION }
 
       it { is_expected.to be_frozen }
       it do
@@ -149,50 +150,51 @@ file_create "spec/lib/#{Gem.name}/version_spec.rb" => 'spec/helper.rb' do |f|
   VERSION_SPEC
 end
 
-file_create "lib/#{Gem.name}.rb" => "spec/lib/#{Gem.name}_spec.rb" do |f|
+file_create "lib/#{ThisGem.name}.rb" =>
+              "spec/lib/#{ThisGem.name}_spec.rb" do |f|
   write f.name, <<~SOURCE
     # frozen_string_literal: true
 
-    module #{Gem.module}
+    module #{ThisGem.module}
       # TODO: add code here
     end
   SOURCE
 end
 
-file_create "lib/#{Gem.name}/version.rb" => %W[
-              lib/#{Gem.name}.rb
-              spec/lib/#{Gem.name}/version_spec.rb
+file_create "lib/#{ThisGem.name}/version.rb" => %W[
+              lib/#{ThisGem.name}.rb
+              spec/lib/#{ThisGem.name}/version_spec.rb
             ] do |f|
   write f.name, <<~VERSION
     # frozen_string_literal: true
 
-    module #{Gem.module}
+    module #{ThisGem.module}
       # The version number of the gem.
       VERSION = '0.1.0alpha'
     end
   VERSION
 end
 
-file_create "#{Gem.name}.gemspec" => "lib/#{Gem.name}/version.rb" do |f|
+file_create "#{ThisGem.name}.gemspec" => "lib/#{ThisGem.name}/version.rb" do |f|
   write f.name, <<~GEMSPEC
     # frozen_string_literal: true
 
-    require_relative 'lib/#{Gem.name}/version'
+    require_relative 'lib/#{ThisGem.name}/version'
 
-    Gem::Specification.new do |spec|
-      spec.name = '#{Gem.name}'
-      spec.version = #{Gem.module}::VERSION
-      spec.summary = 'The new gem #{Gem.module}.'
+    ThisGem::Specification.new do |spec|
+      spec.name = '#{ThisGem.name}'
+      spec.version = #{ThisGem.module}::VERSION
+      spec.summary = 'The new gem #{ThisGem.module}.'
       spec.description = <<~DESCRIPTION
         A helpful and catchy description is missing here!
       DESCRIPTION
 
       spec.author = 'Mike Blumtritt'
       # spec.license = 'BSD-3-Clause'
-      spec.homepage = 'https://github.com/mblumtritt/#{Gem.name}'
+      spec.homepage = 'https://github.com/mblumtritt/#{ThisGem.name}'
       spec.metadata['source_code_uri'] = spec.homepage
       spec.metadata['bug_tracker_uri'] = "\#{spec.homepage}/issues"
-      spec.metadata['documentation_uri'] = 'https://rubydoc.info/gems/#{Gem.name}'
+      spec.metadata['documentation_uri'] = 'https://rubydoc.info/gems/#{ThisGem.name}'
       spec.metadata['rubygems_mfa_required'] = 'true'
 
       spec.required_ruby_version = '>= 3.0'
@@ -232,7 +234,7 @@ file_create 'Gemfile' do |f|
     end
   GEMFILE
 
-  content += <<~GEMFILE if File.file?("#{Gem.name}.gemspec")
+  content += <<~GEMFILE if File.file?("#{ThisGem.name}.gemspec")
 
     gemspec
   GEMFILE
@@ -251,7 +253,7 @@ file_create 'Rakefile' do |f|
     $stdout.sync = $stderr.sync = true
   RAKEFILE
 
-  content += <<~RAKEFILE if File.file?("#{Gem.name}.gemspec")
+  content += <<~RAKEFILE if File.file?("#{ThisGem.name}.gemspec")
 
     require 'bundler/gem_tasks'
 
