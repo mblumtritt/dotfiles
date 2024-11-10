@@ -1,24 +1,15 @@
 #! /bin/sh
 
-alias fucking='sudo'
-alias please='sudo'
+alias fucking='sudo' please='sudo'
 alias dude='man'
+
+alias g='git' c='$IDE .' o='open' e='edit-text'
+compdef g=git
 
 alias ls='eza -A --icons=always'
 alias ll='eza -Alm --git --icons=always --no-user'
 alias lr='eza -ARlm --git --icons=always --no-user'
 alias tree='eza -lm --git --icons=always --no-user --tree'
-alias du='du -kh'
-alias clr='echo "\e[H\e[2J\e[3J" && welcome'
-alias path='print -l ${(s.:.)PATH}'
-
-alias c='$IDE .'
-alias f='gitui --watcher'
-alias g='git'
-compdef g=git
-alias h='history 0 | grep'
-alias o='open'
-alias sc='shellcheck'
 
 alias dc='docker compose'
 alias dcd='docker compose down --remove-orphans'
@@ -28,13 +19,15 @@ alias gr='noglob rake --rakelib ~/.rake --rakefile none'
 
 alias be='bundle exec'
 alias ber='noglob bundle exec rake'
-alias bert='bundle exec rake -T'
-alias berd='bundle exec rake -D'
-alias berta='bundle exec rake -T -A'
+alias bert='ber -T' berd='ber -D' berta='ber -T -A'
 alias bdep='bundle list --paths | ruby --disable-all -n -e"puts(File.basename(\$_))"'
 
 alias fspec='rspec --order defined --format d --fail-fast --color'
 alias rcop='rubocop -D -E -S'
 alias rpretty='stree write --plugins=plugin/single_quotes "**/*.{ru,rb,rake}"'
 
+alias du='du -kh'
+alias f='gitui --watcher'
+alias clr='echo "\e[H\e[2J\e[3J" && welcome'
+alias path='print -l ${(s.:.)PATH}'
 alias recomp='rm -f ~/.zcompdump; compinit'
