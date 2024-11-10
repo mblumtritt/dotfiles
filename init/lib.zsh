@@ -29,7 +29,9 @@ compdef _fmc \#
 # cd to best matching project directory
 cdp()
 {
-	local dir="$(select-file -i -d -r "$HOME/prj/3rd" "$HOME/prj/ivx" "$HOME/prj/my" -m "$1")"
+	local dir="$(
+		select-file -i -d -r "$HOME/prj/3rd" "$HOME/prj/ivx" "$HOME/prj/my" -m "$1"
+	)"
 	[ "$dir" = "" ] && return 1
 	cd "$dir"
 }
@@ -40,7 +42,9 @@ cde() { cdp "$@" && $IDE . }
 _cdp()
 {
 	(( CURRENT == 2 )) && {
-		local dirs=( $(select-file -s -d -r "$HOME/prj/3rd" "$HOME/prj/ivx" "$HOME/prj/my") )
+		local dirs=(
+			$(select-file -s -d -r "$HOME/prj/3rd" "$HOME/prj/ivx" "$HOME/prj/my")
+		)
 		_describe 'dir' dirs
 	}
 	return 0
@@ -56,7 +60,7 @@ aws-renew() { "$HOME/.local/dotfiles/init/aws-renew" "$1" && aws-env }
 # add new password to password-store
 npass()
 {
-	[ $# = 0 ] && { >&2 echo "pass-name missing" && return 1 }
+	[ $# = 0 ] && { >&2 echo "password name missing" && return 1 }
 	local name="$1"
 	shift
 	{
@@ -65,7 +69,7 @@ npass()
 }
 
 # open prefered browser
-browse() { open -a Safari "$@" }
+browse() { open -a $BROWSER "$@" }
 
 # URL of current project
 git-url() { echo ${$(git remote get-url origin)/.git/$nop} }
@@ -139,9 +143,7 @@ apic() { cat $(find $HOME/.local/apic/*.txt -type f | shuf -n 1) && echo }
 welcome()
 {
 	{
-		[[ -o interactive ]] &&
-		[[ "$(tput lines)" -gt 35 ]] &&
-		[[ "$(tput cols)" -gt 50 ]]
+		[[ "$(tput lines)" -gt 35 ]] && [[ "$(tput cols)" -gt 40 ]]
 	} && apic || date +"=== $(sekki), %d.%m.%Y, %H:%M ==="
 	return 0
 }
