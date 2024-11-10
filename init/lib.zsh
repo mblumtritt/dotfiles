@@ -18,9 +18,9 @@ mkcd() { mkdir -p "$1" && cd "$1" || return 1 }
 
 _fmc()
 {
-	(( CURRENT == 2 )) &&{
+	(( CURRENT == 2 )) && {
 		local cmds=( $(select-file -s -f -x "$HOME/bin") )
-		_describe -t cmds 'commands' cmds
+		_describe 'command' cmds
 	}
 	return 0
 }
@@ -39,9 +39,9 @@ cde() { cdp "$@" && $IDE . }
 
 _cdp()
 {
-	(( CURRENT == 2 )) &&{
-		local cmds=( $(select-file -s -d -r "$HOME/prj/3rd" "$HOME/prj/ivx" "$HOME/prj/my") )
-		_describe -t cmds 'commands' cmds
+	(( CURRENT == 2 )) && {
+		local dirs=( $(select-file -s -d -r "$HOME/prj/3rd" "$HOME/prj/ivx" "$HOME/prj/my") )
+		_describe 'dir' dirs
 	}
 	return 0
 }
@@ -92,13 +92,13 @@ gh()
 	(n|new)
 		browse "$(git-url)/pull/new/$(git-branch-name)"
 		;;
-	(-h|--help)
+	(-h|--help|help)
 		echo "gh       : open repository
-gh pulls : open pull request index
-gh open  : open pull request for current branch
-gh new   : create pull request for current branch
-gh branch: open current branch
 gh <name>: open branch <name>
+gh branch: open current branch
+gh new   : create pull request for current branch
+gh open  : open pull request for current branch
+gh pulls : open pull request index
 "
 		;;
 	(*)
@@ -109,16 +109,15 @@ gh <name>: open branch <name>
 
 _gh()
 {
-	(( CURRENT == 2 )) &&{
-		local -a commands
-		commands=(
-			'--help:more help'
-			'b,branch:open current branch'
-			'n,new:create pull request for current branch'
+	(( CURRENT == 2 )) && {
+		local commands=(
+			'branch:open current branch'
+			'help:more help'
+			'new:create pull request for current branch'
 			'open:open pull request for current branch'
 			'pulls:open pull request index'
 		)
-		_describe -t commands 'commands' commands
+		_describe 'command' commands
 	}
 	return 0
 }
