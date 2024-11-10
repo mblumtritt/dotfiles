@@ -26,48 +26,105 @@
     "body": "compare_by_identity $0"
   },
 
-  "Ruby: attr_reader": { "prefix": "ar", "body": "attr_reader :$0" },
-  "Ruby: attr_writer": { "prefix": "aw", "body": "attr_writer :$0" },
-  "Ruby: attr_accessor": { "prefix": "aa", "body": "attr_accessor :$0" },
+  "Ruby: attr_reader": { "prefix": "ar", "body": "attr_reader $0" },
+  "Ruby: attr_writer": { "prefix": "aw", "body": "attr_writer $0" },
+  "Ruby: attr_accessor": { "prefix": "aa", "body": "attr_accessor $0" },
 
   "Ruby: require": { "prefix": "req", "body": "require '$0'" },
   "Ruby: require_relative": {
-    "prefix": "rer",
+    "prefix": "rr",
     "body": "require_relative '$0'"
   },
 
-  "Ruby: each": { "prefix": "ea", "body": "each $0" },
-  "Ruby: each_pair": { "prefix": "eap", "body": "each_pair $0" },
-  "Ruby: each_index": { "prefix": "eai", "body": "each_index $0" },
-  "Ruby: each_key": { "prefix": "eak", "body": "each_key $0" },
-  "Ruby: each_value": { "prefix": "eav", "body": "each_value $0" },
-  "Ruby: each_line": { "prefix": "eal", "body": "each_line(chomp: true) $0" },
-  "Ruby: each_slice": { "prefix": "eas", "body": "each_slice $0" },
-  "Ruby: each_with_index": { "prefix": "eawi", "body": "each_with_index $0" },
-  "Ruby: each_with_object": { "prefix": "eawo", "body": "each_with_object $0" },
-  "Ruby: each_char": { "prefix": "eac", "body": "each_char $0" },
-  "Ruby: each_byte": { "prefix": "eab", "body": "each_byte $0" },
-  "Ruby: each_code_point": { "prefix": "eaco", "body": "each_code_point $0" },
-  "Ruby: each_child": { "prefix": "eaci", "body": "each_child $0" },
+  "Ruby: each": { "prefix": ".ea", "body": ".each { $0 }" },
+  "Ruby: each(&)": { "prefix": ".ea(", "body": ".each(&:$0)" },
+  "Ruby: each_byte": { "prefix": ".eab", "body": ".each_byte { $0 }" },
+  "Ruby: each_byte(&)": { "prefix": ".eab(", "body": ".each_byte(&:$0)" },
+  "Ruby: each_char": { "prefix": ".eac", "body": ".each_char { $0 }" },
+  "Ruby: each_char(&)": { "prefix": ".eac(", "body": ".each_char(&:$0)" },
+  "Ruby: each_child": { "prefix": ".eaci", "body": ".each_child { $0 }" },
+  "Ruby: each_child(&)": { "prefix": ".eaci(", "body": ".each_child(&:$0)" },
+  "Ruby: each_code_point": {
+    "prefix": ".eaco",
+    "body": ".each_code_point { $0 }"
+  },
+  "Ruby: each_code_point(&)": {
+    "prefix": ".eaco(",
+    "body": ".each_code_point(&:$0)"
+  },
+  "Ruby: each_index": {
+    "prefix": ".eai",
+    "body": "-each_index { |${1:idx}| $0 }"
+  },
+  "Ruby: each_key": { "prefix": ".eak", "body": ".each_key { $0 }" },
+  "Ruby: each_key(&)": { "prefix": ".eak(", "body": ".each_key(&:$0)" },
+  "Ruby: each_line": {
+    "prefix": ".eal",
+    "body": ".each_line(chomp: true) { |${1:line}| $0 }"
+  },
+  "Ruby: each_pair": {
+    "prefix": ".eap",
+    "body": ".each_pair { |${1:key}, ${2:value}| $0 }"
+  },
+  "Ruby: each_slice": { "prefix": ".eas", "body": ".each_slice { $0 }" },
+  "Ruby: each_slice(&)": { "prefix": ".eas(", "body": ".each_slice(&:$0)" },
+  "Ruby: each_value": { "prefix": ".eav", "body": ".each_value { $0 }" },
+  "Ruby: each_value(&)": { "prefix": ".eav(", "body": ".each_value(&:$0)" },
+  "Ruby: each_with_index": {
+    "prefix": ".eawi",
+    "body": ".each_with_index { |${1:item}, ${2:idx}| $0 }"
+  },
+  "Ruby: each_with_object": {
+    "prefix": ".eawo",
+    "body": ".each_with_object($1) $0"
+  },
 
-  "Ruby: delete_if": { "prefix": "del", "body": "delete_if $0" },
-  "Ruby: keep_if": { "prefix": "ke", "body": "keep_if $0" },
+  "Ruby: map": { "prefix": ".ma", "body": ".map { $0 }" },
+  "Ruby: map(&)": { "prefix": ".ma(", "body": ".map(&:$0)" },
+  "Ruby: map!": { "prefix": ".ma!", "body": ".map! { $0 }" },
+  "Ruby: map!(&)": { "prefix": ".ma!(", "body": ".map!(&:$0)" },
 
-  "Ruby: reverse": { "prefix": "rev", "body": "reverse $0" },
-  "Ruby: reverse_each": { "prefix": "reva", "body": "reverse_each $0" },
+  "Ruby: delete": { "prefix": ".del", "body": ".delete($0)" },
+  "Ruby: delete_if": { "prefix": ".deli", "body": ".delete_if { $0 }" },
+  "Ruby: delete_if(&)": { "prefix": ".deli(", "body": ".delete_if(&:$0)" },
+  "Ruby: delete_at": { "prefix": ".dela", "body": ".delete_at($0)" },
+  "Ruby: delete_prefix": { "prefix": ".delp", "body": ".delete_prefix($0)" },
+  "Ruby: delete_suffix": { "prefix": ".delp", "body": ".delete_suffix($0)" },
 
-  "Ruby: find": { "prefix": "fi", "body": "find $0" },
-  "Ruby: find_all": { "prefix": "fia", "body": "find_all $0" },
-  "Ruby: filter_map": { "prefix": "fil", "body": "filter_map $0" },
+  "Ruby: keep_if": { "prefix": ".ke", "body": ".keep_if { $0 }" },
+  "Ruby: keep_if(&)": { "prefix": ".ke(", "body": ".keep_if(&:$0)" },
+
+  "Ruby: reverse": { "prefix": ".rev", "body": "reverse$0" },
+  "Ruby: reverse_each": { "prefix": ".reve", "body": ".reverse_each { $0 }" },
+  "Ruby: reverse_each(&)": {
+    "prefix": ".reve(",
+    "body": ".reverse_each(&:$0)"
+  },
+
+  "Ruby: find": { "prefix": ".fi", "body": ".find($0)" },
+  "Ruby: find_all": { "prefix": ".fia", "body": ".find_all { $0 }" },
+  "Ruby: find_all(&)": { "prefix": ".fia(", "body": ".find_all(&:$0)" },
+  "Ruby: find_index": { "prefix": ".fii", "body": ".find_index($0)" },
+  "Ruby: find_index&": { "prefix": ".fii", "body": ".find_index { $0 }" },
+  "Ruby: find_index(&)": { "prefix": ".fii(", "body": ".find_index(&:$0)" },
+
+  "Ruby: filter_map": { "prefix": ".fil", "body": ".filter_map { $0 }" },
+  "Ruby: filter_map(&)": { "prefix": ".fil(", "body": ".filter_map(&:$0)" },
 
   "Ruby: glob": {
-    "prefix": "glob",
+    "prefix": ".glob",
     "body": [
-      "glob(\"${1:pattern}\"${2:, sort: true}) do |fname|",
+      ".glob(\"${1:pattern}\"${2:, sort: true}) do |fname|",
       "\t$0",
       "end"
     ]
   },
+
+  "Ruby: compare_by_identity": {
+    "prefix": ".co",
+    "body": ".compare_by_identity"
+  },
+  "Ruby: freez": { "prefix": ".fr", "body": ".freeze" },
 
   "Ruby: to_enum": {
     "prefix": "to_enum",
@@ -87,10 +144,58 @@
     "body": ["def initialize$0", "end"]
   },
 
+  "Ruby: include Module": { "prefix": "inc", "body": ["include $0"] },
+
+  "Ruby: include?": { "prefix": ".inc", "body": [".include?($0)"] },
+  "Ruby: empty?": { "prefix": ".em", "body": [".empty?$0"] },
+  "Ruby: nil?": { "prefix": ".ni", "body": [".nil?$0"] },
+
+  "Ruby: transform_keys": {
+    "prefix": ".tk",
+    "body": [".transform_keys { $0 }"]
+  },
+  "Ruby: transform_keys(&)": {
+    "prefix": ".tk(",
+    "body": [".transform_keys(&:$0)"]
+  },
+  "Ruby: transform_keys!": {
+    "prefix": ".tk!",
+    "body": [".transform_keys! { $0 }"]
+  },
+  "Ruby: transform_keys!(&)": {
+    "prefix": ".tk!(",
+    "body": [".transform_keys!(&:$0)"]
+  },
+  "Ruby: transform_values": {
+    "prefix": ".tk",
+    "body": [".transform_values { $0 }"]
+  },
+  "Ruby: transform_values(&)": {
+    "prefix": ".tk(",
+    "body": [".transform_values(&:$0)"]
+  },
+  "Ruby: transform_values!": {
+    "prefix": ".tk!",
+    "body": [".transform_values! { $0 }"]
+  },
+  "Ruby: transform_values!(&)": {
+    "prefix": ".tk!(",
+    "body": [".transform_values!(&:$0)"]
+  },
+
+  "Ruby: merge": { "prefix": ".mer", "body": [".merge($0)"] },
+  "Ruby: merge!": { "prefix": ".mer!", "body": [".merge!($0)"] },
+
+  "Ruby: group_by": { "prefix": ".gr", "body": [".group_by { $0 }"] },
+  "Ruby: group_by(&)": { "prefix": ".gr(", "body": [".group_by(&:$0)"] },
+
+  "Ruby: dig": { "prefix": ".di", "body": [".dig($0)"] },
+  "Ruby: slice": { "prefix": ".sl", "body": [".slice($0)"] },
+
   "Ruby: module": { "prefix": "mod", "body": ["module $0", "end"] },
   "Ruby: class": { "prefix": "cla", "body": ["class $0", "end"] },
   "Ruby: self class": {
-    "prefix": "scl",
+    "prefix": "clas",
     "body": ["class << self", "\t$0", "end"]
   },
 
@@ -100,14 +205,10 @@
     "body": ["rescue ${1:StandardException} => e", "\t$0"]
   },
 
-  "Ruby: private_constant": { "prefix": "pc", "body": "private_constant :$0" },
+  "Ruby: private_constant": { "prefix": "pc", "body": "private_constant $0" },
   "Ruby: private_class_method": {
     "prefix": "pm",
-    "body": "private_class_method :$0"
-  },
-  "Ruby: compare_by_identity": {
-    "prefix": "co",
-    "body": "compare_by_identity"
+    "body": "private_class_method $0"
   },
 
   "RSpec: before": { "prefix": "bef", "body": "before { $0 }" },
