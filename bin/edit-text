@@ -8,7 +8,11 @@ Edit given FILE or project NAME." ;;
 (*)
   if [ -r "$1" ]
   then PROJECT="$1"
-  else PROJECT="$(list-projects "$1")" || PROJECT="$1"
+  else
+    PROJECT="$(
+		  select-file -i -d -r "$HOME/prj/3rd" "$HOME/prj/ivx" "$HOME/prj/my" -m "$1"
+	  )"
+	  [ "$PROJECT" = "" ] && PROJECT="$1"
   fi
   exec "$IDE" "$PROJECT"
 ;;
