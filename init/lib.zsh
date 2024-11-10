@@ -73,7 +73,7 @@ git-url() { echo ${$(git remote get-url origin)/.git/$nop} }
 # current branch name
 git-branch-name() { basename "$(git symbolic-ref HEAD)" }
 
-# GitHub command
+# GitHub helper function
 gh()
 {
 	case "$1" in
