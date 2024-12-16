@@ -1,7 +1,7 @@
 ---
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 3.3
+  TargetRubyVersion: 3.0
 
 Style/Documentation:
   Enabled: false

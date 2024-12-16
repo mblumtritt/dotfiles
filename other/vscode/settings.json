@@ -141,7 +141,9 @@
     "editor.defaultFormatter": "ms-vscode.cpptools"
   },
   "C_Cpp.autocompleteAddParentheses": true,
-  "C_Cpp.clang_format_style": "Microsoft",
-  "C_Cpp.formatting": "disabled",
-  "cmake.showOptionsMovedNotification": false
+  "C_Cpp.formatting": "clangFormat",
+  "cmake.showOptionsMovedNotification": false,
+  "C_Cpp.clang_format_fallbackStyle": "Microsoft",
+  "vscode-run-rspec-file.integration": "other",
+  "vscode-run-rspec-file.folder": ""
 }
