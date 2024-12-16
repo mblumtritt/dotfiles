@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby --disable-all
+# frozen_string_literal: true
+
+trap(2) { exit(138) }
+
+WIDTH = [ENV['WIDTH'].to_i, 10].max
+HEIGHT = [ENV['HEIGHT'].to_i, 6].max
+
+stars = %w[🔆 ✨ ⭐️ 🌟 ٭ ⋆ ★ ☆ ✦ ✧ ✩ ✫ ✬ ✭ ✮ ✯ ✵ ✶ ✷ ✸ ✹ ⭑ ⭒ ✴︎ ⭐︎]
+space =
+  Array.new(HEIGHT) do
+    Array.new(WIDTH) { rand < 0.3 ? stars.sample : "\u3000" }
+  end
+space[rand(HEIGHT)][rand(WIDTH)] = %w[👾 🪐 ☄️ 🛸 🛰️ 🚀 🌍 🌎 🌏 🌓 🌕 🌒 🌖 🌗 🌔].sample
+puts(space.map!(&:join))

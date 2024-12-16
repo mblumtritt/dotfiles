@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby --disable-all
+# frozen_string_literal: true
+
+trap(2) { exit(138) }
+
+WIDTH = [ENV['WIDTH'].to_i, 10].max
+HEIGHT = [ENV['HEIGHT'].to_i, 6].max
+
+def weighted(**definitions)
+  sum = 0
+  elements = definitions.keys
+  weights = definitions.values.map! { sum += _1 }
+  Enumerator.new do |y|
+    while true
+      rnd = rand(sum) + 1
+      y << elements[weights.bsearch_index { rnd <= _1 }].sample
+    end
+  end
+end
+
+obj =
+  weighted(
+    %w[🌿] => 100,
+    %w[🌱 🍀] => 10,
+    %w[🌼 🌻 🌸 🌺] => 9,
+    %w[🦇 🐝 🦋 🐛 🐌 🐞 🐜 🦟 🦗 🐁 🐀 🦔 🍄 🐶 🐱 🐭 🐹 🐰 🦊 🐼 🐨 🐯 🦁 🐕 🐩 🐈 🦨] => 8,
+    %w[🦉 🐅 🐆 🦍 🦧 🦌 🐕 🦝 🦡 🦥 🐿️ 🐥 🪿 🦆 🦉 🦬 🐃 🐂 🐄 🫏 🐖 🦌] => 1
+  )
+puts(Array.new(HEIGHT) { obj.take(WIDTH).join })

@@ -1,0 +1,397 @@
+#!/usr/bin/env ruby --disable-all
+# frozen_string_literal: true
+
+trap(2) { exit(138) }
+
+WIDTH = [ENV['WIDTH'].to_i, 10].max
+HEIGHT = [ENV['HEIGHT'].to_i, 6].max
+
+def show(...) = (puts(...) or exit)
+def as_line(chars) = chars.take(WIDTH).join
+def as_array(chars, height:) = Array.new(height) { chars.take(WIDTH).join }
+def as_matrix(chars, height:) = Array.new(height) { chars.take(WIDTH) }
+
+def weighted(**definitions)
+  sum = 0
+  elements = definitions.keys
+  weights = definitions.values.map! { sum += _1 }
+  Enumerator.new do |y|
+    while true
+      rnd = rand(sum) + 1
+      y << elements[weights.bsearch_index { rnd <= _1 }].sample
+    end
+  end
+end
+
+case ARGV[0]
+when 'forest'
+  show(
+    as_array(
+      weighted(
+        %w[🌲 🌳] => 100,
+        %w[🌿 🌱] => 80,
+        %w[🦉 🐅 🐆 🦍 🦧 🦣 🦌 🐕 🦝 🦡 🦥 🐿️] => 10,
+        %w[🦇 🐝 🦋 🐛 🐌 🐞 🐜 🪲 🦟 🦗 🕷️ 🐁 🐀 🦔] => 5,
+        %w[🏡 🏠 🏚️ 🛖 🍄] => 2
+      ),
+      height: HEIGHT
+    )
+  )
+when 'pedding_zoo', 'zoo'
+  show(
+    Array
+      .new(2) { %w[═╪══ ══╪═].sample * (WIDTH * 2 / 4) }
+      .insert(
+        1,
+        as_array(
+          weighted(
+            ["\u3000"] => 200,
+            %w[🐇 🐐 🐄 🐂 🐖 🐓 🐥 🐑 🐏 🦙].sample(rand(2..3)) => 25,
+            [%w[🌱 🌳 🌴 🌵 🌲].sample] => 20,
+            %w[🐈 🐕 🦃 🪿] => 7,
+            %w[🐎 🐃 🐪 🐫 🦔 🐢 🐍 🦆 🐿 🦘 🦚] => 5,
+            %w[🦩 🦉 🦢 🦇 🦎 ⛲ 🗿 🍄] => 2,
+            %w[🦖 🦕 🐉 🐊 🐅 🐆 🛖 🧺 🪣 🧹] => 1
+          ),
+          height: HEIGHT - 2
+        )
+      )
+  )
+when 'meadow'
+  meadow =
+    as_matrix(
+      weighted(%w[🌱 🌿 🍀] => 100, ["\u3000"] => 8, %w[🌼 🌻 🌸 🌺] => 5, %w[🍄] => 1),
+      height: HEIGHT
+    )
+
+  animals = {
+    '🐇' => '🥕',
+    '🐈' => '🥓',
+    '🐀' => '🧀',
+    '🐁' => '🧀',
+    '🐓' => '🌽',
+    '🐢' => '🥗',
+    '🐿️' => '🌰',
+    '🐒' => '🍌',
+    '🦔' => nil,
+    '🦡' => nil,
+    '🐌' => nil,
+    '🐍' => nil,
+    '🐝' => nil,
+    '🦋' => nil,
+    '🦎' => nil,
+    '🐞' => nil,
+    '🪲' => nil,
+    '🦗' => nil,
+    '🐜' => nil
+  }
+  meadow[row = rand(HEIGHT)][col = rand(WIDTH)] = (a = animals.keys.sample)
+  if (tr = animals[a]) && (r = rand(HEIGHT)) != row && (c = rand(WIDTH)) != col
+    meadow[r][c] = tr
+  end
+  show(meadow.map!(&:join))
+when 'space', nil
+  stars = %w[🔆 ✨ ⭐️ 🌟 ٭ ⋆ ★ ☆ ✦ ✧ ✩ ✫ ✬ ✭ ✮ ✯ ✵ ✶ ✷ ✸ ✹ ⭑ ⭒ ✴︎ ⭐︎]
+  space =
+    Array.new(HEIGHT) do
+      Array.new(WIDTH) { rand < 0.3 ? stars.sample : "\u3000" }
+    end
+  space[rand(HEIGHT)][rand(WIDTH)] = %w[👾 🪐 ☄️ 🛸 🛰️ 🚀 🌍 🌎 🌏 🌓 🌕 🌒 🌖 🌗 🌔].sample
+  show(space.map!(&:join))
+end
+
+__END__
+
+
+class MiniWorld
+  def self.[](width: 10, height: 6) = new(width, height).generate
+
+  def self.generate(which, width: 10, height: 6)
+    (
+      case which
+      when 'meadow'
+        Meadow
+      when 'aquarium'
+        Aquarium
+      when 'pedding_zoo', 'zoo'
+        PeddingZoo
+      when 'city_scape', 'city'
+        CityScape
+      when 'forest'
+        Forest
+      else
+        raise(ArgumentError, "unknwown world - #{which.inspect}")
+      end
+    )[
+      width:,
+      height:
+    ]
+  end
+
+  def initialize(width, height)
+    @width = [width.to_i, 6].max
+    @height = [height.to_i, 6].max
+  end
+
+  def generate = raise(NotImplementedError)
+
+  protected
+
+  def rand_row = rand(@height)
+  def rand_col = rand(@width)
+  def rand_pos = [rand(@height), rand(@width)]
+  def spacer = "\u3000" * @width
+  def as_line(chars) = chars.take(@width).join
+
+  def as_array(chars, height: @height)
+    Array.new(height) { chars.take(@width).join }
+  end
+
+  def as_matrix(chars, height: @height)
+    Array.new(height) { chars.take(@width) }
+  end
+
+  def replace(index, char, count = 1)
+    ret = @ret[index].grapheme_clusters
+    if count == 1
+      ret[rand(ret.size)] = char
+    else
+      ret.size.times.to_a.sample(count).each { ret[_1] = char }
+    end
+    @ret[index] = ret.join
+    @ret
+  end
+
+  def weighted(**definition)
+    sum = 0
+    weight = (elem = definition.keys).map { sum += definition[_1] }
+    Enumerator.new do |y|
+      while true
+        rnd = rand(sum) + 1
+        y << elem[weight.bsearch_index { rnd <= _1 }].sample
+      end
+    end
+  end
+
+  def way(matrix, &)
+    all = %i[top right bottom left].shuffle
+    first = all.take(2).map! { pos_of(_1) }
+    step_through(matrix, *first.flatten, &)
+  end
+
+  def pos_of(side)
+    case side
+    when :top
+      [0, rand(1..@width - 2)]
+    when :right
+      [rand(1..@height - 2), @width - 1]
+    when :bottom
+      [@height - 1, rand(1..@width - 2)]
+    else
+      [rand(1..@height - 2), 0]
+    end
+  end
+
+  def step_through(matrix, srow, scol, trow, tcol)
+    xinc = tcol >= scol ? 1 : -1
+    yinc = trow >= srow ? 1 : -1
+    row = matrix[srow]
+    deltax = (tcol - scol).abs
+    deltay = (trow - srow).abs
+    if deltax >= deltay
+      num = deltax / 2
+      0.upto(deltax) do
+        return false unless yield(row[scol], srow, scol)
+        if (num += deltay) >= deltax
+          num -= deltax
+          row = matrix[srow += yinc]
+        end
+        scol += xinc
+      end
+    else
+      num = deltay / 2
+      0.upto(deltay) do
+        return false unless yield(row[scol], srow, scol)
+        if (num += deltax) >= deltay
+          num -= deltay
+          scol += xinc
+        end
+        row = matrix[srow += yinc]
+      end
+    end
+    true
+  end
+end
+
+class Meadow < MiniWorld
+  def generate
+    ret =
+      as_matrix(
+        weighted(
+          %w[🌱 🌿 🍀] => 100,
+          ["\u3000"] => 8,
+          %w[🌼 🌻 🌸 🌺] => 5,
+          %w[🍄] => 1
+        )
+      )
+    pos = rand_pos
+    animal = %w[🐌 🐇 🐈 🐀 🐿️ 🐒 🐁 🐓 🐢 🐍 🐝 🦋 🦎 🐞 🪲 🦗 🐜 🦔 🦡].sample
+    ret[pos.first][pos.last] = animal
+    treat =
+      {
+        '🐇' => '🥕',
+        '🐈' => '🥓',
+        '🐀' => '🧀',
+        '🐁' => '🧀',
+        '🐓' => '🌽',
+        '🐢' => '🥗',
+        '🐿️' => '🌰',
+        '🐒' => '🍌'
+      }[
+        animal
+      ]
+    if treat
+      tpos = rand_pos
+      ret[tpos.first][tpos.last] = treat if pos != tpos
+    end
+    ret.map!(&:join)
+  end
+end
+
+class Aquarium < MiniWorld
+  def generate
+    as_array(weighted(["\u3000"] => 100, %w[🐡 🐠 🐟] => 20), height: 2).insert(
+      1,
+      as_array(
+        weighted(["\u3000"] => 100, %w[🐡 🐠 🐟] => 20, %w[🐙 🦑 🦈 🐬] => 1),
+        height: @height - 3
+      )
+    ) << as_line(
+      weighted(
+        %w[🌱 🌿] => 80,
+        ["\u3000"] => 60,
+        %w[🌾] => 40,
+        %w[🪨 🐚 🐌] => 8,
+        %w[🦑 🦐 🦞 🦀] => 5,
+        %w[💰 🏰 ⚓️ 🎱 🎲 🎮 🗿 🔱 🎷 🗽 💎 💰 🔔 💀 💩 🪠] => 2
+      )
+    )
+  end
+end
+
+class PeddingZoo < MiniWorld
+  def generate
+    Array
+      .new(2) { %w[═╪══ ══╪═].sample * (@width * 2 / 4) }
+      .insert(
+        1,
+        as_array(
+          weighted(
+            ["\u3000"] => 200,
+            %w[🐇 🐐 🐄 🐖 🐓 🐥 🐑 🐏 🦙].sample(rand(1..3)) => 25,
+            [%w[🌱 🌳 🌴 🌵 🌲].sample] => 20,
+            %w[🐎 🐃 🐪 🐫 🦔 🐂 🐈 🐕 🐢 🐍 🦃 🦆 🐿 🦘 🦚] => 5,
+            %w[🦩 🦉 🦢 🦇 🦎 ⛲ 🗿 🍄] => 2,
+            %w[🦖 🦕 🐉 🐊 🐅 🐆 🛖 🧺 🪣 🧹] => 1
+          ),
+          height: @height - 2
+        )
+      )
+  end
+end
+
+class CityScape < MiniWorld
+  def generate
+    condition = %i[normal clear cloudy rainy snowy thundery].sample
+    rand < 0.5 ? generate_night(condition) : generate_day(condition)
+    case condition
+    when :rainy
+      replace(-1, '🌨️', @width / 3)
+    when :snowy
+      replace(-1, '🌧️', @width / 3)
+    when :thundery
+      replace(-1, '⛈️', @width / 3)
+    end
+    @ret << spacer << ground
+  end
+
+  private
+
+  def generate_night(condition)
+    case condition
+    when :normal, :clear
+      normal_night_sky!
+    when :cloudy, :rainy, :snowy, :thundery
+      cloudy_night_sky!
+    end
+  end
+
+  def generate_day(condition)
+    case condition
+    when :normal
+      normal_day_sky!
+    when :clear
+      normal_day_sky!
+      replace(0, %w[🌤️ 🌥️ ⛅️ ☀️].sample)
+    when :cloudy
+      cloudy_day_sky!
+    when :rainy, :snowy, :thundery
+      rand < 0.5 ? cloudy_day_sky! : normal_day_sky!
+    end
+  end
+
+  def normal_night_sky!
+    @ret =
+      as_array(
+        weighted(["\u3000"] => 100, %w[⭐️] => 10, %w[✨ 🌟] => 5),
+        height: @height - 2
+      )
+    replace(0, %w[🌕 🌖 🌗 🌘 🌒 🌓 🌔 🌙].sample)
+    replace(1, %w[🪐 🛸 🛰️].sample) if rand < 0.2
+    @ret
+  end
+
+  def cloudy_night_sky!
+    @ret =
+      as_array(
+        weighted(["\u3000"] => 100, %w[☁️] => 10, %w[⭐️] => 2, %w[✨ 🌟] => 1),
+        height: @height - 2
+      )
+    replace(0, %w[🌕 🌖 🌗 🌘 🌒 🌓 🌔 🌙].sample) if rand < 0.4
+    replace(1, %w[🪐 🛸 🛰️].sample) if rand < 0.1
+    @ret
+  end
+
+  def normal_day_sky!
+    @ret =
+      as_array(weighted(["\u3000"] => 100, %w[☁️] => 10), height: @height - 2)
+  end
+
+  def cloudy_day_sky!
+    @ret =
+      as_array(weighted(["\u3000"] => 100, %w[☁️] => 20), height: @height - 2)
+  end
+
+  def ground
+    as_line(weighted(%w[🏢 🏬 🏪 🏤 🏥 🏦 🏨 🏪 🏫 🏩 💒] => 100, %w[🏭 🏛️ ⛪️ 🕌 🕍 🛕] => 10))
+  end
+end
+
+class Forest < MiniWorld
+  def generate
+    ret =
+      as_matrix(
+        weighted(
+          %w[🌲 🌳] => 100,
+          %w[🌿 🌱] => 80,
+          %w[🦉 🐅 🐆 🦍 🦧 🦣 🦌 🐕 🦝 🦡 🦥 🐿️] => 10,
+          %w[🦇 🐝 🦋 🐛 🐌 🐞 🐜 🪲 🦟 🦗 🕷️ 🐁 🐀 🦔] => 5,
+          %w[🏡 🏠 🏚️ 🛖 🍄] => 2
+        )
+      )
+    way(ret) { |_, r, c| ret[r][c] = "\u3000" }
+    ret.map!(&:join)
+  end
+end
+
+puts MiniWorld.generate('forest')

@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby --disable-all
+# frozen_string_literal: true
+
+trap(2) { exit(138) }
+
+WIDTH = [ENV['WIDTH'].to_i, 10].max
+HEIGHT = [ENV['HEIGHT'].to_i, 6].max
+
+def weighted(**definitions)
+  sum = 0
+  elements = definitions.keys
+  weights = definitions.values.map! { sum += _1 }
+  Enumerator.new do |y|
+    while true
+      rnd = rand(sum) + 1
+      y << elements[weights.bsearch_index { rnd <= _1 }].sample
+    end
+  end
+end
+
+def as_line(chars) = chars.take(WIDTH).join
+def as_array(chars, height:) = Array.new(height) { chars.take(WIDTH).join }
+
+puts(
+  as_array(weighted(["\u3000"] => 100, %w[🐡 🐠 🐟] => 20), height: 2).insert(
+    1,
+    as_array(
+      weighted(["\u3000"] => 100, %w[🐡 🐠 🐟] => 20, %w[🐙 🦑 🦈 🐬] => 1),
+      height: HEIGHT - 3
+    )
+  ) << as_line(
+    weighted(
+      %w[🌱 🌿] => 80,
+      ["\u3000"] => 60,
+      %w[🌾] => 40,
+      %w[🪨 🐚 🐌] => 8,
+      %w[🦑 🦐 🦞 🦀] => 5,
+      %w[💰 🏰 ⚓️ 🎱 🎲 🎮 🗿 🔱 🎷 🗽 💎 💰 🔔 💀 💩 🪠] => 2
+    )
+  )
+)
