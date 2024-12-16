@@ -37,11 +37,11 @@ RUBY_SNIPPETS = {
   '.dels!' => ['delete_suffix!', :func],
   '.dels' => ['delete_suffix', :func],
   '.di' => ['dig', :func],
-  '.en?' => ['end_width?', :func],
+  '.ew?' => ['end_with?', :func],
   '.fi' => ['find', :func],
   '.i?' => ['include?', :func],
   '.sl' => ['slice', :func],
-  '.st?' => ['start_width?', :func],
+  '.sw?' => ['start_with?', :func],
   # function blocks
   '.deli' => ['delete_if', :bfunc],
   '.ea' => ['each', :bfunc],
