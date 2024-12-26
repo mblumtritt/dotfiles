@@ -106,7 +106,7 @@ file_create('spec/helper.rb' => '.rspec') { |f| write f.name, <<~HELPER }
 
   require_relative '../lib/#{ThisGem.name}'
 
-  $stdout.sync = $stderr.sync = $VERBOSE = true
+  $stdout.sync = $stderr.sync = $VERBOSE = Warning[:deprecated] = true
   RSpec.configure(&:disable_monkey_patching!)
 HELPER
 
