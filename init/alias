@@ -17,8 +17,7 @@ alias dcd='docker compose down --remove-orphans'
 alias rk='noglob rake'
 alias gr='noglob rake --rakelib ~/.rake --rakefile none'
 
-alias be='bundle exec'
-alias ber='noglob bundle exec rake'
+alias be='bundle exec' ber='noglob bundle exec rake'
 alias bert='ber -T' berd='ber -D' berta='ber -T -A'
 alias bdep='bundle list --paths | ruby --disable-all -n -e"puts(File.basename(\$_))"'
 
