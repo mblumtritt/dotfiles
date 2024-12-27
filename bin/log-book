@@ -109,7 +109,7 @@ if COMMAND == 'add'
       end
     out[ARGV.join(' ')] unless ARGV.empty?
     if ARGV.empty? || File.pipe?($stdin)
-      $stdin.each_line(chomp: true) { out[_1] }
+      $stdin.each_line(chomp: true) { out[it] }
     end
   end
   exit
@@ -164,16 +164,16 @@ exit unless file?(FNAME = fname(topic))
 PRINTER =
   begin
     if (str = ARGV.join(' ')).empty?
-      proc { print(_1) }
+      proc { print(it) }
     elsif str.start_with?('/') && str.end_with?('/')
       str =
         Regexp.new(
           str.delete_prefix('/').delete_suffix!('/'),
           Regexp::IGNORECASE
         )
-      proc { print(_1) if str.match?(_1) }
+      proc { print(it) if str.match?(it) }
     else
-      proc { print(_1) if _1.index(str) }
+      proc { print(it) if it.index(str) }
     end
   rescue RegexpError => e
     die!("invalid regular expression - #{e}")

@@ -244,7 +244,7 @@ file_create('Rakefile') do |f|
     require 'bundler/gem_tasks'
 
     require 'rspec/core/rake_task'
-    RSpec::Core::RakeTask.new(:test) { _1.ruby_opts = %w[-w] }
+    RSpec::Core::RakeTask.new(:test) { it.ruby_opts = %w[-w] }
   RAKEFILE
 
   content += <<~RAKEFILE if File.file?('.yardopts')
@@ -254,7 +254,7 @@ file_create('Rakefile') do |f|
     CLEAN << '.yardoc'
     CLOBBER << 'doc'
 
-    YARD::Rake::YardocTask.new(:doc) { _1.stats_options = %w[--list-undoc] }
+    YARD::Rake::YardocTask.new(:doc) { it.stats_options = %w[--list-undoc] }
 
     desc 'Run YARD development server'
     task('doc:dev' => :clobber) { exec 'yard server --reload' }

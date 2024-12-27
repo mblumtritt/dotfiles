@@ -41,7 +41,7 @@ ARGV.each do |arg|
 end
 
 catalog = Hash.new { |h, k| h[k] = {}.compare_by_identity }
-def abbrev(word) = Array.new(word.size) { word[.._1] }
+def abbrev(word) = Array.new(word.size) { word[..it] }
 def combine(left, right) = left.map { |l| right.map { |r| l + r } }.flatten(1)
 
 def add(catalog, word)

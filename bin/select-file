@@ -10,10 +10,10 @@ def help = (puts <<~HELP or exit)
   Select a file from given directory.
 
   Options:
-    -i, --interactive       interactive select (using fzf)
-    -s, --short             print short file name
-    -h, --help              print this help
-    -v, --version           print version information
+    -i, --interactive   interactive select (using fzf)
+    -s, --short         print short file name
+    -h, --help          print this help
+    -v, --version       print version information
 
   Filters:
   #{Filters.help}
@@ -27,7 +27,7 @@ module Filters
       map
         .transform_values(&:last)
         .group_by(&:last)
-        .transform_values! { _1.map!(&:first).sort_by(&:size).join(', ') }
+        .transform_values! { it.map!(&:first).sort_by(&:size).join(', ') }
         .invert
     )
       .map { |k, v| "  #{k.ljust(22)}  #{v}" }
@@ -86,7 +86,7 @@ module Opts
       add('./') if @added.zero?
       return if @files.empty?
       unless @filters.empty?
-        @files.keep_if { |_, stat| @filters.all? { _1[stat] } }
+        @files.keep_if { |_, stat| @filters.all? { it[stat] } }
       end
       return if @files.empty?
       @files.to_h { |fname, _| [File.basename(fname, '.*'), fname] }
@@ -97,7 +97,7 @@ module Opts
       @files +=
         Dir
           .glob(File.expand_path("#{dir_name}/*"), sort: false)
-          .filter_map { stat = stat(_1) and [_1, stat] }
+          .filter_map { stat = stat(it) and [it, stat] }
     end
 
     private

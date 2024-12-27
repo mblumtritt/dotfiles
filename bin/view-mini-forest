@@ -9,11 +9,11 @@ HEIGHT = [ENV['HEIGHT'].to_i, 6].max
 def weighted(**definitions)
   sum = 0
   elements = definitions.keys
-  weights = definitions.values.map! { sum += _1 }
+  weights = definitions.values.map! { sum += it }
   Enumerator.new do |y|
     while true
       rnd = rand(sum) + 1
-      y << elements[weights.bsearch_index { rnd <= _1 }].sample
+      y << elements[weights.bsearch_index { rnd <= it }].sample
     end
   end
 end
