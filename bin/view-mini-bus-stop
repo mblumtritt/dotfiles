@@ -6,14 +6,14 @@ trap(2) { exit(138) }
 WIDTH = [ENV['WIDTH'].to_i, 20].max
 
 def chr(code) = code.chr(Encoding::UTF_8)
-def str(*codes) = codes.map { chr(it) }.join
+def str(*codes) = codes.map { chr(it) }.join.freeze
 def mod(base) = str(0x200D, base, 0xFE0F)
 def colored(base) = rand < 0.5 ? base : base + COLORS.sample
 def gendered(base) = rand < 0.5 ? base : base + GENDER_MODS.sample
 def align(base) = rand < 0.5 ? base : base + TO_RIGHT
 
 MW = %w[👨 👩].freeze
-GENDERS = MW + %w[🧑].freeze
+GENDERS = (MW + %w[🧑]).freeze
 GENDER_PAIRS = %w[👫 👭 👬].freeze
 VEHICLES = %w[🚌 🚎 🚐 🚋].freeze
 COLORS = [
@@ -28,7 +28,6 @@ WHEEL_CHAIR_MODS = [str(0x200D, 0x1F9BD), str(0x200D, 0x1F9BC)].freeze
 WHITE_CANE = str(0x200D, 0x1F9AF)
 TO_RIGHT = mod(0x27A1)
 PAIR_JOIN = str(0x200d, 0x1f91d, 0x200d)
-PAIR_MOD = str(0x200D, 0x1F91D, 0x200D, 0x1F468)
 
 def weighted(**definitions)
   sum = 0
@@ -45,17 +44,17 @@ end
 puts(
   "🚏#{
     weighted(
-      -> { "\u3000" } => 75, # space
-      -> { gendered(colored('🧍')) } => 20, # stayer
-      lambda do
+      -> { "\u3000" } => 75,
+      -> { gendered(colored('🧍')) } => 20,
+      lambda do # pair
         next colored(GENDER_PAIRS.sample) if rand < 0.1
-        MW.sample + COLORS.sample + PAIR_JOIN + MW.sample + COLORS.sample
+        "#{MW.sample}#{COLORS.sample}#{PAIR_JOIN}#{MW.sample}#{COLORS.sample}"
       end =>
-        15, # pair
-      -> { align(gendered(colored('🚶'))) } => 10, # walker
-      -> { align(gendered(colored('🏃'))) } => 10, # runner
-      -> { align(colored(GENDERS.sample) + WHITE_CANE) } => 4, # walker with cane
-      -> { align(colored(GENDERS.sample) + WHEEL_CHAIR_MODS.sample) } => 4, # wheeler
+        15,
+      -> { align(gendered(colored('🚶'))) } => 10,
+      -> { align(gendered(colored('🏃'))) } => 10,
+      -> { align(colored(GENDERS.sample) + WHITE_CANE) } => 4,
+      -> { align(colored(GENDERS.sample) + WHEEL_CHAIR_MODS.sample) } => 4,
       -> { VEHICLES.sample } => 2
     ).take(WIDTH - 1).join
   }"
