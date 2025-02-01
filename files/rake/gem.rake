@@ -3,6 +3,12 @@
 module ThisGem
   class << self
     attr_reader :name, :module
+
+    def rubygems = "https://rubygems.org/gems/#{name}"
+    def github = "https://github.com/mblumtritt/#{name}"
+    def rubydoc = "https://rubydoc.info/gems/#{name}/#{self.module}"
+    def shield(which) = "https://img.shields.io/#{which}/#{name}"
+    def gh_shield(which) = shield("github/#{which}/mblumtritt")
   end
 
   @name = (ENV['NAME'] || File.basename(Dir.pwd)).freeze
@@ -12,13 +18,13 @@ end
 desc "Create structure for gem '#{ThisGem.name}' in './'"
 task(
   gem: %W[
-    #{ThisGem.name}.gemspec
+    .gitignore
     .yardopts
+    #{ThisGem.name}.gemspec
     Gemfile.lock
     Rakefile
     README.md
     stats.md
-    .gitignore
   ]
 ) { exec('bundle exec rake test') }
 
@@ -29,9 +35,9 @@ file_create('README.md') { |f| write f.name, <<~README }
   TODO: gem description here
 
   <!-- TODO:
-  - ThisGem: [rubygems.org](https://rubygems.org/gems/#{ThisGem.name})
-  - Source: [github.com](https://github.com/mblumtritt/#{ThisGem.name})
-  - Help: [rubydoc.info](https://rubydoc.info/gems/#{ThisGem.name}/#{ThisGem.module})
+  - #{ThisGem.module}: [rubygems.org](#{ThisGem.rubygems})
+  - Source: [github.com](#{ThisGem.github})
+  - Help: [rubydoc.info](#{ThisGem.rubydoc})
   -->
 
   ## Description
@@ -60,27 +66,25 @@ file_create('README.md') { |f| write f.name, <<~README }
 README
 
 file_create('stats.md') { |f| write f.name, <<~STATS }
-  # ThisGem/Repo Statistics
+  # #{ThisGem.module} Statistics
 
-  ![version](https://img.shields.io/gem/v/#{ThisGem.name})
-  ![downloads](https://img.shields.io/gem/dt/#{ThisGem.name})
-  ![downloads](https://img.shields.io/gem/dtv/#{ThisGem.name})
+  [![version](#{ThisGem.shield('gem/v')})](#{ThisGem.rubygems})
+  [![downloads](#{ThisGem.shield('gem/dt')})](#{ThisGem.rubygems})
+  [![downloads](#{ThisGem.shield('gem/dtv')})](#{ThisGem.rubygems})
 
-  ![license](https://img.shields.io/github/license/mblumtritt/#{ThisGem.name})
-  ![stars](https://img.shields.io/github/stars/mblumtritt/#{ThisGem.name})
-  ![watchers](https://img.shields.io/github/watchers/mblumtritt/#{ThisGem.name})
-  ![forks](https://img.shields.io/github/forks/mblumtritt/#{ThisGem.name})
+  ![license](#{ThisGem.gh_shield(:license)})
 
-  ![issues](https://img.shields.io/github/issues/mblumtritt/#{ThisGem.name})
-  ![closed issues](https://img.shields.io/github/issues-closed/mblumtritt/#{ThisGem.name})
-  ![pull-requests](https://img.shields.io/github/issues-pr/mblumtritt/#{ThisGem.name})
-  ![closed pull-requests](https://img.shields.io/github/issues-pr-closed/mblumtritt/#{ThisGem.name})
+  [![dependencies](https://img.shields.io/librariesio/github/mblumtritt/#{ThisGem.name})](#{ThisGem.github}/network/dependencies)
 
-  ![last commit](https://img.shields.io/github/last-commit/mblumtritt/#{ThisGem.name}/main)
-  ![files](https://img.shields.io/github/directory-file-count/mblumtritt/#{ThisGem.name})
-  ![dependencies](https://img.shields.io/librariesio/github/mblumtritt/#{ThisGem.name})
+  ![last commit](#{ThisGem.gh_shield('last-commit')}/main)
+  ![commit activity](#{ThisGem.gh_shield('commit-activity/m')})
 
-  ![commit activity](https://img.shields.io/github/commit-activity/m/mblumtritt/#{ThisGem.name})
+  [![issues](#{ThisGem.gh_shield(:issues)})](#{ThisGem.github}/issues)
+  [![pull-requests](#{ThisGem.gh_shield('issues-pr')})](#{ThisGem.github}/pulls)
+
+  [![stars](#{ThisGem.gh_shield(:stars)})](#{ThisGem.github}/stargazers)
+  [![watchers](#{ThisGem.gh_shield(:watchers)})](#{ThisGem.github}/watchers)
+  [![forks](#{ThisGem.gh_shield(:forks)})](#{ThisGem.github}/forks)
 STATS
 
 file_create('.yardopts') { |f| write f.name, <<~YARDOPTS }
@@ -131,6 +135,7 @@ file_create(
     subject(:version) { #{ThisGem.module}::VERSION }
 
     it { is_expected.to be_frozen }
+
     it do
       is_expected.to match(
         /\\A[[:digit:]]{1,3}.[[:digit:]]{1,3}.[[:digit:]]{1,3}(alpha|beta)?\\z/
@@ -170,16 +175,16 @@ file_create(
 
   require_relative 'lib/#{ThisGem.name}/version'
 
-  ThisGem::Specification.new do |spec|
+  Gem::Specification.new do |spec|
     spec.name = '#{ThisGem.name}'
     spec.version = #{ThisGem.module}::VERSION
-    spec.summary = 'The new gem #{ThisGem.module}.'
+    spec.summary = 'TODO: #{ThisGem.module}.'
     spec.description = <<~DESCRIPTION
-      A helpful and catchy description is missing here!
+      TODO: A helpful and catchy description is missing here!
     DESCRIPTION
 
     spec.author = 'Mike Blumtritt'
-    # spec.license = 'BSD-3-Clause'
+    # TODO: spec.license = 'BSD-3-Clause'
     spec.homepage = 'https://github.com/mblumtritt/#{ThisGem.name}'
     spec.metadata['source_code_uri'] = spec.homepage
     spec.metadata['bug_tracker_uri'] = "\#{spec.homepage}/issues"
@@ -187,11 +192,11 @@ file_create(
     spec.metadata['rubygems_mfa_required'] = 'true'
 
     spec.required_ruby_version = '>= 3.0'
-    # spec.add_dependency 'TODO: add dependencies'
+    # TODO: spec.add_dependency 'add dependencies here'
 
     spec.files = Dir['lib/**/*']
-    # spec.executables = %w[command]
-    # spec.extra_rdoc_files = %w[README.md LICENSE]
+    # TODO: spec.executables = %w[command]
+    spec.extra_rdoc_files = %w[README.md]
   end
 GEMSPEC
 
@@ -244,7 +249,7 @@ file_create('Rakefile') do |f|
     require 'bundler/gem_tasks'
 
     require 'rspec/core/rake_task'
-    RSpec::Core::RakeTask.new(:test) { it.ruby_opts = %w[-w] }
+    RSpec::Core::RakeTask.new(:test) { _1.ruby_opts = %w[-w] }
   RAKEFILE
 
   content += <<~RAKEFILE if File.file?('.yardopts')
@@ -254,7 +259,7 @@ file_create('Rakefile') do |f|
     CLEAN << '.yardoc'
     CLOBBER << 'doc'
 
-    YARD::Rake::YardocTask.new(:doc) { it.stats_options = %w[--list-undoc] }
+    YARD::Rake::YardocTask.new(:doc) { _1.stats_options = %w[--list-undoc] }
 
     desc 'Run YARD development server'
     task('doc:dev' => :clobber) { exec 'yard server --reload' }
