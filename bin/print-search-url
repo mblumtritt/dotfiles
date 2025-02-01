@@ -20,7 +20,7 @@ Options:
 ;;
 (-a|--alpha) url='https://www.wolframalpha.com/input/?i=' ;;
 (-d|--dict) url='https://pocket.dict.cc/?s=' ;;
-(-g|--google) url='https://www.google.de/search?hl=de&as_qdr=all&as_occt=any&num=100&as_q=' ;;
+(-g|--google) url='https://www.google.de/search?hl=de&as_qdr=all&as_occt=any&num=100&udm=14&as_q=' ;;
 (-h|--github) url='https://github.com/search?q=' ;;
 (-i|--image) url='https://www.google.de/search?source=lnms&tbm=isch&sa=X&ei=qWBvVcrKMYWAUa3BgZAF&ved=0CAgQ_AUoAg&biw=1075&bih=728&q=' ;;
 (-p|--perplexity) url='https://www.perplexity.ai/search?q=' ;;
