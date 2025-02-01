@@ -144,6 +144,6 @@ welcome()
 {
 	{
 		[[ "$(tput lines)" -gt 35 ]] && [[ "$(tput cols)" -gt 40 ]]
-	} && apic || date +"=== $(sekki), %d.%m.%Y, %H:%M ==="
+	} && apic || date +"=== %Y-%m-%d, %H:%M: $(shuf -n 1 $HOME/.local/patter.txt) ==="
 	return 0
 }
