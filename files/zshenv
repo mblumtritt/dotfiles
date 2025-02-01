@@ -2,10 +2,8 @@ export PS1='%~ :'
 export LANG=en_GB.utf-8 LANGUAGE=en_GB.utf-8 LC_ALL=en_GB.utf-8
 export BREW_PATH="/opt/homebrew" HOMEBREW_NO_AUTO_UPDATE=1
 export PATH="$HOME/bin:$BREW_PATH/bin:$BREW_PATH/sbin:$PATH"
-export EDITOR='mate -w'
-export GEM_EDITOR=mate
-export IDE=code
-export BROWSER=Safari
-export GZIP=-9
 export GOPATH=$HOME/prj/go
+export EDITOR='mate -w' GEM_EDITOR=mate
+export IDE=code BROWSER=Safari
+export GZIP=-9
 # export GPG_TTY=$(tty)

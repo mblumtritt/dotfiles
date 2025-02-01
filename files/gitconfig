@@ -1,7 +1,7 @@
 [init]
 	defaultBranch = main
 [core]
-  pager = delta
+	pager = delta
 	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
 	excludesfile = ~/.gitignore_global
 [user]
@@ -20,13 +20,13 @@
 	gpgsign = true
 [merge]
 	ff = only
-  conflictstyle = diff3
+	conflictstyle = diff3
 [diff]
 	colorMoved = default
 [interactive]
-  diffFilter = delta --color-only
+	diffFilter = delta --color-only
 [color]
-  status = always
+	status = always
 	ui = auto
 [color "branch"]
 	current = yellow bold
@@ -43,42 +43,42 @@
 	changed = yellow bold
 	untracked = red bold
 [delta]
-  navigate = true
-  side-by-side = true
-  line-numbers = true
+	navigate = true
+	side-by-side = true
+	line-numbers = true
 	true-color = always
-  features = woolly-mammoth
+	features = woolly-mammoth
 [delta "woolly-mammoth"]
-  commit-decoration-style = none
-  commit-style = 255 bold 33
-  dark = true
-  file-decoration-style = "#606018" overline
-  file-added-label = [+]
-  file-removed-label = [-]
-  file-copied-label = 🄲
-  file-modified-label = 🄼
-  file-renamed-label = 🅁
-  file-style = 0 bold 184
-  hunk-header-decoration-style = none
-  hunk-header-style = syntax bold italic 237
-  line-numbers = true
-  line-numbers-left-format = "{nm:>1}┊"
-  line-numbers-left-style = red
-  line-numbers-minus-style = red italic black
-  line-numbers-plus-style = green italic black
-  line-numbers-right-format = "{np:>1}┊"
-  line-numbers-right-style = green
-  line-numbers-zero-style = "#545474" italic
-  minus-emph-style = syntax bold "#780000"
-  minus-style = syntax "#400000"
-  plus-emph-style = syntax bold "#007800"
-  plus-style = syntax "#004000"
-  whitespace-error-style = "#280050" reverse
-  zero-style = syntax
+	commit-decoration-style = none
+	commit-style = 255 bold 33
+	dark = true
+	file-decoration-style = "#606018" overline
+	file-added-label = [+]
+	file-removed-label = [-]
+	file-copied-label = 🄲
+	file-modified-label = 🄼
+	file-renamed-label = 🅁
+	file-style = 0 bold 184
+	hunk-header-decoration-style = none
+	hunk-header-style = syntax bold italic 237
+	line-numbers = true
+	line-numbers-left-format = "{nm:>1}┊"
+	line-numbers-left-style = red
+	line-numbers-minus-style = red italic black
+	line-numbers-plus-style = green italic black
+	line-numbers-right-format = "{np:>1}┊"
+	line-numbers-right-style = green
+	line-numbers-zero-style = "#545474" italic
+	minus-emph-style = syntax bold "#780000"
+	minus-style = syntax "#400000"
+	plus-emph-style = syntax bold "#007800"
+	plus-style = syntax "#004000"
+	whitespace-error-style = "#280050" reverse
+	zero-style = syntax
 	hyperlinks = true
-  blame-format = "{author:<18} ({commit:>7}) {timestamp:<16} "
-  blame-palette = "#101010 #200020 #002800 #000028 #202000 #280000 #002020 #002800 #202020"
-  syntax-theme = zenburn
+	blame-format = "{author:<18} ({commit:>7}) {timestamp:<16} "
+	blame-palette = "#101010 #200020 #002800 #000028 #202000 #280000 #002020 #002800 #202020"
+	syntax-theme = zenburn
 [filter "media"]
 	required = true
 	clean = git media clean %f
@@ -112,14 +112,15 @@
 	sa = submodule add
 	st = status -sb
 	su = submodule update --init --recursive
+	sw = switch -
 	up = ! git fetch origin && git rebase origin/main
-  bdel = branch -d
-  bprune = remote update origin --prune
-  br = !sh -c 'git branch -v $1 && git checkout $1' -
-  ld = log -p -1
-  lgs = log -30 --graph --decorate --pretty=format:'%h %ad %s (%an)' --date=short
-  psf = push --force-with-lease
-  rb = rebase
-  rba = rebase --abort
-  rbc = rebase --continue
-  undo = ! git reset --hard main && git clean -df main
+	bdel = branch -d
+	bprune = remote update origin --prune
+	br = !sh -c 'git branch -v $1 && git checkout $1' -
+	ld = log -p -1
+	lgs = log -30 --graph --decorate --pretty=format:'%h %ad %s (%an)' --date=short
+	psf = push --force-with-lease
+	rb = rebase
+	rba = rebase --abort
+	rbc = rebase --continue
+	undo = ! git reset --hard main && git clean -df main
