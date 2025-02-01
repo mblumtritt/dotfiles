@@ -145,5 +145,5 @@
   "cmake.showOptionsMovedNotification": false,
   "C_Cpp.clang_format_fallbackStyle": "Microsoft",
   "vscode-run-rspec-file.integration": "other",
-  "vscode-run-rspec-file.folder": ""
+  "diffEditor.hideUnchangedRegions.enabled": true
 }
