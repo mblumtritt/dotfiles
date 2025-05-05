@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-tap 'homebrew/bundle'
-tap 'homebrew/services'
-tap 'thoughtbot/formulae'
-
 brew 'asdf'
 brew 'autoconf'
 brew 'awscli'
@@ -19,7 +15,6 @@ brew 'docker'
 brew 'eza'
 brew 'fd'
 brew 'git-delta'
-brew 'git-extras'
 brew 'git-lfs'
 brew 'git'
 brew 'gitui'
