@@ -16,7 +16,7 @@ module VSCode
         desc, body = definitions[trigger]
         case body
         when nil
-          snippet(trigger, desc, "#{desc} $0")
+          snippet(trigger, desc, "#{desc}$0")
         when :func
           snippet(trigger, ".#{desc}", ".#{desc}($0)")
         when :bfunc
@@ -41,12 +41,17 @@ module VSCode
 end
 
 desc 'Create VSCode Snippets'
-task snippets: VSCode.ruby_snippets
+task snippets: ['clean:snippets', VSCode.ruby_snippets]
+
+task 'clean:snippets' do
+  require 'rake/clean'
+  Rake::Cleaner.cleanup_files([VSCode.ruby_snippets])
+end
 
 file_create(VSCode.ruby_snippets => VSCode.snippets_dir) do |f|
   VSCode.snippets.clear
-  require_relative 'ruby_snippets'
-  VSCode.add_snippets(RUBY_SNIPPETS)
-  require 'oj'
-  write f.name, Oj.dump(VSCode.snippets)
+  require_relative 'vscode_snippets'
+  VSCode.add_snippets(VSCODE_SNIPPETS)
+  require 'json'
+  write f.name, JSON.dump(VSCode.snippets)
 end

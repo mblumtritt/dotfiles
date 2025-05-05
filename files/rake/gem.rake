@@ -28,7 +28,7 @@ task(
   ]
 ) { exec('bundle exec rake test') }
 
-file_create('README.md') { |f| write f.name, <<~README }
+file_create('README.md') { write _1.name, <<~README }
   # #{ThisGem.module}
   <!-- TODO: ![version](https://img.shields.io/gem/v/#{ThisGem.name}?label=) -->
 
@@ -65,7 +65,7 @@ file_create('README.md') { |f| write f.name, <<~README }
   ```
 README
 
-file_create('stats.md') { |f| write f.name, <<~STATS }
+file_create('stats.md') { write _1.name, <<~STATS }
   # #{ThisGem.module} Statistics
 
   [![version](#{ThisGem.shield('gem/v')})](#{ThisGem.rubygems})
@@ -87,7 +87,7 @@ file_create('stats.md') { |f| write f.name, <<~STATS }
   [![forks](#{ThisGem.gh_shield(:forks)})](#{ThisGem.github}/forks)
 STATS
 
-file_create('.yardopts') { |f| write f.name, <<~YARDOPTS }
+file_create('.yardopts') { write _1.name, <<~YARDOPTS }
   --title '#{ThisGem.name}'
   --charset utf-8
   --markup markdown
@@ -101,11 +101,11 @@ file_create('.yardopts') { |f| write f.name, <<~YARDOPTS }
   README.md
 YARDOPTS
 
-file_create('.rspec') { |f| write f.name, <<~RSPEC }
+file_create('.rspec') { write _1.name, <<~RSPEC }
   --require helper
 RSPEC
 
-file_create('spec/helper.rb' => '.rspec') { |f| write f.name, <<~HELPER }
+file_create('spec/helper.rb' => '.rspec') { write _1.name, <<~HELPER }
   # frozen_string_literal: true
 
   require_relative '../lib/#{ThisGem.name}'
@@ -159,7 +159,7 @@ file_create(
     lib/#{ThisGem.name}.rb
     spec/lib/#{ThisGem.name}/version_spec.rb
   ]
-) { |f| write f.name, <<~VERSION }
+) { write _1.name, <<~VERSION }
   # frozen_string_literal: true
 
   module #{ThisGem.module}

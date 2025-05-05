@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
-RUBY_SNIPPETS = {
+VSCODE_SNIPPETS = {
   # word expansions
+  '_e' => ['EOF', %w[__END__ $0]],
+  '_i' => ['__id__'],
+  '_m' => ['__method__'],
   '.co' => ['.compare_by_identity'],
   '.em?' => ['.empty?'],
   '.fr' => ['.freeze'],
@@ -13,6 +16,7 @@ RUBY_SNIPPETS = {
   'aa' => ['attr_accessor'],
   'ar' => ['attr_reader'],
   'aw' => ['attr_writer'],
+  'b?' => ['block_given?'],
   'eli' => ['elsif'],
   'els' => ['else'],
   'ext' => ['extend'],
@@ -30,6 +34,7 @@ RUBY_SNIPPETS = {
   'unt' => ['until', :block],
   'whi' => ['while', :block],
   # function calls
+  '.d?' => ['defined?', :func],
   '.del' => ['delete', :func],
   '.dela' => ['delete_at', :func],
   '.delp!' => ['delete_prefix!', :func],
@@ -39,7 +44,8 @@ RUBY_SNIPPETS = {
   '.di' => ['dig', :func],
   '.ew?' => ['end_with?', :func],
   '.fi' => ['find', :func],
-  '.i?' => ['include?', :func],
+  '.in?' => ['include?', :func],
+  '.is?' => ['is_a?', :func],
   '.sl' => ['slice', :func],
   '.sw?' => ['start_with?', :func],
   # function blocks
@@ -67,8 +73,8 @@ RUBY_SNIPPETS = {
   '.trav!' => ['transform_values!', :bfunc],
   '.trav' => ['transform_values', :bfunc],
   # magic comments
-  '#r' => ['#shebang', ['#!/usr/bin/env ruby', '$0']],
   '#f' => ['frozen_string_literal', ['# frozen_string_literal: true', '$0']],
+  '#r' => ['#shebang', ['#!/usr/bin/env ruby', '$0']],
   '#rc' => ['rubocop', '# rubocop: ${1|disable,enable|} $0'],
   # other
   '.eai' => ['.each_index block', '.each_index { |${1:idx}| $0 }'],
@@ -89,7 +95,6 @@ RUBY_SNIPPETS = {
   'defi' => ['def initialize', ['def initialize$0', 'end']],
   'defs' => ['def self', ['def self.$0', 'end']],
   'do' => ['do block', 'do { |${1:item}| $0 }'],
-  'endf' => ['EOF', %w[__END__ $0]],
   'ens' => ['ensure block', ['ensure', "\t$0"]],
   'enum' => ['return to_enum', 'return to_enum(__method__,$1) $0'],
   'req' => ['require', "require '$0'"],
