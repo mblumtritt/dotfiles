@@ -7,15 +7,8 @@ WIDTH = [ENV['WIDTH'].to_i, 10].max
 HEIGHT = [ENV['HEIGHT'].to_i, 6].max
 
 def weighted(**definitions)
-  sum = 0
-  elements = definitions.keys
-  weights = definitions.values.map! { sum += it }
-  Enumerator.new do |y|
-    while true
-      rnd = rand(sum) + 1
-      y << elements[weights.bsearch_index { rnd <= it }].sample
-    end
-  end
+  definitions = definitions.flat_map { |k, c| Array.new(c, k) }
+  Enumerator.new { _1 << definitions.sample.sample while true }
 end
 
 obj =

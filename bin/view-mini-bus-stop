@@ -6,7 +6,7 @@ trap(2) { exit(138) }
 WIDTH = [ENV['WIDTH'].to_i, 20].max
 
 def chr(code) = code.chr(Encoding::UTF_8)
-def str(*codes) = codes.map { chr(it) }.join.freeze
+def str(*codes) = codes.map { chr(_1) }.join.freeze
 def mod(base) = str(0x200D, base, 0xFE0F)
 def colored(base) = rand < 0.5 ? base : base + COLORS.sample
 def gendered(base) = rand < 0.5 ? base : base + GENDER_MODS.sample
@@ -30,15 +30,8 @@ TO_RIGHT = mod(0x27A1)
 PAIR_JOIN = str(0x200d, 0x1f91d, 0x200d)
 
 def weighted(**definitions)
-  sum = 0
-  elements = definitions.keys
-  weights = definitions.values.map! { sum += it }
-  Enumerator.new do |y|
-    while true
-      rnd = rand(sum) + 1
-      y << (elements[weights.bsearch_index { rnd <= it }].call)
-    end
-  end
+  definitions = definitions.flat_map { |k, c| Array.new(c, k) }
+  Enumerator.new { _1 << definitions.sample.call while true }
 end
 
 puts(
