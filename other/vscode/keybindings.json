@@ -28,5 +28,9 @@
   {
     "key": "cmd",
     "command": "workbench.action.toggleMultiCursorModifier"
+  },
+  {
+    "key": "ctrl+cmd+l",
+    "command": "rubyLsp.goToRelevantFile"
   }
 ]
