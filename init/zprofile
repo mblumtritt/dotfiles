@@ -1,0 +1,11 @@
+# .zprofile
+
+setopt beep
+
+# MacOS prepends some dirs, so we enforce:
+path_prepend "$HOME/.asdf/shims" PATH
+path_prepend "$BREW_PATH/sbin" PATH
+path_prepend "$BREW_PATH/bin" PATH
+path_prepend "$HOME/bin" PATH
+
+try_source ~/.local/init/local/zprofile

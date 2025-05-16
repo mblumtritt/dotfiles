@@ -1,4 +1,5 @@
-#! /bin/sh
+# alias
+# interactive aliases
 
 alias fucking='sudo' please='sudo'
 alias dude='man'

@@ -10,10 +10,10 @@ readonly DOTFILE_DIR="$HOME/.local/dotfiles"
 }
 
 . "$DOTFILE_DIR/install/test.sh"
-. "$DOTFILE_DIR/install/homebrew.sh"
 . "$DOTFILE_DIR/install/symlink.sh"
+. "$DOTFILE_DIR/install/homebrew.sh"
 . "$DOTFILE_DIR/install/asdf.sh"
 . "$DOTFILE_DIR/install/ruby.sh"
-. "$DOTFILE_DIR/install/vscode.sh"
-. "$DOTFILE_DIR/install/macos-settings.sh"
+# TODO . "$DOTFILE_DIR/install/vscode.sh"
+# TODO . "$DOTFILE_DIR/install/macos-settings.sh"
 . "$DOTFILE_DIR/install/slides.sh"

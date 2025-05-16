@@ -5,20 +5,17 @@ echo 'install: create symlinks'
 _BACKUP_DIR="$HOME/.local/bak/$(date +%s)"
 readonly _BACKUP_DIR
 
-backup()
-{
+backup() {
   echo "   backup '$1' to '$_BACKUP_DIR'"
   mkdir -p "$_BACKUP_DIR"
 	mv "$1" "$_BACKUP_DIR"
 }
 
-valid_file()
-{
+valid_file() {
 	basename "$1" | grep -v '^.DS_Store$' >/dev/null 2>&1
 }
 
-link_files()
-{
+link_files() {
   _source_dir="$1"
   _target_dir="$2"
   _prefix="$3"
@@ -35,12 +32,28 @@ link_files()
   done
 }
 
-link_files "$HOME/.local/dotfiles/init" "$HOME/.local/init"
+
+# init
+ln -sf "$HOME/.local/dotfiles/init" "$HOME/.local"
+ln -sf "$HOME/.local/init/zshenv" "$HOME/.zshenv"
+ln -sf "$HOME/.local/init/zprofile" "$HOME/.zprofile"
+ln -sf "$HOME/.local/init/zshrc" "$HOME/.zshrc"
+
+# dot files
 link_files "$HOME/.local/dotfiles/files" "$HOME" "."
+
+# vscode settings
 link_files "$HOME/.local/dotfiles/other/vscode" "$HOME/Library/Application Support/Code/User"
+
+# docker settings
 link_files "$HOME/.local/dotfiles/other/docker" "$HOME/.docker"
+
+# gnupg
 link_files "$HOME/.local/dotfiles/other/gnupg" "$HOME/.gnupg"
+
+# bin
 link_files "$HOME/.local/dotfiles/bin" "$HOME/bin"
-ln -sf "$HOME/.local/dotfiles/assets/apic" "$HOME/.local"
-ln -sf "$HOME/.local/dotfiles/assets/patter.txt" "$HOME/.local"
 ln -sf "$HOME/.local/dotfiles/completion" "$HOME/.local"
+
+ln -sf "$HOME/.local/dotfiles/assets" "$HOME/.local"
+

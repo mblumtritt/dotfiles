@@ -1,4 +1,0 @@
-setopt beep
-try_call() { [ -x "$1" ] && $@ || return 1 }
-try_source() { [ -f "$1" ] && . $@ || return 1 }
-export PATH="$HOME/bin:$BREW_PATH/bin:$BREW_PATH/sbin:$HOME/.asdf/shims:$PATH"

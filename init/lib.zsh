@@ -1,3 +1,6 @@
+# lib.zsh
+# interactive functions
+
 # find file
 fn() { find . -iname "*$1*" "${@:2}" }
 
@@ -135,15 +138,3 @@ title() { echo "\e]0;"$@"\a" }
 
 # set title of the current window
 wtitle() { echo "\e]2;"$@"\e\\" }
-
-# show random ASCII art
-apic() { cat $(find $HOME/.local/apic/*.txt -type f | shuf -n 1) && echo }
-
-# print welcome message
-welcome()
-{
-	{
-		[[ "$(tput lines)" -gt 35 ]] && [[ "$(tput cols)" -gt 40 ]]
-	} && apic || date +"=== %Y-%m-%d, %H:%M: $(shuf -n 1 $HOME/.local/patter.txt) ==="
-	return 0
-}
