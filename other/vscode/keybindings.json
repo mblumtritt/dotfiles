@@ -32,5 +32,10 @@
   {
     "key": "ctrl+cmd+l",
     "command": "rubyLsp.goToRelevantFile"
+  },
+  {
+    "key": "ctrl+alt+n",
+    "command": "-list.focusAnyDown",
+    "when": "listFocus && !inputFocus && !treestickyScrollFocused"
   }
 ]

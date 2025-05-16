@@ -3,8 +3,7 @@
     "editor.defaultFormatter": "ruby-syntax-tree.vscode-syntax-tree",
     "editor.useTabStops": false
   },
-  "C_Cpp.doxygen.generateOnType": false,
-  "cmake.configureOnOpen": false,
+
   "code-runner.clearPreviousOutput": true,
   "code-runner.enableAppInsights": false,
   "code-runner.ignoreSelection": true,
@@ -66,7 +65,7 @@
   "files.hotExit": "off",
   "files.trimTrailingWhitespace": true,
   "javascript.suggest.completeFunctionCalls": true,
-  "markdown.preview.fontSize": 12,
+  "markdown.preview.fontSize": 13,
   "prettier.jsxSingleQuote": true,
   "prettier.resolveGlobalModules": true,
   "prettier.singleQuote": true,
@@ -89,7 +88,6 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "update.showReleaseNotes": false,
   "vscode-run-rspec-file.custom-command": "bundle exec rspec --order defined --format d --fail-fast --color",
-  "workbench.colorTheme": "MikeLight",
   "workbench.iconTheme": "vs-minimal",
   "workbench.sideBar.location": "right",
   "workbench.startupEditor": "newUntitledFile",
@@ -108,10 +106,7 @@
   "extensions.autoCheckUpdates": false,
   "code-runner.showRunIconInEditorTitleMenu": false,
   "diffEditor.ignoreTrimWhitespace": false,
-  "cmake.pinnedCommands": [
-    "workbench.action.tasks.configureTaskRunner",
-    "workbench.action.tasks.runTask"
-  ],
+
   "workbench.cloudChanges.autoResume": "off",
   "workbench.cloudChanges.continueOn": "off",
   "workbench.commandPalette.experimental.enableNaturalLanguageSearch": false,
@@ -136,14 +131,20 @@
   },
   "C_Cpp.autocompleteAddParentheses": true,
   "C_Cpp.formatting": "clangFormat",
-  "cmake.showOptionsMovedNotification": false,
   "C_Cpp.clang_format_fallbackStyle": "Microsoft",
+  "C_Cpp.default.compileCommands": [""],
+  "C_Cpp.doxygen.generateOnType": false,
+  "cmake.configureOnOpen": false,
+  "cmake.pinnedCommands": [
+    "workbench.action.tasks.configureTaskRunner",
+    "workbench.action.tasks.runTask"
+  ],
+  "cmake.showOptionsMovedNotification": false,
   "vscode-run-rspec-file.integration": "other",
   "terminal.integrated.confirmOnExit": "hasChildProcesses",
   "terminal.integrated.cursorStyle": "line",
   "terminal.integrated.enableVisualBell": true,
   "terminal.integrated.fontWeightBold": "bold",
-  "C_Cpp.default.compileCommands": [""],
   "diffEditor.hideUnchangedRegions.enabled": true,
   "workbench.panel.showLabels": false,
   "markdown.updateLinksOnFileMove.enabled": "prompt",
@@ -174,5 +175,11 @@
     "editor.defaultFormatter": "myriad-dreamin.tinymist"
   },
   "window.customTitleBarVisibility": "never",
-  "editor.minimap.enabled": false
+  "editor.minimap.enabled": false,
+  "workbench.colorTheme": "MikeLight",
+  "markdown.validate.unusedLinkDefinitions.enabled": "warning",
+  "cSpell.language": "en,de",
+  "cSpell.enabledFileTypes": {
+    "markdown": true
+  }
 }
