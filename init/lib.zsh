@@ -13,7 +13,7 @@ mkcd() { mkdir -p "$1" && cd "$1" || return 1 }
 	local cmd="$(select-file -i -s -f -x "$HOME/bin" -m "$1")"
 	[ "$cmd" = "" ] && return 1
 	[ $# -ne 0 ] && shift
-	print -z "${cmd} '$@'"
+	print -z "${cmd} $@"
 }
 
 _fmc()
