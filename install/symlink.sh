@@ -2,6 +2,8 @@
 
 echo 'install: create symlinks'
 
+readonly DOT_FILES="$HOME/.local/dotfiles"
+
 _BACKUP_DIR="$HOME/.local/bak/$(date +%s)"
 readonly _BACKUP_DIR
 
@@ -32,28 +34,23 @@ link_files() {
   done
 }
 
-
 # init
-ln -sf "$HOME/.local/dotfiles/init" "$HOME/.local"
-ln -sf "$HOME/.local/init/zshenv" "$HOME/.zshenv"
-ln -sf "$HOME/.local/init/zprofile" "$HOME/.zprofile"
-ln -sf "$HOME/.local/init/zshrc" "$HOME/.zshrc"
+ln -sf "$DOT_FILES/init" "$HOME/.local"
+ln -sf "$DOT_FILES/init/zshenv" "$HOME/.zshenv"
+ln -sf "$DOT_FILES/init/zprofile" "$HOME/.zprofile"
+ln -sf "$DOT_FILES/init/zshrc" "$HOME/.zshrc"
 
 # dot files
-link_files "$HOME/.local/dotfiles/files" "$HOME" "."
+link_files "$DOT_FILES/files" "$HOME" "."
+ln -sf "$DOT_FILES/assets" "$HOME/.local"
 
 # vscode settings
-link_files "$HOME/.local/dotfiles/other/vscode" "$HOME/Library/Application Support/Code/User"
+link_files "$DOT_FILES/other/vscode" "$HOME/Library/Application Support/Code/User"
 
 # docker settings
-link_files "$HOME/.local/dotfiles/other/docker" "$HOME/.docker"
+link_files "$DOT_FILES/other/docker" "$HOME/.docker"
 
 # gnupg
-link_files "$HOME/.local/dotfiles/other/gnupg" "$HOME/.gnupg"
+link_files "$DOT_FILES/other/gnupg" "$HOME/.gnupg"
 
-# bin
-link_files "$HOME/.local/dotfiles/bin" "$HOME/bin"
-ln -sf "$HOME/.local/dotfiles/completion" "$HOME/.local"
-
-ln -sf "$HOME/.local/dotfiles/assets" "$HOME/.local"
 
