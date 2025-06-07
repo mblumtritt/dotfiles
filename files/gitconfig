@@ -5,9 +5,9 @@
 	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
 	excludesfile = ~/.gitignore_global
 [user]
-	name = Mike Blumtritt
-	email = mike.blumtritt@pm.me
-	signingkey = E146A7729EB9D438D77160B62D9B0540ADF12330
+	name = mblumtritt
+	email = mblumtritt@tutamail.com
+	signingkey = 1778A767C767ED28A3236F2B83FF7C054A0CDA7E
 [credential]
 	helper = osxkeychain
 [push]
