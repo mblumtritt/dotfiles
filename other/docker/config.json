@@ -1,11 +1,9 @@
 {
 	"auths": {},
-	"credsStore": "desktop",
 	"credHelpers": {
 		"276018124710.dkr.ecr.eu-west-1.amazonaws.com": "ecr-login",
 		"eu.gcr.io": "gcloud"
 	},
-	"experimental": "disabled",
 	"currentContext": "desktop-linux",
 	"plugins": {
 		"debug": {
@@ -17,5 +15,6 @@
 	},
 	"features": {
 		"hooks": "true"
-	}
+	},
+	"experimental": "disabled"
 }
