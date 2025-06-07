@@ -19,6 +19,6 @@ export GOPATH=$HOME/prj/go
 export EDITOR='mate -w' GEM_EDITOR=mate
 export IDE=code BROWSER=Safari
 export GZIP=-9
-# export GPG_TTY=$(tty)
+export GPG_TTY=$(tty)
 
 try_source ~/.local/init/local/zshenv
