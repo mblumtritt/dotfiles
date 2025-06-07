@@ -1,9 +1,0 @@
-#! /bin/sh -e
-
-case "$1" in
-(-h|--help) echo "Usage: ${0##*/} FILE
-
-Plays given audio FILE." ;;
-('') >&2 echo "${0##*/}: FILE missing" ; exit 1 ;;
-(*) exec afplay -q 1 "$@" ;;
-esac

@@ -1,9 +1,0 @@
-#! /bin/sh -e
-
-case "$1" in
-(-h|--help) echo "Usage: ${0##*/} [CITY]
-
-Display the meteogram of a city - uses Leipzig as default." ;;
-('') exec finger leipzig@graph.no ;;
-(*) exec finger "${1}@graph.no" ;;
-esac

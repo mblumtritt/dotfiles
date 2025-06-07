@@ -1,9 +1,0 @@
-#! /bin/sh -e
-
-case "$1" in
-(-h|--help) echo "Usage: ${0##*/}
-
-Clear the DNS cache. (May require password.)" ;;
-('') sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder ;;
-(*) >&2 echo "${0##*/}: invalid argument - $1" ; exit 1 ;;
-esac

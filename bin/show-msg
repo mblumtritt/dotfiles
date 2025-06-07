@@ -1,9 +1,0 @@
-#! /bin/sh -e
-
-case "$1" in
-(-h|--help) echo "Usage: ${0##*/} MESSAGE [TITLE]
-
-Display a notification message." ;;
-('') >&2 echo "${0##*/}: MESSAGE missing" ; exit 1 ;;
-(*) exec terminal-notifier -message "$1" -title "${2-Notification}" -ignoreDnD ;;
-esac
