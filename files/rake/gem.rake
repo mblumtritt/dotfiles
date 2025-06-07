@@ -9,10 +9,14 @@ module ThisGem
     def rubydoc = "https://rubydoc.info/gems/#{name}/#{self.module}"
     def shield(which) = "https://img.shields.io/#{which}/#{name}"
     def gh_shield(which) = shield("github/#{which}/mblumtritt")
+
+    def help_uri
+      "https://rubydoc.info/gems/#{@name}/\#{#{@module}::VERSION}/#{@module}"
+    end
   end
 
-  @name = (ENV['NAME'] || File.basename(Dir.pwd)).freeze
-  @module = @name.split(/[-_]/).map!(&:capitalize).join.freeze
+  @name = (ENV['NAME'] || File.basename(Dir.pwd)).tr('.', '_').freeze
+  @module = @name.split(/[-_\.]/).map!(&:capitalize).join.freeze
 end
 
 desc "Create structure for gem '#{ThisGem.name}' in './'"
@@ -102,19 +106,20 @@ file_create('.yardopts') { write _1.name, <<~YARDOPTS }
 YARDOPTS
 
 file_create('.rspec') { write _1.name, <<~RSPEC }
-  --require helper
+  --require spec_helper
 RSPEC
 
-file_create('spec/helper.rb' => '.rspec') { write _1.name, <<~HELPER }
+file_create('spec/spec_helper.rb' => '.rspec') { write _1.name, <<~HELPER }
   # frozen_string_literal: true
 
   require_relative '../lib/#{ThisGem.name}'
 
   $stdout.sync = $stderr.sync = $VERBOSE = Warning[:deprecated] = true
+
   RSpec.configure(&:disable_monkey_patching!)
 HELPER
 
-file_create("spec/lib/#{ThisGem.name}_spec.rb" => 'spec/helper.rb') do |f|
+file_create("spec/lib/#{ThisGem.name}_spec.rb" => 'spec/spec_helper.rb') do |f|
   write f.name, <<~SPEC
     # frozen_string_literal: true
 
@@ -127,7 +132,7 @@ file_create("spec/lib/#{ThisGem.name}_spec.rb" => 'spec/helper.rb') do |f|
 end
 
 file_create(
-  "spec/lib/#{ThisGem.name}/version_spec.rb" => 'spec/helper.rb'
+  "spec/lib/#{ThisGem.name}/version_spec.rb" => 'spec/spec_helper.rb'
 ) { |f| write f.name, <<~VERSION_SPEC }
   # frozen_string_literal: true
 
@@ -186,10 +191,10 @@ file_create(
     spec.author = 'Mike Blumtritt'
     # TODO: spec.license = 'BSD-3-Clause'
     spec.homepage = 'https://github.com/mblumtritt/#{ThisGem.name}'
+    spec.metadata['rubygems_mfa_required'] = 'true'
     spec.metadata['source_code_uri'] = spec.homepage
     spec.metadata['bug_tracker_uri'] = "\#{spec.homepage}/issues"
-    spec.metadata['documentation_uri'] = 'https://rubydoc.info/gems/#{ThisGem.name}'
-    spec.metadata['rubygems_mfa_required'] = 'true'
+    spec.metadata['documentation_uri'] = "#{ThisGem.help_uri}"
 
     spec.required_ruby_version = '>= 3.0'
     # TODO: spec.add_dependency 'add dependencies here'

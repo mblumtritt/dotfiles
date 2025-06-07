@@ -6,8 +6,5 @@ file_create('.gitignore' => '.git/HEAD') { write _1.name, <<~GITIGNORE }
   tmp/
   pkg/
   doc/
-  local/
-  .yardoc/
-  .vscode/
   .rubocop.yml
 GITIGNORE
