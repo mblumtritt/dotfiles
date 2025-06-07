@@ -65,7 +65,6 @@
   "files.hotExit": "off",
   "files.trimTrailingWhitespace": true,
   "javascript.suggest.completeFunctionCalls": true,
-  "markdown.preview.fontSize": 13,
   "prettier.jsxSingleQuote": true,
   "prettier.resolveGlobalModules": true,
   "prettier.singleQuote": true,
@@ -181,5 +180,14 @@
   "cSpell.language": "en,de",
   "cSpell.enabledFileTypes": {
     "markdown": true
-  }
+  },
+  "markdown.occurrencesHighlight.enabled": true,
+  "markdown-preview-enhanced.codeBlockTheme": "github.css",
+  "markdown-preview-enhanced.imageFolderPath": "",
+  "markdown-preview-enhanced.krokiServer": "no-https://kroki.io",
+  "markdown-preview-enhanced.mathjaxV3ScriptSrc": "no-https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js",
+  "markdown-preview-enhanced.previewTheme": "github-light.css",
+  "markdown.preview.fontSize": 12,
+  "markdown-preview-enhanced.breakOnSingleNewLine": false,
+  "markdown-preview-enhanced.enablePreviewZenMode": true
 }
