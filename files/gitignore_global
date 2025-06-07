@@ -2,5 +2,6 @@
 .wti
 .bundle/
 .yardoc/
-idea/
+.vscode/
 local/
+tmp/
