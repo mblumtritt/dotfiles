@@ -24,9 +24,8 @@ setopt hist_ignore_space
 setopt hist_save_no_dups
 setopt hist_verify
 
-
 # setup completion
-fpath=($HOME/.local/completion $BREW_PATH/share/zsh/functions $BREW_PATH/share/zsh/site-functions $fpath)
+fpath=($HOME/bin/comp $BREW_PATH/share/zsh/functions $BREW_PATH/share/zsh/site-functions $fpath)
 zstyle ':completion:*' completer _complete _ignored _approximate
 zstyle ':completion:*' max-errors 2
 zstyle ':completion:*' menu select=1
