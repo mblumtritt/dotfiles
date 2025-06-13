@@ -26,6 +26,6 @@ alias fspec='rspec --order defined --format d --fail-fast --color'
 alias rcop='rubocop -D -E -S'
 alias rpretty='stree write --plugins=plugin/single_quotes "**/*.{ru,rb,rake}"'
 
-alias clr='echo "\e[H\e[2J\e[3J" && welcome'
+alias clr='echo "\ec\e[3J" && welcome'
 alias path='print -l ${(s.:.)PATH}'
 alias recomp='rm -f ~/.zcompdump; compinit'
