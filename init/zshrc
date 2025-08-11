@@ -82,6 +82,8 @@ source ~/.local/init/alias
 
 try_source ~/.config/broot/launcher/bash/br
 eval "$(fzf --zsh)"
+export EDITOR='mate -w' GEM_EDITOR=mate
+export IDE=code BROWSER=Safari
 
 try_source ~/.local/init/local/zshrc
 welcome

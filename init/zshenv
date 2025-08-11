@@ -15,10 +15,8 @@ path_prepend "$BREW_PATH/sbin" PATH
 path_prepend "$BREW_PATH/bin" PATH
 path_prepend "$HOME/bin" PATH
 
-export GOPATH=$HOME/prj/go
-export EDITOR='mate -w' GEM_EDITOR=mate
-export IDE=code BROWSER=Safari
-export GZIP=-9
 export GPG_TTY=$(tty)
+export GZIP=-9
+export GOPATH=$HOME/prj/go
 
 try_source ~/.local/init/local/zshenv
