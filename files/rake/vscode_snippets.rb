@@ -2,7 +2,9 @@
 
 VSCODE_SNIPPETS = {
   # word expansions
-  '_e' => ['EOF', %w[__END__ $0]],
+  '_d' => ['__dir__'],
+  '_e' => ['__END__'],
+  '_f' => ['__FILE__'],
   '_i' => ['__id__'],
   '_m' => ['__method__'],
   '.co' => ['.compare_by_identity'],
@@ -46,6 +48,7 @@ VSCODE_SNIPPETS = {
   '.fi' => ['find', :func],
   '.in?' => ['include?', :func],
   '.is?' => ['is_a?', :func],
+  '.re?' => ['respond_to?', :func],
   '.sl' => ['slice', :func],
   '.sw?' => ['start_with?', :func],
   # function blocks
@@ -84,11 +87,11 @@ VSCODE_SNIPPETS = {
     '.each_with_index block',
     '.each_with_index { |${1:item}, ${2:idx}| $0 }'
   ],
+  '.eawo' => ['.each_with_object block', '.each_with_object($1) { $0 }'],
   '.glob' => [
     '.glob',
     ['.glob("${1:pattern}"${2:, sort: true}) do |fname|', "\t$0", 'end']
   ],
-  '.eawo' => ['.each_with_object block', '.each_with_object($1) { $0 }'],
   'aft' => ['after block ', 'after { $0 }'],
   'bef' => ['before block ', 'before { $0 }'],
   'clas' => ['self class block', ['class << self', "\t$0", 'end']],

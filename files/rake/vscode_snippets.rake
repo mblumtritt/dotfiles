@@ -4,11 +4,13 @@ module VSCode
   class << self
     attr_reader :snippets
 
-    def ruby_snippets = File.join(snippets_dir, 'ruby.json')
+    def ruby_snippets
+      @ruby_snippets ||= File.join(snippets_dir, 'ruby.json')
+    end
 
     def snippets_dir
       @snippets_dir ||=
-        File.expand_path('~/Library/Application Support/Code/User/snippets')
+        File.expand_path('~/.local/dotfiles/other/vscode/snippets')
     end
 
     def add_snippets(definitions)
@@ -40,13 +42,17 @@ module VSCode
   @snippets = {}
 end
 
-desc 'Create VSCode Snippets'
-task snippets: ['clean:snippets', VSCode.ruby_snippets]
+namespace :snippets do
+  task :clean do
+    require 'rake/clean'
+    Rake::Cleaner.cleanup(VSCode.ruby_snippets)
+  end
 
-task 'clean:snippets' do
-  require 'rake/clean'
-  Rake::Cleaner.cleanup_files([VSCode.ruby_snippets])
+  desc 'Re-create VSCode snippets'
+  task build: [:clean, VSCode.ruby_snippets]
 end
+
+directory VSCode.snippets_dir
 
 file_create(VSCode.ruby_snippets => VSCode.snippets_dir) do |f|
   VSCode.snippets.clear

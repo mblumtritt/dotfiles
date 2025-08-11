@@ -4,15 +4,11 @@ module ThisGem
   class << self
     attr_reader :name, :module
 
-    def rubygems = "https://rubygems.org/gems/#{name}"
-    def github = "https://github.com/mblumtritt/#{name}"
-    def rubydoc = "https://rubydoc.info/gems/#{name}/#{self.module}"
-    def shield(which) = "https://img.shields.io/#{which}/#{name}"
+    def rubygems = "https://rubygems.org/gems/#{@name}"
+    def github = "https://github.com/mblumtritt/#{@name}"
+    def rubydoc = "https://rubydoc.info/gems/#{@name}/#{@module}"
+    def shield(which) = "https://img.shields.io/#{which}/#{@name}"
     def gh_shield(which) = shield("github/#{which}/mblumtritt")
-
-    def help_uri
-      "https://rubydoc.info/gems/#{@name}/\#{#{@module}::VERSION}/#{@module}"
-    end
   end
 
   @name = (ENV['NAME'] || File.basename(Dir.pwd)).tr('.', '_').freeze
@@ -28,7 +24,6 @@ task(
     Gemfile.lock
     Rakefile
     README.md
-    stats.md
   ]
 ) { exec('bundle exec rake test') }
 
@@ -39,7 +34,7 @@ file_create('README.md') { write _1.name, <<~README }
   TODO: gem description here
 
   <!-- TODO:
-  - #{ThisGem.module}: [rubygems.org](#{ThisGem.rubygems})
+  - Gem: [rubygems.org](#{ThisGem.rubygems})
   - Source: [github.com](#{ThisGem.github})
   - Help: [rubydoc.info](#{ThisGem.rubydoc})
   -->
@@ -169,7 +164,7 @@ file_create(
 
   module #{ThisGem.module}
     # The version number of the gem.
-    VERSION = '0.1.0alpha'
+    VERSION = '0.0.1'
   end
 VERSION
 
@@ -194,7 +189,7 @@ file_create(
     spec.metadata['rubygems_mfa_required'] = 'true'
     spec.metadata['source_code_uri'] = spec.homepage
     spec.metadata['bug_tracker_uri'] = "\#{spec.homepage}/issues"
-    spec.metadata['documentation_uri'] = "#{ThisGem.help_uri}"
+    spec.metadata['documentation_uri'] = '#{ThisGem.rubydoc}'
 
     spec.required_ruby_version = '>= 3.0'
     # TODO: spec.add_dependency 'add dependencies here'
