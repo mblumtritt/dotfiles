@@ -80,6 +80,8 @@ source ~/.local/init/lib.zsh
 source ~/.local/init/alias
 
 eval "$(fzf --zsh)"
+export FZF_DEFAULT_OPTS='--height=60% --highlight-line --border=rounded --border-label-pos=4'
+
 export EDITOR='mate -w' GEM_EDITOR=mate
 export IDE=code BROWSER=Safari
 
