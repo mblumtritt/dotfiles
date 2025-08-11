@@ -138,3 +138,15 @@ title() { echo "\e]0;"$@"\a" }
 
 # set title of the current window
 wtitle() { echo "\e]2;"$@"\e\\" }
+
+# zsh command not found fallback
+command_not_found_handler() {
+	echo "zsh: no such command - $1" >&2
+	return 127
+	# local cmd="$(select-file -i -s -f -x "$HOME/bin" -m "$1")"
+	# [ "$cmd" = "" ] && return 127
+	# [ $# -ne 0 ] && shift
+	# print "\e[1A\e[32m${cmd}\e[m $@"
+	# ${cmd} $@
+	# return $?
+}
