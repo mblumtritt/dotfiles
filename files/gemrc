@@ -9,4 +9,4 @@ gem: --no-document
 :verbose: true
 :open: mate
 :sources:
-- https://rubygems.org/
+  - https://rubygems.org/
